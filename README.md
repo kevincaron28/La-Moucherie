@@ -154,8 +154,12 @@ shows up in the shop's category filter.
 
 Any Node host works; Vercel is the path of least resistance for Next.js. You'll need:
 
-- A managed Postgres database (Vercel Postgres, Supabase, Neon, Railway, etc.) — set
-  `DATABASE_URL` and run `npx prisma migrate deploy` against it.
+- A managed Postgres database (Vercel Postgres, Supabase, Neon, Railway, etc.) — just set
+  `DATABASE_URL`. The `build` script (`prisma migrate deploy && tsx prisma/deploy-seed.ts
+  && next build`) applies migrations and, only if the database is completely empty, seeds
+  the starting catalog — every deploy, automatically, with no manual step. Once real data
+  exists, `deploy-seed.ts` no-ops forever; re-seed intentionally with `npm run db:seed`.
+- `AUTH_SECRET` (`openssl rand -base64 32`) for signing account sessions.
 - Live Stripe keys, and a webhook endpoint configured in the Stripe Dashboard pointing at
   `https://yourdomain.com/api/webhooks/stripe` for `payment_intent.succeeded` and
   `payment_intent.payment_failed`.
