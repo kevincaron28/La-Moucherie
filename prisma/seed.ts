@@ -23,147 +23,124 @@ type ProductSeed = {
   variants: VariantSeed[];
 };
 
+// This is the real starting catalog (as of the patterns confirmed so far) — six
+// patterns, category and target species taken from the packaging. Descriptions
+// are written from general fly-fishing knowledge of these well-known patterns.
+// Hook sizes, exact pricing, and photos are placeholders until confirmed —
+// real product photos are coming once the lightbox is built.
 const products: ProductSeed[] = [
   {
-    slug: "wooly-bugger-olive",
-    nameFr: "Wooly Bugger Olive",
-    nameEn: "Olive Wooly Bugger",
+    slug: "egg-sucking-leech",
+    nameFr: "Egg Sucking Leech",
+    nameEn: "Egg Sucking Leech",
     descriptionFr:
-      "Un streamer polyvalent, monté à la main, imitant sangsues et petits poissons-appâts. Un incontournable pour la truite et l'omble dans les rivières du Québec.",
+      "Un patron de sangsue noire terminé par un œuf coloré à la tête — redoutable pendant et après le frai, quand la truite chasse les œufs à la dérive. À pêcher en dérive naturelle ou en tirées lentes dans les fosses profondes.",
     descriptionEn:
-      "A versatile, hand-tied streamer imitating leeches and baitfish. A must-have for trout and char in Québec rivers.",
-    category: ProductCategory.STREAMER,
+      "A black leech pattern trailing a bright egg at the head — deadly during and after the spawn, when trout key in on drifting eggs. Fish it dead-drift or with a slow strip through deeper runs and pools.",
+    category: ProductCategory.WET_FLY,
+    basePriceCents: 425,
+    images: ["/products/placeholder-fly.svg"],
+    featured: true,
+    variants: [
+      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "ESL-BLK-04", stock: 18 },
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "ESL-BLK-06", stock: 24 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "ESL-BLK-08", stock: 20 },
+    ],
+  },
+  {
+    slug: "montana-stone",
+    nameFr: "Montana Stone",
+    nameEn: "Montana Stone",
+    descriptionFr:
+      "Une nymphe de perle fortement lestée, imitant les larves de plécoptères recherchées par la truite dans les rivières à fond rocheux. Son corps rayé noir et jaune coule rapidement — une mouche de tête fiable pour pêcher au fond dans les eaux vives.",
+    descriptionEn:
+      "A heavily-weighted stonefly nymph imitating the large naiads trout key on in freestone rivers. Its black-and-yellow banded body gets down fast — a reliable point fly for bouncing bottom in fast, rocky water.",
+    category: ProductCategory.NYMPH,
     basePriceCents: 375,
     images: ["/products/placeholder-fly.svg"],
     featured: true,
     variants: [
-      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "WB-OLV-06", stock: 24 },
-      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "WB-OLV-08", stock: 30 },
-      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "WB-OLV-10", stock: 18 },
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "MTS-STD-06", stock: 22 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "MTS-STD-08", stock: 28 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "MTS-STD-10", stock: 20 },
     ],
   },
   {
-    slug: "elk-hair-caddis",
-    nameFr: "Elk Hair Caddis",
-    nameEn: "Elk Hair Caddis",
+    slug: "elk-wing-caddis",
+    nameFr: "Elk Wing Caddis",
+    nameEn: "Elk Wing Caddis",
     descriptionFr:
-      "Mouche sèche classique flottant haut, idéale pour imiter les caddis adultes lors des éclosions du soir.",
+      "Une mouche sèche flottant haut, avec une aile en poil de wapiti qui résiste bien aux courants agités durant les éclosions de trichoptères. Un patron passe-partout du printemps à l'automne sur les rivières à fond rocheux.",
     descriptionEn:
-      "A classic high-floating dry fly, ideal for imitating adult caddisflies during evening hatches.",
+      "A high-floating dry fly with a buoyant elk-hair wing, built to ride out choppy runs during caddis hatches. A go-to searching pattern from spring through fall on freestone water.",
     category: ProductCategory.DRY_FLY,
     basePriceCents: 350,
     images: ["/products/placeholder-fly.svg"],
     featured: true,
     variants: [
-      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "EHC-STD-12", stock: 40 },
-      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "EHC-STD-14", stock: 45 },
-      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "EHC-STD-16", stock: 22 },
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "EWC-STD-12", stock: 32 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "EWC-STD-14", stock: 40 },
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "EWC-STD-16", stock: 26 },
     ],
   },
   {
-    slug: "pheasant-tail-nymph",
-    nameFr: "Nymphe Pheasant Tail",
-    nameEn: "Pheasant Tail Nymph",
+    slug: "lefty-deceiver",
+    nameFr: "Lefty Deceiver",
+    nameEn: "Lefty Deceiver",
     descriptionFr:
-      "Nymphe discrète et efficace imitant une grande variété d'éphémères. Un choix sûr pour la pêche en eau vive.",
+      "Le streamer classique de Lefty Kreh, imitant un poisson-appât — un profil élancé en plumes de sellier qui déplace l'eau et garde sa forme à la récupération. Conçu pour les prédateurs : achigan, brochet, et tout ce qui chasse le petit poisson.",
     descriptionEn:
-      "A subtle and effective nymph imitating a wide range of mayflies. A safe bet for fast-water fishing.",
-    category: ProductCategory.NYMPH,
-    basePriceCents: 325,
+      "Lefty Kreh's classic baitfish streamer — a slim saddle-hackle profile that pushes water and holds its shape on the strip. Built for predators: bass, pike, and anything that eats baitfish.",
+    category: ProductCategory.STREAMER,
+    basePriceCents: 500,
     images: ["/products/placeholder-fly.svg"],
     variants: [
-      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "PTN-STD-14", stock: 50 },
-      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "PTN-STD-16", stock: 38 },
+      { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "LD-STD-02", stock: 15 },
+      { nameFr: "Hameçon #1/0", nameEn: "Hook #1/0", sku: "LD-STD-10", stock: 12 },
     ],
   },
   {
-    slug: "royal-wulff",
-    nameFr: "Royal Wulff",
-    nameEn: "Royal Wulff",
+    slug: "bead-head-hares-ear",
+    nameFr: "Bead Head Hare's Ear",
+    nameEn: "Bead Head Hare's Ear",
     descriptionFr:
-      "Mouche sèche voyante et flottante, parfaite pour repérer sa dérive dans les eaux turbulentes.",
+      "La nymphe incontournable de toute boîte à mouches. Un corps en poil de lièvre naturel, texturé et duveteux, lesté d'une bille en laiton — une silhouette translucide qui imite une grande variété d'insectes aquatiques.",
     descriptionEn:
-      "A bold, buoyant dry fly, perfect for tracking your drift in turbulent water.",
-    category: ProductCategory.DRY_FLY,
+      "The workhorse nymph of the fly box. A buggy dubbed body from natural hare's mask with a brass bead for weight — a loose, translucent silhouette that passes for almost any subsurface insect.",
+    category: ProductCategory.NYMPH,
+    basePriceCents: 350,
+    images: ["/products/placeholder-fly.svg"],
+    variants: [
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "BHHE-STD-12", stock: 30 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "BHHE-STD-14", stock: 36 },
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "BHHE-STD-16", stock: 24 },
+    ],
+  },
+  {
+    slug: "woolly-bugger-black",
+    nameFr: "Woolly Bugger Black",
+    nameEn: "Woolly Bugger Black",
+    descriptionFr:
+      "Le Woolly Bugger noir, passe-partout par excellence — queue en marabout, hackle palmé, et assez de mouvement dans l'eau pour imiter une sangsue, une larve ou un poisson-appât selon la présentation. S'il ne fallait garder qu'une seule mouche, ce serait celle-ci.",
+    descriptionEn:
+      "The all-purpose black Woolly Bugger — marabou tail, palmered hackle, and enough movement in the water to imitate a leech, hellgrammite, or baitfish depending on how you fish it. If you carry only one fly, this is it.",
+    category: ProductCategory.WET_FLY,
     basePriceCents: 375,
     images: ["/products/placeholder-fly.svg"],
     variants: [
-      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "RW-STD-10", stock: 20 },
-      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "RW-STD-12", stock: 28 },
-    ],
-  },
-  {
-    slug: "muddler-minnow",
-    nameFr: "Muddler Minnow",
-    nameEn: "Muddler Minnow",
-    descriptionFr:
-      "Streamer intemporel à tête en poil de chevreuil, redoutable pour la truite grise et l'achigan.",
-    descriptionEn:
-      "A timeless deer-hair-head streamer, deadly for lake trout and smallmouth bass.",
-    category: ProductCategory.STREAMER,
-    basePriceCents: 400,
-    images: ["/products/placeholder-fly.svg"],
-    variants: [
-      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "MM-STD-04", stock: 15 },
-      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "MM-STD-06", stock: 22 },
-    ],
-  },
-  {
-    slug: "prince-nymph",
-    nameFr: "Nymphe Prince",
-    nameEn: "Prince Nymph",
-    descriptionFr:
-      "Nymphe attractive aux ailes blanches en biots, excellente en tandem ou en tête de cortège.",
-    descriptionEn:
-      "An attractor nymph with white biot wings, excellent fished in tandem or as a point fly.",
-    category: ProductCategory.NYMPH,
-    basePriceCents: 325,
-    images: ["/products/placeholder-fly.svg"],
-    variants: [
-      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "PN-STD-12", stock: 26 },
-      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "PN-STD-14", stock: 32 },
-    ],
-  },
-  {
-    slug: "griffiths-gnat",
-    nameFr: "Griffith's Gnat",
-    nameEn: "Griffith's Gnat",
-    descriptionFr:
-      "Minuscule mouche sèche imitant les chironomes en grappe, parfaite pour les truites difficiles en eau plate.",
-    descriptionEn:
-      "A tiny dry fly imitating clustered midges, perfect for selective trout in flat water.",
-    category: ProductCategory.DRY_FLY,
-    basePriceCents: 300,
-    images: ["/products/placeholder-fly.svg"],
-    variants: [
-      { nameFr: "Hameçon #18", nameEn: "Hook #18", sku: "GG-STD-18", stock: 40 },
-      { nameFr: "Hameçon #20", nameEn: "Hook #20", sku: "GG-STD-20", stock: 34 },
-    ],
-  },
-  {
-    slug: "clouser-minnow-chartreuse",
-    nameFr: "Clouser Minnow Chartreuse",
-    nameEn: "Chartreuse Clouser Minnow",
-    descriptionFr:
-      "Streamer lesté aux yeux haltères, un classique pour l'achigan et le doré en lac.",
-    descriptionEn:
-      "A dumbbell-eyed weighted streamer, a classic for bass and walleye on the lake.",
-    category: ProductCategory.STREAMER,
-    basePriceCents: 425,
-    images: ["/products/placeholder-fly.svg"],
-    featured: true,
-    variants: [
-      { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "CM-CHT-02", stock: 18 },
-      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "CM-CHT-04", stock: 20 },
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "WBB-STD-06", stock: 26 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "WBB-STD-08", stock: 32 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "WBB-STD-10", stock: 22 },
     ],
   },
 ];
 
 async function main() {
-  // Materials/tools/kits are on hold for now (team supplier agreement) — drop any
-  // leftover seed products from those categories so re-running the seed cleans them up.
+  // The array above is the source of truth for the catalog — drop any product
+  // left over from a previous seed run (old placeholders, discontinued
+  // patterns, materials/tools/kits) that's no longer listed here.
   await prisma.product.deleteMany({
-    where: { category: { in: ["MATERIAL", "TOOL", "KIT"] } },
+    where: { slug: { notIn: products.map((p) => p.slug) } },
   });
 
   for (const p of products) {
@@ -203,7 +180,7 @@ async function main() {
       status: ReviewStatus;
     }[]
   > = {
-    "wooly-bugger-olive": [
+    "woolly-bugger-black": [
       {
         customerName: "Marc-Antoine T.",
         email: `marc-antoine${SEED_REVIEW_DOMAIN}`,
@@ -235,13 +212,13 @@ async function main() {
         status: ReviewStatus.PENDING,
       },
     ],
-    "elk-hair-caddis": [
+    "elk-wing-caddis": [
       {
         customerName: "Chantal L.",
         email: `chantal.l${SEED_REVIEW_DOMAIN}`,
         rating: 5,
         title: "Flotte parfaitement",
-        body: "Exactement ce qu'il fallait pour l'éclosion du soir. Le poil de chevreuil garde bien sa flottaison.",
+        body: "Exactement ce qu'il fallait pour l'éclosion du soir. Le poil de wapiti garde bien sa flottaison.",
         locale: "fr",
         verifiedPurchase: true,
         status: ReviewStatus.APPROVED,

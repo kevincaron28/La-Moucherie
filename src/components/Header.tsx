@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -10,6 +11,7 @@ import { SearchBox } from "./SearchBox";
 export function Header() {
   const t = useTranslations("Nav");
   const { itemCount } = useCart();
+  const { status } = useSession();
 
   return (
     <header className="sticky top-0 z-40 border-b border-forest/15 bg-parchment/95 backdrop-blur">
@@ -45,6 +47,23 @@ export function Header() {
         <div className="flex items-center gap-4">
           <LocaleSwitcher />
           <Link
+            href={status === "authenticated" ? "/account" : "/account/login"}
+            aria-label={status === "authenticated" ? t("account") : t("signIn")}
+            className="hidden h-10 w-10 items-center justify-center rounded-full text-forest transition hover:bg-forest/10 sm:flex"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              className="h-[22px] w-[22px]"
+              aria-hidden
+            >
+              <circle cx="12" cy="8" r="3.4" />
+              <path strokeLinecap="round" d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" />
+            </svg>
+          </Link>
+          <Link
             href="/cart"
             aria-label={t("cart")}
             className="relative flex h-10 w-10 items-center justify-center rounded-full text-forest transition hover:bg-forest/10"
@@ -77,6 +96,12 @@ export function Header() {
         <Link href="/shop">{t("shop")}</Link>
         <Link href="/about">{t("about")}</Link>
         <Link href="/contact">{t("contact")}</Link>
+        <Link
+          href={status === "authenticated" ? "/account" : "/account/login"}
+          className="sm:hidden"
+        >
+          {status === "authenticated" ? t("account") : t("signIn")}
+        </Link>
       </nav>
       <div className="border-t border-forest/10 px-4 py-2 lg:hidden">
         <SearchBox />

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { useRouter } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
 import { pick } from "@/lib/localize";
@@ -40,8 +41,36 @@ export function CheckoutClient() {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const { items, subtotalCents } = useCart();
+  const { status: sessionStatus } = useSession();
 
   const [form, setForm] = useState<ShippingForm>(emptyForm);
+
+  useEffect(() => {
+    if (sessionStatus !== "authenticated") return;
+    let cancelled = false;
+
+    fetch("/api/account/profile")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((profile) => {
+        if (cancelled || !profile) return;
+        setForm((f) => ({
+          ...f,
+          email: f.email || profile.email || "",
+          customerName: f.customerName || profile.name || "",
+          line1: f.line1 || profile.shippingLine1 || "",
+          line2: f.line2 || profile.shippingLine2 || "",
+          city: f.city || profile.shippingCity || "",
+          province: f.province || profile.shippingProvince || "",
+          postalCode: f.postalCode || profile.shippingPostalCode || "",
+          country: profile.shippingCountry || f.country,
+        }));
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionStatus]);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [amountTotalCents, setAmountTotalCents] = useState(0);

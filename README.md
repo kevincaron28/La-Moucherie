@@ -12,6 +12,7 @@ and an embedded Stripe Elements checkout.
 - **Prisma + PostgreSQL** for products, variants, and orders
 - **Stripe Elements** (embedded Payment Element, not a hosted redirect) for checkout,
   with a webhook that confirms payment and decrements inventory
+- **Auth.js (NextAuth v5)** with email + password credentials for customer accounts
 
 ## Getting started
 
@@ -39,6 +40,12 @@ Fill in your Stripe **test** keys from the
 - `STRIPE_SECRET_KEY`
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 
+Generate an `AUTH_SECRET` for signing account sessions:
+
+```bash
+openssl rand -base64 32
+```
+
 ### 4. Run migrations and seed sample products
 
 ```bash
@@ -46,9 +53,12 @@ npm run db:migrate
 npm run db:seed
 ```
 
-This creates the schema and seeds ~12 sample flies, materials, tools, and a starter kit
-so the shop isn't empty. Replace/extend these via `prisma/seed.ts` or
-`npm run db:studio` (a visual database browser) once you have real products.
+This creates the schema and seeds the current catalog — the 6 fly patterns confirmed so
+far (Egg Sucking Leech, Montana Stone, Elk Wing Caddis, Lefty Deceiver, Bead Head Hare's
+Ear, Woolly Bugger Black), described from general fly-fishing knowledge with placeholder
+hook sizes and pricing. Replace/extend these via `prisma/seed.ts` or `npm run db:studio`
+(a visual database browser) as the real lineup, sizes, and prices are confirmed, and swap
+in real photos once available (currently `public/products/placeholder-fly.svg`).
 
 ### 5. Forward Stripe webhooks to your local server
 
@@ -74,14 +84,14 @@ Use [Stripe's test card numbers](https://stripe.com/docs/testing) (e.g.
 ## Project structure
 
 ```
-prisma/schema.prisma        Data model: Product, ProductVariant, Order, OrderItem, Review, ContactMessage
-prisma/seed.ts               Sample catalog data (bilingual)
+prisma/schema.prisma        Data model: Product, ProductVariant, Order, OrderItem, Review, User, ContactMessage
+prisma/seed.ts               Catalog data (bilingual)
 messages/{fr,en}.json        All UI copy
 src/i18n/                    next-intl routing/navigation/config
-src/app/[locale]/            Pages (home, shop, product, cart, checkout, order confirmation, about, contact)
-src/app/api/                 Route handlers (Stripe PaymentIntent, Stripe webhook, contact form, order lookup)
-src/components/               Header, Footer, product cards, checkout UI, etc.
-src/lib/                     Prisma client, Stripe clients, cart context, formatting helpers
+src/app/[locale]/            Pages (home, shop, product, cart, checkout, order confirmation, about, contact, account)
+src/app/api/                 Route handlers (Stripe PaymentIntent, Stripe webhook, contact form, order lookup, auth)
+src/components/               Header, Footer, product cards, checkout UI, account forms, etc.
+src/lib/                     Prisma client, Stripe clients, Auth.js config, cart context, formatting helpers
 ```
 
 ## How checkout works
@@ -95,6 +105,19 @@ src/lib/                     Prisma client, Stripe clients, cart context, format
 4. Stripe calls `POST /api/webhooks/stripe` on `payment_intent.succeeded`, which marks the
    order `PAID` and decrements variant stock — this is the source of truth for fulfillment,
    not the browser redirect.
+
+## Customer accounts
+
+Sign-in is email + password (Auth.js/NextAuth v5, `Credentials` provider, bcrypt-hashed
+passwords, JWT sessions) — no email delivery required, unlike magic links or password
+resets, so it works out of the box everywhere. `/account/register` creates a `User` and
+signs them in; `/account` shows order history (`Order.userId`) and a saved shipping
+address that pre-fills checkout. Guest checkout still works exactly as before — `Order`
+only links to a `User` when someone is signed in at checkout (`auth()` is checked
+server-side in `/api/checkout/create-payment-intent`, never trusted from the client).
+
+There's no password-reset flow yet (needs transactional email — see the contact-form note
+below) and no email verification on signup.
 
 ## Reviews
 
@@ -116,7 +139,8 @@ shows up in the shop's category filter.
 
 - No admin UI yet — manage products and moderate reviews via `npm run db:studio` or by
   editing `prisma/seed.ts`.
-- No customer accounts or order history lookup by email.
+- No password reset or email verification (needs a transactional email provider — see
+  below).
 - Flat-rate shipping only (`SHIPPING_FLAT_CENTS` in `src/lib/constants.ts`); no live
   carrier rates.
 - The contact form stores messages in the database (`ContactMessage` table, viewable via

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth";
 import { SHIPPING_FLAT_CENTS, CURRENCY } from "@/lib/constants";
 
 const checkoutSchema = z.object({
@@ -27,6 +28,7 @@ const checkoutSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const session = await auth();
   const parsed = checkoutSchema.safeParse(await request.json());
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
@@ -97,6 +99,7 @@ export async function POST(request: Request) {
   const order = await prisma.order.create({
     data: {
       stripePaymentIntentId: paymentIntent.id,
+      userId: session?.user?.id,
       email,
       customerName,
       shippingLine1: shipping.line1,

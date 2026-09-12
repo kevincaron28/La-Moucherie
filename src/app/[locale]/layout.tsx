@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
@@ -60,11 +61,13 @@ export default async function LocaleLayout({
     >
       <body className="flex min-h-full flex-col bg-parchment text-ink">
         <NextIntlClientProvider>
-          <CartProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartProvider>
+          <SessionProvider>
+            <CartProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </CartProvider>
+          </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>
