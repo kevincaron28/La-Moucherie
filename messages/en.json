@@ -70,6 +70,25 @@
     "description": "Description",
     "details": "Details"
   },
+  "Reviews": {
+    "title": "Customer reviews",
+    "basedOnCount": "{count, plural, =0 {No reviews} one {1 review} other {# reviews}}",
+    "empty": "No reviews yet for this product. Be the first to leave one!",
+    "verifiedPurchase": "Verified purchase",
+    "writeReview": "Write a review",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "emailHint": "Won't be shown publicly.",
+    "rating": "Your rating",
+    "reviewTitle": "Review title",
+    "reviewBody": "Your review",
+    "submit": "Submit review",
+    "submitting": "Submitting…",
+    "success": "Thanks! Your review will be published after moderation.",
+    "error": "Something went wrong. Please try again.",
+    "hideForm": "Cancel",
+    "outOfFive": "out of 5"
+  },
   "Cart": {
     "title": "Your cart",
     "empty": "Your cart is empty.",

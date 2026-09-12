@@ -6,11 +6,21 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCart } from "@/lib/cart-context";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import { StarRating } from "@/components/StarRating";
 import type { Locale } from "@/i18n/routing";
 import type { ProductWithVariants } from "@/components/ProductCard";
 
-export function ProductDetail({ product }: { product: ProductWithVariants }) {
+export function ProductDetail({
+  product,
+  reviewCount = 0,
+  averageRating = 0,
+}: {
+  product: ProductWithVariants;
+  reviewCount?: number;
+  averageRating?: number;
+}) {
   const t = useTranslations("Product");
+  const tReviews = useTranslations("Reviews");
   const locale = useLocale() as Locale;
   const { addItem } = useCart();
 
@@ -65,6 +75,15 @@ export function ProductDetail({ product }: { product: ProductWithVariants }) {
         <h1 className="font-display text-3xl font-semibold text-forest">
           {pick(product.nameFr, product.nameEn, locale)}
         </h1>
+        {reviewCount > 0 && (
+          <a
+            href="#reviews"
+            className="mt-2 flex items-center gap-2 text-sm text-ink/60 hover:text-rust"
+          >
+            <StarRating value={averageRating} size="sm" />
+            <span>{tReviews("basedOnCount", { count: reviewCount })}</span>
+          </a>
+        )}
         <p className="mt-2 text-xl font-medium text-rust">
           {formatPrice(priceCents, locale, product.currency)}
         </p>

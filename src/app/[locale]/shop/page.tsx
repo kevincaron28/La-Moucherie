@@ -41,7 +41,10 @@ export default async function ShopPage({
           }
         : {}),
     },
-    include: { variants: true },
+    include: {
+      variants: true,
+      reviews: { where: { status: "APPROVED" }, select: { rating: true } },
+    },
     orderBy: { createdAt: "desc" },
   });
 

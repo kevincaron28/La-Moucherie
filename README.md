@@ -74,7 +74,7 @@ Use [Stripe's test card numbers](https://stripe.com/docs/testing) (e.g.
 ## Project structure
 
 ```
-prisma/schema.prisma        Data model: Product, ProductVariant, Order, OrderItem, ContactMessage
+prisma/schema.prisma        Data model: Product, ProductVariant, Order, OrderItem, Review, ContactMessage
 prisma/seed.ts               Sample catalog data (bilingual)
 messages/{fr,en}.json        All UI copy
 src/i18n/                    next-intl routing/navigation/config
@@ -96,9 +96,18 @@ src/lib/                     Prisma client, Stripe clients, cart context, format
    order `PAID` and decrements variant stock — this is the source of truth for fulfillment,
    not the browser redirect.
 
+## Reviews
+
+Customers can leave a star rating + written review from any product page. Every review is
+saved with `status: PENDING` and is **not shown publicly** until approved — open
+`npm run db:studio`, find the `Review` table, and change `status` to `APPROVED` (or
+`REJECTED`). If the reviewer's email matches a `PAID` order that included the product,
+`verifiedPurchase` is set automatically and shows a "Verified purchase" badge.
+
 ## Known limitations / natural next steps
 
-- No admin UI yet — manage products via `npm run db:studio` or by editing `prisma/seed.ts`.
+- No admin UI yet — manage products and moderate reviews via `npm run db:studio` or by
+  editing `prisma/seed.ts`.
 - No customer accounts or order history lookup by email.
 - Flat-rate shipping only (`SHIPPING_FLAT_CENTS` in `src/lib/constants.ts`); no live
   carrier rates.

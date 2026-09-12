@@ -16,7 +16,10 @@ export default async function HomePage({
 
   const featured = await prisma.product.findMany({
     where: { active: true, featured: true },
-    include: { variants: true },
+    include: {
+      variants: true,
+      reviews: { where: { status: "APPROVED" }, select: { rating: true } },
+    },
     orderBy: { createdAt: "asc" },
     take: 4,
   });

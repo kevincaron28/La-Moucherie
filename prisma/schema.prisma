@@ -26,6 +26,12 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Product {
   id              String          @id @default(cuid())
   slug            String          @unique
@@ -41,11 +47,30 @@ model Product {
   featured        Boolean         @default(false)
   variants        ProductVariant[]
   orderItems      OrderItem[]
+  reviews         Review[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
   @@index([category])
   @@index([active, featured])
+}
+
+model Review {
+  id               String       @id @default(cuid())
+  product          Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String
+  customerName     String
+  email            String
+  rating           Int
+  title            String
+  body             String
+  locale           String       @default("fr")
+  verifiedPurchase Boolean      @default(false)
+  status           ReviewStatus @default(PENDING)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([productId, status])
 }
 
 model ProductVariant {

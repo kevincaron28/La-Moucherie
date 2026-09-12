@@ -70,6 +70,25 @@
     "description": "Description",
     "details": "Détails"
   },
+  "Reviews": {
+    "title": "Avis clients",
+    "basedOnCount": "{count, plural, =0 {Aucun avis} one {1 avis} other {# avis}}",
+    "empty": "Aucun avis pour ce produit pour le moment. Soyez le premier à en laisser un !",
+    "verifiedPurchase": "Achat vérifié",
+    "writeReview": "Laisser un avis",
+    "yourName": "Votre nom",
+    "yourEmail": "Votre courriel",
+    "emailHint": "Ne sera pas affiché publiquement.",
+    "rating": "Votre note",
+    "reviewTitle": "Titre de votre avis",
+    "reviewBody": "Votre commentaire",
+    "submit": "Envoyer l'avis",
+    "submitting": "Envoi en cours…",
+    "success": "Merci ! Votre avis sera publié après modération.",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "hideForm": "Annuler",
+    "outOfFive": "sur 5"
+  },
   "Cart": {
     "title": "Votre panier",
     "empty": "Votre panier est vide.",
