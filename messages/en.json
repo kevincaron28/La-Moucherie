@@ -7,7 +7,9 @@
     "shop": "Shop",
     "about": "Our Story",
     "contact": "Contact",
-    "cart": "Cart"
+    "cart": "Cart",
+    "searchPlaceholder": "Search flies, materials...",
+    "search": "Search"
   },
   "Categories": {
     "ALL": "All flies",
@@ -51,6 +53,9 @@
     "title": "The Shop",
     "subtitle": "Flies, materials, tools, and kits — everything to fish or tie your own creations.",
     "empty": "No products in this category yet.",
+    "emptySearch": "No results for \"{query}\".",
+    "searchResultsFor": "Results for \"{query}\"",
+    "clearSearch": "Clear search",
     "from": "from"
   },
   "Product": {
@@ -98,7 +103,10 @@
     "shippingFlat": "Flat rate",
     "total": "Total",
     "errorGeneric": "Something went wrong. Please try again.",
-    "emptyCartRedirect": "Your cart is empty."
+    "emptyCartRedirect": "Your cart is empty.",
+    "trustSecurePayment": "Secure payment by Stripe",
+    "trustHandmade": "Hand-tied in Québec",
+    "trustShipping": "Ships within 2-5 business days"
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",

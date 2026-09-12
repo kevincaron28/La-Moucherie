@@ -9,6 +9,7 @@ import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import { getStripe } from "@/lib/stripe-client";
 import { PaymentForm } from "@/components/PaymentForm";
+import { TrustBadges } from "@/components/TrustBadges";
 import { SHIPPING_FLAT_CENTS } from "@/lib/constants";
 import type { Locale } from "@/i18n/routing";
 
@@ -243,6 +244,7 @@ export function CheckoutClient() {
             <span>{formatPrice(total, locale)}</span>
           </div>
         </div>
+        <TrustBadges className="mt-6 border-t border-forest/10 pt-4" />
       </aside>
     </div>
   );

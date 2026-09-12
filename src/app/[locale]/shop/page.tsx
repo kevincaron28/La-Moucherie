@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ProductCategory } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
+import { SearchBox } from "@/components/SearchBox";
 import { Link } from "@/i18n/navigation";
 import { CATEGORY_ORDER } from "@/lib/localize";
 import type { Locale } from "@/i18n/routing";
@@ -11,10 +12,10 @@ export default async function ShopPage({
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; q?: string }>;
 }) {
   const { locale } = await params;
-  const { category } = await searchParams;
+  const { category, q } = await searchParams;
   setRequestLocale(locale);
 
   const t = await getTranslations("Shop");
@@ -23,15 +24,34 @@ export default async function ShopPage({
   const activeCategory = CATEGORY_ORDER.includes(category as ProductCategory)
     ? (category as ProductCategory)
     : undefined;
+  const query = q?.trim();
 
   const products = await prisma.product.findMany({
     where: {
       active: true,
       ...(activeCategory ? { category: activeCategory } : {}),
+      ...(query
+        ? {
+            OR: [
+              { nameFr: { contains: query, mode: "insensitive" } },
+              { nameEn: { contains: query, mode: "insensitive" } },
+              { descriptionFr: { contains: query, mode: "insensitive" } },
+              { descriptionEn: { contains: query, mode: "insensitive" } },
+            ],
+          }
+        : {}),
     },
     include: { variants: true },
     orderBy: { createdAt: "desc" },
   });
+
+  function categoryHref(cat?: ProductCategory) {
+    const urlParams = new URLSearchParams();
+    if (cat) urlParams.set("category", cat);
+    if (query) urlParams.set("q", query);
+    const qs = urlParams.toString();
+    return qs ? `/shop?${qs}` : "/shop";
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -42,20 +62,40 @@ export default async function ShopPage({
         <p className="mt-2 text-ink/70">{t("subtitle")}</p>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        <CategoryPill href="/shop" active={!activeCategory} label={tCategories("ALL")} />
-        {CATEGORY_ORDER.map((cat) => (
+      <div className="mt-6 max-w-sm">
+        <SearchBox defaultQuery={query ?? ""} />
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap gap-2">
           <CategoryPill
-            key={cat}
-            href={`/shop?category=${cat}`}
-            active={activeCategory === cat}
-            label={tCategories(cat)}
+            href={categoryHref()}
+            active={!activeCategory}
+            label={tCategories("ALL")}
           />
-        ))}
+          {CATEGORY_ORDER.map((cat) => (
+            <CategoryPill
+              key={cat}
+              href={categoryHref(cat)}
+              active={activeCategory === cat}
+              label={tCategories(cat)}
+            />
+          ))}
+        </div>
+        {query && (
+          <p className="text-sm text-ink/60">
+            {t("searchResultsFor", { query })} ·{" "}
+            <Link href={categoryHref(activeCategory)} className="underline hover:text-rust">
+              {t("clearSearch")}
+            </Link>
+          </p>
+        )}
       </div>
 
       {products.length === 0 ? (
-        <p className="mt-16 text-center text-ink/60">{t("empty")}</p>
+        <p className="mt-16 text-center text-ink/60">
+          {query ? t("emptySearch", { query }) : t("empty")}
+        </p>
       ) : (
         <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (

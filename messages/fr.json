@@ -7,7 +7,9 @@
     "shop": "Boutique",
     "about": "Notre histoire",
     "contact": "Contact",
-    "cart": "Panier"
+    "cart": "Panier",
+    "searchPlaceholder": "Rechercher une mouche, un matériau...",
+    "search": "Rechercher"
   },
   "Categories": {
     "ALL": "Toutes les mouches",
@@ -51,6 +53,9 @@
     "title": "La boutique",
     "subtitle": "Mouches, matériaux, outils et kits — tout pour pêcher ou monter vos propres créations.",
     "empty": "Aucun produit dans cette catégorie pour le moment.",
+    "emptySearch": "Aucun résultat pour \"{query}\".",
+    "searchResultsFor": "Résultats pour \"{query}\"",
+    "clearSearch": "Effacer la recherche",
     "from": "à partir de"
   },
   "Product": {
@@ -98,7 +103,10 @@
     "shippingFlat": "Forfait",
     "total": "Total",
     "errorGeneric": "Une erreur est survenue. Veuillez réessayer.",
-    "emptyCartRedirect": "Votre panier est vide."
+    "emptyCartRedirect": "Votre panier est vide.",
+    "trustSecurePayment": "Paiement sécurisé par Stripe",
+    "trustHandmade": "Monté à la main au Québec",
+    "trustShipping": "Expédié sous 2 à 5 jours ouvrables"
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",

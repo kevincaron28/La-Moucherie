@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { SearchBox } from "./SearchBox";
 
 export function Header() {
   const t = useTranslations("Nav");
@@ -38,6 +39,8 @@ export function Header() {
             {t("contact")}
           </Link>
         </nav>
+
+        <SearchBox className="hidden max-w-[16rem] flex-1 lg:block" />
 
         <div className="flex items-center gap-4">
           <LocaleSwitcher />
@@ -75,6 +78,9 @@ export function Header() {
         <Link href="/about">{t("about")}</Link>
         <Link href="/contact">{t("contact")}</Link>
       </nav>
+      <div className="border-t border-forest/10 px-4 py-2 lg:hidden">
+        <SearchBox />
+      </div>
     </header>
   );
 }
