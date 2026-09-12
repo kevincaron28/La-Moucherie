@@ -104,6 +104,14 @@ saved with `status: PENDING` and is **not shown publicly** until approved — op
 `REJECTED`). If the reviewer's email matches a `PAID` order that included the product,
 `verifiedPurchase` is set automatically and shows a "Verified purchase" badge.
 
+## Catalog scope
+
+The shop currently sells **flies only** (dry flies, nymphs, streamers, wet flies) — no
+materials, tools, or kits, due to a team supplier agreement (TFO). The `MATERIAL`/`TOOL`/
+`KIT` categories still exist in `prisma/schema.prisma` and are ready to use again later;
+they're just left out of `CATEGORY_ORDER` in `src/lib/localize.ts`, which controls what
+shows up in the shop's category filter.
+
 ## Known limitations / natural next steps
 
 - No admin UI yet — manage products and moderate reviews via `npm run db:studio` or by
@@ -128,3 +136,10 @@ Any Node host works; Vercel is the path of least resistance for Next.js. You'll 
   `https://yourdomain.com/api/webhooks/stripe` for `payment_intent.succeeded` and
   `payment_intent.payment_failed`.
 - `NEXT_PUBLIC_SITE_URL` set to your production URL.
+
+## Social links
+
+Set `NEXT_PUBLIC_TIKTOK_URL` (see `.env.example`) to your TikTok profile URL to show the
+TikTok icon in the footer — it's hidden automatically while that variable is empty. TikTok
+is the only social link wired up for now; the same pattern (env var + conditional icon in
+`src/components/Footer.tsx`) can be repeated for Instagram/YouTube/etc. later.

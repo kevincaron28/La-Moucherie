@@ -1,14 +1,14 @@
 {
   "Metadata": {
     "title": "La Moucherie — Mouches artisanales du Québec",
-    "description": "Mouches à pêche montées à la main, matériaux et outils de montage. Un atelier artisanal du Québec, pour les passionnés de pêche à la mouche."
+    "description": "Mouches à pêche montées à la main par un atelier artisanal du Québec, pour les passionnés de pêche à la mouche."
   },
   "Nav": {
     "shop": "Boutique",
     "about": "Notre histoire",
     "contact": "Contact",
     "cart": "Panier",
-    "searchPlaceholder": "Rechercher une mouche, un matériau...",
+    "searchPlaceholder": "Rechercher une mouche...",
     "search": "Rechercher"
   },
   "Categories": {
@@ -51,7 +51,7 @@
   },
   "Shop": {
     "title": "La boutique",
-    "subtitle": "Mouches, matériaux, outils et kits — tout pour pêcher ou monter vos propres créations.",
+    "subtitle": "Mouches artisanales montées à la main, prêtes à pêcher sur les rivières et lacs du Québec.",
     "empty": "Aucun produit dans cette catégorie pour le moment.",
     "emptySearch": "Aucun résultat pour \"{query}\".",
     "searchResultsFor": "Résultats pour \"{query}\"",
@@ -138,8 +138,8 @@
     "title": "Notre histoire",
     "kicker": "Mouches artisanales du Québec",
     "p1": "La Moucherie a vu le jour au bord d'une rivière, avec une boîte à mouches trop souvent vide. Nous avons voulu créer une source de mouches montées avec le même respect du métier que celui qu'on retrouve chez les meilleurs monteurs.",
-    "p2": "Nous sommes une entreprise indépendante, tout juste lancée, basée au Québec. Chaque mouche, chaque kit et chaque paquet de matériaux qui sort de notre atelier est préparé à la main, en petites quantités, avec une attention particulière portée à la durabilité et à la performance sur l'eau.",
-    "p3": "Notre objectif est simple : que vous pêchiez nos mouches ou que vous appreniez à monter les vôtres avec nos matériaux et nos kits, vous devriez sentir qu'elles ont été faites par des gens qui aiment autant la rivière que vous.",
+    "p2": "Nous sommes une entreprise indépendante, tout juste lancée, basée au Québec. Chaque mouche qui sort de notre atelier est préparée à la main, en petites quantités, avec une attention particulière portée à la durabilité et à la performance sur l'eau.",
+    "p3": "Notre objectif est simple : que vous pêchiez la truite sur votre rivière préférée ou que vous exploriez de nouvelles eaux, nos mouches devraient sentir qu'elles ont été faites par des gens qui aiment la rivière autant que vous.",
     "quote": "Une mouche bien montée commence toujours par du bon matériel — et beaucoup de patience."
   },
   "Contact": {

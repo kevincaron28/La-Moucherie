@@ -1,14 +1,14 @@
 {
   "Metadata": {
     "title": "La Moucherie — Handcrafted Flies from Québec",
-    "description": "Hand-tied fishing flies, tying materials, and tools. An independent Québec workshop for fly-fishing enthusiasts."
+    "description": "Hand-tied fishing flies from an independent Québec workshop, for fly-fishing enthusiasts."
   },
   "Nav": {
     "shop": "Shop",
     "about": "Our Story",
     "contact": "Contact",
     "cart": "Cart",
-    "searchPlaceholder": "Search flies, materials...",
+    "searchPlaceholder": "Search flies...",
     "search": "Search"
   },
   "Categories": {
@@ -51,7 +51,7 @@
   },
   "Shop": {
     "title": "The Shop",
-    "subtitle": "Flies, materials, tools, and kits — everything to fish or tie your own creations.",
+    "subtitle": "Hand-tied flies, ready to fish on Québec's rivers and lakes.",
     "empty": "No products in this category yet.",
     "emptySearch": "No results for \"{query}\".",
     "searchResultsFor": "Results for \"{query}\"",
@@ -138,8 +138,8 @@
     "title": "Our Story",
     "kicker": "Handcrafted flies from Québec",
     "p1": "La Moucherie started on a riverbank, in front of a fly box that was empty too often. We wanted a source of flies tied with the same respect for the craft found in the best tyers we know.",
-    "p2": "We're an independent, freshly-launched business based in Québec. Every fly, kit, and pack of materials that leaves our workshop is prepared by hand, in small batches, with real attention to durability and on-the-water performance.",
-    "p3": "Our goal is simple: whether you fish our flies or learn to tie your own with our materials and kits, they should feel like they were made by people who love the river as much as you do.",
+    "p2": "We're an independent, freshly-launched business based in Québec. Every fly that leaves our workshop is prepared by hand, in small batches, with real attention to durability and on-the-water performance.",
+    "p3": "Our goal is simple: whether you're chasing trout on your home river or exploring new water, our flies should feel like they were made by people who love the river as much as you do.",
     "quote": "A well-tied fly always starts with good materials — and a lot of patience."
   },
   "Contact": {

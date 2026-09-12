@@ -21,7 +21,7 @@ export default async function ShopPage({
   const t = await getTranslations("Shop");
   const tCategories = await getTranslations("Categories");
 
-  const activeCategory = CATEGORY_ORDER.includes(category as ProductCategory)
+  const activeCategory = (CATEGORY_ORDER as readonly string[]).includes(category ?? "")
     ? (category as ProductCategory)
     : undefined;
   const query = q?.trim();

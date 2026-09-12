@@ -151,72 +151,21 @@ const products: ProductSeed[] = [
     category: ProductCategory.STREAMER,
     basePriceCents: 425,
     images: ["/products/placeholder-fly.svg"],
+    featured: true,
     variants: [
       { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "CM-CHT-02", stock: 18 },
       { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "CM-CHT-04", stock: 20 },
     ],
   },
-  {
-    slug: "cape-de-coq-grizzly",
-    nameFr: "Cape de coq Grizzly",
-    nameEn: "Grizzly Rooster Cape",
-    descriptionFr:
-      "Cape de qualité supérieure aux fibres rigides et brillantes, essentielle pour le montage de mouches sèches.",
-    descriptionEn:
-      "A premium cape with stiff, glossy fibers, essential for tying dry flies.",
-    category: ProductCategory.MATERIAL,
-    basePriceCents: 4200,
-    images: ["/products/placeholder-material.svg"],
-    variants: [
-      { nameFr: "Qualité Standard", nameEn: "Standard Grade", sku: "CAPE-GRZ-STD", stock: 10 },
-      { nameFr: "Qualité Compétition", nameEn: "Competition Grade", priceCents: 6800, sku: "CAPE-GRZ-COMP", stock: 4 },
-    ],
-  },
-  {
-    slug: "poil-de-chevreuil-naturel",
-    nameFr: "Poil de chevreuil naturel",
-    nameEn: "Natural Deer Hair",
-    descriptionFr:
-      "Poil de chevreuil creux et flottant, parfait pour les têtes de Muddler et les corps d'insectes terrestres.",
-    descriptionEn:
-      "Hollow, buoyant deer hair, perfect for Muddler heads and terrestrial insect bodies.",
-    category: ProductCategory.MATERIAL,
-    basePriceCents: 950,
-    images: ["/products/placeholder-material.svg"],
-    variants: [
-      { nameFr: "Paquet", nameEn: "Pack", sku: "HAIR-DEER-NAT", stock: 35 },
-    ],
-  },
-  {
-    slug: "bobineur-ceramique",
-    nameFr: "Bobineur en céramique",
-    nameEn: "Ceramic Bobbin Holder",
-    descriptionFr:
-      "Bobineur robuste à tube en céramique évitant l'effilochage du fil, tension réglable.",
-    descriptionEn:
-      "A sturdy bobbin holder with a ceramic tube to prevent thread fraying, adjustable tension.",
-    category: ProductCategory.TOOL,
-    basePriceCents: 1800,
-    images: ["/products/placeholder-tool.svg"],
-    variants: [{ nameFr: "Standard", nameEn: "Standard", sku: "TOOL-BOBBIN-CER", stock: 25 }],
-  },
-  {
-    slug: "kit-debutant",
-    nameFr: "Kit débutant — Montage de mouches",
-    nameEn: "Beginner Fly Tying Kit",
-    descriptionFr:
-      "Tout ce qu'il faut pour commencer : outils essentiels, matériaux de base et 3 patrons classiques, accompagnés d'un guide bilingue.",
-    descriptionEn:
-      "Everything you need to get started: essential tools, core materials, and 3 classic patterns, with a bilingual guide.",
-    category: ProductCategory.KIT,
-    basePriceCents: 8900,
-    images: ["/products/placeholder-kit.svg"],
-    featured: true,
-    variants: [{ nameFr: "Kit complet", nameEn: "Complete kit", sku: "KIT-BEGIN-01", stock: 12 }],
-  },
 ];
 
 async function main() {
+  // Materials/tools/kits are on hold for now (team supplier agreement) — drop any
+  // leftover seed products from those categories so re-running the seed cleans them up.
+  await prisma.product.deleteMany({
+    where: { category: { in: ["MATERIAL", "TOOL", "KIT"] } },
+  });
+
   for (const p of products) {
     const { variants, ...productData } = p;
     await prisma.product.upsert({
@@ -305,18 +254,6 @@ async function main() {
         body: "Good proportions, held up well over a full weekend on the water.",
         locale: "en",
         verifiedPurchase: false,
-        status: ReviewStatus.APPROVED,
-      },
-    ],
-    "kit-debutant": [
-      {
-        customerName: "Isabelle G.",
-        email: `isabelle.g${SEED_REVIEW_DOMAIN}`,
-        rating: 5,
-        title: "Parfait pour débuter",
-        body: "Le guide bilingue est vraiment clair et les outils sont de bonne qualité pour un kit d'entrée. Je recommande à tous ceux qui commencent.",
-        locale: "fr",
-        verifiedPurchase: true,
         status: ReviewStatus.APPROVED,
       },
     ],
