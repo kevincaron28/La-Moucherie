@@ -1,0 +1,144 @@
+{
+  "Metadata": {
+    "title": "La Moucherie — Handcrafted Flies from Québec",
+    "description": "Hand-tied fishing flies, tying materials, and tools. An independent Québec workshop for fly-fishing enthusiasts."
+  },
+  "Nav": {
+    "shop": "Shop",
+    "about": "Our Story",
+    "contact": "Contact",
+    "cart": "Cart"
+  },
+  "Categories": {
+    "ALL": "All flies",
+    "DRY_FLY": "Dry Flies",
+    "NYMPH": "Nymphs",
+    "STREAMER": "Streamers",
+    "WET_FLY": "Wet Flies",
+    "MATERIAL": "Materials",
+    "TOOL": "Tools",
+    "KIT": "Tying Kits"
+  },
+  "Home": {
+    "heroKicker": "An independent Québec workshop",
+    "heroTitle": "Flies born on the water's edge",
+    "heroSubtitle": "Every fly is tied by hand, thread by thread, by people who fish the very rivers they imitate.",
+    "heroCta": "Shop the collection",
+    "heroSecondaryCta": "Our story",
+    "featuredTitle": "Fan favorites",
+    "featuredSubtitle": "A hand-picked selection of patterns proven on Québec rivers and lakes.",
+    "shopAllCta": "Shop the full collection",
+    "storyKicker": "Handmade, in small batches",
+    "storyTitle": "A new fly shop, an old passion",
+    "storyBody": "La Moucherie was born from a simple wish: flies tied with the same care you put into reading the drift. We're an independent, just-launched Québec business, and every order is prepared by hand in our workshop.",
+    "valuesHandmadeTitle": "Tied by hand",
+    "valuesHandmadeBody": "No mass production — every fly is checked before it ships.",
+    "valuesLocalTitle": "Québec roots",
+    "valuesLocalBody": "Patterns designed for our rivers, our lakes, and our seasons.",
+    "valuesQualityTitle": "Selected materials",
+    "valuesQualityBody": "We choose durable materials for flies that hold up on the line.",
+    "newsletterTitle": "Stay on the water",
+    "newsletterBody": "New patterns, material restocks, and tying tips — straight to your inbox.",
+    "newsletterPlaceholder": "Your email",
+    "newsletterCta": "Subscribe"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "This page doesn't exist or has moved.",
+    "cta": "Back to shop"
+  },
+  "Shop": {
+    "title": "The Shop",
+    "subtitle": "Flies, materials, tools, and kits — everything to fish or tie your own creations.",
+    "empty": "No products in this category yet.",
+    "from": "from"
+  },
+  "Product": {
+    "back": "Back to shop",
+    "chooseVariant": "Choose an option",
+    "quantity": "Quantity",
+    "addToCart": "Add to cart",
+    "added": "Added to cart",
+    "outOfStock": "Out of stock",
+    "inStock": "{count} in stock",
+    "sku": "SKU",
+    "description": "Description",
+    "details": "Details"
+  },
+  "Cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "emptyCta": "Continue shopping",
+    "product": "Product",
+    "quantity": "Qty",
+    "price": "Price",
+    "subtotal": "Subtotal",
+    "remove": "Remove",
+    "checkoutCta": "Proceed to checkout",
+    "continueShopping": "Continue shopping",
+    "itemsCount": "{count, plural, =0 {0 items} one {1 item} other {# items}}"
+  },
+  "Checkout": {
+    "title": "Checkout",
+    "contactTitle": "Contact information",
+    "email": "Email",
+    "fullName": "Full name",
+    "shippingTitle": "Shipping address",
+    "addressLine1": "Address",
+    "addressLine2": "Apartment, suite, etc. (optional)",
+    "city": "City",
+    "province": "Province / State",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "paymentTitle": "Payment",
+    "payButton": "Pay {amount}",
+    "processing": "Processing…",
+    "orderSummary": "Order summary",
+    "shipping": "Shipping",
+    "shippingFlat": "Flat rate",
+    "total": "Total",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "emptyCartRedirect": "Your cart is empty."
+  },
+  "OrderConfirmation": {
+    "title": "Thank you for your order!",
+    "subtitle": "A confirmation email will be sent to you shortly.",
+    "orderNumber": "Order number",
+    "backHome": "Back to home",
+    "continueShopping": "Continue shopping"
+  },
+  "About": {
+    "title": "Our Story",
+    "kicker": "Handcrafted flies from Québec",
+    "p1": "La Moucherie started on a riverbank, in front of a fly box that was empty too often. We wanted a source of flies tied with the same respect for the craft found in the best tyers we know.",
+    "p2": "We're an independent, freshly-launched business based in Québec. Every fly, kit, and pack of materials that leaves our workshop is prepared by hand, in small batches, with real attention to durability and on-the-water performance.",
+    "p3": "Our goal is simple: whether you fish our flies or learn to tie your own with our materials and kits, they should feel like they were made by people who love the river as much as you do.",
+    "quote": "A well-tied fly always starts with good materials — and a lot of patience."
+  },
+  "Contact": {
+    "title": "Contact",
+    "subtitle": "A question about a product, an order, or a collaboration? Write to us.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Thanks! Your message has been sent.",
+    "error": "Something went wrong. Please try again or email us directly.",
+    "directEmail": "You can also reach us directly at"
+  },
+  "Footer": {
+    "tagline": "Handcrafted flies from Québec",
+    "shop": "Shop",
+    "company": "Company",
+    "about": "Our story",
+    "contact": "Contact",
+    "legal": "Information",
+    "shipping": "Shipping & returns",
+    "rights": "All rights reserved."
+  },
+  "Shipping": {
+    "title": "Shipping & Returns",
+    "body": "We ship across Canada and the United States. Orders are hand-prepared and shipped within 2 to 5 business days. For any question about a return or exchange, get in touch — we're happy to help."
+  }
+}

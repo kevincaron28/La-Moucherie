@@ -1,0 +1,91 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { ProductCategory } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { ProductCard } from "@/components/ProductCard";
+import { Link } from "@/i18n/navigation";
+import { CATEGORY_ORDER } from "@/lib/localize";
+import type { Locale } from "@/i18n/routing";
+
+export default async function ShopPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { locale } = await params;
+  const { category } = await searchParams;
+  setRequestLocale(locale);
+
+  const t = await getTranslations("Shop");
+  const tCategories = await getTranslations("Categories");
+
+  const activeCategory = CATEGORY_ORDER.includes(category as ProductCategory)
+    ? (category as ProductCategory)
+    : undefined;
+
+  const products = await prisma.product.findMany({
+    where: {
+      active: true,
+      ...(activeCategory ? { category: activeCategory } : {}),
+    },
+    include: { variants: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <div className="max-w-2xl">
+        <h1 className="font-display text-3xl font-semibold text-forest sm:text-4xl">
+          {t("title")}
+        </h1>
+        <p className="mt-2 text-ink/70">{t("subtitle")}</p>
+      </div>
+
+      <div className="mt-8 flex flex-wrap gap-2">
+        <CategoryPill href="/shop" active={!activeCategory} label={tCategories("ALL")} />
+        {CATEGORY_ORDER.map((cat) => (
+          <CategoryPill
+            key={cat}
+            href={`/shop?category=${cat}`}
+            active={activeCategory === cat}
+            label={tCategories(cat)}
+          />
+        ))}
+      </div>
+
+      {products.length === 0 ? (
+        <p className="mt-16 text-center text-ink/60">{t("empty")}</p>
+      ) : (
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CategoryPill({
+  href,
+  active,
+  label,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+        active
+          ? "border-forest bg-forest text-cream"
+          : "border-forest/20 text-forest hover:border-forest/50"
+      }`}
+    >
+      {label}
+    </Link>
+  );
+}

@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --color-forest: #1f3327;
+  --color-forest-dark: #142219;
+  --color-forest-light: #35513f;
+  --color-cream: #f4ead2;
+  --color-cream-dark: #e8dab5;
+  --color-parchment: #faf5e8;
+  --color-rust: #a8461f;
+  --color-rust-dark: #7f351a;
+  --color-navy: #1c3350;
+  --color-gold: #c99a3d;
+  --color-ink: #241f18;
+
+  --background: var(--color-parchment);
+  --foreground: var(--color-ink);
+}
+
+@theme inline {
+  --color-forest: var(--color-forest);
+  --color-forest-dark: var(--color-forest-dark);
+  --color-forest-light: var(--color-forest-light);
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-parchment: var(--color-parchment);
+  --color-rust: var(--color-rust);
+  --color-rust-dark: var(--color-rust-dark);
+  --color-navy: var(--color-navy);
+  --color-gold: var(--color-gold);
+  --color-ink: var(--color-ink);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.texture-rope {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-gold) 55%, transparent) 0px,
+    color-mix(in srgb, var(--color-gold) 55%, transparent) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}

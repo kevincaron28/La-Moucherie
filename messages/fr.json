@@ -1,0 +1,144 @@
+{
+  "Metadata": {
+    "title": "La Moucherie — Mouches artisanales du Québec",
+    "description": "Mouches à pêche montées à la main, matériaux et outils de montage. Un atelier artisanal du Québec, pour les passionnés de pêche à la mouche."
+  },
+  "Nav": {
+    "shop": "Boutique",
+    "about": "Notre histoire",
+    "contact": "Contact",
+    "cart": "Panier"
+  },
+  "Categories": {
+    "ALL": "Toutes les mouches",
+    "DRY_FLY": "Mouches sèches",
+    "NYMPH": "Nymphes",
+    "STREAMER": "Streamers",
+    "WET_FLY": "Mouches noyées",
+    "MATERIAL": "Matériaux",
+    "TOOL": "Outils",
+    "KIT": "Kits de montage"
+  },
+  "Home": {
+    "heroKicker": "Atelier artisanal du Québec",
+    "heroTitle": "Des mouches nées au bord de l'eau",
+    "heroSubtitle": "Chaque mouche est montée à la main, fil par fil, par des gens qui pêchent les rivières qu'ils imitent.",
+    "heroCta": "Découvrir la boutique",
+    "heroSecondaryCta": "Notre histoire",
+    "featuredTitle": "Nos incontournables",
+    "featuredSubtitle": "Une sélection de patrons éprouvés sur les rivières et lacs du Québec.",
+    "shopAllCta": "Voir toute la boutique",
+    "storyKicker": "Fait à la main, à petite échelle",
+    "storyTitle": "Une nouvelle moucherie, une vieille passion",
+    "storyBody": "La Moucherie est née d'une envie simple : offrir des mouches montées avec le même soin qu'on met à choisir sa dérive. Nous sommes une jeune entreprise québécoise, indépendante, et chaque commande est préparée à la main dans notre atelier.",
+    "valuesHandmadeTitle": "Montage à la main",
+    "valuesHandmadeBody": "Aucune production de masse — chaque mouche est vérifiée avant l'envoi.",
+    "valuesLocalTitle": "Racines québécoises",
+    "valuesLocalBody": "Des patrons pensés pour nos rivières, nos lacs et nos saisons.",
+    "valuesQualityTitle": "Matériaux sélectionnés",
+    "valuesQualityBody": "Nous choisissons des matériaux durables pour des mouches qui tiennent la ligne.",
+    "newsletterTitle": "Restez à l'affût",
+    "newsletterBody": "Nouveaux patrons, arrivages de matériaux et conseils de montage — directement dans votre boîte courriel.",
+    "newsletterPlaceholder": "Votre courriel",
+    "newsletterCta": "S'inscrire"
+  },
+  "NotFound": {
+    "title": "Page introuvable",
+    "body": "Cette page n'existe pas ou a été déplacée.",
+    "cta": "Retour à la boutique"
+  },
+  "Shop": {
+    "title": "La boutique",
+    "subtitle": "Mouches, matériaux, outils et kits — tout pour pêcher ou monter vos propres créations.",
+    "empty": "Aucun produit dans cette catégorie pour le moment.",
+    "from": "à partir de"
+  },
+  "Product": {
+    "back": "Retour à la boutique",
+    "chooseVariant": "Choisir une option",
+    "quantity": "Quantité",
+    "addToCart": "Ajouter au panier",
+    "added": "Ajouté au panier",
+    "outOfStock": "Rupture de stock",
+    "inStock": "{count} en stock",
+    "sku": "Réf.",
+    "description": "Description",
+    "details": "Détails"
+  },
+  "Cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide.",
+    "emptyCta": "Continuer vos achats",
+    "product": "Produit",
+    "quantity": "Qté",
+    "price": "Prix",
+    "subtotal": "Sous-total",
+    "remove": "Retirer",
+    "checkoutCta": "Passer à la caisse",
+    "continueShopping": "Continuer vos achats",
+    "itemsCount": "{count, plural, =0 {0 article} one {1 article} other {# articles}}"
+  },
+  "Checkout": {
+    "title": "Paiement",
+    "contactTitle": "Coordonnées",
+    "email": "Courriel",
+    "fullName": "Nom complet",
+    "shippingTitle": "Adresse de livraison",
+    "addressLine1": "Adresse",
+    "addressLine2": "Appartement, suite, etc. (optionnel)",
+    "city": "Ville",
+    "province": "Province",
+    "postalCode": "Code postal",
+    "country": "Pays",
+    "paymentTitle": "Paiement",
+    "payButton": "Payer {amount}",
+    "processing": "Traitement en cours…",
+    "orderSummary": "Résumé de la commande",
+    "shipping": "Livraison",
+    "shippingFlat": "Forfait",
+    "total": "Total",
+    "errorGeneric": "Une erreur est survenue. Veuillez réessayer.",
+    "emptyCartRedirect": "Votre panier est vide."
+  },
+  "OrderConfirmation": {
+    "title": "Merci pour votre commande !",
+    "subtitle": "Un courriel de confirmation vous sera envoyé sous peu.",
+    "orderNumber": "Numéro de commande",
+    "backHome": "Retour à l'accueil",
+    "continueShopping": "Continuer vos achats"
+  },
+  "About": {
+    "title": "Notre histoire",
+    "kicker": "Mouches artisanales du Québec",
+    "p1": "La Moucherie a vu le jour au bord d'une rivière, avec une boîte à mouches trop souvent vide. Nous avons voulu créer une source de mouches montées avec le même respect du métier que celui qu'on retrouve chez les meilleurs monteurs.",
+    "p2": "Nous sommes une entreprise indépendante, tout juste lancée, basée au Québec. Chaque mouche, chaque kit et chaque paquet de matériaux qui sort de notre atelier est préparé à la main, en petites quantités, avec une attention particulière portée à la durabilité et à la performance sur l'eau.",
+    "p3": "Notre objectif est simple : que vous pêchiez nos mouches ou que vous appreniez à monter les vôtres avec nos matériaux et nos kits, vous devriez sentir qu'elles ont été faites par des gens qui aiment autant la rivière que vous.",
+    "quote": "Une mouche bien montée commence toujours par du bon matériel — et beaucoup de patience."
+  },
+  "Contact": {
+    "title": "Contact",
+    "subtitle": "Une question sur un produit, une commande ou une collaboration ? Écrivez-nous.",
+    "name": "Nom",
+    "email": "Courriel",
+    "message": "Message",
+    "send": "Envoyer",
+    "sending": "Envoi en cours…",
+    "success": "Merci ! Votre message a bien été envoyé.",
+    "error": "Une erreur est survenue. Veuillez réessayer ou nous écrire directement.",
+    "directEmail": "Vous pouvez aussi nous écrire directement à"
+  },
+  "Footer": {
+    "tagline": "Mouches artisanales du Québec",
+    "shop": "Boutique",
+    "company": "Entreprise",
+    "about": "Notre histoire",
+    "contact": "Contact",
+    "legal": "Informations",
+    "shipping": "Livraison et retours",
+    "rights": "Tous droits réservés."
+  },
+  "Shipping": {
+    "title": "Livraison et retours",
+    "body": "Nous expédions partout au Canada et aux États-Unis. Les commandes sont préparées à la main et envoyées sous 2 à 5 jours ouvrables. Pour toute question sur un retour ou un échange, contactez-nous — nous nous ferons un plaisir de vous aider."
+  }
+}
