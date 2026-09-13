@@ -52,7 +52,7 @@ export default async function HomePage({
               </Link>
             </div>
           </div>
-          <div className="mx-auto w-64 rounded-full ring-4 ring-gold/40 drop-shadow-2xl sm:w-80 md:w-full md:max-w-sm">
+          <div className="mx-auto w-64 rounded-full ring-4 ring-belly/40 drop-shadow-2xl sm:w-80 md:w-full md:max-w-sm">
             <div className="relative aspect-square w-full overflow-hidden rounded-full">
               <Image
                 src="/brand/logo-512.png"

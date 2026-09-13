@@ -19,7 +19,7 @@ export default async function AboutPage({
           alt="La Moucherie"
           width={96}
           height={96}
-          className="h-24 w-24 rounded-full object-cover ring-4 ring-gold/30"
+          className="h-24 w-24 rounded-full object-cover ring-4 ring-belly/30"
         />
         <p className="mt-6 font-display text-sm font-semibold uppercase tracking-[0.2em] text-rust">
           {t("kicker")}

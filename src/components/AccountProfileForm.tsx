@@ -46,7 +46,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
           type="text"
           value={form.shippingLine1}
           onChange={(e) => update("shippingLine1", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
         />
       </div>
       <div>
@@ -55,7 +55,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
           type="text"
           value={form.shippingLine2}
           onChange={(e) => update("shippingLine2", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -65,7 +65,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
             type="text"
             value={form.shippingCity}
             onChange={(e) => update("shippingCity", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -74,7 +74,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
             type="text"
             value={form.shippingProvince}
             onChange={(e) => update("shippingProvince", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
       </div>
@@ -85,7 +85,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
             type="text"
             value={form.shippingPostalCode}
             onChange={(e) => update("shippingPostalCode", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -93,7 +93,7 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
           <select
             value={form.shippingCountry}
             onChange={(e) => update("shippingCountry", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           >
             <option value="CA">Canada</option>
             <option value="US">United States</option>

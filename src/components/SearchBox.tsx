@@ -23,7 +23,7 @@ export function SearchBox({
         name="q"
         defaultValue={defaultQuery}
         placeholder={t("searchPlaceholder")}
-        className="w-full rounded-full border border-forest/20 bg-parchment py-2 pl-9 pr-3 text-sm text-ink outline-none placeholder:text-ink/40 focus:border-forest"
+        className="w-full rounded-full border border-forest/20 bg-parchment py-2 pl-9 pr-3 text-sm text-ink outline-none placeholder:text-ink/40 focus:border-halo"
       />
       <svg
         viewBox="0 0 24 24"

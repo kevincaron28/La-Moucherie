@@ -56,7 +56,7 @@ export function ReviewsSection({
                   {review.title}
                 </span>
                 {review.verifiedPurchase && (
-                  <span className="rounded-full bg-forest/10 px-2 py-0.5 text-[11px] font-medium text-forest">
+                  <span className="rounded-full bg-halo/10 px-2 py-0.5 text-[11px] font-medium text-halo">
                     {t("verifiedPurchase")}
                   </span>
                 )}

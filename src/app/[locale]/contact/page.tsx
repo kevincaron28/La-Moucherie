@@ -40,7 +40,7 @@ export default function ContactPage() {
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -50,7 +50,7 @@ export default function ContactPage() {
             required
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -60,7 +60,7 @@ export default function ContactPage() {
             rows={5}
             value={form.message}
             onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
 

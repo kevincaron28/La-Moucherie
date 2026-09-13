@@ -1,17 +1,29 @@
 @import "tailwindcss";
 
+/* Palette drawn from the omble de fontaine (brook trout) — Québec's own fish,
+   and the one most of these patterns are tied for. Pine-green-and-rust is the
+   default costume of every premium fly brand; this is olive back, cream
+   vermiculation, burnt-orange belly, and the blue halo that rings the red
+   spots. The halo has no equivalent anywhere in the category, which is exactly
+   why it's worth carrying.
+
+   Every pair that puts text on a ground is checked against WCAG AA. Two oranges
+   exist because one colour can't do both jobs: --rust is dark enough to carry
+   cream text on a button (4.55:1), --belly is the brighter belly tone for
+   accents that never sit under text. */
 :root {
-  --color-forest: #1f3327;
-  --color-forest-dark: #142219;
-  --color-forest-light: #35513f;
-  --color-cream: #f4ead2;
-  --color-cream-dark: #e8dab5;
-  --color-parchment: #faf5e8;
-  --color-rust: #a8461f;
-  --color-rust-dark: #7f351a;
-  --color-navy: #1c3350;
-  --color-gold: #c99a3d;
-  --color-ink: #241f18;
+  --color-forest: #2a3524;
+  --color-forest-dark: #1a2216;
+  --color-forest-light: #44532e;
+  --color-cream: #f2e9d5;
+  --color-cream-dark: #e4d8ba;
+  --color-parchment: #faf6ec;
+  --color-rust: #ac4d15;
+  --color-rust-dark: #8a3d0f;
+  --color-belly: #d9722a;
+  --color-halo: #326d97;
+  --color-gold: #c9953a;
+  --color-ink: #221e16;
 
   --background: var(--color-parchment);
   --foreground: var(--color-ink);
@@ -26,7 +38,8 @@
   --color-parchment: var(--color-parchment);
   --color-rust: var(--color-rust);
   --color-rust-dark: var(--color-rust-dark);
-  --color-navy: var(--color-navy);
+  --color-belly: var(--color-belly);
+  --color-halo: var(--color-halo);
   --color-gold: var(--color-gold);
   --color-ink: var(--color-ink);
   --color-background: var(--background);

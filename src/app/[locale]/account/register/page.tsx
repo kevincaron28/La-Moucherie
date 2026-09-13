@@ -63,7 +63,7 @@ export default function RegisterPage() {
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ export default function RegisterPage() {
             required
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
         </div>
         <div>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
             minLength={8}
             value={form.password}
             onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
           />
           <p className="mt-1 text-xs text-ink/50">{t("passwordHint")}</p>
         </div>

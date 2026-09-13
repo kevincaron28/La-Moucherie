@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 type Status = "idle" | "saving" | "saved" | "error";
 
 const inputClass =
-  "mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
+  "mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo";
 const buttonClass =
   "rounded-full bg-forest px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest-light disabled:cursor-not-allowed disabled:opacity-60";
 

@@ -111,7 +111,7 @@ export function WriteReviewForm({
           required
           value={form.title}
           onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
         />
       </div>
 
@@ -122,7 +122,7 @@ export function WriteReviewForm({
           rows={4}
           value={form.body}
           onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
         />
       </div>
 
