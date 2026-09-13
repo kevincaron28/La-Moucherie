@@ -212,7 +212,11 @@
     "shippingTrackedHint": "Suivi de porte à porte, avec confirmation de livraison.",
     "shippingFree": "Offerte",
     "shippingFreeApplied": "Votre commande est livrée gratuitement, avec suivi — rien à choisir.",
-    "freeShippingHint": "Ajoutez {amount} pour la livraison suivie gratuite."
+    "freeShippingHint": "Ajoutez {amount} pour la livraison suivie gratuite.",
+    "bulkDiscount": "Rabais quantité ({percent} %)",
+    "bulkHint": "Ajoutez {count} mouche{count, plural, one {} other {s}} de plus pour économiser {percent} %.",
+    "notesLabel": "Notes pour le monteur (optionnel)",
+    "notesHint": "Quelque chose de particulier pour cette commande — une couleur, un lestage, une rivière où vous allez."
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",

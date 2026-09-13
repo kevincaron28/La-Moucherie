@@ -111,6 +111,10 @@ model Order {
   // the rates in src/lib/shipping.ts change.
   shippingMethod        String      @default("TRACKED")
   shippingCents         Int         @default(0)
+  // What the customer asked for in their own words, and what the bulk tiers
+  // took off — both recorded so an old order reads correctly after the rules change.
+  notes                 String?
+  discountCents         Int         @default(0)
   amountTotalCents      Int
   currency              String      @default("cad")
   status                OrderStatus @default(PENDING)
@@ -182,6 +186,8 @@ model OrderItem {
   variantId       String?
   nameSnapshotFr  String
   nameSnapshotEn  String
+  variantSnapshotFr String        @default("")
+  variantSnapshotEn String        @default("")
   sku             String
   unitPriceCents  Int
   quantity        Int

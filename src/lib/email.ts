@@ -49,6 +49,14 @@ function layout(bodyHtml: string) {
   </div>`;
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 type OrderEmailData = {
   id: string;
   email: string;
@@ -56,6 +64,10 @@ type OrderEmailData = {
   locale: string;
   currency: string;
   amountTotalCents: number;
+  discountCents: number;
+  shippingCents: number;
+  shippingMethod: string;
+  notes: string | null;
   shippingLine1: string;
   shippingLine2: string | null;
   shippingCity: string;
@@ -64,6 +76,9 @@ type OrderEmailData = {
   items: {
     nameSnapshotFr: string;
     nameSnapshotEn: string;
+    variantSnapshotFr: string;
+    variantSnapshotEn: string;
+    sku: string;
     quantity: number;
     unitPriceCents: number;
   }[];
@@ -76,15 +91,36 @@ export async function sendOrderConfirmation(order: OrderEmailData) {
   const rows = order.items
     .map((item) => {
       const name = fr ? item.nameSnapshotFr : item.nameSnapshotEn;
+      const size = fr ? item.variantSnapshotFr : item.variantSnapshotEn;
       const line = formatPrice(item.unitPriceCents * item.quantity, locale, order.currency);
       return `<tr>
-        <td style="padding:6px 0">${name} &times; ${item.quantity}</td>
+        <td style="padding:6px 0">${name}${size ? ` <span style="color:#6b6357">(${size})</span>` : ""} &times; ${item.quantity}</td>
         <td style="padding:6px 0;text-align:right">${line}</td>
       </tr>`;
     })
     .join("");
 
   const total = formatPrice(order.amountTotalCents, locale, order.currency);
+
+  const extraRow = (label: string, value: string) =>
+    `<tr><td style="padding:6px 0;color:#6b6357">${label}</td>
+     <td style="padding:6px 0;text-align:right;color:#6b6357">${value}</td></tr>`;
+
+  const adjustments =
+    (order.discountCents > 0
+      ? extraRow(
+          fr ? "Rabais quantité" : "Bulk discount",
+          `-${formatPrice(order.discountCents, locale, order.currency)}`
+        )
+      : "") +
+    extraRow(
+      fr ? "Livraison" : "Shipping",
+      order.shippingCents === 0
+        ? fr
+          ? "Offerte"
+          : "Free"
+        : formatPrice(order.shippingCents, locale, order.currency)
+    );
   const address = [
     order.shippingLine1,
     order.shippingLine2,
@@ -98,7 +134,7 @@ export async function sendOrderConfirmation(order: OrderEmailData) {
       ? `<p>Bonjour ${order.customerName},</p>
          <p>Merci pour votre commande ! Nous la préparons à la main et elle sera expédiée sous 2 à 5 jours ouvrables.</p>
          <p style="font-size:13px;color:#6b6357">Commande <strong>${order.id}</strong></p>
-         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}
+         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}${adjustments}
            <tr><td style="border-top:1px solid #e6ded0;padding-top:10px;font-weight:600">Total</td>
            <td style="border-top:1px solid #e6ded0;padding-top:10px;text-align:right;font-weight:600">${total}</td></tr>
          </table>
@@ -107,7 +143,7 @@ export async function sendOrderConfirmation(order: OrderEmailData) {
       : `<p>Hi ${order.customerName},</p>
          <p>Thanks for your order! We're tying it up by hand and it ships within 2–5 business days.</p>
          <p style="font-size:13px;color:#6b6357">Order <strong>${order.id}</strong></p>
-         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}
+         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}${adjustments}
            <tr><td style="border-top:1px solid #e6ded0;padding-top:10px;font-weight:600">Total</td>
            <td style="border-top:1px solid #e6ded0;padding-top:10px;text-align:right;font-weight:600">${total}</td></tr>
          </table>
@@ -126,18 +162,55 @@ export async function sendOrderConfirmation(order: OrderEmailData) {
 
 export async function sendOrderNotificationToOwner(order: OrderEmailData) {
   if (!OWNER_EMAIL) return;
-  const items = order.items
-    .map((i) => `${i.nameSnapshotFr} × ${i.quantity}`)
-    .join("<br>");
+
+  // This email is the tying list: pattern, hook size, SKU and count, so it can
+  // be worked straight from the phone at the bench without opening the site.
+  const rows = order.items
+    .map(
+      (i) => `<tr>
+        <td style="padding:8px 10px;border-bottom:1px solid #e6ded0">
+          <strong>${escapeHtml(i.nameSnapshotFr)}</strong><br>
+          <span style="color:#6b6357;font-size:13px">${escapeHtml(i.variantSnapshotFr) || "&mdash;"} &middot; ${escapeHtml(i.sku)}</span>
+        </td>
+        <td style="padding:8px 10px;border-bottom:1px solid #e6ded0;text-align:right;font-size:18px;font-weight:600;white-space:nowrap">
+          &times; ${i.quantity}
+        </td>
+      </tr>`
+    )
+    .join("");
+
+  const flyCount = order.items.reduce((n, i) => n + i.quantity, 0);
+
+  const notesBlock = order.notes
+    ? `<div style="margin:16px 0;padding:12px 14px;border-left:3px solid #ac4d15;background:#faf3e8">
+         <strong style="color:#ac4d15">Note du client</strong><br>
+         ${escapeHtml(order.notes).replace(/\n/g, "<br>")}
+       </div>`
+    : "";
+
+  const shippingLabel =
+    order.shippingMethod === "LETTER" ? "Poste-lettre (sans suivi)" : "Colis avec suivi";
+
   await send({
     to: OWNER_EMAIL,
-    subject: `Nouvelle commande — ${formatPrice(order.amountTotalCents, "fr", order.currency)}`,
+    subject: `Nouvelle commande — ${flyCount} mouche${flyCount > 1 ? "s" : ""} — ${formatPrice(order.amountTotalCents, "fr", order.currency)}`,
     html: layout(
       `<p><strong>Nouvelle commande payée.</strong></p>
-       <p>${order.customerName} &lt;${order.email}&gt;<br>Commande ${order.id}</p>
-       <p>${items}</p>
-       <p>${order.shippingLine1}${order.shippingLine2 ? "<br>" + order.shippingLine2 : ""}<br>
-          ${order.shippingCity}, ${order.shippingProvince} ${order.shippingPostalCode}</p>`
+       <p style="font-size:13px;color:#6b6357">Commande ${order.id}</p>
+
+       <h3 style="margin:18px 0 8px">À monter / prélever</h3>
+       <table style="width:100%;border-collapse:collapse">${rows}</table>
+       <p style="font-size:13px;color:#6b6357">Total : ${flyCount} mouche${flyCount > 1 ? "s" : ""}</p>
+
+       ${notesBlock}
+
+       <h3 style="margin:18px 0 8px">Expédition — ${shippingLabel}</h3>
+       <p style="margin:0">
+         ${escapeHtml(order.customerName)}<br>
+         ${escapeHtml(order.shippingLine1)}${order.shippingLine2 ? "<br>" + escapeHtml(order.shippingLine2) : ""}<br>
+         ${escapeHtml(order.shippingCity)}, ${escapeHtml(order.shippingProvince)} ${escapeHtml(order.shippingPostalCode)}
+       </p>
+       <p style="font-size:13px;color:#6b6357">${escapeHtml(order.email)}</p>`
     ),
   });
 }

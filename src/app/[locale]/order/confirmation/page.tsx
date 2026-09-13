@@ -17,6 +17,8 @@ type OrderData = {
   items: {
     nameSnapshotFr: string;
     nameSnapshotEn: string;
+    variantSnapshotFr: string;
+    variantSnapshotEn: string;
     quantity: number;
     unitPriceCents: number;
   }[];
@@ -86,8 +88,14 @@ function OrderConfirmationContent() {
             {order.items.map((item, idx) => (
               <li key={idx} className="flex justify-between text-sm">
                 <span className="text-ink/70">
-                  {pick(item.nameSnapshotFr, item.nameSnapshotEn, locale)} &times;{" "}
-                  {item.quantity}
+                  {pick(item.nameSnapshotFr, item.nameSnapshotEn, locale)}
+                  {pick(item.variantSnapshotFr, item.variantSnapshotEn, locale) && (
+                    <span className="text-ink/50">
+                      {" "}
+                      ({pick(item.variantSnapshotFr, item.variantSnapshotEn, locale)})
+                    </span>
+                  )}{" "}
+                  &times; {item.quantity}
                 </span>
                 <span className="font-medium text-forest">
                   {formatPrice(item.unitPriceCents * item.quantity, locale)}

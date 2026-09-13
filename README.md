@@ -139,6 +139,29 @@ unconfigured. Sends also never throw into their caller, so a mail outage can't f
 payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
 set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
 
+## Bulk pricing
+
+Quantity tiers live in `src/lib/discount.ts`: 6+ flies 5%, 12+ 10%, 24+ 15%.
+They count flies rather than dollars because flies have always been sold by the
+dozen, and because twelve flies is twelve flies' worth of bench time whether
+they're one pattern or twelve. The discount is applied server-side from the
+server's own subtotal — the browser never sends one — and the free-shipping
+threshold is judged on the discounted amount, on what the customer actually pays.
+
+Tiers create a deliberate cliff: 23 flies can cost more than 24. The checkout
+tells the customer how many more flies reach the next tier, which turns that
+into a nudge rather than a surprise.
+
+## Order details for fulfilment
+
+`OrderItem.variantSnapshotFr/En` freeze the hook size at purchase, alongside the
+name and price, so a paid order still says what to tie after a variant is renamed
+or retired. `Order.notes` holds up to 500 characters of customer instructions.
+
+The owner notification is built as a tying list — pattern, hook size, SKU, count,
+with the fly total in the subject line and any customer note called out — so it
+can be worked from a phone at the bench without opening the site.
+
 ## Shipping
 
 Rates live in `src/lib/shipping.ts` and nowhere else — the checkout, the order

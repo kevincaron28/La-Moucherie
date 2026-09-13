@@ -95,6 +95,11 @@ export default async function AccountPage({
                         item.nameSnapshotEn,
                         locale
                       );
+                      const size = pick(
+                        item.variantSnapshotFr,
+                        item.variantSnapshotEn,
+                        locale
+                      );
                       return (
                         <span key={item.id}>
                           {idx > 0 && ", "}
@@ -109,6 +114,10 @@ export default async function AccountPage({
                             </Link>
                           ) : (
                             label
+                          )}
+                          {size && <span className="text-ink/50"> ({size})</span>}
+                          {item.quantity > 1 && (
+                            <span className="text-ink/50"> &times; {item.quantity}</span>
                           )}
                         </span>
                       );

@@ -212,7 +212,11 @@
     "shippingTrackedHint": "Tracked door to door, with a delivery confirmation.",
     "shippingFree": "Free",
     "shippingFreeApplied": "Your order ships free, tracked — nothing to choose.",
-    "freeShippingHint": "Add {amount} more for free tracked shipping."
+    "freeShippingHint": "Add {amount} more for free tracked shipping.",
+    "bulkDiscount": "Bulk discount ({percent}%)",
+    "bulkHint": "Add {count} more {count, plural, one {fly} other {flies}} to save {percent}%.",
+    "notesLabel": "Notes for the tyer (optional)",
+    "notesHint": "Anything particular about this order — a colour, a weight, a river you're heading to."
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",

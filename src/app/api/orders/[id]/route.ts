@@ -27,6 +27,8 @@ export async function GET(
         select: {
           nameSnapshotFr: true,
           nameSnapshotEn: true,
+          variantSnapshotFr: true,
+          variantSnapshotEn: true,
           quantity: true,
           unitPriceCents: true,
         },

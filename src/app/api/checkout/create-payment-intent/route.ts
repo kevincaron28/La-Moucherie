@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
 import { CURRENCY } from "@/lib/constants";
+import { discountCents as computeDiscount, totalQuantity } from "@/lib/discount";
 import {
   SHIPPING_METHODS,
   shippingCostCents,
@@ -31,6 +32,7 @@ const checkoutSchema = z.object({
     country: z.literal("CA"),
   }),
   shippingMethod: z.enum(SHIPPING_METHODS),
+  notes: z.string().max(500).optional(),
   locale: z.enum(["fr", "en"]),
 });
 
@@ -40,7 +42,8 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
-  const { items, email, customerName, shipping, shippingMethod, locale } = parsed.data;
+  const { items, email, customerName, shipping, shippingMethod, notes, locale } =
+    parsed.data;
 
   const variantIds = items.map((i) => i.variantId);
   const variants = await prisma.productVariant.findMany({
@@ -58,6 +61,8 @@ export async function POST(request: Request) {
     variantId: string;
     nameSnapshotFr: string;
     nameSnapshotEn: string;
+    variantSnapshotFr: string;
+    variantSnapshotEn: string;
     sku: string;
     unitPriceCents: number;
     quantity: number;
@@ -81,15 +86,25 @@ export async function POST(request: Request) {
       variantId: variant.id,
       nameSnapshotFr: variant.product.nameFr,
       nameSnapshotEn: variant.product.nameEn,
+      // The hook size, frozen at purchase: without it a paid order can't tell
+      // you what to tie or pull from the bin.
+      variantSnapshotFr: variant.nameFr,
+      variantSnapshotEn: variant.nameEn,
       sku: variant.sku,
       unitPriceCents,
       quantity: item.quantity,
     });
   }
 
+  // Bulk pricing is decided here too — the browser never sends a discount.
+  const itemsSubtotalCents = amountTotalCents;
+  const discountCents = computeDiscount(itemsSubtotalCents, totalQuantity(items));
+  amountTotalCents -= discountCents;
+
   // The browser sends only which method was picked; the price of that method
   // and whether it's free are decided here, from the subtotal this route
-  // computed itself.
+  // computed itself. Free shipping is judged after the discount, on what the
+  // customer actually pays for flies.
   const subtotalCents = amountTotalCents;
   const method = effectiveMethod(shippingMethod, subtotalCents);
   const shippingCents = shippingCostCents(method, subtotalCents);
@@ -138,6 +153,8 @@ export async function POST(request: Request) {
       shippingCountry: shipping.country,
       shippingMethod: method,
       shippingCents,
+      notes: notes?.trim() || null,
+      discountCents,
       amountTotalCents,
       currency: CURRENCY,
       locale,

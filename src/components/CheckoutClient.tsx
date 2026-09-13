@@ -12,6 +12,12 @@ import { getStripe } from "@/lib/stripe-client";
 import { PaymentForm } from "@/components/PaymentForm";
 import { TrustBadges } from "@/components/TrustBadges";
 import {
+  discountCents as computeDiscount,
+  totalQuantity,
+  tierFor,
+  nextTier,
+} from "@/lib/discount";
+import {
   SHIPPING_RATES_CENTS,
   FREE_SHIPPING_THRESHOLD_CENTS,
   shippingCostCents,
@@ -52,6 +58,7 @@ export function CheckoutClient() {
 
   const [form, setForm] = useState<ShippingForm>(emptyForm);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("LETTER");
+  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     if (sessionStatus !== "authenticated") return;
@@ -85,11 +92,17 @@ export function CheckoutClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const freeShipping = isFreeShipping(subtotalCents);
-  const chosenMethod = effectiveMethod(shippingMethod, subtotalCents);
-  const shippingCents = shippingCostCents(chosenMethod, subtotalCents);
-  const total = subtotalCents + shippingCents;
-  const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents;
+  const flyCount = totalQuantity(items);
+  const discount = computeDiscount(subtotalCents, flyCount);
+  const tier = tierFor(flyCount);
+  const upcoming = nextTier(flyCount);
+  const discountedSubtotal = subtotalCents - discount;
+
+  const freeShipping = isFreeShipping(discountedSubtotal);
+  const chosenMethod = effectiveMethod(shippingMethod, discountedSubtotal);
+  const shippingCents = shippingCostCents(chosenMethod, discountedSubtotal);
+  const total = discountedSubtotal + shippingCents;
+  const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
 
   function update<K extends keyof ShippingForm>(key: K, value: ShippingForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -120,6 +133,7 @@ export function CheckoutClient() {
             country: form.country,
           },
           shippingMethod: chosenMethod,
+          notes: notes.trim() || undefined,
           locale,
         }),
       });
@@ -281,6 +295,20 @@ export function CheckoutClient() {
               )}
             </fieldset>
 
+            <div>
+              <label className="font-display font-semibold text-forest">
+                {t("notesLabel")}
+              </label>
+              <p className="mt-1 text-xs text-ink/55">{t("notesHint")}</p>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                maxLength={500}
+                rows={3}
+                className="mt-2 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+
             {error && <p className="text-sm text-rust">{error}</p>}
 
             <button
@@ -315,7 +343,14 @@ export function CheckoutClient() {
           {items.map((item) => (
             <li key={item.variantId} className="flex justify-between text-sm">
               <span className="text-ink/70">
-                {pick(item.nameFr, item.nameEn, locale)} &times; {item.quantity}
+                {pick(item.nameFr, item.nameEn, locale)}
+                {(item.variantNameFr || item.variantNameEn) && (
+                  <span className="text-ink/50">
+                    {" "}
+                    ({pick(item.variantNameFr, item.variantNameEn, locale)})
+                  </span>
+                )}{" "}
+                &times; {item.quantity}
               </span>
               <span className="font-medium text-forest">
                 {formatPrice(item.unitPriceCents * item.quantity, locale)}
@@ -324,6 +359,12 @@ export function CheckoutClient() {
           ))}
         </ul>
         <div className="mt-4 space-y-2 border-t border-forest/10 pt-4 text-sm">
+          {discount > 0 && tier && (
+            <div className="flex justify-between text-halo">
+              <span>{t("bulkDiscount", { percent: tier.percent })}</span>
+              <span>-{formatPrice(discount, locale)}</span>
+            </div>
+          )}
           <div className="flex justify-between text-ink/70">
             <span>{t("shipping")}</span>
             <span>
@@ -338,6 +379,14 @@ export function CheckoutClient() {
             <p className="text-xs text-ink/55">
               {t("freeShippingHint", {
                 amount: formatPrice(remainingForFree, locale),
+              })}
+            </p>
+          )}
+          {upcoming && (
+            <p className="text-xs text-ink/55">
+              {t("bulkHint", {
+                count: upcoming.minQuantity - flyCount,
+                percent: upcoming.percent,
               })}
             </p>
           )}
