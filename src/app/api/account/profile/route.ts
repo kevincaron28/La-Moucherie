@@ -31,6 +31,7 @@ export async function GET() {
 }
 
 const profileSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
   shippingLine1: z.string().max(200).optional(),
   shippingLine2: z.string().max(200).optional(),
   shippingCity: z.string().max(120).optional(),

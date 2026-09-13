@@ -73,7 +73,20 @@
     "country": "Country",
     "saveInfo": "Save",
     "saving": "Saving…",
-    "infoSaved": "Your information has been updated."
+    "infoSaved": "Your information has been updated.",
+    "accountDetails": "Account details",
+    "accountDetailsHint": "Change your name, sign-in email, or password.",
+    "detailsSecurityNote": "Changing your email changes the address you sign in with.",
+    "currentPassword": "Current password",
+    "confirmPassword": "Confirm new password",
+    "saveName": "Save name",
+    "saveEmail": "Update email",
+    "savePassword": "Update password",
+    "nameUpdated": "Your name has been updated.",
+    "emailUpdated": "Your email has been updated.",
+    "passwordUpdated": "Your password has been updated.",
+    "wrongPassword": "That password isn't correct.",
+    "passwordMismatch": "The two passwords don't match."
   },
   "Categories": {
     "ALL": "All flies",

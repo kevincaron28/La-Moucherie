@@ -73,7 +73,20 @@
     "country": "Pays",
     "saveInfo": "Enregistrer",
     "saving": "Enregistrement…",
-    "infoSaved": "Informations mises à jour."
+    "infoSaved": "Informations mises à jour.",
+    "accountDetails": "Détails du compte",
+    "accountDetailsHint": "Modifiez votre nom, votre courriel de connexion ou votre mot de passe.",
+    "detailsSecurityNote": "Changer votre courriel change l'adresse avec laquelle vous vous connectez.",
+    "currentPassword": "Mot de passe actuel",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "saveName": "Enregistrer le nom",
+    "saveEmail": "Modifier le courriel",
+    "savePassword": "Modifier le mot de passe",
+    "nameUpdated": "Votre nom a été mis à jour.",
+    "emailUpdated": "Votre courriel a été mis à jour.",
+    "passwordUpdated": "Votre mot de passe a été mis à jour.",
+    "wrongPassword": "Ce mot de passe n'est pas valide.",
+    "passwordMismatch": "Les deux mots de passe ne correspondent pas."
   },
   "Categories": {
     "ALL": "Toutes les mouches",

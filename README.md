@@ -116,6 +116,12 @@ address that pre-fills checkout. Guest checkout still works exactly as before â€
 only links to a `User` when someone is signed in at checkout (`auth()` is checked
 server-side in `/api/checkout/create-payment-intent`, never trusted from the client).
 
+From `/account`, a signed-in customer can change their display name, their sign-in
+email, and their password. Changing the email or the password requires re-entering the
+current password â€” the session alone isn't enough, since the email is the sign-in
+identifier. A password change also retires any unused reset tokens, so a link still
+sitting in an inbox can't be used as a second way in.
+
 Password reset is at `/account/forgot`. Tokens are stored only as SHA-256 hashes with a
 one-hour expiry and are single-use; requesting a new link invalidates any outstanding one.
 The endpoint answers identically for known and unknown addresses so it can't be used to

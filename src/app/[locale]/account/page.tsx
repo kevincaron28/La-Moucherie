@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect, Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import { AccountProfileForm } from "@/components/AccountProfileForm";
+import { AccountDetailsForms } from "@/components/AccountDetailsForms";
 import { SignOutButton } from "@/components/SignOutButton";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
@@ -41,7 +42,9 @@ export default async function AccountPage({
 
   const orders = await prisma.order.findMany({
     where: { userId: user.id },
-    include: { items: true },
+    include: {
+      items: { include: { product: { select: { slug: true } } } },
+    },
     orderBy: { createdAt: "desc" },
   });
 
@@ -86,9 +89,30 @@ export default async function AccountPage({
                   <p className="font-mono text-sm text-forest">{order.id}</p>
                   <p className="text-xs text-ink/50">{dateFormatter.format(order.createdAt)}</p>
                   <p className="mt-1 text-sm text-ink/70">
-                    {order.items
-                      .map((item) => pick(item.nameSnapshotFr, item.nameSnapshotEn, locale))
-                      .join(", ")}
+                    {order.items.map((item, idx) => {
+                      const label = pick(
+                        item.nameSnapshotFr,
+                        item.nameSnapshotEn,
+                        locale
+                      );
+                      return (
+                        <span key={item.id}>
+                          {idx > 0 && ", "}
+                          {/* A discontinued product leaves productId null, so the
+                              name snapshot still reads correctly with no link. */}
+                          {item.product ? (
+                            <Link
+                              href={`/shop/${item.product.slug}`}
+                              className="underline decoration-forest/30 underline-offset-2 transition hover:text-forest hover:decoration-forest"
+                            >
+                              {label}
+                            </Link>
+                          ) : (
+                            label
+                          )}
+                        </span>
+                      );
+                    })}
                   </p>
                 </div>
                 <div className="text-right">
@@ -101,6 +125,14 @@ export default async function AccountPage({
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="mt-10 max-w-lg">
+        <h2 className="font-display text-xl font-semibold text-forest">
+          {t("accountDetails")}
+        </h2>
+        <p className="mt-1 text-sm text-ink/60">{t("accountDetailsHint")}</p>
+        <AccountDetailsForms initialName={user.name} initialEmail={user.email} />
       </section>
 
       <section className="mt-10 max-w-lg">
