@@ -154,6 +154,15 @@ saved with `status: PENDING` and is **not shown publicly** until approved — op
 `REJECTED`). If the reviewer's email matches a `PAID` order that included the product,
 `verifiedPurchase` is set automatically and shows a "Verified purchase" badge.
 
+## Catalog naming
+
+Flies keep their canonical pattern names (Woolly Bugger, Elk Wing Caddis, Lefty
+Deceiver). This is deliberate and should stay that way: those names are what
+customers search for and how they already order, so a house-branded or
+river-themed name would cost discoverability and make the buyer translate before
+they can find the fly they want. Local character belongs in the descriptions and
+in how patterns are grouped, not in the product name.
+
 ## Catalog scope
 
 The shop currently sells **flies only** (dry flies, nymphs, streamers, wet flies) — no
