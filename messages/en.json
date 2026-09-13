@@ -204,7 +204,15 @@
     "emptyCartRedirect": "Your cart is empty.",
     "trustSecurePayment": "Secure payment by Stripe",
     "trustHandmade": "Hand-tied in Québec",
-    "trustShipping": "Ships within 2-5 business days"
+    "trustShipping": "Ships within 2-5 business days",
+    "shippingMethod": "Shipping method",
+    "shippingLetter": "Letter mail",
+    "shippingLetterHint": "No tracking. Best for a few flies — usually 2–5 business days.",
+    "shippingTracked": "Tracked parcel",
+    "shippingTrackedHint": "Tracked door to door, with a delivery confirmation.",
+    "shippingFree": "Free",
+    "shippingFreeApplied": "Your order ships free, tracked — nothing to choose.",
+    "freeShippingHint": "Add {amount} more for free tracked shipping."
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",
@@ -244,7 +252,15 @@
     "rights": "All rights reserved."
   },
   "Shipping": {
-    "title": "Shipping & Returns",
-    "body": "We ship across Canada and the United States. Orders are hand-prepared and shipped within 2 to 5 business days. For any question about a return or exchange, get in touch — we're happy to help."
+    "title": "Shipping & returns",
+    "intro": "We ship anywhere in Canada. Orders are tied by hand and go out within 2–5 business days.",
+    "optionsTitle": "Shipping options",
+    "letterTitle": "Letter mail",
+    "letterBody": "Sent as Canada Post letter mail, with no tracking. The most sensible choice for a handful of flies.",
+    "trackedTitle": "Tracked parcel",
+    "trackedBody": "Canada Post parcel with tracking from our bench to your door, and a delivery confirmation.",
+    "freeNote": "Orders of {amount} or more ship free, tracked.",
+    "returnsTitle": "Returns",
+    "returnsBody": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have been fished can't be returned — but tell us anyway if one came apart, because that's something we want to know about."
   }
 }

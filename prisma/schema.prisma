@@ -107,6 +107,10 @@ model Order {
   shippingProvince      String
   shippingPostalCode    String
   shippingCountry       String      @default("CA")
+  // Recorded per order so a past order can still be read back correctly after
+  // the rates in src/lib/shipping.ts change.
+  shippingMethod        String      @default("TRACKED")
+  shippingCents         Int         @default(0)
   amountTotalCents      Int
   currency              String      @default("cad")
   status                OrderStatus @default(PENDING)

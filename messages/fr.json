@@ -204,7 +204,15 @@
     "emptyCartRedirect": "Votre panier est vide.",
     "trustSecurePayment": "Paiement sécurisé par Stripe",
     "trustHandmade": "Monté à la main au Québec",
-    "trustShipping": "Expédié sous 2 à 5 jours ouvrables"
+    "trustShipping": "Expédié sous 2 à 5 jours ouvrables",
+    "shippingMethod": "Mode de livraison",
+    "shippingLetter": "Poste-lettre",
+    "shippingLetterHint": "Sans suivi. Idéal pour quelques mouches — généralement 2 à 5 jours ouvrables.",
+    "shippingTracked": "Colis avec suivi",
+    "shippingTrackedHint": "Suivi de porte à porte, avec confirmation de livraison.",
+    "shippingFree": "Offerte",
+    "shippingFreeApplied": "Votre commande est livrée gratuitement, avec suivi — rien à choisir.",
+    "freeShippingHint": "Ajoutez {amount} pour la livraison suivie gratuite."
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",
@@ -245,6 +253,14 @@
   },
   "Shipping": {
     "title": "Livraison et retours",
-    "body": "Nous expédions partout au Canada et aux États-Unis. Les commandes sont préparées à la main et envoyées sous 2 à 5 jours ouvrables. Pour toute question sur un retour ou un échange, contactez-nous — nous nous ferons un plaisir de vous aider."
+    "intro": "Nous expédions partout au Canada. Les commandes sont montées à la main et envoyées sous 2 à 5 jours ouvrables.",
+    "optionsTitle": "Options de livraison",
+    "letterTitle": "Poste-lettre",
+    "letterBody": "Envoi par poste-lettre de Postes Canada, sans suivi. Le choix le plus sensé pour quelques mouches.",
+    "trackedTitle": "Colis avec suivi",
+    "trackedBody": "Colis de Postes Canada suivi de notre étau jusqu'à votre porte, avec confirmation de livraison.",
+    "freeNote": "Les commandes de {amount} et plus sont livrées gratuitement, avec suivi.",
+    "returnsTitle": "Retours",
+    "returnsBody": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées — mais dites-le-nous quand même si l'une d'elles s'est défaite, c'est le genre de chose que nous voulons savoir."
   }
 }

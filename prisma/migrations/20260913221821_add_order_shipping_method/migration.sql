@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN     "shippingCents" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "shippingMethod" TEXT NOT NULL DEFAULT 'TRACKED';
+

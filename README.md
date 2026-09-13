@@ -139,6 +139,31 @@ unconfigured. Sends also never throw into their caller, so a mail outage can't f
 payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
 set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
 
+## Shipping
+
+Rates live in `src/lib/shipping.ts` and nowhere else — the checkout, the order
+total and the shipping policy page all read from it, so changing a price there
+changes it everywhere.
+
+Flies weigh about a gram, so postage is decided by thickness and tracking, not
+weight, and Canada Post prices those two cases very differently (oversize
+Lettermail around $2.61 versus Regular Parcel from about $10.91). A single flat
+rate therefore can't be fair: it overcharges a three-fly envelope and loses money
+on anything tracked. So the customer picks: untracked letter mail, or a tracked
+parcel. Orders at or above `FREE_SHIPPING_THRESHOLD_CENTS` ship free and always
+tracked — giving away the untracked rate saves the customer very little and
+teaches nothing.
+
+The shipping price is always recomputed on the server from the server's own
+subtotal; the browser only says which method was chosen. `Order.shippingMethod`
+and `Order.shippingCents` record what was actually charged, so a past order still
+reads correctly after the rates change.
+
+**Check the rates against your own Canada Post prices** from your origin postal
+code before launch — the defaults are informed estimates, not quotes. Canada
+only for now: US parcels cost several times more and need a customs declaration
+per package.
+
 ## Rate limiting
 
 `src/lib/rate-limit.ts` throttles registration, contact, reviews and password-reset
@@ -177,8 +202,6 @@ shows up in the shop's category filter.
   editing `prisma/seed.ts`.
 - No email verification on signup.
 - Abandoned checkouts leave `PENDING` orders behind; nothing prunes them yet.
-- Flat-rate shipping only (`SHIPPING_FLAT_CENTS` in `src/lib/constants.ts`); no live
-  carrier rates.
 - The contact form stores messages in the database (`ContactMessage` table, viewable via
   `db:studio`) rather than sending an email — wire up a transactional email provider
   (Resend, Postmark, SendGrid) when you're ready.

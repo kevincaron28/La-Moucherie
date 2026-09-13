@@ -11,7 +11,14 @@ import { formatPrice } from "@/lib/format";
 import { getStripe } from "@/lib/stripe-client";
 import { PaymentForm } from "@/components/PaymentForm";
 import { TrustBadges } from "@/components/TrustBadges";
-import { SHIPPING_FLAT_CENTS } from "@/lib/constants";
+import {
+  SHIPPING_RATES_CENTS,
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  shippingCostCents,
+  effectiveMethod,
+  isFreeShipping,
+  type ShippingMethod,
+} from "@/lib/shipping";
 import type { Locale } from "@/i18n/routing";
 
 type ShippingForm = {
@@ -44,6 +51,7 @@ export function CheckoutClient() {
   const { status: sessionStatus } = useSession();
 
   const [form, setForm] = useState<ShippingForm>(emptyForm);
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("LETTER");
 
   useEffect(() => {
     if (sessionStatus !== "authenticated") return;
@@ -77,7 +85,11 @@ export function CheckoutClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const total = subtotalCents + SHIPPING_FLAT_CENTS;
+  const freeShipping = isFreeShipping(subtotalCents);
+  const chosenMethod = effectiveMethod(shippingMethod, subtotalCents);
+  const shippingCents = shippingCostCents(chosenMethod, subtotalCents);
+  const total = subtotalCents + shippingCents;
+  const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents;
 
   function update<K extends keyof ShippingForm>(key: K, value: ShippingForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -107,6 +119,7 @@ export function CheckoutClient() {
             postalCode: form.postalCode,
             country: form.country,
           },
+          shippingMethod: chosenMethod,
           locale,
         }),
       });
@@ -215,10 +228,57 @@ export function CheckoutClient() {
                     className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
                   >
                     <option value="CA">Canada</option>
-                    <option value="US">United States</option>
                   </select>
                 </div>
               </div>
+            </fieldset>
+
+            <fieldset className="space-y-3">
+              <legend className="font-display font-semibold text-forest">
+                {t("shippingMethod")}
+              </legend>
+              {freeShipping ? (
+                <p className="rounded-lg border border-halo/30 bg-halo/5 px-4 py-3 text-sm text-ink/80">
+                  {t("shippingFreeApplied")}
+                </p>
+              ) : (
+                (["LETTER", "TRACKED"] as const).map((method) => (
+                  <label
+                    key={method}
+                    className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition ${
+                      shippingMethod === method
+                        ? "border-halo bg-halo/5"
+                        : "border-forest/20 hover:border-forest/40"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="shippingMethod"
+                      value={method}
+                      checked={shippingMethod === method}
+                      onChange={() => setShippingMethod(method)}
+                      className="mt-1 accent-halo"
+                    />
+                    <span className="flex-1">
+                      <span className="flex justify-between gap-3">
+                        <span className="text-sm font-medium text-forest">
+                          {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
+                        </span>
+                        <span className="text-sm font-medium text-forest">
+                          {formatPrice(SHIPPING_RATES_CENTS[method], locale)}
+                        </span>
+                      </span>
+                      <span className="mt-0.5 block text-xs text-ink/60">
+                        {t(
+                          method === "LETTER"
+                            ? "shippingLetterHint"
+                            : "shippingTrackedHint"
+                        )}
+                      </span>
+                    </span>
+                  </label>
+                ))
+              )}
             </fieldset>
 
             {error && <p className="text-sm text-rust">{error}</p>}
@@ -266,8 +326,21 @@ export function CheckoutClient() {
         <div className="mt-4 space-y-2 border-t border-forest/10 pt-4 text-sm">
           <div className="flex justify-between text-ink/70">
             <span>{t("shipping")}</span>
-            <span>{formatPrice(SHIPPING_FLAT_CENTS, locale)}</span>
+            <span>
+              {freeShipping ? (
+                <span className="font-medium text-halo">{t("shippingFree")}</span>
+              ) : (
+                formatPrice(shippingCents, locale)
+              )}
+            </span>
           </div>
+          {!freeShipping && remainingForFree > 0 && (
+            <p className="text-xs text-ink/55">
+              {t("freeShippingHint", {
+                amount: formatPrice(remainingForFree, locale),
+              })}
+            </p>
+          )}
           <div className="flex justify-between font-display text-base font-semibold text-forest">
             <span>{t("total")}</span>
             <span>{formatPrice(total, locale)}</span>
