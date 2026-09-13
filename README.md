@@ -188,6 +188,16 @@ shows up in the shop's category filter.
 
 ## Deployment
 
+Only `main` deploys. `vercel.json` sets `git.deploymentEnabled` to `{"*": false,
+"main": true}` — a branch matching several rules deploys if any of them is true,
+so `main` wins its own rule and every other branch is skipped. Branch pushes
+would otherwise trigger preview builds that run `prisma migrate deploy` and the
+seed against whatever `DATABASE_URL` the Preview environment holds; pointed at
+production that means an unfinished schema change on a side branch can reach the
+live shop. To use previews properly later, give the Preview environment its own
+database (a Neon branch) first, then re-enable the branch here.
+
+
 Any Node host works; Vercel is the path of least resistance for Next.js. You'll need:
 
 - A managed Postgres database (Vercel Postgres, Supabase, Neon, Railway, etc.) — just set
