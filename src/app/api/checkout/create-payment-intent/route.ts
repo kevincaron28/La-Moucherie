@@ -89,6 +89,21 @@ export async function POST(request: Request) {
       currency: CURRENCY,
       receipt_email: email,
       automatic_payment_methods: { enabled: true },
+      // Mirrored onto the PaymentIntent so the Stripe dashboard shows where the
+      // order ships to. The Order row below stays the source of truth for
+      // fulfillment; this copy exists so packing slips can be pulled from
+      // either side without cross-referencing.
+      shipping: {
+        name: customerName,
+        address: {
+          line1: shipping.line1,
+          line2: shipping.line2 || undefined,
+          city: shipping.city,
+          state: shipping.province,
+          postal_code: shipping.postalCode,
+          country: shipping.country,
+        },
+      },
       metadata: { source: "la-moucherie-web" },
     });
   } catch (err) {
