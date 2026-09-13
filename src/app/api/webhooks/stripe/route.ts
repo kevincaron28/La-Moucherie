@@ -8,7 +8,18 @@ export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!signature || !webhookSecret) {
+  // These two failures look identical from Stripe's side — both are a 400 — but
+  // they have completely different fixes, so say which one happened. Everything
+  // downstream (order marked paid, stock drawn down, confirmation email) hangs
+  // off this check, so a silent rejection strands orders in PENDING.
+  if (!webhookSecret) {
+    console.error(
+      "[stripe-webhook] STRIPE_WEBHOOK_SECRET is not set — every event will be rejected."
+    );
+    return NextResponse.json({ error: "secret_not_configured" }, { status: 400 });
+  }
+
+  if (!signature) {
     return NextResponse.json({ error: "missing_signature" }, { status: 400 });
   }
 
@@ -17,7 +28,12 @@ export async function POST(request: Request) {
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
-  } catch {
+  } catch (err) {
+    console.error(
+      "[stripe-webhook] signature verification failed — the STRIPE_WEBHOOK_SECRET " +
+        "deployed here does not match the endpoint that sent this event.",
+      err instanceof Error ? err.message : err
+    );
     return NextResponse.json({ error: "invalid_signature" }, { status: 400 });
   }
 
