@@ -133,8 +133,31 @@ model User {
   shippingCountry    String?
   orders             Order[]
   reviews            Review[]
+  resetTokens        PasswordResetToken[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  // Only the hash is stored: a leaked database row must not be usable to seize
+  // an account. The raw token exists solely in the emailed link.
+  tokenHash String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model RateLimitHit {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
 }
 
 model ContactMessage {

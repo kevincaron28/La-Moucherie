@@ -116,8 +116,29 @@ address that pre-fills checkout. Guest checkout still works exactly as before �
 only links to a `User` when someone is signed in at checkout (`auth()` is checked
 server-side in `/api/checkout/create-payment-intent`, never trusted from the client).
 
-There's no password-reset flow yet (needs transactional email — see the contact-form note
-below) and no email verification on signup.
+Password reset is at `/account/forgot`. Tokens are stored only as SHA-256 hashes with a
+one-hour expiry and are single-use; requesting a new link invalidates any outstanding one.
+The endpoint answers identically for known and unknown addresses so it can't be used to
+discover who has an account. There's still no email verification on signup.
+
+## Email
+
+All outgoing mail goes through [Resend](https://resend.com) via `src/lib/email.ts`:
+order confirmations to the customer, new-order and contact-form alerts to `OWNER_EMAIL`,
+and password-reset links.
+
+**Email is optional.** With `RESEND_API_KEY` unset, every send is logged
+(`[email:not-configured] would send …`) instead and nothing errors — the site runs fine
+unconfigured. Sends also never throw into their caller, so a mail outage can't fail a
+payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
+set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
+
+## Rate limiting
+
+`src/lib/rate-limit.ts` throttles registration, contact, reviews and password-reset
+requests. It's database-backed rather than in-memory because on serverless each request
+can hit a different instance, where an in-process counter would reset constantly and
+enforce nothing.
 
 ## Reviews
 
@@ -139,8 +160,8 @@ shows up in the shop's category filter.
 
 - No admin UI yet — manage products and moderate reviews via `npm run db:studio` or by
   editing `prisma/seed.ts`.
-- No password reset or email verification (needs a transactional email provider — see
-  below).
+- No email verification on signup.
+- Abandoned checkouts leave `PENDING` orders behind; nothing prunes them yet.
 - Flat-rate shipping only (`SHIPPING_FLAT_CENTS` in `src/lib/constants.ts`); no live
   carrier rates.
 - The contact form stores messages in the database (`ContactMessage` table, viewable via

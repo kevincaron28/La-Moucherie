@@ -35,6 +35,7 @@ function OrderConfirmationContent() {
   const locale = useLocale() as Locale;
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order");
+  const clientSecret = searchParams.get("payment_intent_client_secret");
   const { clear } = useCart();
 
   const [order, setOrder] = useState<OrderData | null>(null);
@@ -48,9 +49,13 @@ function OrderConfirmationContent() {
     if (!orderId) return;
     let cancelled = false;
     let attempts = 0;
+    const secret = clientSecret;
 
     async function poll() {
-      const res = await fetch(`/api/orders/${orderId}`);
+      const query = secret
+        ? `?payment_intent_client_secret=${encodeURIComponent(secret)}`
+        : "";
+      const res = await fetch(`/api/orders/${orderId}${query}`);
       if (cancelled || !res.ok) return;
       const data: OrderData = await res.json();
       setOrder(data);
@@ -64,7 +69,7 @@ function OrderConfirmationContent() {
     return () => {
       cancelled = true;
     };
-  }, [orderId]);
+  }, [orderId, clientSecret]);
 
   return (
     <div className="mx-auto max-w-xl px-4 py-20 text-center sm:px-6">

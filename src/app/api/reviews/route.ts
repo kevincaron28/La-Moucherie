@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { checkRateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 const reviewSchema = z.object({
   productId: z.string().min(1),
@@ -16,6 +17,13 @@ export async function POST(request: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
+
+  const allowed = await checkRateLimit(
+    `review:${session.user.id}`,
+    10,
+    60 * 60 * 1000
+  );
+  if (!allowed) return tooManyRequests();
 
   const parsed = reviewSchema.safeParse(await request.json());
   if (!parsed.success) {

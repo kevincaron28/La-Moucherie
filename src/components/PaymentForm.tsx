@@ -30,7 +30,7 @@ export function PaymentForm({
     setSubmitting(true);
     setError(null);
 
-    const { error: confirmError } = await stripe.confirmPayment({
+    const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: returnUrl },
       redirect: "if_required",
@@ -42,7 +42,15 @@ export function PaymentForm({
       return;
     }
 
-    window.location.href = returnUrl;
+    // Redirect-based methods come back to return_url with these appended by
+    // Stripe. Cards resolve here without a redirect, so carry the client secret
+    // over ourselves — the confirmation page uses it to prove a guest with no
+    // account is the person who actually paid for this order.
+    const url = new URL(returnUrl);
+    if (paymentIntent?.client_secret) {
+      url.searchParams.set("payment_intent_client_secret", paymentIntent.client_secret);
+    }
+    window.location.href = url.toString();
   }
 
   return (

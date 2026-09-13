@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   name: z.string().min(1).max(200),
@@ -10,6 +11,13 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const allowed = await checkRateLimit(
+    `register:${clientIp(request)}`,
+    5,
+    60 * 60 * 1000
+  );
+  if (!allowed) return tooManyRequests();
+
   const parsed = registerSchema.safeParse(await request.json());
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });

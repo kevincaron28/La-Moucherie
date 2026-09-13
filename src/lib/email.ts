@@ -1,0 +1,191 @@
+import { Resend } from "resend";
+import { formatPrice } from "@/lib/format";
+
+// Everything here degrades to a log line when RESEND_API_KEY is unset, so local
+// dev and the first production deploys work before email is configured. A
+// failed send never throws into the caller either: losing a notification must
+// not fail a payment webhook or a contact form submission.
+const apiKey = process.env.RESEND_API_KEY;
+const resend = apiKey ? new Resend(apiKey) : null;
+
+const FROM = process.env.EMAIL_FROM ?? "La Moucherie <onboarding@resend.dev>";
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
+
+export function siteUrl() {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://lamoucherie.ca").replace(
+    /\/$/,
+    ""
+  );
+}
+
+type SendArgs = {
+  to: string;
+  subject: string;
+  html: string;
+};
+
+async function send({ to, subject, html }: SendArgs) {
+  if (!resend) {
+    console.info(`[email:not-configured] would send "${subject}" to ${to}`);
+    return;
+  }
+  try {
+    const { error } = await resend.emails.send({ from: FROM, to, subject, html });
+    if (error) console.error("[email:failed]", subject, error);
+  } catch (err) {
+    console.error("[email:threw]", subject, err);
+  }
+}
+
+function layout(bodyHtml: string) {
+  return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;color:#241f18">
+    <div style="background:#1f3327;color:#f4ead2;padding:20px 24px;border-radius:12px 12px 0 0">
+      <div style="font-size:20px;font-weight:600">La Moucherie</div>
+      <div style="font-size:13px;opacity:.75">Mouches artisanales du Québec</div>
+    </div>
+    <div style="border:1px solid #e6ded0;border-top:none;border-radius:0 0 12px 12px;padding:24px">
+      ${bodyHtml}
+    </div>
+  </div>`;
+}
+
+type OrderEmailData = {
+  id: string;
+  email: string;
+  customerName: string;
+  locale: string;
+  currency: string;
+  amountTotalCents: number;
+  shippingLine1: string;
+  shippingLine2: string | null;
+  shippingCity: string;
+  shippingProvince: string;
+  shippingPostalCode: string;
+  items: {
+    nameSnapshotFr: string;
+    nameSnapshotEn: string;
+    quantity: number;
+    unitPriceCents: number;
+  }[];
+};
+
+export async function sendOrderConfirmation(order: OrderEmailData) {
+  const fr = order.locale === "fr";
+  const locale = fr ? "fr" : "en";
+
+  const rows = order.items
+    .map((item) => {
+      const name = fr ? item.nameSnapshotFr : item.nameSnapshotEn;
+      const line = formatPrice(item.unitPriceCents * item.quantity, locale, order.currency);
+      return `<tr>
+        <td style="padding:6px 0">${name} &times; ${item.quantity}</td>
+        <td style="padding:6px 0;text-align:right">${line}</td>
+      </tr>`;
+    })
+    .join("");
+
+  const total = formatPrice(order.amountTotalCents, locale, order.currency);
+  const address = [
+    order.shippingLine1,
+    order.shippingLine2,
+    `${order.shippingCity}, ${order.shippingProvince} ${order.shippingPostalCode}`,
+  ]
+    .filter(Boolean)
+    .join("<br>");
+
+  const html = layout(
+    fr
+      ? `<p>Bonjour ${order.customerName},</p>
+         <p>Merci pour votre commande ! Nous la préparons à la main et elle sera expédiée sous 2 à 5 jours ouvrables.</p>
+         <p style="font-size:13px;color:#6b6357">Commande <strong>${order.id}</strong></p>
+         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}
+           <tr><td style="border-top:1px solid #e6ded0;padding-top:10px;font-weight:600">Total</td>
+           <td style="border-top:1px solid #e6ded0;padding-top:10px;text-align:right;font-weight:600">${total}</td></tr>
+         </table>
+         <p style="font-size:14px"><strong>Adresse de livraison</strong><br>${address}</p>
+         <p style="font-size:13px;color:#6b6357">Des questions ? Répondez simplement à ce courriel.</p>`
+      : `<p>Hi ${order.customerName},</p>
+         <p>Thanks for your order! We're tying it up by hand and it ships within 2–5 business days.</p>
+         <p style="font-size:13px;color:#6b6357">Order <strong>${order.id}</strong></p>
+         <table style="width:100%;border-collapse:collapse;margin:16px 0">${rows}
+           <tr><td style="border-top:1px solid #e6ded0;padding-top:10px;font-weight:600">Total</td>
+           <td style="border-top:1px solid #e6ded0;padding-top:10px;text-align:right;font-weight:600">${total}</td></tr>
+         </table>
+         <p style="font-size:14px"><strong>Shipping to</strong><br>${address}</p>
+         <p style="font-size:13px;color:#6b6357">Questions? Just reply to this email.</p>`
+  );
+
+  await send({
+    to: order.email,
+    subject: fr
+      ? `Votre commande La Moucherie — ${order.id}`
+      : `Your La Moucherie order — ${order.id}`,
+    html,
+  });
+}
+
+export async function sendOrderNotificationToOwner(order: OrderEmailData) {
+  if (!OWNER_EMAIL) return;
+  const items = order.items
+    .map((i) => `${i.nameSnapshotFr} × ${i.quantity}`)
+    .join("<br>");
+  await send({
+    to: OWNER_EMAIL,
+    subject: `Nouvelle commande — ${formatPrice(order.amountTotalCents, "fr", order.currency)}`,
+    html: layout(
+      `<p><strong>Nouvelle commande payée.</strong></p>
+       <p>${order.customerName} &lt;${order.email}&gt;<br>Commande ${order.id}</p>
+       <p>${items}</p>
+       <p>${order.shippingLine1}${order.shippingLine2 ? "<br>" + order.shippingLine2 : ""}<br>
+          ${order.shippingCity}, ${order.shippingProvince} ${order.shippingPostalCode}</p>`
+    ),
+  });
+}
+
+export async function sendContactNotification(message: {
+  name: string;
+  email: string;
+  message: string;
+}) {
+  if (!OWNER_EMAIL) return;
+  const escaped = message.message
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>");
+  await send({
+    to: OWNER_EMAIL,
+    subject: `Message du site — ${message.name}`,
+    html: layout(
+      `<p><strong>${message.name}</strong> &lt;${message.email}&gt;</p>
+       <p>${escaped}</p>
+       <p style="font-size:13px;color:#6b6357">Répondez directement à ${message.email}.</p>`
+    ),
+  });
+}
+
+export async function sendPasswordReset(args: {
+  to: string;
+  name: string;
+  token: string;
+  locale: string;
+}) {
+  const fr = args.locale === "fr";
+  const url = `${siteUrl()}/${fr ? "fr" : "en"}/account/reset?token=${args.token}`;
+  const html = layout(
+    fr
+      ? `<p>Bonjour ${args.name},</p>
+         <p>Vous avez demandé à réinitialiser votre mot de passe. Ce lien est valide une heure et ne peut être utilisé qu'une seule fois.</p>
+         <p><a href="${url}" style="display:inline-block;background:#a8461f;color:#f4ead2;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Choisir un nouveau mot de passe</a></p>
+         <p style="font-size:13px;color:#6b6357">Si vous n'avez rien demandé, ignorez ce courriel — votre mot de passe reste inchangé.</p>`
+      : `<p>Hi ${args.name},</p>
+         <p>You asked to reset your password. This link is valid for one hour and can only be used once.</p>
+         <p><a href="${url}" style="display:inline-block;background:#a8461f;color:#f4ead2;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Choose a new password</a></p>
+         <p style="font-size:13px;color:#6b6357">If you didn't request this, ignore this email — your password stays unchanged.</p>`
+  );
+  await send({
+    to: args.to,
+    subject: fr ? "Réinitialiser votre mot de passe" : "Reset your password",
+    html,
+  });
+}

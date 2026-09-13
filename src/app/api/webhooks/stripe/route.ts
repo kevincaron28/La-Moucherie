@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { sendOrderConfirmation, sendOrderNotificationToOwner } from "@/lib/email";
 
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
@@ -35,7 +36,18 @@ export async function POST(request: Request) {
 }
 
 async function fulfillOrder(paymentIntentId: string) {
-  await prisma.$transaction(async (tx) => {
+  const justPaid = await markPaidAndDrawDownStock(paymentIntentId);
+  if (!justPaid) return;
+
+  // Outside the transaction: email is slow and failure-prone, and must never
+  // roll back a payment that already succeeded. Both calls swallow their own
+  // errors, so a mail outage costs a notification, not an order.
+  await sendOrderConfirmation(justPaid);
+  await sendOrderNotificationToOwner(justPaid);
+}
+
+async function markPaidAndDrawDownStock(paymentIntentId: string) {
+  return prisma.$transaction(async (tx) => {
     const order = await tx.order.findUnique({
       where: { stripePaymentIntentId: paymentIntentId },
       include: { items: true },
@@ -46,7 +58,7 @@ async function fulfillOrder(paymentIntentId: string) {
     // moved past PENDING has had its stock counted and must not be counted
     // twice — including orders since marked FULFILLED/REFUNDED.
     if (!order || order.status !== "PENDING") {
-      return;
+      return null;
     }
 
     for (const item of order.items) {
@@ -69,5 +81,7 @@ async function fulfillOrder(paymentIntentId: string) {
       where: { id: order.id },
       data: { status: "PAID" },
     });
+
+    return order;
   });
 }
