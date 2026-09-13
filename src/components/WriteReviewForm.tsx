@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { StarRatingInput } from "@/components/StarRating";
+import type { ReviewEligibility } from "@/lib/review-eligibility";
 
-export function WriteReviewForm({ productId }: { productId: string }) {
+export function WriteReviewForm({
+  productId,
+  eligibility,
+}: {
+  productId: string;
+  eligibility: ReviewEligibility;
+}) {
   const t = useTranslations("Reviews");
   const locale = useLocale();
 
@@ -12,13 +20,7 @@ export function WriteReviewForm({ productId }: { productId: string }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
     "idle"
   );
-  const [form, setForm] = useState({
-    customerName: "",
-    email: "",
-    rating: 0,
-    title: "",
-    body: "",
-  });
+  const [form, setForm] = useState({ rating: 0, title: "", body: "" });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,10 +34,36 @@ export function WriteReviewForm({ productId }: { productId: string }) {
       });
       if (!res.ok) throw new Error();
       setStatus("success");
-      setForm({ customerName: "", email: "", rating: 0, title: "", body: "" });
+      setForm({ rating: 0, title: "", body: "" });
     } catch {
       setStatus("error");
     }
+  }
+
+  if (eligibility === "signed_out") {
+    return (
+      <p className="text-sm text-ink/60">
+        {t("signInToReview")}{" "}
+        <Link
+          href="/account/login"
+          className="font-medium text-rust underline underline-offset-2 hover:text-rust-dark"
+        >
+          {t("signIn")}
+        </Link>
+      </p>
+    );
+  }
+
+  if (eligibility === "not_a_purchaser") {
+    return <p className="text-sm text-ink/60">{t("onlyBuyers")}</p>;
+  }
+
+  if (eligibility === "already_reviewed" || status === "success") {
+    return (
+      <p className="text-sm font-medium text-forest">
+        {status === "success" ? t("success") : t("alreadyReviewed")}
+      </p>
+    );
   }
 
   if (!open) {
@@ -48,10 +76,6 @@ export function WriteReviewForm({ productId }: { productId: string }) {
         {t("writeReview")}
       </button>
     );
-  }
-
-  if (status === "success") {
-    return <p className="text-sm font-medium text-forest">{t("success")}</p>;
   }
 
   return (
@@ -78,29 +102,6 @@ export function WriteReviewForm({ productId }: { productId: string }) {
             onChange={(rating) => setForm((f) => ({ ...f, rating }))}
           />
         </div>
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-forest">{t("yourName")}</label>
-        <input
-          type="text"
-          required
-          value={form.customerName}
-          onChange={(e) => setForm((f) => ({ ...f, customerName: e.target.value }))}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-forest">{t("yourEmail")}</label>
-        <input
-          type="email"
-          required
-          value={form.email}
-          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-        />
-        <p className="mt-1 text-xs text-ink/50">{t("emailHint")}</p>
       </div>
 
       <div>

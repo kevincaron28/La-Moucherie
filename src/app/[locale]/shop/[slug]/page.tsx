@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { ProductDetail } from "@/components/ProductDetail";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { getReviewEligibility } from "@/lib/review-eligibility";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 
@@ -32,6 +33,7 @@ export default async function ProductPage({
     reviews.length > 0
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
+  const eligibility = await getReviewEligibility(product.id);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -48,7 +50,12 @@ export default async function ProductPage({
           averageRating={averageRating}
         />
       </div>
-      <ReviewsSection productId={product.id} reviews={reviews} locale={locale} />
+      <ReviewsSection
+        productId={product.id}
+        reviews={reviews}
+        locale={locale}
+        eligibility={eligibility}
+      />
     </div>
   );
 }

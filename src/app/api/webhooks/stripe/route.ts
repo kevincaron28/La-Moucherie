@@ -41,15 +41,27 @@ async function fulfillOrder(paymentIntentId: string) {
       include: { items: true },
     });
 
-    if (!order || order.status === "PAID") {
+    // Only a still-unfulfilled order draws down stock. Stripe retries failed
+    // deliveries (and the dashboard can resend by hand), so anything already
+    // moved past PENDING has had its stock counted and must not be counted
+    // twice — including orders since marked FULFILLED/REFUNDED.
+    if (!order || order.status !== "PENDING") {
       return;
     }
 
     for (const item of order.items) {
       if (!item.variantId) continue;
+      // Floor at zero: if the same last unit sold twice in the window between
+      // checkout and payment confirmation, oversell it rather than record a
+      // negative stock count that breaks the "out of stock" logic everywhere.
+      const variant = await tx.productVariant.findUnique({
+        where: { id: item.variantId },
+        select: { stock: true },
+      });
+      if (!variant) continue;
       await tx.productVariant.update({
         where: { id: item.variantId },
-        data: { stock: { decrement: item.quantity } },
+        data: { stock: Math.max(0, variant.stock - item.quantity) },
       });
     }
 

@@ -2,16 +2,19 @@ import { useTranslations } from "next-intl";
 import type { Review } from "@prisma/client";
 import { StarRating } from "@/components/StarRating";
 import { WriteReviewForm } from "@/components/WriteReviewForm";
+import type { ReviewEligibility } from "@/lib/review-eligibility";
 import type { Locale } from "@/i18n/routing";
 
 export function ReviewsSection({
   productId,
   reviews,
   locale,
+  eligibility,
 }: {
   productId: string;
   reviews: Review[];
   locale: Locale;
+  eligibility: ReviewEligibility;
 }) {
   const t = useTranslations("Reviews");
   const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
@@ -40,7 +43,9 @@ export function ReviewsSection({
       </div>
 
       {reviews.length === 0 ? (
-        <p className="mt-4 text-ink/60">{t("empty")}</p>
+        <p className="mt-4 text-ink/60">
+          {eligibility === "can_review" ? t("emptyCanReview") : t("empty")}
+        </p>
       ) : (
         <ul className="mt-6 space-y-6">
           {reviews.map((review) => (
@@ -66,7 +71,7 @@ export function ReviewsSection({
       )}
 
       <div className="mt-8">
-        <WriteReviewForm productId={productId} />
+        <WriteReviewForm productId={productId} eligibility={eligibility} />
       </div>
     </section>
   );

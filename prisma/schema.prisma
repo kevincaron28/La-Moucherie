@@ -59,6 +59,10 @@ model Review {
   id               String       @id @default(cuid())
   product          Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId        String
+  // Nullable so pre-existing/seeded reviews survive, and so a deleted account
+  // doesn't take its reviews down with it. New reviews always set this.
+  user             User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId           String?
   customerName     String
   email            String
   rating           Int
@@ -70,6 +74,7 @@ model Review {
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
+  @@unique([productId, userId])
   @@index([productId, status])
 }
 
@@ -127,6 +132,7 @@ model User {
   shippingPostalCode String?
   shippingCountry    String?
   orders             Order[]
+  reviews            Review[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }

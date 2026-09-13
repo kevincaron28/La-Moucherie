@@ -1,4 +1,4 @@
-import { PrismaClient, ProductCategory, ReviewStatus } from "@prisma/client";
+import { PrismaClient, ProductCategory } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -164,88 +164,15 @@ async function main() {
   }
   console.log(`Seeded ${products.length} products.`);
 
-  const SEED_REVIEW_DOMAIN = "@seed.la-moucherie.test";
-  await prisma.review.deleteMany({ where: { email: { endsWith: SEED_REVIEW_DOMAIN } } });
-
-  const reviewsBySlug: Record<
-    string,
-    {
-      customerName: string;
-      email: string;
-      rating: number;
-      title: string;
-      body: string;
-      locale: string;
-      verifiedPurchase: boolean;
-      status: ReviewStatus;
-    }[]
-  > = {
-    "woolly-bugger-black": [
-      {
-        customerName: "Marc-Antoine T.",
-        email: `marc-antoine${SEED_REVIEW_DOMAIN}`,
-        rating: 5,
-        title: "Efficace sur la rivière Sainte-Marguerite",
-        body: "Monture solide, les fibres bougent bien dans le courant. J'en ai pris trois belles truites avec la même mouche.",
-        locale: "fr",
-        verifiedPurchase: true,
-        status: ReviewStatus.APPROVED,
-      },
-      {
-        customerName: "Sarah K.",
-        email: `sarah.k${SEED_REVIEW_DOMAIN}`,
-        rating: 4,
-        title: "Great action in the water",
-        body: "Well tied, the marabou has a lot of movement. Shipping was fast too.",
-        locale: "en",
-        verifiedPurchase: true,
-        status: ReviewStatus.APPROVED,
-      },
-      {
-        customerName: "Julien P.",
-        email: `julien.p${SEED_REVIEW_DOMAIN}`,
-        rating: 5,
-        title: "Ma préférée pour l'omble",
-        body: "Toujours dans ma boîte à mouches. Bonne tenue après plusieurs sorties.",
-        locale: "fr",
-        verifiedPurchase: false,
-        status: ReviewStatus.PENDING,
-      },
-    ],
-    "elk-wing-caddis": [
-      {
-        customerName: "Chantal L.",
-        email: `chantal.l${SEED_REVIEW_DOMAIN}`,
-        rating: 5,
-        title: "Flotte parfaitement",
-        body: "Exactement ce qu'il fallait pour l'éclosion du soir. Le poil de wapiti garde bien sa flottaison.",
-        locale: "fr",
-        verifiedPurchase: true,
-        status: ReviewStatus.APPROVED,
-      },
-      {
-        customerName: "David R.",
-        email: `david.r${SEED_REVIEW_DOMAIN}`,
-        rating: 4,
-        title: "Solid classic pattern",
-        body: "Good proportions, held up well over a full weekend on the water.",
-        locale: "en",
-        verifiedPurchase: false,
-        status: ReviewStatus.APPROVED,
-      },
-    ],
-  };
-
-  let reviewCount = 0;
-  for (const [slug, reviews] of Object.entries(reviewsBySlug)) {
-    const product = await prisma.product.findUnique({ where: { slug } });
-    if (!product) continue;
-    for (const review of reviews) {
-      await prisma.review.create({ data: { ...review, productId: product.id } });
-      reviewCount += 1;
-    }
+  // Demo reviews were removed deliberately: seeding invented customer
+  // testimonials onto a live storefront is deceptive advertising. Reviews now
+  // come only from signed-in accounts with a matching paid order.
+  const removed = await prisma.review.deleteMany({
+    where: { email: { endsWith: "@seed.la-moucherie.test" } },
+  });
+  if (removed.count > 0) {
+    console.log(`Removed ${removed.count} leftover demo review(s).`);
   }
-  console.log(`Seeded ${reviewCount} reviews.`);
 }
 
 main()
