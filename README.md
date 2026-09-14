@@ -274,9 +274,17 @@ The price charged uses Canada Post's `due` (tax-inclusive), not `base` — `base
 would lose 5-15% depending on the destination province. The browser's quote is a
 preview only; `create-payment-intent` resolves the rate again server-side.
 
-`GET /api/admin/canada-post-check` (Bearer `CRON_SECRET`) quotes one test parcel
-and reports what came back, so a credential problem reads directly instead of
-being inferred from a checkout that quietly fell back.
+`GET /api/admin/canada-post-check` quotes one test parcel and reports what came
+back, so a credential problem reads directly instead of being inferred from a
+checkout that quietly fell back. It renders a readable page rather than JSON
+because the usual way to reach it is a phone, where a Bearer header isn't
+something you can set; add `?format=json` for curl.
+
+Access is either route in (`src/lib/admin.ts`): signed in with an address in
+`ADMIN_EMAILS` (defaults to `OWNER_EMAIL`), or the `CRON_SECRET` bearer token for
+scripts. Matching on the session's email rather than a role column is deliberate
+— there's one operator, and a permissions system would be machinery without a
+user.
 
 The shipping price is always recomputed on the server from the server's own
 subtotal; the browser only says which method was chosen. `Order.shippingMethod`
