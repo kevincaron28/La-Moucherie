@@ -1,4 +1,7 @@
-import "server-only";
+// Server-side only: this reaches the Canada Post credentials, so it must never
+// be imported from a client component. (Not using the `server-only` package to
+// enforce that — it isn't a declared dependency here, and importing something
+// that isn't installed is a worse failure than the one it guards against.)
 import { cheapestTrackedCents, isValidPostalCode } from "@/lib/canada-post";
 import {
   LETTER_RATE_CENTS,

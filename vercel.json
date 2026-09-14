@@ -2,8 +2,7 @@
   "framework": "nextjs",
   "git": {
     "deploymentEnabled": {
-      "*": false,
-      "main": true
+      "claude/fly-tying-shop-stripe-jlr7w6": false
     }
   },
   "crons": [
