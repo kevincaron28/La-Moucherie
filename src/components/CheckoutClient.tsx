@@ -15,6 +15,7 @@ import {
   discountCents as computeDiscount,
   eligibleQuantity,
   eligibleSubtotalCents,
+  totalQuantity,
   tierFor,
   nextTier,
 } from "@/lib/discount";
@@ -76,6 +77,16 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   const [form, setForm] = useState<ShippingForm>(emptyForm);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("LETTER");
   const [notes, setNotes] = useState("");
+  // A live Canada Post quote for the tracked option. Stored with the inputs it
+  // was fetched for, so a stale quote is ignored by comparison rather than
+  // cleared from an effect — changing the postal code shouldn't need a render
+  // pass just to forget the previous answer.
+  const [liveRate, setLiveRate] = useState<{
+    key: string;
+    cents: number;
+    source: string;
+    serviceName?: string;
+  } | null>(null);
 
   useEffect(() => {
     if (sessionStatus !== "authenticated") return;
@@ -116,6 +127,9 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
 
   // Curated boxes are already priced as a bundle, so they sit outside the tiers.
   const flyCount = eligibleQuantity(items);
+  // Packaging follows everything in the box, assortments included — a curated
+  // box of twelve still weighs twelve flies even though it skips the tiers.
+  const parcelFlyCount = totalQuantity(items);
   const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
   const tier = tierFor(flyCount);
   const upcoming = nextTier(flyCount);
@@ -123,13 +137,72 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
 
   const freeShipping = isFreeShipping(discountedSubtotal);
   const chosenMethod = effectiveMethod(shippingMethod, discountedSubtotal);
-  const shippingCents = shippingCostCents(
+
+  const quoteKey = `${form.province}:${form.postalCode
+    .trim()
+    .toUpperCase()
+    .replace(/\s/g, "")}:${parcelFlyCount}`;
+
+  // A quote fetched for different inputs is simply not applicable, rather than
+  // something an effect has to clear.
+  const applicableLiveRate =
+    liveRate && liveRate.key === quoteKey && !freeShipping ? liveRate : null;
+
+  const zoneShippingCents = shippingCostCents(
     chosenMethod,
     discountedSubtotal,
     form.province
   );
+  const shippingCents =
+    chosenMethod === "TRACKED" && applicableLiveRate
+      ? applicableLiveRate.cents
+      : zoneShippingCents;
   const total = discountedSubtotal + shippingCents;
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
+
+  const postalReady = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(
+    form.postalCode.trim()
+  );
+
+  useEffect(() => {
+    if (!postalReady || shippingMethod !== "TRACKED" || freeShipping) return;
+    let cancelled = false;
+    // Debounced: the postal code fires this on every keystroke otherwise, and
+    // each miss is an upstream API call.
+    const timer = setTimeout(() => {
+      fetch("/api/shipping/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          method: "TRACKED",
+          province: form.province,
+          postalCode: form.postalCode.trim(),
+          flyCount: Math.max(1, parcelFlyCount),
+          subtotalCents: discountedSubtotal,
+        }),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (!cancelled && data && typeof data.cents === "number") {
+            setLiveRate({ ...data, key: quoteKey });
+          }
+        })
+        .catch(() => {});
+    }, 500);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [
+    postalReady,
+    quoteKey,
+    form.postalCode,
+    form.province,
+    shippingMethod,
+    freeShipping,
+    parcelFlyCount,
+    discountedSubtotal,
+  ]);
 
   const inCart = new Set(items.map((i) => i.variantId));
   const offers = suggestions
@@ -327,7 +400,9 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
                           {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
                         </span>
                         <span className="text-sm font-medium text-forest">
-                          {formatPrice(rateFor(method, form.province), locale)}
+                          {method === "TRACKED" && applicableLiveRate
+                            ? formatPrice(applicableLiveRate.cents, locale)
+                            : formatPrice(rateFor(method, form.province), locale)}
                         </span>
                       </span>
                       <span className="mt-0.5 block text-xs text-ink/60">

@@ -248,11 +248,35 @@ destinations, since Regular Parcel isn't offered everywhere. Each figure is at
 or above what its zone should cost, so nothing here undercharges, but one real
 counter receipt would settle it.
 
-This is deliberately a static table rather than the Canada Post Rating API. The
-API rates parcels only: Lettermail isn't a rated service and doesn't come back
-from it, so live rates would hide the cheapest option on most orders while
-adding a network call to the checkout path. Worth revisiting for label printing
-and tracking numbers, where the manual work is the real cost.
+### Live rates
+
+With `CANADA_POST_API_USERNAME` / `CANADA_POST_API_PASSWORD` set, the tracked
+option is priced from a live Canada Post quote (`src/lib/canada-post.ts`) and the
+zone table becomes the fallback. Without them, nothing changes and the zone table
+is used directly — the shop works either way.
+
+The API rates **parcels only**. Lettermail isn't a rated service and never comes
+back from it, so the letter option keeps its flat price rather than disappearing:
+it's the cheapest way to send a few flies, and replacing it with a parcel quote
+would roughly triple postage on a small order.
+
+Three rules make a network call safe in the checkout path:
+
+- **Fail soft.** Every entry point returns null instead of throwing, and the
+  caller falls back to the zone rate. A Canada Post outage must never block a
+  sale.
+- **Time out at 4s**, so a hanging upstream doesn't hang checkout.
+- **Cache by FSA.** The first three characters of a postal code decide the zone,
+  so quoting by FSA gets many more hits for the same answer. One hour, in
+  memory; a miss costs one API call, never a wrong price.
+
+The price charged uses Canada Post's `due` (tax-inclusive), not `base` — `base`
+would lose 5-15% depending on the destination province. The browser's quote is a
+preview only; `create-payment-intent` resolves the rate again server-side.
+
+`GET /api/admin/canada-post-check` (Bearer `CRON_SECRET`) quotes one test parcel
+and reports what came back, so a credential problem reads directly instead of
+being inferred from a checkout that quietly fell back.
 
 The shipping price is always recomputed on the server from the server's own
 subtotal; the browser only says which method was chosen. `Order.shippingMethod`

@@ -8,11 +8,13 @@ import {
   discountCents as computeDiscount,
   eligibleQuantity,
   eligibleSubtotalCents,
+  totalQuantity,
 } from "@/lib/discount";
+import { resolveShippingRate } from "@/lib/shipping-quote";
 import {
   SHIPPING_METHODS,
   PROVINCES,
-  shippingCostCents,
+  isFreeShipping,
   effectiveMethod,
 } from "@/lib/shipping";
 
@@ -125,7 +127,19 @@ export async function POST(request: Request) {
   // customer actually pays for flies.
   const subtotalCents = amountTotalCents;
   const method = effectiveMethod(shippingMethod, subtotalCents);
-  const shippingCents = shippingCostCents(method, subtotalCents, shipping.province);
+  // Live Canada Post quote where possible, static zone rate when the API is
+  // unreachable. Either way it's decided here, never taken from the browser —
+  // the quote the customer saw is a preview, this is the charge.
+  const shippingCents = isFreeShipping(subtotalCents)
+    ? 0
+    : (
+        await resolveShippingRate(
+          method,
+          shipping.province,
+          shipping.postalCode,
+          totalQuantity(items)
+        )
+      ).cents;
   amountTotalCents += shippingCents;
 
   let paymentIntent;
