@@ -26,15 +26,18 @@ export const PROVINCES = [
 
 export type ProvinceCode = (typeof PROVINCES)[number]["code"];
 
-export type ShippingZone = "QC" | "EAST" | "WEST" | "NORTH";
+export type ShippingZone = "QC" | "ONTARIO" | "ATLANTIC" | "WEST" | "NORTH";
 
+// Ontario is its own zone rather than lumped with the Atlantic provinces: the
+// rates differ by ~45% across that span, and billing the whole zone at the
+// Newfoundland rate would overcharge every Ontario customer by a third.
 const ZONE_BY_PROVINCE: Record<ProvinceCode, ShippingZone> = {
   QC: "QC",
-  ON: "EAST",
-  NB: "EAST",
-  NS: "EAST",
-  PE: "EAST",
-  NL: "EAST",
+  ON: "ONTARIO",
+  NB: "ATLANTIC",
+  NS: "ATLANTIC",
+  PE: "ATLANTIC",
+  NL: "ATLANTIC",
   MB: "WEST",
   SK: "WEST",
   AB: "WEST",
@@ -49,18 +52,29 @@ const ZONE_BY_PROVINCE: Record<ProvinceCode, ShippingZone> = {
 // can't quote it — the API rates parcels, and Lettermail isn't one.)
 export const LETTER_RATE_CENTS = 350;
 
-// Tracked parcel DOES vary by distance. These are estimates for a sub-500 g
-// Regular Parcel from J0L 2N0, padded for packaging.
+// Tracked parcel varies by distance. Each zone is billed at the WORST case
+// inside it — the furthest destination quoted — because a zone rate set from
+// its cheapest city quietly loses money on every order to its far edge.
 //
-// VERIFY BEFORE LAUNCH: quote one real parcel per zone at canadapost.ca (or at
-// the counter) and replace these. Four lookups from J0L 2N0, 500 g, 20x15x5 cm:
-// a Montréal address, a Toronto or Halifax address, a Vancouver address, and a
-// Whitehorse address. Everything else on the site follows from this table.
+// Figures are tax-inclusive. Canada Post quotes before tax but charges it at
+// the counter, so a pre-tax rate here would lose ~13-15% on every parcel.
+//
+// Source: Canada Post Find a Rate, Regular Parcel, 500 g, 20x15x5 cm from
+// J0L 2N0, September 2026 prices.
+//
+// STILL WORTH ONE SANITY CHECK: the source quotes put Toronto cheaper than
+// Montréal and Whitehorse cheaper than Vancouver, which no distance-zoned
+// carrier does. The likely cause is Find a Rate returning a different service
+// for some destinations (Regular Parcel isn't offered everywhere). It doesn't
+// make these numbers unusable — each is at or above what that zone should
+// cost — but the QC rate sitting above Ontario is the visible symptom, and one
+// counter receipt would settle it.
 export const TRACKED_RATE_BY_ZONE_CENTS: Record<ShippingZone, number> = {
-  QC: 1150,
-  EAST: 1450,
-  WEST: 1850,
-  NORTH: 2700,
+  QC: 2639, // Gaspé, the far edge of the province
+  ONTARIO: 2216, // Toronto
+  ATLANTIC: 3214, // St. John's, the dearest quote of the set
+  WEST: 2864, // Vancouver
+  NORTH: 2904, // Iqaluit
 };
 
 export function zoneForProvince(province: string): ShippingZone {
@@ -88,7 +102,11 @@ export function rateFor(method: ShippingMethod, province: string): number {
 // value where the margin already covers the parcel. It applies to the tracked
 // rate: giving away the untracked one saves the customer little and teaches
 // nothing.
-export const FREE_SHIPPING_THRESHOLD_CENTS = 7500;
+//
+// Raised from $75 once real rates came in. At $75 a free Atlantic parcel costs
+// $32.14 — some 43% of the order, more than the flies are likely to make. $100
+// keeps the giveaway under a third of the order even in the dearest zone.
+export const FREE_SHIPPING_THRESHOLD_CENTS = 10000;
 
 export function isFreeShipping(subtotalCents: number): boolean {
   return subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS;

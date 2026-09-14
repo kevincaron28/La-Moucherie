@@ -227,16 +227,26 @@ teaches nothing.
 
 Lettermail is priced by format and weight only, never by distance, so one number
 covers the country. Parcels do vary by distance, so `TRACKED_RATE_BY_ZONE_CENTS`
-holds a rate per zone (QC / east / west / north) measured from
-`ORIGIN_POSTAL_CODE`. The destination province is therefore a fixed list rather
+holds a rate per zone (QC / Ontario / Atlantic / west / north) measured from
+`ORIGIN_POSTAL_CODE`. Each zone bills at the **worst case inside it** — a rate
+set from a zone's cheapest city loses money on every order to its far edge.
+
+Ontario is its own zone rather than part of an "east" bucket: Toronto and
+St. John's differ by about 45%, and one shared rate would overcharge every
+Ontario customer by a third.
+
+Rates are stored **tax-inclusive**. Canada Post quotes before tax but charges it
+at the counter, so a pre-tax figure here would lose 13-15% on every parcel. The destination province is therefore a fixed list rather
 than free text — an unrecognised value would silently pick a rate — and an
 unknown one bills the highest zone, since guessing cheap means eating the
 difference on every such order.
 
-**Verify the zone rates before launch.** They're informed estimates, not quotes.
-Four lookups at canadapost.ca from the origin postal code (500 g, 20×15×5 cm) —
-Montréal, Toronto or Halifax, Vancouver, Whitehorse — replace the four numbers,
-and the checkout, totals and policy page all follow.
+**One sanity check still outstanding.** The quotes these came from put Toronto
+below Montréal and Whitehorse below Vancouver, which no distance-zoned carrier
+does — most likely Find a Rate returned a different service for some
+destinations, since Regular Parcel isn't offered everywhere. Each figure is at
+or above what its zone should cost, so nothing here undercharges, but one real
+counter receipt would settle it.
 
 This is deliberately a static table rather than the Canada Post Rating API. The
 API rates parcels only: Lettermail isn't a rated service and doesn't come back
