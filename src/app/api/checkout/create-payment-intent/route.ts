@@ -7,6 +7,7 @@ import { CURRENCY } from "@/lib/constants";
 import { discountCents as computeDiscount, totalQuantity } from "@/lib/discount";
 import {
   SHIPPING_METHODS,
+  PROVINCES,
   shippingCostCents,
   effectiveMethod,
 } from "@/lib/shipping";
@@ -26,7 +27,9 @@ const checkoutSchema = z.object({
     line1: z.string().min(1).max(200),
     line2: z.string().max(200).optional(),
     city: z.string().min(1).max(120),
-    province: z.string().min(1).max(120),
+    // A known province code, not free text: the shipping zone is derived from
+    // it, so an unrecognised value would silently pick a rate.
+    province: z.enum(PROVINCES.map((p) => p.code) as [string, ...string[]]),
     postalCode: z.string().min(1).max(20),
     // Canada only for now — a US address would be charged a domestic rate.
     country: z.literal("CA"),
@@ -107,7 +110,7 @@ export async function POST(request: Request) {
   // customer actually pays for flies.
   const subtotalCents = amountTotalCents;
   const method = effectiveMethod(shippingMethod, subtotalCents);
-  const shippingCents = shippingCostCents(method, subtotalCents);
+  const shippingCents = shippingCostCents(method, subtotalCents, shipping.province);
   amountTotalCents += shippingCents;
 
   let paymentIntent;

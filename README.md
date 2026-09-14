@@ -177,6 +177,25 @@ parcel. Orders at or above `FREE_SHIPPING_THRESHOLD_CENTS` ship free and always
 tracked — giving away the untracked rate saves the customer very little and
 teaches nothing.
 
+Lettermail is priced by format and weight only, never by distance, so one number
+covers the country. Parcels do vary by distance, so `TRACKED_RATE_BY_ZONE_CENTS`
+holds a rate per zone (QC / east / west / north) measured from
+`ORIGIN_POSTAL_CODE`. The destination province is therefore a fixed list rather
+than free text — an unrecognised value would silently pick a rate — and an
+unknown one bills the highest zone, since guessing cheap means eating the
+difference on every such order.
+
+**Verify the zone rates before launch.** They're informed estimates, not quotes.
+Four lookups at canadapost.ca from the origin postal code (500 g, 20×15×5 cm) —
+Montréal, Toronto or Halifax, Vancouver, Whitehorse — replace the four numbers,
+and the checkout, totals and policy page all follow.
+
+This is deliberately a static table rather than the Canada Post Rating API. The
+API rates parcels only: Lettermail isn't a rated service and doesn't come back
+from it, so live rates would hide the cheapest option on most orders while
+adding a network call to the checkout path. Worth revisiting for label printing
+and tracking numbers, where the manual work is the real cost.
+
 The shipping price is always recomputed on the server from the server's own
 subtotal; the browser only says which method was chosen. `Order.shippingMethod`
 and `Order.shippingCents` record what was actually charged, so a past order still

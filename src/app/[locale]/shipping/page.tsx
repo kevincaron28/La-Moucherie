@@ -1,7 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { formatPrice } from "@/lib/format";
 import {
-  SHIPPING_RATES_CENTS,
+  LETTER_RATE_CENTS,
+  TRACKED_RATE_BY_ZONE_CENTS,
   FREE_SHIPPING_THRESHOLD_CENTS,
 } from "@/lib/shipping";
 import type { Locale } from "@/i18n/routing";
@@ -17,8 +18,12 @@ export default async function ShippingPage({
 
   // Prices come from the same module the checkout charges from, so this page
   // can't drift out of date the way copied-in numbers would.
-  const letter = formatPrice(SHIPPING_RATES_CENTS.LETTER, locale);
-  const tracked = formatPrice(SHIPPING_RATES_CENTS.TRACKED, locale);
+  const letter = formatPrice(LETTER_RATE_CENTS, locale);
+  const rates = Object.values(TRACKED_RATE_BY_ZONE_CENTS);
+  const tracked = `${formatPrice(Math.min(...rates), locale)} – ${formatPrice(
+    Math.max(...rates),
+    locale
+  )}`;
   const threshold = formatPrice(FREE_SHIPPING_THRESHOLD_CENTS, locale);
 
   return (
@@ -43,6 +48,7 @@ export default async function ShippingPage({
             <span>{tracked}</span>
           </dt>
           <dd className="mt-1 text-sm text-ink/70">{t("trackedBody")}</dd>
+          <dd className="mt-1 text-xs text-ink/55">{t("trackedZoneNote")}</dd>
         </div>
       </dl>
       <p className="mt-4 text-sm text-ink/75">{t("freeNote", { amount: threshold })}</p>

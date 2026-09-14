@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { PROVINCES } from "@/lib/shipping";
 
 type ProfileData = {
   shippingLine1: string;
@@ -14,6 +15,7 @@ type ProfileData = {
 
 export function AccountProfileForm({ initial }: { initial: ProfileData }) {
   const t = useTranslations("Account");
+  const locale = useLocale();
   const [form, setForm] = useState(initial);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
@@ -70,12 +72,18 @@ export function AccountProfileForm({ initial }: { initial: ProfileData }) {
         </div>
         <div>
           <label className="text-sm font-medium text-forest">{t("province")}</label>
-          <input
-            type="text"
+          <select
             value={form.shippingProvince}
             onChange={(e) => update("shippingProvince", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
-          />
+            className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          >
+            <option value="">—</option>
+            {PROVINCES.map((p) => (
+              <option key={p.code} value={p.code}>
+                {locale === "fr" ? p.nameFr : p.nameEn}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3">

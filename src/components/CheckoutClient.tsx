@@ -18,7 +18,9 @@ import {
   nextTier,
 } from "@/lib/discount";
 import {
-  SHIPPING_RATES_CENTS,
+  PROVINCES,
+  isProvinceCode,
+  rateFor,
   FREE_SHIPPING_THRESHOLD_CENTS,
   shippingCostCents,
   effectiveMethod,
@@ -44,7 +46,7 @@ const emptyForm: ShippingForm = {
   line1: "",
   line2: "",
   city: "",
-  province: "",
+  province: "QC",
   postalCode: "",
   country: "CA",
 };
@@ -75,7 +77,12 @@ export function CheckoutClient() {
           line1: f.line1 || profile.shippingLine1 || "",
           line2: f.line2 || profile.shippingLine2 || "",
           city: f.city || profile.shippingCity || "",
-          province: f.province || profile.shippingProvince || "",
+          // Addresses saved before provinces became a fixed list may hold free
+          // text ("Québec"), which no option matches — keep the default instead
+          // of leaving the select showing something the form can't submit.
+          province: isProvinceCode(profile.shippingProvince)
+            ? profile.shippingProvince
+            : f.province,
           postalCode: f.postalCode || profile.shippingPostalCode || "",
           country: profile.shippingCountry || f.country,
         }));
@@ -100,7 +107,11 @@ export function CheckoutClient() {
 
   const freeShipping = isFreeShipping(discountedSubtotal);
   const chosenMethod = effectiveMethod(shippingMethod, discountedSubtotal);
-  const shippingCents = shippingCostCents(chosenMethod, discountedSubtotal);
+  const shippingCents = shippingCostCents(
+    chosenMethod,
+    discountedSubtotal,
+    form.province
+  );
   const total = discountedSubtotal + shippingCents;
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
 
@@ -218,12 +229,23 @@ export function CheckoutClient() {
                   onChange={(v) => update("city", v)}
                   required
                 />
-                <Field
-                  label={t("province")}
-                  value={form.province}
-                  onChange={(v) => update("province", v)}
-                  required
-                />
+                <div>
+                  <label className="text-sm font-medium text-forest">
+                    {t("province")}
+                  </label>
+                  <select
+                    value={form.province}
+                    onChange={(e) => update("province", e.target.value)}
+                    required
+                    className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+                  >
+                    {PROVINCES.map((p) => (
+                      <option key={p.code} value={p.code}>
+                        {locale === "fr" ? p.nameFr : p.nameEn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Field
@@ -279,7 +301,7 @@ export function CheckoutClient() {
                           {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
                         </span>
                         <span className="text-sm font-medium text-forest">
-                          {formatPrice(SHIPPING_RATES_CENTS[method], locale)}
+                          {formatPrice(rateFor(method, form.province), locale)}
                         </span>
                       </span>
                       <span className="mt-0.5 block text-xs text-ink/60">

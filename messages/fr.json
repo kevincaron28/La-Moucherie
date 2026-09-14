@@ -265,6 +265,7 @@
     "trackedBody": "Colis de Postes Canada suivi de notre étau jusqu'à votre porte, avec confirmation de livraison.",
     "freeNote": "Les commandes de {amount} et plus sont livrées gratuitement, avec suivi.",
     "returnsTitle": "Retours",
-    "returnsBody": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées — mais dites-le-nous quand même si l'une d'elles s'est défaite, c'est le genre de chose que nous voulons savoir."
+    "returnsBody": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées — mais dites-le-nous quand même si l'une d'elles s'est défaite, c'est le genre de chose que nous voulons savoir.",
+    "trackedZoneNote": "Le tarif du colis dépend de la destination; votre coût exact s'affiche au paiement une fois votre province choisie."
   }
 }

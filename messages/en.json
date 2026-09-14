@@ -265,6 +265,7 @@
     "trackedBody": "Canada Post parcel with tracking from our bench to your door, and a delivery confirmation.",
     "freeNote": "Orders of {amount} or more ship free, tracked.",
     "returnsTitle": "Returns",
-    "returnsBody": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have been fished can't be returned — but tell us anyway if one came apart, because that's something we want to know about."
+    "returnsBody": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have been fished can't be returned — but tell us anyway if one came apart, because that's something we want to know about.",
+    "trackedZoneNote": "The parcel rate depends on where it's going; your exact cost appears at checkout once you pick your province."
   }
 }

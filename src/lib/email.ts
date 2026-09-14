@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { packagingFor, ORIGIN_POSTAL_CODE } from "@/lib/shipping";
 import { formatPrice } from "@/lib/format";
 
 // Everything here degrades to a log line when RESEND_API_KEY is unset, so local
@@ -189,7 +190,28 @@ export async function sendOrderNotificationToOwner(order: OrderEmailData) {
     : "";
 
   const shippingLabel =
-    order.shippingMethod === "LETTER" ? "Poste-lettre (sans suivi)" : "Colis avec suivi";
+    order.shippingMethod === "LETTER"
+      ? "Poste-lettre (Lettermail) — sans suivi"
+      : "Colis régulier (Regular Parcel) — avec suivi";
+
+  const pack = packagingFor(flyCount, order.shippingMethod === "LETTER" ? "LETTER" : "TRACKED");
+  const shippingPaid =
+    order.shippingCents === 0
+      ? "Livraison offerte"
+      : formatPrice(order.shippingCents, "fr", order.currency);
+
+  // Canada Post's addressing standard: uppercase, no punctuation, municipality
+  // and province and postal code on the last line. Written out ready to copy
+  // onto a label rather than transcribed at the counter.
+  const addressBlock = [
+    order.customerName,
+    order.shippingLine1,
+    order.shippingLine2,
+    `${order.shippingCity} ${order.shippingProvince}  ${order.shippingPostalCode}`,
+  ]
+    .filter(Boolean)
+    .map((line) => escapeHtml(String(line).toUpperCase().replace(/,/g, "")))
+    .join("\n");
 
   await send({
     to: OWNER_EMAIL,
@@ -204,13 +226,33 @@ export async function sendOrderNotificationToOwner(order: OrderEmailData) {
 
        ${notesBlock}
 
-       <h3 style="margin:18px 0 8px">Expédition — ${shippingLabel}</h3>
-       <p style="margin:0">
-         ${escapeHtml(order.customerName)}<br>
-         ${escapeHtml(order.shippingLine1)}${order.shippingLine2 ? "<br>" + escapeHtml(order.shippingLine2) : ""}<br>
-         ${escapeHtml(order.shippingCity)}, ${escapeHtml(order.shippingProvince)} ${escapeHtml(order.shippingPostalCode)}
-       </p>
-       <p style="font-size:13px;color:#6b6357">${escapeHtml(order.email)}</p>`
+       <h3 style="margin:18px 0 8px">Au comptoir de Postes Canada</h3>
+       <table style="width:100%;border-collapse:collapse;font-size:14px">
+         <tr>
+           <td style="padding:4px 0;color:#6b6357;width:42%">Service à demander</td>
+           <td style="padding:4px 0"><strong>${shippingLabel}</strong></td>
+         </tr>
+         <tr>
+           <td style="padding:4px 0;color:#6b6357">Emballage</td>
+           <td style="padding:4px 0">${pack.labelFr} &mdash; ${pack.dimensionsCm} cm</td>
+         </tr>
+         <tr>
+           <td style="padding:4px 0;color:#6b6357">Poids à déclarer</td>
+           <td style="padding:4px 0">~${pack.weightGrams} g</td>
+         </tr>
+         <tr>
+           <td style="padding:4px 0;color:#6b6357">Expédié depuis</td>
+           <td style="padding:4px 0">${ORIGIN_POSTAL_CODE}</td>
+         </tr>
+         <tr>
+           <td style="padding:4px 0;color:#6b6357">Payé par le client</td>
+           <td style="padding:4px 0">${shippingPaid}</td>
+         </tr>
+       </table>
+
+       <h3 style="margin:18px 0 8px">Adresse (format Postes Canada)</h3>
+       <pre style="margin:0;padding:12px 14px;background:#f4efe4;border:1px solid #e6ded0;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;line-height:1.5;letter-spacing:.02em;white-space:pre-wrap">${addressBlock}</pre>
+       <p style="font-size:13px;color:#6b6357;margin-top:10px">${escapeHtml(order.email)}</p>`
     ),
   });
 }
