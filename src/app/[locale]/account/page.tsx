@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { AccountProfileForm } from "@/components/AccountProfileForm";
 import { AccountDetailsForms } from "@/components/AccountDetailsForms";
 import { VerifyEmailBanner } from "@/components/VerifyEmailBanner";
+import { AccountSection } from "@/components/AccountSection";
 import { SignOutButton } from "@/components/SignOutButton";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
@@ -69,11 +70,12 @@ export default async function AccountPage({
 
       {!user.emailVerified && <VerifyEmailBanner email={user.email} />}
 
-      <section className="mt-10">
-        <h2 className="font-display text-xl font-semibold text-forest">
-          {t("orderHistory")}
-        </h2>
-
+      <div className="mt-8 space-y-3">
+      <AccountSection
+        title={t("orderHistory")}
+        count={orders.length}
+        defaultOpen
+      >
         {orders.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-forest/10 bg-cream/50 p-6 text-center">
             <p className="text-ink/60">{t("noOrders")}</p>
@@ -137,30 +139,29 @@ export default async function AccountPage({
             ))}
           </ul>
         )}
-      </section>
+      </AccountSection>
 
-      <section className="mt-10 max-w-lg">
-        <h2 className="font-display text-xl font-semibold text-forest">
-          {t("accountDetails")}
-        </h2>
-        <p className="mt-1 text-sm text-ink/60">{t("accountDetailsHint")}</p>
-        <AccountDetailsForms initialName={user.name} initialEmail={user.email} />
-      </section>
+      <AccountSection title={t("accountDetails")} hint={t("accountDetailsHint")}>
+        <div className="max-w-lg">
+          <AccountDetailsForms initialName={user.name} initialEmail={user.email} />
+        </div>
+      </AccountSection>
 
-      <section className="mt-10 max-w-lg">
-        <h2 className="font-display text-xl font-semibold text-forest">{t("savedInfo")}</h2>
-        <p className="mt-1 text-sm text-ink/60">{t("savedInfoHint")}</p>
-        <AccountProfileForm
-          initial={{
-            shippingLine1: user.shippingLine1 ?? "",
-            shippingLine2: user.shippingLine2 ?? "",
-            shippingCity: user.shippingCity ?? "",
-            shippingProvince: user.shippingProvince ?? "",
-            shippingPostalCode: user.shippingPostalCode ?? "",
-            shippingCountry: user.shippingCountry ?? "CA",
-          }}
-        />
-      </section>
+      <AccountSection title={t("savedInfo")} hint={t("savedInfoHint")}>
+        <div className="max-w-lg">
+          <AccountProfileForm
+            initial={{
+              shippingLine1: user.shippingLine1 ?? "",
+              shippingLine2: user.shippingLine2 ?? "",
+              shippingCity: user.shippingCity ?? "",
+              shippingProvince: user.shippingProvince ?? "",
+              shippingPostalCode: user.shippingPostalCode ?? "",
+              shippingCountry: user.shippingCountry ?? "CA",
+            }}
+          />
+        </div>
+      </AccountSection>
+      </div>
     </div>
   );
 }
