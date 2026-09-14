@@ -1,10 +1,5 @@
 {
   "framework": "nextjs",
-  "git": {
-    "deploymentEnabled": {
-      "claude/fly-tying-shop-stripe-jlr7w6": false
-    }
-  },
   "crons": [
     {
       "path": "/api/cron/abandoned",
