@@ -86,7 +86,14 @@
     "emailUpdated": "Votre courriel a été mis à jour.",
     "passwordUpdated": "Votre mot de passe a été mis à jour.",
     "wrongPassword": "Ce mot de passe n'est pas valide.",
-    "passwordMismatch": "Les deux mots de passe ne correspondent pas."
+    "passwordMismatch": "Les deux mots de passe ne correspondent pas.",
+    "verifyTitle": "Confirmation de votre courriel",
+    "verifyWorking": "Un instant…",
+    "verifyDone": "Votre courriel est confirmé. Merci !",
+    "verifyFailed": "Ce lien a expiré ou a déjà été utilisé. Connectez-vous et demandez-en un nouveau.",
+    "verifyBanner": "Nous avons envoyé un lien de confirmation à {email}. Le confirmer nous permet de vous joindre au sujet de vos commandes.",
+    "verifyResend": "Renvoyer le lien",
+    "verifyResent": "Envoyé — vérifiez votre boîte de réception."
   },
   "Categories": {
     "ALL": "Toutes les mouches",

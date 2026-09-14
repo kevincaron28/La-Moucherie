@@ -86,7 +86,14 @@
     "emailUpdated": "Your email has been updated.",
     "passwordUpdated": "Your password has been updated.",
     "wrongPassword": "That password isn't correct.",
-    "passwordMismatch": "The two passwords don't match."
+    "passwordMismatch": "The two passwords don't match.",
+    "verifyTitle": "Confirming your email",
+    "verifyWorking": "One moment…",
+    "verifyDone": "Your email is confirmed. Thanks!",
+    "verifyFailed": "This link has expired or was already used. Sign in and request a new one.",
+    "verifyBanner": "We sent a confirmation link to {email}. Confirming it lets us reach you about your orders.",
+    "verifyResend": "Send it again",
+    "verifyResent": "Sent — check your inbox."
   },
   "Categories": {
     "ALL": "All flies",

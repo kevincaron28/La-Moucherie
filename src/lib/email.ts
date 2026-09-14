@@ -304,3 +304,65 @@ export async function sendPasswordReset(args: {
     html,
   });
 }
+
+export async function sendEmailVerification(args: {
+  to: string;
+  name: string;
+  token: string;
+  locale?: string;
+}) {
+  const fr = args.locale !== "en";
+  const url = `${siteUrl()}/${fr ? "fr" : "en"}/account/verify?token=${args.token}`;
+  const html = layout(
+    fr
+      ? `<p>Bonjour ${escapeHtml(args.name)},</p>
+         <p>Bienvenue chez La Moucherie. Confirmez votre adresse courriel pour que nous puissions vous joindre au sujet de vos commandes.</p>
+         <p><a href="${url}" style="display:inline-block;background:#ac4d15;color:#f2e9d5;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Confirmer mon courriel</a></p>
+         <p style="font-size:13px;color:#6b6357">Ce lien est valide 24 heures. Vous pouvez magasiner et commander sans attendre — la confirmation sert seulement à protéger votre compte.</p>`
+      : `<p>Hi ${escapeHtml(args.name)},</p>
+         <p>Welcome to La Moucherie. Confirm your email so we can reach you about your orders.</p>
+         <p><a href="${url}" style="display:inline-block;background:#ac4d15;color:#f2e9d5;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Confirm my email</a></p>
+         <p style="font-size:13px;color:#6b6357">This link is valid for 24 hours. You can browse and order in the meantime — confirming just protects your account.</p>`
+  );
+  await send({
+    to: args.to,
+    subject: fr ? "Confirmez votre courriel" : "Confirm your email",
+    html,
+  });
+}
+
+export async function sendAbandonedCart(args: {
+  to: string;
+  name: string;
+  locale: string;
+  recoveryToken: string;
+  items: { nameFr: string; nameEn: string; variantFr: string; variantEn: string; quantity: number }[];
+}) {
+  const fr = args.locale === "fr";
+  const url = `${siteUrl()}/${fr ? "fr" : "en"}/cart?recover=${args.recoveryToken}`;
+  const lines = args.items
+    .map((i) => {
+      const name = fr ? i.nameFr : i.nameEn;
+      const size = fr ? i.variantFr : i.variantEn;
+      return `<li style="padding:2px 0">${escapeHtml(name)}${size ? ` <span style="color:#6b6357">(${escapeHtml(size)})</span>` : ""} &times; ${i.quantity}</li>`;
+    })
+    .join("");
+  const html = layout(
+    fr
+      ? `<p>Bonjour ${escapeHtml(args.name)},</p>
+         <p>Vous avez laissé quelques mouches derrière vous. Elles vous attendent encore :</p>
+         <ul style="margin:12px 0;padding-left:18px">${lines}</ul>
+         <p><a href="${url}" style="display:inline-block;background:#ac4d15;color:#f2e9d5;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Reprendre ma commande</a></p>
+         <p style="font-size:13px;color:#6b6357">Une question sur un patron ou une taille ? Répondez simplement à ce courriel — c'est moi qui monte les mouches.</p>`
+      : `<p>Hi ${escapeHtml(args.name)},</p>
+         <p>You left a few flies behind. They're still waiting:</p>
+         <ul style="margin:12px 0;padding-left:18px">${lines}</ul>
+         <p><a href="${url}" style="display:inline-block;background:#ac4d15;color:#f2e9d5;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600">Pick up where I left off</a></p>
+         <p style="font-size:13px;color:#6b6357">Question about a pattern or a size? Just reply — I'm the one tying them.</p>`
+  );
+  await send({
+    to: args.to,
+    subject: fr ? "Vos mouches vous attendent" : "Your flies are waiting",
+    html,
+  });
+}

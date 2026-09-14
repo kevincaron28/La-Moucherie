@@ -5,5 +5,11 @@
       "*": false,
       "main": true
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/abandoned",
+      "schedule": "0 * * * *"
+    }
+  ]
 }

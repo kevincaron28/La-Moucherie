@@ -3,6 +3,7 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
+import { issueEmailVerification } from "@/lib/verification";
 
 const registerSchema = z.object({
   name: z.string().min(1).max(200),
@@ -30,7 +31,12 @@ export async function POST(request: Request) {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  await prisma.user.create({ data: { name, email, passwordHash } });
+  const user = await prisma.user.create({ data: { name, email, passwordHash } });
+
+  // Verification is sent but never blocks: an unverified customer can still
+  // browse and check out. Gating the shop on an email that might land in spam
+  // would cost more orders than the fake accounts it prevents.
+  await issueEmailVerification(user);
 
   return NextResponse.json({ ok: true });
 }

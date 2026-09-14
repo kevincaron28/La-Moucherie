@@ -32,6 +32,8 @@ type CartContextValue = {
   removeItem: (variantId: string) => void;
   setQuantity: (variantId: string, quantity: number) => void;
   clear: () => void;
+  /** Merges a recovered basket in, keeping whatever is already in the cart. */
+  mergeItems: (incoming: CartItem[]) => void;
   subtotalCents: number;
   itemCount: number;
 };
@@ -65,6 +67,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // ignore quota/blocked storage errors
     }
   }, [items, hydrated]);
+
+  const mergeItems = useCallback<CartContextValue["mergeItems"]>((incoming) => {
+    setItems((prev) => {
+      const merged = [...prev];
+      for (const item of incoming) {
+        const existing = merged.find((i) => i.variantId === item.variantId);
+        // Take the larger quantity rather than summing: the recovered order and
+        // the current cart usually describe the same intent, and doubling it
+        // would be a nasty surprise at checkout.
+        if (existing) existing.quantity = Math.max(existing.quantity, item.quantity);
+        else merged.push(item);
+      }
+      return merged;
+    });
+  }, []);
 
   const addItem = useCallback<CartContextValue["addItem"]>(
     (item, quantity) => {
@@ -114,10 +131,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeItem,
       setQuantity,
       clear,
+      mergeItems,
       subtotalCents,
       itemCount,
     }),
-    [items, addItem, removeItem, setQuantity, clear, subtotalCents, itemCount]
+    [items, addItem, removeItem, setQuantity, clear, mergeItems, subtotalCents, itemCount]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -4,14 +4,41 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
+import { useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import type { Locale } from "@/i18n/routing";
 
 export default function CartPage() {
+  return (
+    <Suspense fallback={null}>
+      <CartPageContent />
+    </Suspense>
+  );
+}
+
+function CartPageContent() {
   const t = useTranslations("Cart");
   const locale = useLocale() as Locale;
-  const { items, removeItem, setQuantity, subtotalCents } = useCart();
+  const { items, removeItem, setQuantity, subtotalCents, mergeItems } = useCart();
+  const recoverToken = useSearchParams().get("recover");
+
+  // Arriving from an abandoned-cart email: rebuild the basket from the order,
+  // re-priced against today's catalogue rather than the old snapshot.
+  useEffect(() => {
+    if (!recoverToken) return;
+    let cancelled = false;
+    fetch(`/api/cart/recover?token=${encodeURIComponent(recoverToken)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.items?.length) mergeItems(data.items);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [recoverToken, mergeItems]);
 
   if (items.length === 0) {
     return (

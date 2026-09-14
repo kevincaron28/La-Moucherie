@@ -139,6 +139,18 @@ unconfigured. Sends also never throw into their caller, so a mail outage can't f
 payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
 set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
 
+## Assortments
+
+Curated boxes are ordinary products in the `ASSORTMENT` category, so they use the
+same cart, stock and checkout path as a single fly. They lead the shop's category
+list because a box is one decision instead of twelve.
+
+They sit **outside** the per-fly bulk tiers: a bundle is already priced as a
+deal, so counting its flies would discount the same flies twice, and one box
+would drag unrelated singles into a tier they hadn't earned. Price each box below
+what the same flies cost as singles *after* the tier, or it's a worse deal than
+the cart it replaces.
+
 ## Bulk pricing
 
 Quantity tiers live in `src/lib/discount.ts`: 6+ flies 5%, 12+ 10%, 24+ 15%.
@@ -205,6 +217,37 @@ reads correctly after the rates change.
 code before launch — the defaults are informed estimates, not quotes. Canada
 only for now: US parcels cost several times more and need a customs declaration
 per package.
+
+## Abandoned orders
+
+An order sits `PENDING` from the moment checkout starts until Stripe confirms
+payment, so every abandoned checkout leaves one behind. `/api/cron/abandoned`
+runs hourly from `vercel.json` and does two things: emails a recovery link for
+orders past `RECOVERY_DELAY_MS` (4h) that haven't been nudged, and cancels those
+past `CLEANUP_DELAY_MS` (7 days).
+
+Abandoned orders never held stock — inventory is only drawn down when payment
+succeeds — so cancelling one must not add stock back, and the sweep is hygiene
+rather than inventory recovery. Cancel rather than delete, so the record of what
+was attempted survives.
+
+The nudge is stamped **before** sending: a send that throws would otherwise be
+retried every hour, and emailing someone repeatedly is worse than missing one.
+The recovery link carries a random `recoveryToken` rather than the order id, and
+`/api/cart/recover` rebuilds the basket from today's catalogue rather than the
+order snapshot — a retired or sold-out pattern shouldn't reappear in someone's
+cart, and the price should be the current one.
+
+Set `CRON_SECRET` in the environment; the endpoint refuses anything without it,
+since otherwise anyone could trigger a mailing.
+
+## Email verification
+
+Registration issues a 24-hour, single-use, SHA-256-hashed token and emails a
+link, exactly like password reset. It **never blocks**: an unverified customer
+can still browse and check out. Gating the shop on an email that might land in
+spam would cost more orders than the fake accounts it prevents. `/account` shows
+a banner with a resend button until the address is confirmed.
 
 ## Rate limiting
 

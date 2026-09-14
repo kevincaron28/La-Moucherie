@@ -4,6 +4,7 @@ import { redirect, Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import { AccountProfileForm } from "@/components/AccountProfileForm";
 import { AccountDetailsForms } from "@/components/AccountDetailsForms";
+import { VerifyEmailBanner } from "@/components/VerifyEmailBanner";
 import { SignOutButton } from "@/components/SignOutButton";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
@@ -65,6 +66,8 @@ export default async function AccountPage({
         </div>
         <SignOutButton />
       </div>
+
+      {!user.emailVerified && <VerifyEmailBanner email={user.email} />}
 
       <section className="mt-10">
         <h2 className="font-display text-xl font-semibold text-forest">
