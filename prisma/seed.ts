@@ -1,4 +1,11 @@
-import { PrismaClient, ProductCategory } from "@prisma/client";
+import {
+  PrismaClient,
+  ProductCategory,
+  type FishSpecies,
+  type FishingSeason,
+  type WaterType,
+  type Technique,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -20,6 +27,20 @@ type ProductSeed = {
   basePriceCents: number;
   images: string[];
   featured?: boolean;
+  // Angler-facing metadata: how a customer actually picks a fly. Starting
+  // values from general knowledge of these well-known patterns — refine them as
+  // the real lineup is confirmed.
+  species?: FishSpecies[];
+  seasons?: FishingSeason[];
+  waterTypes?: WaterType[];
+  techniques?: Technique[];
+  imitatesFr?: string[];
+  imitatesEn?: string[];
+  howToFishFr?: string;
+  howToFishEn?: string;
+  proTipFr?: string;
+  proTipEn?: string;
+  waters?: string[];
   variants: VariantSeed[];
 };
 
@@ -89,6 +110,21 @@ const products: ProductSeed[] = [
     basePriceCents: 425,
     images: ["/products/placeholder-fly.svg"],
     featured: true,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT", "LANDLOCKED_SALMON"],
+    seasons: ["SPRING", "FALL"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["DEAD_DRIFT", "STRIP", "SWING"],
+    imitatesFr: ["Sangsue", "Œufs de poisson"],
+    imitatesEn: ["Leech", "Fish eggs"],
+    waters: ["riviere-jacques-cartier", "riviere-matapedia"],
+    howToFishFr:
+      "Pêchez-la en dérive naturelle sous un indicateur dans les fosses profondes, ou en tirées lentes le long des bordures. Laissez-la descendre : la touche vient souvent quand la mouche recommence à monter en fin de dérive.",
+    howToFishEn:
+      "Fish it dead-drift under an indicator through deeper pools, or on slow strips along undercut banks. Let it sink: the take often comes as the fly starts to rise at the end of the drift.",
+    proTipFr:
+      "Après le frai, quand l'eau est encore haute et teintée, c'est souvent la première mouche à essayer — l'œuf orange donne un point de mire dans l'eau brouillée.",
+    proTipEn:
+      "After the spawn, with water still high and stained, it's often the first fly to try — that orange egg gives fish something to find in coloured water.",
     variants: [
       { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "ESL-BLK-04", stock: 18 },
       { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "ESL-BLK-06", stock: 24 },
@@ -107,6 +143,21 @@ const products: ProductSeed[] = [
     basePriceCents: 375,
     images: ["/products/placeholder-fly.svg"],
     featured: true,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SPRING", "SUMMER"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["NYMPHING", "DEAD_DRIFT"],
+    imitatesFr: ["Larve de plécoptère", "Nymphe de perle"],
+    imitatesEn: ["Stonefly nymph", "Large naiad"],
+    waters: ["riviere-jacques-cartier"],
+    howToFishFr:
+      "En mouche de tête sur un montage à deux nymphes, pour emmener l'ensemble au fond dans le courant. Visez les veines de courant et le pied des rapides.",
+    howToFishEn:
+      "As the point fly on a two-nymph rig, to carry the whole setup to the bottom in fast water. Work the current seams and the tailouts below rapids.",
+    proTipFr:
+      "Si vous ne touchez pas le fond de temps en temps, vous ne pêchez pas assez creux. Ajoutez du plomb avant de changer de mouche.",
+    proTipEn:
+      "If you're not ticking bottom now and then, you're not deep enough. Add weight before you change the fly.",
     variants: [
       { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "MTS-STD-06", stock: 22 },
       { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "MTS-STD-08", stock: 28 },
@@ -125,6 +176,21 @@ const products: ProductSeed[] = [
     basePriceCents: 350,
     images: ["/products/placeholder-fly.svg"],
     featured: true,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["DEAD_DRIFT", "SKATE"],
+    imitatesFr: ["Trichoptère adulte", "Phrygane"],
+    imitatesEn: ["Adult caddis", "Sedge"],
+    waters: ["riviere-sainte-anne", "riviere-jacques-cartier"],
+    howToFishFr:
+      "En dérive morte dans les veines de courant à l'éclosion du soir. Quand rien ne monte, une petite tirée sèche qui fait patiner la mouche déclenche souvent la touche.",
+    howToFishEn:
+      "Dead-drift it through the current seams during the evening hatch. When nothing is rising, a short twitch that skates the fly will often draw the take.",
+    proTipFr:
+      "Séchez-la souvent et graissez-la bien : une Elk Wing qui flotte haut prend deux fois plus de poissons qu'une qui s'enfonce.",
+    proTipEn:
+      "Dry it often and keep it greased: an Elk Wing riding high takes twice the fish of one sitting low.",
     variants: [
       { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "EWC-STD-12", stock: 32 },
       { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "EWC-STD-14", stock: 40 },
@@ -142,6 +208,21 @@ const products: ProductSeed[] = [
     category: ProductCategory.STREAMER,
     basePriceCents: 500,
     images: ["/products/placeholder-fly.svg"],
+    species: ["NORTHERN_PIKE", "SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "ATLANTIC_SALMON"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "LAKE", "STILLWATER"],
+    techniques: ["STRIP", "SWING"],
+    imitatesFr: ["Poisson-appât", "Ménés"],
+    imitatesEn: ["Baitfish", "Minnows"],
+    waters: ["fleuve-saint-laurent", "riviere-richelieu"],
+    howToFishFr:
+      "En tirées longues et rapides le long des herbiers et des structures. Marquez une pause d'une seconde entre les tirées — c'est presque toujours là que le poisson frappe.",
+    howToFishEn:
+      "Long, fast strips along weed edges and structure. Pause a full second between strips — that's almost always when the fish hits.",
+    proTipFr:
+      "Sur le Saint-Laurent, pêchez-la tôt le matin le long des bordures d'herbiers, avant que le vent lève.",
+    proTipEn:
+      "On the St. Lawrence, fish it early along the weed edges, before the wind gets up.",
     variants: [
       { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "LD-STD-02", stock: 15 },
       { nameFr: "Hameçon #1/0", nameEn: "Hook #1/0", sku: "LD-STD-10", stock: 12 },
@@ -158,6 +239,21 @@ const products: ProductSeed[] = [
     category: ProductCategory.NYMPH,
     basePriceCents: 350,
     images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT", "LANDLOCKED_SALMON"],
+    seasons: ["SPRING", "SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM", "LAKE"],
+    techniques: ["NYMPHING", "DEAD_DRIFT"],
+    imitatesFr: ["Nymphe d'éphémère", "Larve de trichoptère", "Gammare"],
+    imitatesEn: ["Mayfly nymph", "Caddis larva", "Scud"],
+    waters: ["riviere-jacques-cartier", "riviere-sainte-anne"],
+    howToFishFr:
+      "La nymphe passe-partout : en dérive sous indicateur, ou en mouche de pointe derrière une nymphe plus lourde. Elle travaille toute la saison.",
+    howToFishEn:
+      "The do-everything nymph: drifted under an indicator, or as the dropper behind something heavier. It works all season.",
+    proTipFr:
+      "Quand vous ne savez pas quoi mettre, mettez ça. Si une seule mouche devait rester dans la boîte, ce serait celle-là.",
+    proTipEn:
+      "When you don't know what to tie on, tie this on. If one fly had to stay in the box, it would be this one.",
     variants: [
       { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "BHHE-STD-12", stock: 30 },
       { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "BHHE-STD-14", stock: 36 },
@@ -175,6 +271,21 @@ const products: ProductSeed[] = [
     category: ProductCategory.WET_FLY,
     basePriceCents: 375,
     images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT", "SMALLMOUTH_BASS", "NORTHERN_PIKE"],
+    seasons: ["SPRING", "SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM", "LAKE", "STILLWATER"],
+    techniques: ["STRIP", "SWING", "DEAD_DRIFT", "TROLLING"],
+    imitatesFr: ["Sangsue", "Poisson-appât", "Larve de dobson"],
+    imitatesEn: ["Leech", "Baitfish", "Hellgrammite"],
+    waters: ["riviere-jacques-cartier", "riviere-richelieu", "fleuve-saint-laurent"],
+    howToFishFr:
+      "En tirées courtes à travers les fosses et les veines de courant, ou en travers du courant en fin de dérive. En lac, laissez-la couler puis remontez-la lentement.",
+    howToFishEn:
+      "Short strips through pools and current seams, or swung across the current at the end of the drift. On lakes, let it sink then bring it back slowly.",
+    proTipFr:
+      "Le noir travaille par eau teintée et par ciel couvert. Si l'eau est claire et le soleil haut, descendez d'une taille avant de changer de couleur.",
+    proTipEn:
+      "Black works in stained water and under cloud. If the water is clear and the sun is high, drop a size before you change colour.",
     variants: [
       { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "WBB-STD-06", stock: 26 },
       { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "WBB-STD-08", stock: 32 },
@@ -183,7 +294,101 @@ const products: ProductSeed[] = [
   },
 ];
 
+
+// Named water. The sharpest form of the Québec position — and the strongest SEO
+// asset here, because nobody outside the province can credibly claim these.
+const waters = [
+  {
+    slug: "riviere-jacques-cartier",
+    nameFr: "Rivière Jacques-Cartier",
+    nameEn: "Jacques-Cartier River",
+    regionFr: "Capitale-Nationale",
+    regionEn: "Capitale-Nationale",
+    descriptionFr:
+      "Une rivière à fond rocheux, rapide et claire, réputée pour son omble de fontaine et le retour du saumon atlantique. L'eau est froide et bien oxygénée : les nymphes lourdes travaillent au printemps, les sèches prennent le relais à l'éclosion du soir en été.",
+    descriptionEn:
+      "A fast, clear freestone river known for brook trout and the return of Atlantic salmon. The water is cold and well oxygenated: heavy nymphs earn their keep in spring, dries take over for the evening hatch in summer.",
+    featured: true,
+  },
+  {
+    slug: "riviere-sainte-anne",
+    nameFr: "Rivière Sainte-Anne",
+    nameEn: "Sainte-Anne River",
+    regionFr: "Portneuf",
+    regionEn: "Portneuf",
+    descriptionFr:
+      "Des fosses profondes séparées par des rapides courts — une rivière qui récompense le pêcheur qui couvre du terrain. Les éclosions de trichoptères de fin d'été y sont parmi les meilleures de la région.",
+    descriptionEn:
+      "Deep pools separated by short rapids — a river that rewards covering water. The late-summer caddis hatches here are among the best in the region.",
+    featured: true,
+  },
+  {
+    slug: "riviere-matapedia",
+    nameFr: "Rivière Matapédia",
+    nameEn: "Matapédia River",
+    regionFr: "Gaspésie",
+    regionEn: "Gaspésie",
+    descriptionFr:
+      "L'une des grandes rivières à saumon du Québec, célèbre pour son eau limpide et ses longues fosses. Une eau qui demande des présentations soignées et des mouches montées solidement.",
+    descriptionEn:
+      "One of Québec's great salmon rivers, famous for gin-clear water and long holding pools. Water that asks for careful presentation and flies tied to hold up.",
+    featured: true,
+  },
+  {
+    slug: "riviere-richelieu",
+    nameFr: "Rivière Richelieu",
+    nameEn: "Richelieu River",
+    regionFr: "Montérégie",
+    regionEn: "Montérégie",
+    descriptionFr:
+      "Plus lente et plus chaude que les rivières à truite, le Richelieu est un terrain d'achigan et de brochet. Les streamers le long des herbiers, tôt le matin et à la brunante, y font la différence.",
+    descriptionEn:
+      "Slower and warmer than the trout rivers, the Richelieu is bass and pike water. Streamers along the weed beds, early and at dusk, are what make the difference.",
+    featured: false,
+  },
+  {
+    slug: "fleuve-saint-laurent",
+    nameFr: "Fleuve Saint-Laurent",
+    nameEn: "St. Lawrence River",
+    regionFr: "Montréal et Montérégie",
+    regionEn: "Montréal and Montérégie",
+    descriptionFr:
+      "Une eau immense et variée : achigan à petite bouche dans les courants, brochet dans les baies, doré au fil des structures. Des mouches plus grosses et plus mobiles que sur nos rivières à truite.",
+    descriptionEn:
+      "Big, varied water: smallmouth in the current, pike in the bays, walleye along structure. Bigger, more mobile flies than our trout rivers ask for.",
+    featured: true,
+  },
+];
+
+// One example report so the page isn't empty at launch, and so the shape is
+// obvious when you write the next one in db:studio. Unpublished by default:
+// publish it once you've checked the conditions against the real river.
+const sampleReport = {
+  slug: "jacques-cartier-septembre",
+  titleFr: "Jacques-Cartier — fin septembre",
+  titleEn: "Jacques-Cartier — late September",
+  conditionsFr: "Eau claire et basse, 11 °C. Ciel couvert, peu de vent.",
+  conditionsEn: "Clear, low water at 11 °C. Overcast, light wind.",
+  bodyFr:
+    "L'eau est basse et limpide : descendez d'une taille et allongez vos bas de ligne. Les truites se tiennent dans les veines rapides plutôt qu'au fond des fosses.\n\nLes nymphes travaillent tôt, puis les trichoptères sortent en fin de journée. Approchez lentement — par cette eau, elles vous voient venir de loin.",
+  bodyEn:
+    "The water is low and clear: drop a size and lengthen your leaders. Trout are holding in the faster seams rather than the depths of the pools.\n\nNymphs work early, then caddis come off late in the day. Approach slowly — in this water they see you coming.",
+  waterSlug: "riviere-jacques-cartier",
+  productSlugs: ["bead-head-hares-ear", "elk-wing-caddis", "montana-stone"],
+  published: false,
+};
+
 async function main() {
+  // Waters first: products reference them by slug when they're linked.
+  for (const w of waters) {
+    await prisma.fishingWater.upsert({
+      where: { slug: w.slug },
+      update: w,
+      create: w,
+    });
+  }
+  console.log(`Seeded ${waters.length} waters.`);
+
   // The array above is the source of truth for the catalog — drop any product
   // left over from a previous seed run (old placeholders, discontinued
   // patterns, materials/tools/kits) that's no longer listed here.
@@ -192,11 +397,17 @@ async function main() {
   });
 
   for (const p of products) {
-    const { variants, ...productData } = p;
+    const { variants, waters, ...productData } = p;
+    // `set` rather than `connect`: the seed is the source of truth, so a water
+    // removed from this file should also come off the product.
+    const waterLink = waters
+      ? { waters: { set: waters.map((slug) => ({ slug })) } }
+      : {};
     await prisma.product.upsert({
       where: { slug: p.slug },
       update: {
         ...productData,
+        ...waterLink,
         variants: {
           deleteMany: {},
           create: variants,
@@ -204,6 +415,7 @@ async function main() {
       },
       create: {
         ...productData,
+        ...(waters ? { waters: { connect: waters.map((slug) => ({ slug })) } } : {}),
         variants: {
           create: variants,
         },
@@ -211,6 +423,21 @@ async function main() {
     });
   }
   console.log(`Seeded ${products.length} products.`);
+
+  // Reports and catches are curated by hand afterwards; this just makes sure
+  // one well-formed example exists to edit rather than a blank table.
+  const { waterSlug, productSlugs, ...reportData } = sampleReport;
+  const water = await prisma.fishingWater.findUnique({ where: { slug: waterSlug } });
+  await prisma.fishingReport.upsert({
+    where: { slug: sampleReport.slug },
+    update: {},
+    create: {
+      ...reportData,
+      waterId: water?.id,
+      products: { connect: productSlugs.map((slug) => ({ slug })) },
+    },
+  });
+  console.log("Seeded 1 example fishing report (unpublished).");
 
   // Demo reviews were removed deliberately: seeding invented customer
   // testimonials onto a live storefront is deceptive advertising. Reviews now

@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { ProductDetail } from "@/components/ProductDetail";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { AnglerSpecs } from "@/components/AnglerSpecs";
 import { getReviewEligibility } from "@/lib/review-eligibility";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -18,7 +19,10 @@ export default async function ProductPage({
 
   const product = await prisma.product.findUnique({
     where: { slug },
-    include: { variants: { orderBy: { createdAt: "asc" } } },
+    include: {
+      variants: { orderBy: { createdAt: "asc" } },
+      waters: { select: { slug: true, nameFr: true, nameEn: true } },
+    },
   });
 
   if (!product || !product.active) {
@@ -50,6 +54,21 @@ export default async function ProductPage({
           averageRating={averageRating}
         />
       </div>
+      <AnglerSpecs
+        locale={locale}
+        species={product.species}
+        seasons={product.seasons}
+        waterTypes={product.waterTypes}
+        techniques={product.techniques}
+        imitatesFr={product.imitatesFr}
+        imitatesEn={product.imitatesEn}
+        sizes={product.variants.map((v) =>
+          locale === "fr" ? v.nameFr : v.nameEn
+        )}
+        howToFish={locale === "fr" ? product.howToFishFr : product.howToFishEn}
+        proTip={locale === "fr" ? product.proTipFr : product.proTipEn}
+        waters={product.waters}
+      />
       <ReviewsSection
         productId={product.id}
         reviews={reviews}

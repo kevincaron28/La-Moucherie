@@ -34,6 +34,12 @@ export function Header() {
           <Link href="/shop" className="transition hover:text-rust">
             {t("shop")}
           </Link>
+          <Link href="/reports" className="transition hover:text-rust">
+            {t("reports")}
+          </Link>
+          <Link href="/catches" className="transition hover:text-rust">
+            {t("catches")}
+          </Link>
           <Link href="/about" className="transition hover:text-rust">
             {t("about")}
           </Link>
@@ -94,6 +100,8 @@ export function Header() {
       </div>
       <nav className="flex items-center gap-5 overflow-x-auto border-t border-forest/10 px-4 py-2 text-sm font-medium text-forest md:hidden">
         <Link href="/shop">{t("shop")}</Link>
+        <Link href="/reports">{t("reports")}</Link>
+        <Link href="/catches">{t("catches")}</Link>
         <Link href="/about">{t("about")}</Link>
         <Link href="/contact">{t("contact")}</Link>
         <Link

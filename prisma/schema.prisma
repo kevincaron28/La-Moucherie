@@ -48,6 +48,19 @@ model Product {
   images          String[]        @default([])
   active          Boolean         @default(true)
   featured        Boolean         @default(false)
+  species         FishSpecies[]   @default([])
+  seasons         FishingSeason[] @default([])
+  waterTypes      WaterType[]     @default([])
+  techniques      Technique[]     @default([])
+  imitatesFr      String[]        @default([])
+  imitatesEn      String[]        @default([])
+  howToFishFr     String?
+  howToFishEn     String?
+  proTipFr        String?
+  proTipEn        String?
+  waters          FishingWater[]  @relation("ProductWaters")
+  reports         FishingReport[] @relation("ReportProducts")
+  catches         CatchPhoto[]
   variants        ProductVariant[]
   orderItems      OrderItem[]
   reviews         Review[]
@@ -213,4 +226,104 @@ model EmailVerificationToken {
   createdAt DateTime  @default(now())
 
   @@index([userId])
+}
+
+// --- Angler-facing taxonomy -------------------------------------------------
+// Customers think in fish, water and season; the shop was only organised by fly
+// type, which is how a tyer thinks. These let a fly be found the way it's
+// actually chosen.
+
+enum FishSpecies {
+  BROOK_TROUT
+  BROWN_TROUT
+  RAINBOW_TROUT
+  LANDLOCKED_SALMON
+  ATLANTIC_SALMON
+  SMALLMOUTH_BASS
+  LARGEMOUTH_BASS
+  NORTHERN_PIKE
+  WALLEYE
+}
+
+enum FishingSeason {
+  SPRING
+  SUMMER
+  FALL
+}
+
+enum WaterType {
+  RIVER
+  STREAM
+  LAKE
+  STILLWATER
+}
+
+enum Technique {
+  DEAD_DRIFT
+  STRIP
+  SWING
+  SKATE
+  NYMPHING
+  TROLLING
+}
+
+/// A named piece of water. The sharpest version of the Québec position: no
+/// competitor outside the province can credibly claim these.
+model FishingWater {
+  id            String          @id @default(cuid())
+  slug          String          @unique
+  nameFr        String
+  nameEn        String
+  regionFr      String
+  regionEn      String
+  descriptionFr String
+  descriptionEn String
+  featured      Boolean         @default(false)
+  products      Product[]       @relation("ProductWaters")
+  reports       FishingReport[]
+  catches       CatchPhoto[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+/// Short seasonal notes on what is working where. The reason to come back to
+/// the site weekly rather than once.
+model FishingReport {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  titleFr       String
+  titleEn       String
+  bodyFr        String
+  bodyEn        String
+  conditionsFr  String
+  conditionsEn  String
+  water         FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
+  waterId       String?
+  products      Product[]     @relation("ReportProducts")
+  published     Boolean       @default(false)
+  publishedAt   DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+/// Customer catch photos. Curated by hand rather than uploaded: approval is the
+/// whole point, and it avoids running an image-upload pipeline for a handful of
+/// photos a month.
+model CatchPhoto {
+  id         String        @id @default(cuid())
+  imageUrl   String
+  anglerName String
+  captionFr  String?
+  captionEn  String?
+  species    FishSpecies?
+  water      FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
+  waterId    String?
+  product    Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productId  String?
+  approved   Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+
+  @@index([approved, createdAt])
 }

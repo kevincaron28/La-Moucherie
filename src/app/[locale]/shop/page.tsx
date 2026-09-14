@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { SearchBox } from "@/components/SearchBox";
 import { Link } from "@/i18n/navigation";
 import { CATEGORY_ORDER } from "@/lib/localize";
+import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
 
 export default async function ShopPage({
@@ -20,6 +21,7 @@ export default async function ShopPage({
 
   const t = await getTranslations("Shop");
   const tCategories = await getTranslations("Categories");
+  const tAngling = await getTranslations("Angling");
 
   const activeCategory = (CATEGORY_ORDER as readonly string[]).includes(category ?? "")
     ? (category as ProductCategory)
@@ -93,6 +95,21 @@ export default async function ShopPage({
             </Link>
           </p>
         )}
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1.5 border-t border-forest/10 pt-4">
+        <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+          {tAngling("speciesTitle")}
+        </span>
+        {SPECIES.map((sp) => (
+          <Link
+            key={sp}
+            href={`/shop/species/${SPECIES_SLUGS[sp]}`}
+            className="text-sm text-ink/70 underline decoration-forest/20 underline-offset-2 transition hover:text-forest hover:decoration-forest"
+          >
+            {tAngling(`species.${sp}`)}
+          </Link>
+        ))}
       </div>
 
       {products.length === 0 ? (

@@ -11,7 +11,9 @@
     "account": "Mon compte",
     "signIn": "Se connecter",
     "searchPlaceholder": "Rechercher une mouche...",
-    "search": "Rechercher"
+    "search": "Rechercher",
+    "reports": "Ce qui travaille",
+    "catches": "Prises"
   },
   "Account": {
     "loginTitle": "Se connecter",
@@ -264,7 +266,14 @@
     "contact": "Contact",
     "legal": "Informations",
     "shipping": "Livraison et retours",
-    "rights": "Tous droits réservés."
+    "rights": "Tous droits réservés.",
+    "shopHeading": "Boutique",
+    "learnHeading": "Apprendre",
+    "helpHeading": "Aide",
+    "allFlies": "Toutes les mouches",
+    "reports": "Ce qui travaille",
+    "catches": "Prises",
+    "account": "Mon compte"
   },
   "Shipping": {
     "title": "Livraison et retours",
@@ -278,5 +287,89 @@
     "returnsTitle": "Retours",
     "returnsBody": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées — mais dites-le-nous quand même si l'une d'elles s'est défaite, c'est le genre de chose que nous voulons savoir.",
     "trackedZoneNote": "Le tarif du colis dépend de la destination; votre coût exact s'affiche au paiement une fois votre province choisie."
+  },
+  "Angling": {
+    "speciesTitle": "Espèces",
+    "seasonTitle": "Saison",
+    "waterTitle": "Type d'eau",
+    "techniqueTitle": "Technique",
+    "imitatesTitle": "Imite",
+    "sizesTitle": "Tailles offertes",
+    "howToFish": "Comment la pêcher",
+    "proTip": "Le truc du monteur",
+    "species": {
+      "BROOK_TROUT": "Omble de fontaine",
+      "BROWN_TROUT": "Truite brune",
+      "RAINBOW_TROUT": "Truite arc-en-ciel",
+      "LANDLOCKED_SALMON": "Ouananiche",
+      "ATLANTIC_SALMON": "Saumon atlantique",
+      "SMALLMOUTH_BASS": "Achigan à petite bouche",
+      "LARGEMOUTH_BASS": "Achigan à grande bouche",
+      "NORTHERN_PIKE": "Grand brochet",
+      "WALLEYE": "Doré jaune"
+    },
+    "seasons": {
+      "SPRING": "Printemps",
+      "SUMMER": "Été",
+      "FALL": "Automne"
+    },
+    "waterTypes": {
+      "RIVER": "Rivière",
+      "STREAM": "Ruisseau",
+      "LAKE": "Lac",
+      "STILLWATER": "Eau calme"
+    },
+    "techniques": {
+      "DEAD_DRIFT": "Dérive naturelle",
+      "NYMPHING": "Pêche à la nymphe",
+      "STRIP": "Tirées",
+      "SWING": "En travers du courant",
+      "SKATE": "En surface",
+      "TROLLING": "À la traîne"
+    },
+    "watersTitle": "Eaux",
+    "speciesDefinite": {
+      "BROOK_TROUT": "l'omble de fontaine",
+      "BROWN_TROUT": "la truite brune",
+      "RAINBOW_TROUT": "la truite arc-en-ciel",
+      "LANDLOCKED_SALMON": "la ouananiche",
+      "ATLANTIC_SALMON": "le saumon atlantique",
+      "SMALLMOUTH_BASS": "l'achigan à petite bouche",
+      "LARGEMOUTH_BASS": "l'achigan à grande bouche",
+      "NORTHERN_PIKE": "le grand brochet",
+      "WALLEYE": "le doré jaune"
+    }
+  },
+  "SpeciesPage": {
+    "title": "Mouches pour {species}",
+    "metaTitle": "Mouches pour {species} au Québec — La Moucherie",
+    "metaDescription": "Mouches artisanales montées à la main au Québec pour la pêche de {species}. Patrons éprouvés sur nos rivières et nos lacs.",
+    "intro": "Nos patrons montés pour {species}, sur les eaux du Québec. Chaque mouche indique la saison, le type d'eau et la technique qui lui conviennent.",
+    "empty": "Aucune mouche n'est encore associée à cette espèce. Écrivez-nous — on monte sur demande.",
+    "backToShop": "Retour à la boutique",
+    "otherSpecies": "Autres espèces"
+  },
+  "WaterPage": {
+    "metaTitle": "Mouches pour la {water} — La Moucherie",
+    "fliesFor": "Nos mouches pour la {water}",
+    "empty": "Aucune mouche n'est encore associée à cette eau.",
+    "recentReports": "Derniers rapports",
+    "backToShop": "Retour à la boutique",
+    "otherWaters": "Autres eaux"
+  },
+  "Reports": {
+    "title": "Ce qui travaille",
+    "intro": "Des notes courtes sur l'état de l'eau et les patrons qui prennent du poisson en ce moment, rivière par rivière.",
+    "empty": "Le premier rapport arrive bientôt.",
+    "conditions": "Conditions",
+    "whatsWorking": "Les mouches du moment",
+    "backToReports": "Tous les rapports"
+  },
+  "Catches": {
+    "title": "Pris sur une Moucherie",
+    "intro": "Vos poissons, nos mouches. Chaque photo ici a été envoyée par un pêcheur qui a pris son poisson sur un de nos patrons.",
+    "submitHint": "Vous avez pris quelque chose sur une de nos mouches ? Envoyez-nous la photo par",
+    "submitCta": "courriel",
+    "empty": "Pas encore de photos — soyez le premier. Envoyez-nous votre prise."
   }
 }

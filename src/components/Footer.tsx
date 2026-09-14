@@ -1,11 +1,13 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 
 const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL;
 
 export function Footer() {
   const t = useTranslations("Footer");
+  const tAngling = useTranslations("Angling");
   const year = new Date().getFullYear();
 
   return (
@@ -36,32 +38,75 @@ export function Footer() {
           )}
         </div>
 
-        <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
-            {t("company")}
-          </h3>
-          <ul className="mt-3 space-y-2 text-sm text-cream/80">
-            <li>
-              <Link href="/shop" className="hover:text-cream">
-                {t("shop")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-cream">
-                {t("about")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-cream">
-                {t("contact")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/shipping" className="hover:text-cream">
-                {t("shipping")}
-              </Link>
-            </li>
-          </ul>
+        <div className="grid gap-8 sm:grid-cols-3">
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
+              {t("shopHeading")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-cream/80">
+              <li>
+                <Link href="/shop" className="hover:text-cream">
+                  {t("allFlies")}
+                </Link>
+              </li>
+              {SPECIES.slice(0, 4).map((s) => (
+                <li key={s}>
+                  <Link
+                    href={`/shop/species/${SPECIES_SLUGS[s]}`}
+                    className="hover:text-cream"
+                  >
+                    {tAngling(`species.${s}`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
+              {t("learnHeading")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-cream/80">
+              <li>
+                <Link href="/reports" className="hover:text-cream">
+                  {t("reports")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/catches" className="hover:text-cream">
+                  {t("catches")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-cream">
+                  {t("about")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
+              {t("helpHeading")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-cream/80">
+              <li>
+                <Link href="/shipping" className="hover:text-cream">
+                  {t("shipping")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-cream">
+                  {t("contact")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/account" className="hover:text-cream">
+                  {t("account")}
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div className="border-t border-cream/10 px-4 py-4 text-center text-xs text-cream/60 sm:px-6">

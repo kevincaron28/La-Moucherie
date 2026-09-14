@@ -139,6 +139,42 @@ unconfigured. Sends also never throw into their caller, so a mail outage can't f
 payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
 set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
 
+## Angler metadata, species and water
+
+Fly type is how a tyer organises a bench; species, water and season are how an
+angler decides what to buy. `src/lib/angling.ts` holds that vocabulary, and each
+`Product` carries `species`, `seasons`, `waterTypes`, `techniques`, what it
+imitates, a "how to fish it" note and a tyer's tip. Anything left empty simply
+renders less rather than showing an empty heading.
+
+That metadata drives three things: the spec panel on a product page,
+`/shop/species/<slug>` landing pages (prerendered for both locales, since they
+exist to be found in search), and `/shop/water/<slug>` pages built from the
+`FishingWater` table.
+
+Named water is the sharpest form of the Québec position and the strongest SEO
+asset here — no competitor outside the province can credibly claim the
+Jacques-Cartier or the Matapédia. Add waters in `prisma/seed.ts` and link
+patterns to them by slug.
+
+**French is not a translation layer.** Species names carry a definite article
+that elides before a vowel, so `Angling.speciesDefinite` holds the full form
+("l'omble de fontaine", not "le omble de fontaine") and the page templates
+interpolate that rather than the bare name.
+
+## Fishing reports and catches
+
+`/reports` is short seasonal notes on what's working where — the reason to come
+back weekly rather than once. Reports are unpublished by default; write one in
+`npm run db:studio` and flip `published` when the conditions have been checked
+against the real river. Linking products to a report turns it into a shoppable
+page.
+
+`/catches` is customer catch photos, approved by hand. There's no upload
+pipeline on purpose: approval is the whole point, and curating a handful of
+photos a month by pasting a URL into `db:studio` is less machinery than hosting
+images. Set `approved` to show one.
+
 ## Assortments
 
 Curated boxes are ordinary products in the `ASSORTMENT` category, so they use the

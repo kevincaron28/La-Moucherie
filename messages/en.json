@@ -11,7 +11,9 @@
     "account": "My account",
     "signIn": "Sign in",
     "searchPlaceholder": "Search flies...",
-    "search": "Search"
+    "search": "Search",
+    "reports": "What's working",
+    "catches": "Catches"
   },
   "Account": {
     "loginTitle": "Sign in",
@@ -264,7 +266,14 @@
     "contact": "Contact",
     "legal": "Information",
     "shipping": "Shipping & returns",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "shopHeading": "Shop",
+    "learnHeading": "Learn",
+    "helpHeading": "Help",
+    "allFlies": "All flies",
+    "reports": "What's working",
+    "catches": "Catches",
+    "account": "My account"
   },
   "Shipping": {
     "title": "Shipping & returns",
@@ -278,5 +287,89 @@
     "returnsTitle": "Returns",
     "returnsBody": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have been fished can't be returned — but tell us anyway if one came apart, because that's something we want to know about.",
     "trackedZoneNote": "The parcel rate depends on where it's going; your exact cost appears at checkout once you pick your province."
+  },
+  "Angling": {
+    "speciesTitle": "Species",
+    "seasonTitle": "Season",
+    "waterTitle": "Water",
+    "techniqueTitle": "Technique",
+    "imitatesTitle": "Imitates",
+    "sizesTitle": "Sizes available",
+    "howToFish": "How to fish it",
+    "proTip": "Tyer's tip",
+    "species": {
+      "BROOK_TROUT": "Brook trout",
+      "BROWN_TROUT": "Brown trout",
+      "RAINBOW_TROUT": "Rainbow trout",
+      "LANDLOCKED_SALMON": "Landlocked salmon",
+      "ATLANTIC_SALMON": "Atlantic salmon",
+      "SMALLMOUTH_BASS": "Smallmouth bass",
+      "LARGEMOUTH_BASS": "Largemouth bass",
+      "NORTHERN_PIKE": "Northern pike",
+      "WALLEYE": "Walleye"
+    },
+    "seasons": {
+      "SPRING": "Spring",
+      "SUMMER": "Summer",
+      "FALL": "Fall"
+    },
+    "waterTypes": {
+      "RIVER": "River",
+      "STREAM": "Stream",
+      "LAKE": "Lake",
+      "STILLWATER": "Stillwater"
+    },
+    "techniques": {
+      "DEAD_DRIFT": "Dead drift",
+      "NYMPHING": "Nymphing",
+      "STRIP": "Strip",
+      "SWING": "Swing",
+      "SKATE": "Skate",
+      "TROLLING": "Trolling"
+    },
+    "watersTitle": "Waters",
+    "speciesDefinite": {
+      "BROOK_TROUT": "brook trout",
+      "BROWN_TROUT": "brown trout",
+      "RAINBOW_TROUT": "rainbow trout",
+      "LANDLOCKED_SALMON": "landlocked salmon",
+      "ATLANTIC_SALMON": "Atlantic salmon",
+      "SMALLMOUTH_BASS": "smallmouth bass",
+      "LARGEMOUTH_BASS": "largemouth bass",
+      "NORTHERN_PIKE": "northern pike",
+      "WALLEYE": "walleye"
+    }
+  },
+  "SpeciesPage": {
+    "title": "Flies for {species}",
+    "metaTitle": "{species} flies from Québec — La Moucherie",
+    "metaDescription": "Hand-tied Québec flies for {species}. Patterns proven on our own rivers and lakes.",
+    "intro": "Our patterns tied for {species} on Québec water. Every fly lists the season, water and technique it suits.",
+    "empty": "No flies are tagged for this species yet. Write to us — we tie to order.",
+    "backToShop": "Back to the shop",
+    "otherSpecies": "Other species"
+  },
+  "WaterPage": {
+    "metaTitle": "Flies for the {water} — La Moucherie",
+    "fliesFor": "Our flies for the {water}",
+    "empty": "No flies are tagged for this water yet.",
+    "recentReports": "Recent reports",
+    "backToShop": "Back to the shop",
+    "otherWaters": "Other waters"
+  },
+  "Reports": {
+    "title": "What's working",
+    "intro": "Short notes on water conditions and the patterns catching fish right now, river by river.",
+    "empty": "The first report is coming soon.",
+    "conditions": "Conditions",
+    "whatsWorking": "Flies working now",
+    "backToReports": "All reports"
+  },
+  "Catches": {
+    "title": "Caught on a Moucherie",
+    "intro": "Your fish, our flies. Every photo here was sent in by an angler who caught it on one of our patterns.",
+    "submitHint": "Caught something on one of our flies? Send us the photo by",
+    "submitCta": "email",
+    "empty": "No photos yet — be the first. Send us your catch."
   }
 }
