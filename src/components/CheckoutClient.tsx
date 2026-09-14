@@ -13,7 +13,8 @@ import { PaymentForm } from "@/components/PaymentForm";
 import { TrustBadges } from "@/components/TrustBadges";
 import {
   discountCents as computeDiscount,
-  totalQuantity,
+  eligibleQuantity,
+  eligibleSubtotalCents,
   tierFor,
   nextTier,
 } from "@/lib/discount";
@@ -51,11 +52,25 @@ const emptyForm: ShippingForm = {
   country: "CA",
 };
 
-export function CheckoutClient() {
+export type Suggestion = {
+  productId: string;
+  slug: string;
+  nameFr: string;
+  nameEn: string;
+  category: string;
+  image: string;
+  variantId: string;
+  variantNameFr: string;
+  variantNameEn: string;
+  sku: string;
+  unitPriceCents: number;
+};
+
+export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[] }) {
   const t = useTranslations("Checkout");
   const locale = useLocale() as Locale;
   const router = useRouter();
-  const { items, subtotalCents } = useCart();
+  const { items, subtotalCents, addItem } = useCart();
   const { status: sessionStatus } = useSession();
 
   const [form, setForm] = useState<ShippingForm>(emptyForm);
@@ -99,8 +114,9 @@ export function CheckoutClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const flyCount = totalQuantity(items);
-  const discount = computeDiscount(subtotalCents, flyCount);
+  // Curated boxes are already priced as a bundle, so they sit outside the tiers.
+  const flyCount = eligibleQuantity(items);
+  const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
   const tier = tierFor(flyCount);
   const upcoming = nextTier(flyCount);
   const discountedSubtotal = subtotalCents - discount;
@@ -114,6 +130,16 @@ export function CheckoutClient() {
   );
   const total = discountedSubtotal + shippingCents;
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
+
+  const inCart = new Set(items.map((i) => i.variantId));
+  const offers = suggestions
+    .filter((s) => !inCart.has(s.variantId))
+    .sort((a, b) => {
+      const boxA = a.category === "ASSORTMENT" ? 0 : 1;
+      const boxB = b.category === "ASSORTMENT" ? 0 : 1;
+      return boxA - boxB;
+    })
+    .slice(0, 3);
 
   function update<K extends keyof ShippingForm>(key: K, value: ShippingForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -359,7 +385,59 @@ export function CheckoutClient() {
         )}
       </div>
 
-      <aside className="h-fit rounded-2xl border border-forest/10 bg-cream/60 p-6">
+      <aside className="h-fit space-y-6">
+      {offers.length > 0 && !clientSecret && (
+        <div className="rounded-2xl border border-forest/10 bg-parchment p-6">
+          <h2 className="font-display font-semibold text-forest">{t("addToOrder")}</h2>
+          <p className="mt-1 text-xs text-ink/55">{t("addToOrderHint")}</p>
+          <ul className="mt-4 space-y-3">
+            {offers.map((s) => (
+              <li key={s.variantId} className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={s.image}
+                  alt=""
+                  className="h-12 w-12 shrink-0 rounded-lg border border-forest/10 bg-cream/50 object-contain p-1"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-forest">
+                    {pick(s.nameFr, s.nameEn, locale)}
+                  </p>
+                  <p className="text-xs text-ink/55">
+                    {formatPrice(s.unitPriceCents, locale)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    addItem(
+                      {
+                        productId: s.productId,
+                        variantId: s.variantId,
+                        slug: s.slug,
+                        nameFr: s.nameFr,
+                        nameEn: s.nameEn,
+                        variantNameFr: s.variantNameFr,
+                        variantNameEn: s.variantNameEn,
+                        sku: s.sku,
+                        category: s.category,
+                        unitPriceCents: s.unitPriceCents,
+                        image: s.image,
+                      },
+                      1
+                    )
+                  }
+                  className="shrink-0 rounded-full border border-forest/25 px-3 py-1.5 text-xs font-semibold text-forest transition hover:border-forest/60 hover:bg-forest/5"
+                >
+                  {t("addOne")}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="rounded-2xl border border-forest/10 bg-cream/60 p-6">
         <h2 className="font-display font-semibold text-forest">{t("orderSummary")}</h2>
         <ul className="mt-4 space-y-3">
           {items.map((item) => (
@@ -418,6 +496,7 @@ export function CheckoutClient() {
           </div>
         </div>
         <TrustBadges className="mt-6 border-t border-forest/10 pt-4" />
+        </div>
       </aside>
     </div>
   );

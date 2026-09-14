@@ -18,6 +18,9 @@ export type CartItem = {
   variantNameFr: string;
   variantNameEn: string;
   sku: string;
+  // Mirrors the product's category so the checkout can preview bulk pricing;
+  // the charge itself is always recomputed server-side from the database.
+  category: string;
   unitPriceCents: number;
   image: string;
   quantity: number;

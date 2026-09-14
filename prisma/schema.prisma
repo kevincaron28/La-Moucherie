@@ -15,6 +15,9 @@ enum ProductCategory {
   MATERIAL
   TOOL
   KIT
+  // Curated multi-fly boxes. Priced as a bundle, so they sit outside the
+  // per-fly bulk tiers rather than being discounted twice.
+  ASSORTMENT
 }
 
 enum OrderStatus {
@@ -115,6 +118,9 @@ model Order {
   // took off — both recorded so an old order reads correctly after the rules change.
   notes                 String?
   discountCents         Int         @default(0)
+  // Lets an abandoned-cart email rebuild the basket without exposing order ids.
+  recoveryToken         String?     @unique
+  recoveryEmailSentAt   DateTime?
   amountTotalCents      Int
   currency              String      @default("cad")
   status                OrderStatus @default(PENDING)
@@ -133,6 +139,7 @@ model User {
   email              String   @unique
   passwordHash       String
   name               String
+  emailVerified      DateTime?
   shippingLine1      String?
   shippingLine2      String?
   shippingCity       String?
@@ -142,6 +149,7 @@ model User {
   orders             Order[]
   reviews            Review[]
   resetTokens        PasswordResetToken[]
+  verificationTokens EmailVerificationToken[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }
@@ -193,4 +201,16 @@ model OrderItem {
   quantity        Int
 
   @@index([orderId])
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
 }

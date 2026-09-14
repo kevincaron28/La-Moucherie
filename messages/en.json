@@ -96,7 +96,8 @@
     "WET_FLY": "Wet Flies",
     "MATERIAL": "Materials",
     "TOOL": "Tools",
-    "KIT": "Tying Kits"
+    "KIT": "Tying Kits",
+    "ASSORTMENT": "Boxes & assortments"
   },
   "Home": {
     "heroKicker": "An independent Québec workshop",
@@ -216,7 +217,10 @@
     "bulkDiscount": "Bulk discount ({percent}%)",
     "bulkHint": "Add {count} more {count, plural, one {fly} other {flies}} to save {percent}%.",
     "notesLabel": "Notes for the tyer (optional)",
-    "notesHint": "Anything particular about this order — a colour, a weight, a river you're heading to."
+    "notesHint": "Anything particular about this order — a colour, a weight, a river you're heading to.",
+    "addToOrder": "Add to your order",
+    "addToOrderHint": "Shipping is already paid for — adding a fly or a box costs nothing extra to send.",
+    "addOne": "Add"
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",

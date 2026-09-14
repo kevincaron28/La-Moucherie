@@ -21,6 +21,28 @@ export function totalQuantity(items: { quantity: number }[]): number {
   return items.reduce((sum, i) => sum + i.quantity, 0);
 }
 
+/**
+ * Flies that count toward a tier. A curated box is already priced as a bundle,
+ * so counting its flies here would discount the same flies twice — and would
+ * also let one box drag unrelated singles into a tier they didn't earn.
+ */
+export function eligibleQuantity(
+  items: { quantity: number; category: string }[]
+): number {
+  return items
+    .filter((i) => i.category !== "ASSORTMENT")
+    .reduce((sum, i) => sum + i.quantity, 0);
+}
+
+/** Item subtotal excluding bundles, so the percentage applies only to singles. */
+export function eligibleSubtotalCents(
+  items: { quantity: number; unitPriceCents: number; category: string }[]
+): number {
+  return items
+    .filter((i) => i.category !== "ASSORTMENT")
+    .reduce((sum, i) => sum + i.unitPriceCents * i.quantity, 0);
+}
+
 /** The best tier this many flies qualifies for, or null below the first one. */
 export function tierFor(quantity: number): DiscountTier | null {
   let best: DiscountTier | null = null;

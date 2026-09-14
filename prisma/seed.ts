@@ -29,6 +29,54 @@ type ProductSeed = {
 // Hook sizes, exact pricing, and photos are placeholders until confirmed —
 // real product photos are coming once the lightbox is built.
 const products: ProductSeed[] = [
+  // Curated boxes. Priced below the sum of their parts — that discount is the
+  // bundle's whole reason to exist, which is why assortments sit outside the
+  // per-fly bulk tiers rather than stacking with them.
+  //
+  // Contents and prices are a starting point: adjust them in this file (or via
+  // `npm run db:studio`) once the real lineup and hook sizes are confirmed.
+  {
+    slug: "boite-decouverte",
+    nameFr: "Boîte Découverte — 6 mouches",
+    nameEn: "Discovery Box — 6 flies",
+    descriptionFr:
+      "Six mouches choisies pour couvrir une journée complète sur une rivière québécoise : une sèche pour l'éclosion du soir, deux nymphes pour pêcher le fond, un streamer pour fouiller les fosses, et deux noyées pour l'entre-deux. La façon la plus simple d'essayer notre montage sans choisir patron par patron.",
+    descriptionEn:
+      "Six flies chosen to cover a full day on a Québec river: a dry for the evening hatch, two nymphs for working the bottom, a streamer for searching the pools, and two wets for everything in between. The simplest way to try our tying without picking pattern by pattern.",
+    category: ProductCategory.ASSORTMENT,
+    basePriceCents: 2100,
+    images: ["/products/placeholder-fly.svg"],
+    featured: true,
+    variants: [{ nameFr: "6 mouches assorties", nameEn: "6 assorted flies", sku: "BOX-DEC-06", stock: 12 }],
+  },
+  {
+    slug: "boite-truite-mouchetee",
+    nameFr: "Boîte Truite mouchetée — 12 mouches",
+    nameEn: "Brook Trout Box — 12 flies",
+    descriptionFr:
+      "Douze mouches montées pour l'omble de fontaine : les patrons qui travaillent sur nos lacs et nos petites rivières, du printemps à la fermeture. Un assortiment équilibré de sèches, de nymphes et de streamers, dans les tailles qui prennent du poisson ici.",
+    descriptionEn:
+      "Twelve flies tied for brook trout: the patterns that work on our lakes and small rivers, from spring through to close of season. A balanced spread of dries, nymphs and streamers in the sizes that catch fish here.",
+    category: ProductCategory.ASSORTMENT,
+    basePriceCents: 4000,
+    images: ["/products/placeholder-fly.svg"],
+    featured: true,
+    variants: [{ nameFr: "12 mouches assorties", nameEn: "12 assorted flies", sku: "BOX-OMB-12", stock: 8 }],
+  },
+  {
+    slug: "boite-streamers",
+    nameFr: "Boîte Streamers — 8 mouches",
+    nameEn: "Streamer Box — 8 flies",
+    descriptionFr:
+      "Huit streamers pour chercher les gros poissons : des patrons mobiles, montés sur hameçons solides, pour fouiller les fosses et les bordures en eau haute. Pour le pêcheur qui préfère couvrir de l'eau plutôt qu'attendre l'éclosion.",
+    descriptionEn:
+      "Eight streamers for hunting bigger fish: mobile patterns on strong hooks, for searching pools and undercut banks in high water. For the angler who would rather cover water than wait on a hatch.",
+    category: ProductCategory.ASSORTMENT,
+    basePriceCents: 3000,
+    images: ["/products/placeholder-fly.svg"],
+    featured: false,
+    variants: [{ nameFr: "8 streamers assortis", nameEn: "8 assorted streamers", sku: "BOX-STR-08", stock: 10 }],
+  },
   {
     slug: "egg-sucking-leech",
     nameFr: "Egg Sucking Leech",

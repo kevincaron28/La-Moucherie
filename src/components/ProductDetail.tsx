@@ -49,6 +49,7 @@ export function ProductDetail({
         variantNameFr: variant.nameFr,
         variantNameEn: variant.nameEn,
         sku: variant.sku,
+        category: product.category,
         unitPriceCents: priceCents,
         image,
       },

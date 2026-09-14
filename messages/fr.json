@@ -96,7 +96,8 @@
     "WET_FLY": "Mouches noyées",
     "MATERIAL": "Matériaux",
     "TOOL": "Outils",
-    "KIT": "Kits de montage"
+    "KIT": "Kits de montage",
+    "ASSORTMENT": "Boîtes et assortiments"
   },
   "Home": {
     "heroKicker": "Atelier artisanal du Québec",
@@ -216,7 +217,10 @@
     "bulkDiscount": "Rabais quantité ({percent} %)",
     "bulkHint": "Ajoutez {count} mouche{count, plural, one {} other {s}} de plus pour économiser {percent} %.",
     "notesLabel": "Notes pour le monteur (optionnel)",
-    "notesHint": "Quelque chose de particulier pour cette commande — une couleur, un lestage, une rivière où vous allez."
+    "notesHint": "Quelque chose de particulier pour cette commande — une couleur, un lestage, une rivière où vous allez.",
+    "addToOrder": "Ajoutez à votre commande",
+    "addToOrderHint": "La livraison est déjà payée — ajouter une mouche ou une boîte ne coûte rien de plus à expédier.",
+    "addOne": "Ajouter"
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",

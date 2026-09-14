@@ -4,7 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
 import { CURRENCY } from "@/lib/constants";
-import { discountCents as computeDiscount, totalQuantity } from "@/lib/discount";
+import {
+  discountCents as computeDiscount,
+  eligibleQuantity,
+  eligibleSubtotalCents,
+} from "@/lib/discount";
 import {
   SHIPPING_METHODS,
   PROVINCES,
@@ -99,9 +103,20 @@ export async function POST(request: Request) {
     });
   }
 
-  // Bulk pricing is decided here too — the browser never sends a discount.
-  const itemsSubtotalCents = amountTotalCents;
-  const discountCents = computeDiscount(itemsSubtotalCents, totalQuantity(items));
+  // Bulk pricing is decided here too — the browser never sends a discount, and
+  // the categories come from the database rather than the cart payload.
+  const priced = items.map((item) => {
+    const variant = variants.find((v) => v.id === item.variantId)!;
+    return {
+      quantity: item.quantity,
+      category: variant.product.category as string,
+      unitPriceCents: variant.priceCents ?? variant.product.basePriceCents,
+    };
+  });
+  const discountCents = computeDiscount(
+    eligibleSubtotalCents(priced),
+    eligibleQuantity(priced)
+  );
   amountTotalCents -= discountCents;
 
   // The browser sends only which method was picked; the price of that method
