@@ -379,6 +379,21 @@ shows up in the shop's category filter.
   of your flies.
 - Single currency (CAD) throughout.
 
+## Database connections
+
+Two URLs, deliberately:
+
+- `DATABASE_URL` — Neon's **pooled** host. Runtime queries want this: serverless
+  makes many short-lived connections, which is what a pooler is for.
+- `DIRECT_URL` — the same string with `-pooler` removed from the host.
+  `prisma migrate deploy` takes a session-scoped Postgres advisory lock, and a
+  transaction-mode pooler can't hold one, so migrations through the pooled URL
+  fail with `P1002 … timed out trying to acquire a postgres advisory lock` and
+  the whole deploy dies. `directUrl` in `prisma/schema.prisma` routes migrations
+  around the pooler.
+
+For a plain local Postgres there's no pooler, so both point at the same place.
+
 ## Deployment
 
 Only `main` deploys. `vercel.json` sets `git.deploymentEnabled` to `{"*": false,
