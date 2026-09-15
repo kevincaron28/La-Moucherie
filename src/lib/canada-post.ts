@@ -19,7 +19,10 @@ import { ORIGIN_POSTAL_CODE } from "@/lib/shipping";
 // now talks to instead.
 
 const API_HOST = "https://api.canadapost-postescanada.ca";
-const TOKEN_URL = `${API_HOST}/oauth2/token`;
+// The bare "/oauth2/token" path 503s with a gateway HTML error page — it
+// doesn't route to anything. The OAuth provider is mounted under its own
+// path on this host.
+const TOKEN_URL = `${API_HOST}/cpc-api-native-oauth-provider/oauth2/token`;
 const RATING_URL = `${API_HOST}/rating/v1/prices`;
 
 const TIMEOUT_MS = 4000;
