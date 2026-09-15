@@ -229,7 +229,8 @@
     "notesHint": "Anything particular about this order — a colour, a weight, a river you're heading to.",
     "addToOrder": "Add to your order",
     "addToOrderHint": "Shipping is already paid for — adding a fly or a box costs nothing extra to send.",
-    "addOne": "Add"
+    "addOne": "Add",
+    "shippingLetterMaxHint": "Not available above {max} flies — switches automatically to the tracked parcel."
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",

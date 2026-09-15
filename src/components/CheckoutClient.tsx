@@ -24,6 +24,8 @@ import {
   isProvinceCode,
   rateFor,
   FREE_SHIPPING_THRESHOLD_CENTS,
+  LETTER_MAX_FLIES,
+  canUseLetter,
   shippingCostCents,
   effectiveMethod,
   isFreeShipping,
@@ -136,7 +138,16 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   const discountedSubtotal = subtotalCents - discount;
 
   const freeShipping = isFreeShipping(discountedSubtotal);
-  const chosenMethod = effectiveMethod(shippingMethod, discountedSubtotal);
+  // Once the parcel outgrows what LETTER_MAX_FLIES budgets for, the flat rate
+  // no longer matches what Canada Post actually charges — the option is
+  // disabled below, and this is what the total falls back to even if the
+  // user's raw radio pick is still "LETTER" from before the cart grew.
+  const overLetterCap = !canUseLetter(parcelFlyCount);
+  const chosenMethod = effectiveMethod(
+    shippingMethod,
+    discountedSubtotal,
+    parcelFlyCount
+  );
 
   const quoteKey = `${form.province}:${form.postalCode
     .trim()
@@ -377,44 +388,58 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
                   {t("shippingFreeApplied")}
                 </p>
               ) : (
-                (["LETTER", "TRACKED"] as const).map((method) => (
-                  <label
-                    key={method}
-                    className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition ${
-                      shippingMethod === method
-                        ? "border-halo bg-halo/5"
-                        : "border-forest/20 hover:border-forest/40"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="shippingMethod"
-                      value={method}
-                      checked={shippingMethod === method}
-                      onChange={() => setShippingMethod(method)}
-                      className="mt-1 accent-halo"
-                    />
-                    <span className="flex-1">
-                      <span className="flex justify-between gap-3">
-                        <span className="text-sm font-medium text-forest">
-                          {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
+                (["LETTER", "TRACKED"] as const).map((method) => {
+                  // LETTER stays visible but unselectable past the cap, rather
+                  // than disappearing — losing at $3.50 flat is exactly the
+                  // silent-undercharge bug this whole change exists to close,
+                  // so the reason it's gone needs to be on screen, not implied.
+                  const disabled = method === "LETTER" && overLetterCap;
+                  return (
+                    <label
+                      key={method}
+                      className={`flex items-start gap-3 rounded-lg border px-4 py-3 transition ${
+                        disabled
+                          ? "cursor-not-allowed border-forest/10 opacity-50"
+                          : `cursor-pointer ${
+                              chosenMethod === method
+                                ? "border-halo bg-halo/5"
+                                : "border-forest/20 hover:border-forest/40"
+                            }`
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="shippingMethod"
+                        value={method}
+                        checked={chosenMethod === method}
+                        disabled={disabled}
+                        onChange={() => setShippingMethod(method)}
+                        className="mt-1 accent-halo disabled:cursor-not-allowed"
+                      />
+                      <span className="flex-1">
+                        <span className="flex justify-between gap-3">
+                          <span className="text-sm font-medium text-forest">
+                            {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
+                          </span>
+                          <span className="text-sm font-medium text-forest">
+                            {method === "TRACKED" && applicableLiveRate
+                              ? formatPrice(applicableLiveRate.cents, locale)
+                              : formatPrice(rateFor(method, form.province), locale)}
+                          </span>
                         </span>
-                        <span className="text-sm font-medium text-forest">
-                          {method === "TRACKED" && applicableLiveRate
-                            ? formatPrice(applicableLiveRate.cents, locale)
-                            : formatPrice(rateFor(method, form.province), locale)}
+                        <span className="mt-0.5 block text-xs text-ink/60">
+                          {disabled
+                            ? t("shippingLetterMaxHint", { max: LETTER_MAX_FLIES })
+                            : t(
+                                method === "LETTER"
+                                  ? "shippingLetterHint"
+                                  : "shippingTrackedHint"
+                              )}
                         </span>
                       </span>
-                      <span className="mt-0.5 block text-xs text-ink/60">
-                        {t(
-                          method === "LETTER"
-                            ? "shippingLetterHint"
-                            : "shippingTrackedHint"
-                        )}
-                      </span>
-                    </span>
-                  </label>
-                ))
+                    </label>
+                  );
+                })
               )}
             </fieldset>
 

@@ -126,7 +126,11 @@ export async function POST(request: Request) {
   // computed itself. Free shipping is judged after the discount, on what the
   // customer actually pays for flies.
   const subtotalCents = amountTotalCents;
-  const method = effectiveMethod(shippingMethod, subtotalCents);
+  const parcelFlyCount = totalQuantity(items);
+  // Re-derived here rather than trusted from the browser: a request could
+  // claim shippingMethod "LETTER" for eighty flies, and this is what stops
+  // that from actually being charged the flat rate.
+  const method = effectiveMethod(shippingMethod, subtotalCents, parcelFlyCount);
   // Live Canada Post quote where possible, static zone rate when the API is
   // unreachable. Either way it's decided here, never taken from the browser —
   // the quote the customer saw is a preview, this is the charge.
@@ -137,7 +141,7 @@ export async function POST(request: Request) {
           method,
           shipping.province,
           shipping.postalCode,
-          totalQuantity(items)
+          parcelFlyCount
         )
       ).cents;
   amountTotalCents += shippingCents;

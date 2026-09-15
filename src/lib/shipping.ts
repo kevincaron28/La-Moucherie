@@ -52,6 +52,33 @@ const ZONE_BY_PROVINCE: Record<ProvinceCode, ShippingZone> = {
 // can't quote it — the API rates parcels, and Lettermail isn't one.)
 export const LETTER_RATE_CENTS = 350;
 
+// How many flies actually fit under that flat rate. LETTER_RATE_CENTS is
+// priced for Canada Post's up-to-100g non-standard Lettermail bracket (a real
+// sourced quote: $2.61 before tax / $3.00 with tax — $3.50 leaves a little
+// margin). Past 100g the parcel needs the next bracket, which is a different,
+// higher price we can't charge $3.50 for.
+//
+//   envelope + a stiff card insert protecting the hooks   ~15 g
+//   a tied fly — hook, thread, a pinch of material         ~1 g each
+//   stay under 90 g rather than the full 100 g bracket, so tape and one
+//   heavier-than-average streamer don't tip it over the edge
+//
+// So this is a weight budget, not a guess, and it's the actual reason a big
+// order can't stay on the flat rate: past this count either the bracket or the
+// price changes, and a flat rate that silently stopped matching the real cost
+// is exactly the bug this constant exists to prevent.
+const LETTER_TARE_GRAMS = 15;
+const LETTER_GRAMS_PER_FLY = 1;
+const LETTER_WEIGHT_BUDGET_GRAMS = 90;
+
+export const LETTER_MAX_FLIES = Math.floor(
+  (LETTER_WEIGHT_BUDGET_GRAMS - LETTER_TARE_GRAMS) / LETTER_GRAMS_PER_FLY
+);
+
+export function canUseLetter(flyCount: number): boolean {
+  return flyCount <= LETTER_MAX_FLIES;
+}
+
 // Tracked parcel varies by distance. Each zone is billed at the WORST case
 // inside it — the furthest destination quoted — because a zone rate set from
 // its cheapest city quietly loses money on every order to its far edge.
@@ -126,12 +153,20 @@ export function shippingCostCents(
   return rateFor(method, province);
 }
 
-/** Above the threshold every order ships tracked, since tracking is the perk. */
+/**
+ * Above the free-shipping threshold every order ships tracked, since tracking
+ * is the perk. Below it, letter mail is capped at LETTER_MAX_FLIES: past that
+ * the parcel no longer fits the bracket the flat rate is priced for, so the
+ * same override applies rather than quietly undercharging a big order.
+ */
 export function effectiveMethod(
   method: ShippingMethod,
-  subtotalCents: number
+  subtotalCents: number,
+  flyCount: number
 ): ShippingMethod {
-  return isFreeShipping(subtotalCents) ? "TRACKED" : method;
+  if (isFreeShipping(subtotalCents)) return "TRACKED";
+  if (method === "LETTER" && !canUseLetter(flyCount)) return "TRACKED";
+  return method;
 }
 
 // Packaging by fly count, so the shipping email can say which envelope or box
@@ -155,7 +190,10 @@ export function packagingFor(
     return {
       labelFr: "Enveloppe plate matelassée (max 2 cm d'épaisseur)",
       labelEn: "Flat padded envelope (2 cm thick max)",
-      weightGrams: flyCount <= 5 ? 30 : 60,
+      // Scales with count rather than a flat guess, so what's declared at the
+      // counter is the actual weight, not a number that stopped being true
+      // somewhere past five flies.
+      weightGrams: LETTER_TARE_GRAMS + flyCount * LETTER_GRAMS_PER_FLY,
       dimensionsCm: "23 × 15 × 2",
     };
   }

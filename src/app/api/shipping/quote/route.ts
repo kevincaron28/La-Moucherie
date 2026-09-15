@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { resolveShippingRate } from "@/lib/shipping-quote";
-import { SHIPPING_METHODS, isProvinceCode, isFreeShipping } from "@/lib/shipping";
+import {
+  SHIPPING_METHODS,
+  isProvinceCode,
+  isFreeShipping,
+  effectiveMethod,
+} from "@/lib/shipping";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
 
 const schema = z.object({
@@ -37,6 +42,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ cents: 0, source: "free" });
   }
 
-  const rate = await resolveShippingRate(method, province, postalCode, flyCount);
-  return NextResponse.json(rate);
+  // A preview has to match what create-payment-intent will actually charge —
+  // quoting the flat letter rate for a fly count that no longer qualifies
+  // would show a price the checkout is about to override.
+  const resolvedMethod = effectiveMethod(method, subtotalCents, flyCount);
+  const rate = await resolveShippingRate(resolvedMethod, province, postalCode, flyCount);
+  return NextResponse.json({ ...rate, method: resolvedMethod });
 }

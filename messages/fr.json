@@ -229,7 +229,8 @@
     "notesHint": "Quelque chose de particulier pour cette commande — une couleur, un lestage, une rivière où vous allez.",
     "addToOrder": "Ajoutez à votre commande",
     "addToOrderHint": "La livraison est déjà payée — ajouter une mouche ou une boîte ne coûte rien de plus à expédier.",
-    "addOne": "Ajouter"
+    "addOne": "Ajouter",
+    "shippingLetterMaxHint": "Pas offert au-delà de {max} mouches — passe automatiquement au colis avec suivi."
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",
