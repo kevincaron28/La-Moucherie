@@ -300,7 +300,7 @@ per package.
 
 An order sits `PENDING` from the moment checkout starts until Stripe confirms
 payment, so every abandoned checkout leaves one behind. `/api/cron/abandoned`
-runs hourly from `vercel.json` and does two things: emails a recovery link for
+runs **once a day** from `vercel.json` (13:00 UTC) and does two things: emails a recovery link for
 orders past `RECOVERY_DELAY_MS` (4h) that haven't been nudged, and cancels those
 past `CLEANUP_DELAY_MS` (7 days).
 
@@ -315,6 +315,13 @@ The recovery link carries a random `recoveryToken` rather than the order id, and
 `/api/cart/recover` rebuilds the basket from today's catalogue rather than the
 order snapshot — a retired or sold-out pattern shouldn't reappear in someone's
 cart, and the price should be the current one.
+
+**Vercel's Hobby plan allows at most one cron run per day**, and a more frequent
+schedule is rejected outright — the deployment is never created, so pushes appear
+to do nothing rather than failing visibly. Keep the schedule daily unless the
+plan changes. `RECOVERY_DELAY_MS` is therefore a floor rather than a cadence:
+it stops someone being emailed about a cart they left twenty minutes ago, and the
+nudge lands on the next daily run.
 
 Set `CRON_SECRET` in the environment; the endpoint refuses anything without it,
 since otherwise anyone could trigger a mailing.
