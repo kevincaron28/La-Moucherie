@@ -128,11 +128,10 @@ export async function getRates(
   // risks a quote below what's actually charged.
   const weightKg = Math.max(0.5, weightGrams / 1000);
 
-  // customerNumber only unlocks commercial pricing when paired with a
-  // contractId — sending one without the other gets the request rejected.
-  // Without a contract on file, omit both and take counter (consumer)
-  // rates rather than fail outright, the same fallback the old code used
-  // when no customer number was configured.
+  // customerNumber unlocks Solutions for Small Business (SFB) commercial rates.
+  // contractId is optional — only commercial agreement accounts have one;
+  // sending customerNumber alone applies the SFB discount. Without customerNumber,
+  // omit both and take counter (consumer) rates.
   const customerNumber = process.env.CANADA_POST_CUSTOMER_NUMBER?.trim();
   const contractId = process.env.CANADA_POST_CONTRACT_ID?.trim();
 
@@ -151,9 +150,9 @@ export async function getRates(
     },
   };
 
-  if (customerNumber && contractId) {
+  if (customerNumber) {
     body.customerNumber = customerNumber;
-    body.contractId = contractId;
+    if (contractId) body.contractId = contractId;
     body.quoteType = "commercial";
   }
 
