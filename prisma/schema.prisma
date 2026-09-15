@@ -10,8 +10,11 @@ datasource db {
   // Migrations must not. `prisma migrate deploy` takes a session-scoped Postgres
   // advisory lock, and a transaction-mode pooler can't hold one, so every deploy
   // died with "P1002 … timed out trying to acquire a postgres advisory lock".
-  // This is the same Neon connection string with `-pooler` removed from the host.
-  directUrl = env("DIRECT_URL")
+  // DATABASE_URL_UNPOOLED is the Neon Vercel integration's own non-pooled URL —
+  // it auto-populates for Production AND every Preview branch, unlike a
+  // hand-added DIRECT_URL which only exists where someone remembered to type it
+  // in (that gap is exactly what broke every preview build).
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 enum ProductCategory {
