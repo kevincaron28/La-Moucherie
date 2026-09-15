@@ -198,6 +198,26 @@ export async function POST(request: Request) {
     },
   });
 
+  if (session?.user?.id) {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { shippingLine1: true },
+    });
+    if (user && !user.shippingLine1) {
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: {
+          shippingLine1: shipping.line1,
+          shippingLine2: shipping.line2 || null,
+          shippingCity: shipping.city,
+          shippingProvince: shipping.province,
+          shippingPostalCode: shipping.postalCode,
+          shippingCountry: shipping.country,
+        },
+      });
+    }
+  }
+
   return NextResponse.json({
     clientSecret: paymentIntent.client_secret,
     orderId: order.id,

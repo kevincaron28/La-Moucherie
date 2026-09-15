@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
@@ -7,6 +8,39 @@ import { AnglerSpecs } from "@/components/AnglerSpecs";
 import { getReviewEligibility } from "@/lib/review-eligibility";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const product = await prisma.product.findUnique({ where: { slug } });
+  if (!product || !product.active) return {};
+
+  const name = locale === "fr" ? product.nameFr : product.nameEn;
+  const description = (locale === "fr" ? product.descriptionFr : product.descriptionEn).slice(0, 160);
+  const image = product.images[0] ?? "/brand/logo-512.png";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lamoucherie.ca";
+
+  return {
+    title: name,
+    description,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/shop/${slug}`,
+      languages: {
+        fr: `${baseUrl}/fr/shop/${slug}`,
+        en: `${baseUrl}/en/shop/${slug}`,
+      },
+    },
+    openGraph: {
+      title: `${name} — La Moucherie`,
+      description,
+      url: `${baseUrl}/${locale}/shop/${slug}`,
+      images: [{ url: image }],
+    },
+  };
+}
 
 export default async function ProductPage({
   params,
@@ -39,8 +73,47 @@ export default async function ProductPage({
       : 0;
   const eligibility = await getReviewEligibility(product.id);
 
+  const prices = product.variants.map((v) => v.priceCents ?? product.basePriceCents);
+  const minPrice = prices.length ? Math.min(...prices) : product.basePriceCents;
+  const hasStock = product.variants.some((v) => v.stock > 0);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lamoucherie.ca";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: locale === "fr" ? product.nameFr : product.nameEn,
+    description: locale === "fr" ? product.descriptionFr : product.descriptionEn,
+    image: product.images.length > 0 ? product.images : [`${siteUrl}/products/placeholder-fly.svg`],
+    brand: {
+      "@type": "Brand",
+      name: "La Moucherie",
+    },
+    offers: {
+      "@type": "Offer",
+      price: (minPrice / 100).toFixed(2),
+      priceCurrency: product.currency.toUpperCase(),
+      availability: hasStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: `${siteUrl}/${locale}/shop/${product.slug}`,
+    },
+    ...(reviews.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: averageRating.toFixed(1),
+            reviewCount: reviews.length,
+          },
+        }
+      : {}),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link
         href="/shop"
         className="text-sm font-medium text-forest/70 hover:text-rust"

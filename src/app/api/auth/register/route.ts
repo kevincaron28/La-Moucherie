@@ -33,6 +33,13 @@ export async function POST(request: Request) {
   const passwordHash = await bcrypt.hash(password, 12);
   const user = await prisma.user.create({ data: { name, email, passwordHash } });
 
+  // Claim any past orders placed as a guest with this email address so they appear
+  // in order history and unlock review eligibility.
+  await prisma.order.updateMany({
+    where: { email: user.email, userId: null },
+    data: { userId: user.id },
+  });
+
   // Verification is sent but never blocks: an unverified customer can still
   // browse and check out. Gating the shop on an email that might land in spam
   // would cost more orders than the fake accounts it prevents.

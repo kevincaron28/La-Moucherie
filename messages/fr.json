@@ -189,7 +189,11 @@
     "remove": "Retirer",
     "checkoutCta": "Passer à la caisse",
     "continueShopping": "Continuer vos achats",
-    "itemsCount": "{count, plural, =0 {0 article} one {1 article} other {# articles}}"
+    "itemsCount": "{count, plural, =0 {0 article} one {1 article} other {# articles}}",
+    "freeShippingQualified": "🎉 Livraison suivie gratuite débloquée !",
+    "freeShippingProgress": "Plus que {amount} pour débloquer la livraison suivie gratuite.",
+    "bulkTierApplied": "Rabais volume de {percent}% appliqué sur vos mouches !",
+    "bulkTierProgress": "Ajoutez {count} {count, plural, one {mouche} other {mouches}} de plus pour obtenir {percent}% de rabais."
   },
   "Checkout": {
     "title": "Paiement",

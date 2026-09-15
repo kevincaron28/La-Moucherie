@@ -43,7 +43,10 @@ export default async function AccountPage({
   }
 
   const orders = await prisma.order.findMany({
-    where: { userId: user.id },
+    where: {
+      userId: user.id,
+      status: { notIn: ["CANCELLED", "FAILED"] },
+    },
     include: {
       items: { include: { product: { select: { slug: true } } } },
     },

@@ -24,7 +24,8 @@ export function ProductDetail({
   const locale = useLocale() as Locale;
   const { addItem } = useCart();
 
-  const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
+  const initialVariant = product.variants.find((v) => v.stock > 0) ?? product.variants[0];
+  const [variantId, setVariantId] = useState(initialVariant?.id ?? "");
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
 
@@ -35,7 +36,16 @@ export function ProductDetail({
 
   const priceCents = variant?.priceCents ?? product.basePriceCents;
   const inStock = (variant?.stock ?? 0) > 0;
+  const maxAvailable = variant ? Math.max(1, Math.min(variant.stock, 99)) : 1;
   const image = product.images[0] ?? "/products/placeholder-fly.svg";
+
+  function handleSelectVariant(id: string) {
+    setVariantId(id);
+    const target = product.variants.find((v) => v.id === id);
+    if (target && target.stock > 0) {
+      setQuantity((q) => Math.min(Math.max(1, q), target.stock));
+    }
+  }
 
   function handleAddToCart() {
     if (!variant) return;
@@ -104,7 +114,7 @@ export function ProductDetail({
                   key={v.id}
                   type="button"
                   disabled={v.stock <= 0}
-                  onClick={() => setVariantId(v.id)}
+                  onClick={() => handleSelectVariant(v.id)}
                   className={`rounded-full border px-4 py-1.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${
                     v.id === variantId
                       ? "border-forest bg-forest text-cream"
@@ -126,8 +136,9 @@ export function ProductDetail({
             <button
               type="button"
               aria-label="-"
+              disabled={quantity <= 1}
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="h-9 w-9 text-forest transition hover:text-rust"
+              className="h-9 w-9 text-forest transition hover:text-rust disabled:cursor-not-allowed disabled:opacity-30"
             >
               &minus;
             </button>
@@ -137,8 +148,9 @@ export function ProductDetail({
             <button
               type="button"
               aria-label="+"
-              onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-              className="h-9 w-9 text-forest transition hover:text-rust"
+              disabled={!inStock || quantity >= maxAvailable}
+              onClick={() => setQuantity((q) => Math.min(maxAvailable, q + 1))}
+              className="h-9 w-9 text-forest transition hover:text-rust disabled:cursor-not-allowed disabled:opacity-30"
             >
               +
             </button>

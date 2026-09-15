@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import type { ProductCategory } from "@prisma/client";
+import type { ProductCategory, FishSpecies } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { SearchBox } from "@/components/SearchBox";
@@ -28,6 +28,34 @@ export default async function ShopPage({
     : undefined;
   const query = q?.trim();
 
+  const matchedSpecies: FishSpecies[] = [];
+  if (query) {
+    const qLower = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    for (const [code, slug] of Object.entries(SPECIES_SLUGS)) {
+      const slugNorm = slug.replace(/-/g, " ");
+      const codeNorm = code.toLowerCase().replace(/_/g, " ");
+      if (slugNorm.includes(qLower) || codeNorm.includes(qLower) || qLower.includes(slugNorm)) {
+        matchedSpecies.push(code as FishSpecies);
+      }
+    }
+    if (qLower.includes("truite") || qLower.includes("trout")) {
+      matchedSpecies.push("BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT");
+    }
+    if (qLower.includes("saumon") || qLower.includes("salmon")) {
+      matchedSpecies.push("ATLANTIC_SALMON", "LANDLOCKED_SALMON");
+    }
+    if (qLower.includes("achigan") || qLower.includes("bass")) {
+      matchedSpecies.push("SMALLMOUTH_BASS", "LARGEMOUTH_BASS");
+    }
+    if (qLower.includes("brochet") || qLower.includes("pike")) {
+      matchedSpecies.push("NORTHERN_PIKE");
+    }
+    if (qLower.includes("dore") || qLower.includes("walleye")) {
+      matchedSpecies.push("WALLEYE");
+    }
+  }
+  const uniqueMatchedSpecies = Array.from(new Set(matchedSpecies));
+
   const products = await prisma.product.findMany({
     where: {
       active: true,
@@ -39,6 +67,25 @@ export default async function ShopPage({
               { nameEn: { contains: query, mode: "insensitive" } },
               { descriptionFr: { contains: query, mode: "insensitive" } },
               { descriptionEn: { contains: query, mode: "insensitive" } },
+              { howToFishFr: { contains: query, mode: "insensitive" } },
+              { howToFishEn: { contains: query, mode: "insensitive" } },
+              { proTipFr: { contains: query, mode: "insensitive" } },
+              { proTipEn: { contains: query, mode: "insensitive" } },
+              {
+                waters: {
+                  some: {
+                    OR: [
+                      { nameFr: { contains: query, mode: "insensitive" } },
+                      { nameEn: { contains: query, mode: "insensitive" } },
+                      { regionFr: { contains: query, mode: "insensitive" } },
+                      { regionEn: { contains: query, mode: "insensitive" } },
+                    ],
+                  },
+                },
+              },
+              ...(uniqueMatchedSpecies.length > 0
+                ? [{ species: { hasSome: uniqueMatchedSpecies } }]
+                : []),
             ],
           }
         : {}),

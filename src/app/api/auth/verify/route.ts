@@ -19,14 +19,17 @@ export async function POST(request: Request) {
     .createHash("sha256")
     .update(parsed.data.token)
     .digest("hex");
-  const record = await prisma.emailVerificationToken.findUnique({ where: { tokenHash } });
+  const record = await prisma.emailVerificationToken.findUnique({
+    where: { tokenHash },
+    include: { user: { select: { email: true } } },
+  });
 
   if (!record || record.usedAt || record.expiresAt < new Date()) {
     return NextResponse.json({ error: "invalid_token" }, { status: 400 });
   }
 
-  // Consume the token in the same transaction as the flag, so a replayed link
-  // can't be used twice.
+  // Consume the token, mark email verified, and link any outstanding orders
+  // in the same transaction.
   await prisma.$transaction([
     prisma.user.update({
       where: { id: record.userId },
@@ -35,6 +38,10 @@ export async function POST(request: Request) {
     prisma.emailVerificationToken.update({
       where: { id: record.id },
       data: { usedAt: new Date() },
+    }),
+    prisma.order.updateMany({
+      where: { email: record.user.email, userId: null },
+      data: { userId: record.userId },
     }),
   ]);
 

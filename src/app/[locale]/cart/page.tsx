@@ -8,6 +8,14 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, Suspense } from "react";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import {
+  eligibleQuantity,
+  eligibleSubtotalCents,
+  discountCents as computeDiscount,
+  tierFor,
+  nextTier,
+} from "@/lib/discount";
+import { FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
 import type { Locale } from "@/i18n/routing";
 
 export default function CartPage() {
@@ -23,6 +31,15 @@ function CartPageContent() {
   const locale = useLocale() as Locale;
   const { items, removeItem, setQuantity, subtotalCents, mergeItems } = useCart();
   const recoverToken = useSearchParams().get("recover");
+
+  const flyCount = eligibleQuantity(items);
+  const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
+  const currentTier = tierFor(flyCount);
+  const upcoming = nextTier(flyCount);
+  const discountedSubtotal = subtotalCents - discount;
+  const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
+  const freePercent = Math.min(100, Math.round((discountedSubtotal / FREE_SHIPPING_THRESHOLD_CENTS) * 100));
+  const tierProgressPercent = Math.min(100, Math.round((flyCount / 24) * 100));
 
   // Arriving from an abandoned-cart email: rebuild the basket from the order,
   // re-priced against today's catalogue rather than the old snapshot.
@@ -58,6 +75,49 @@ function CartPageContent() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <h1 className="font-display text-3xl font-semibold text-forest">{t("title")}</h1>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border border-forest/15 bg-cream/50 p-4">
+          <div className="flex items-center justify-between text-xs font-semibold text-forest">
+            <span>
+              {currentTier
+                ? t("bulkTierApplied", { percent: currentTier.percent })
+                : upcoming
+                ? t("bulkTierProgress", {
+                    count: upcoming.minQuantity - flyCount,
+                    percent: upcoming.percent,
+                  })
+                : t("bulkTierApplied", { percent: 15 })}
+            </span>
+            <span className="font-mono text-ink/60">{flyCount}/24</span>
+          </div>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-forest/10">
+            <div
+              className="h-full bg-rust transition-all duration-500 ease-out"
+              style={{ width: `${tierProgressPercent}%` }}
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-forest/15 bg-cream/50 p-4">
+          <div className="flex items-center justify-between text-xs font-semibold text-forest">
+            <span>
+              {remainingForFree <= 0
+                ? t("freeShippingQualified")
+                : t("freeShippingProgress", {
+                    amount: formatPrice(remainingForFree, locale),
+                  })}
+            </span>
+            <span className="font-mono text-ink/60">{freePercent}%</span>
+          </div>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-forest/10">
+            <div
+              className="h-full bg-forest transition-all duration-500 ease-out"
+              style={{ width: `${freePercent}%` }}
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="mt-8 divide-y divide-forest/10 border-y border-forest/10">
         {items.map((item) => (
@@ -117,13 +177,32 @@ function CartPageContent() {
         ))}
       </div>
 
-      <div className="mt-8 flex flex-col items-end gap-4">
-        <div className="flex items-center gap-4 text-lg">
-          <span className="text-ink/70">{t("subtotal")}</span>
-          <span className="font-display font-semibold text-forest">
-            {formatPrice(subtotalCents, locale)}
-          </span>
-        </div>
+      <div className="mt-8 flex flex-col items-end gap-3">
+        {discount > 0 ? (
+          <>
+            <div className="flex items-center gap-4 text-sm text-ink/70">
+              <span>{t("subtotal")}</span>
+              <span className="line-through">{formatPrice(subtotalCents, locale)}</span>
+            </div>
+            <div className="flex items-center gap-4 text-sm font-medium text-rust">
+              <span>{t("bulkTierApplied", { percent: currentTier?.percent ?? 0 })}</span>
+              <span>-{formatPrice(discount, locale)}</span>
+            </div>
+            <div className="flex items-center gap-4 text-xl font-semibold text-forest border-t border-forest/10 pt-2">
+              <span>{t("subtotal")}</span>
+              <span className="font-display">
+                {formatPrice(discountedSubtotal, locale)}
+              </span>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center gap-4 text-lg">
+            <span className="text-ink/70">{t("subtotal")}</span>
+            <span className="font-display font-semibold text-forest">
+              {formatPrice(subtotalCents, locale)}
+            </span>
+          </div>
+        )}
         <div className="flex flex-wrap justify-end gap-3">
           <Link
             href="/shop"
