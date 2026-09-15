@@ -4,6 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
+import { Analytics } from "@vercel/analytics/next";
 import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
             </CartProvider>
           </SessionProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
