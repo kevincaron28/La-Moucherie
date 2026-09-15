@@ -52,28 +52,25 @@ const ZONE_BY_PROVINCE: Record<ProvinceCode, ShippingZone> = {
 // can't quote it — the API rates parcels, and Lettermail isn't one.)
 export const LETTER_RATE_CENTS = 350;
 
-// How many flies actually fit under that flat rate. LETTER_RATE_CENTS is
-// priced for Canada Post's up-to-100g non-standard Lettermail bracket (a real
-// sourced quote: $2.61 before tax / $3.00 with tax — $3.50 leaves a little
-// margin). Past 100g the parcel needs the next bracket, which is a different,
-// higher price we can't charge $3.50 for.
+// How many flies actually fit under that flat rate — capped by physical fit in
+// a 6×9" (23×15cm), 2cm-thick envelope, not by weight. A tied fly isn't flat:
+// hackle, wings and wound thread have real bulk a per-gram estimate says
+// nothing about, so weight was never going to be the constraint that bites
+// first. 36 — three dozen — is a judgment call about what actually lies flat
+// without getting crushed, made by someone who ties these and knows their
+// bulk, not derived from a formula. It also matches the dozen-based language
+// the bulk tiers and boxes already use, rather than introducing a new unit.
 //
-//   envelope + a stiff card insert protecting the hooks   ~15 g
-//   a tied fly — hook, thread, a pinch of material         ~1 g each
-//   stay under 90 g rather than the full 100 g bracket, so tape and one
-//   heavier-than-average streamer don't tip it over the edge
-//
-// So this is a weight budget, not a guess, and it's the actual reason a big
-// order can't stay on the flat rate: past this count either the bracket or the
-// price changes, and a flat rate that silently stopped matching the real cost
-// is exactly the bug this constant exists to prevent.
+// LETTER_RATE_CENTS is priced for Canada Post's up-to-100g non-standard
+// Lettermail bracket (sourced quote: $2.61 before tax / $3.00 with tax — $3.50
+// leaves a little margin), so it's worth knowing weight was never close to
+// binding here: 36 flies plus the envelope below comes to about 50g, well
+// under that bracket. The 2cm of physical space runs out long before the
+// 100g of weight allowance does.
 const LETTER_TARE_GRAMS = 15;
 const LETTER_GRAMS_PER_FLY = 1;
-const LETTER_WEIGHT_BUDGET_GRAMS = 90;
 
-export const LETTER_MAX_FLIES = Math.floor(
-  (LETTER_WEIGHT_BUDGET_GRAMS - LETTER_TARE_GRAMS) / LETTER_GRAMS_PER_FLY
-);
+export const LETTER_MAX_FLIES = 36;
 
 export function canUseLetter(flyCount: number): boolean {
   return flyCount <= LETTER_MAX_FLIES;
