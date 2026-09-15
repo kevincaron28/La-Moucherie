@@ -385,12 +385,18 @@ Two URLs, deliberately:
 
 - `DATABASE_URL` — Neon's **pooled** host. Runtime queries want this: serverless
   makes many short-lived connections, which is what a pooler is for.
-- `DIRECT_URL` — the same string with `-pooler` removed from the host.
+- `DATABASE_URL_UNPOOLED` — the same string with `-pooler` removed from the host.
   `prisma migrate deploy` takes a session-scoped Postgres advisory lock, and a
   transaction-mode pooler can't hold one, so migrations through the pooled URL
   fail with `P1002 … timed out trying to acquire a postgres advisory lock` and
   the whole deploy dies. `directUrl` in `prisma/schema.prisma` routes migrations
   around the pooler.
+
+  On Vercel this variable is auto-populated by the Neon integration for
+  **every** environment — Production and each Preview branch — so it never
+  needs to be added by hand. (An earlier hand-added `DIRECT_URL` only existed
+  in Production, which is why every Preview build failed with
+  `P1012: Environment variable not found` until this was switched over.)
 
 For a plain local Postgres there's no pooler, so both point at the same place.
 
