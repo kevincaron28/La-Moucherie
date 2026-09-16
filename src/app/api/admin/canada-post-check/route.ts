@@ -27,6 +27,21 @@ export async function GET(request: Request) {
   const environment =
     process.env.CANADA_POST_ENV === "prod" ? "production" : "development";
 
+  // Defaults match the small-box packaging most orders actually ship in;
+  // override with ?weight=&length=&width=&height= to price a specific parcel
+  // (e.g. the medium box) instead of guessing from the small one.
+  const numParam = (name: string, fallback: number): number => {
+    const raw = url.searchParams.get(name);
+    const parsed = raw ? parseFloat(raw) : NaN;
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  };
+  const weightGrams = numParam("weight", 80);
+  const dimensions = {
+    length: numParam("length", 20),
+    width: numParam("width", 15),
+    height: numParam("height", 5),
+  };
+
   if (!canadaPostConfigured()) {
     const body = {
       ok: false,
@@ -41,11 +56,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const quotes = await getRates(destination, 80, {
-    length: 20,
-    width: 15,
-    height: 5,
-  });
+  const quotes = await getRates(destination, weightGrams, dimensions);
 
   if (!quotes) {
     const body = {
@@ -76,6 +87,7 @@ export async function GET(request: Request) {
     ok: true,
     environment,
     destination,
+    parcel: { weightGrams, ...dimensions },
     quotes: quotes.map((q) => ({
       service: q.serviceName,
       code: q.serviceCode,
@@ -102,7 +114,7 @@ export async function GET(request: Request) {
     "Canada Post is connected",
     `<p class="good">Live rates are working.</p>
      <dl><dt>Environment</dt><dd>${environment}</dd>
-         <dt>Test parcel</dt><dd>80 g, 20×15×5 cm → ${escapeHtml(destination)}</dd></dl>
+         <dt>Test parcel</dt><dd>${weightGrams} g, ${dimensions.length}×${dimensions.width}×${dimensions.height} cm → ${escapeHtml(destination)}</dd></dl>
      <table>
        <thead><tr><th>Service</th><th>Before tax</th><th>You pay</th><th>Days</th></tr></thead>
        <tbody>${rows}</tbody>
