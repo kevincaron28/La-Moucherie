@@ -14,7 +14,6 @@ import { resolveShippingRate } from "@/lib/shipping-quote";
 import {
   SHIPPING_METHODS,
   PROVINCES,
-  isFreeShipping,
   effectiveMethod,
 } from "@/lib/shipping";
 
@@ -41,6 +40,9 @@ const checkoutSchema = z.object({
     country: z.literal("CA"),
   }),
   shippingMethod: z.enum(SHIPPING_METHODS),
+  // Which live Canada Post tier the customer picked, when one was offered.
+  // Re-validated server-side against the live tier list — this is only intent.
+  shippingServiceCode: z.string().max(20).optional(),
   notes: z.string().max(500).optional(),
   locale: z.enum(["fr", "en"]),
 });
@@ -51,8 +53,16 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
-  const { items, email, customerName, shipping, shippingMethod, notes, locale } =
-    parsed.data;
+  const {
+    items,
+    email,
+    customerName,
+    shipping,
+    shippingMethod,
+    shippingServiceCode,
+    notes,
+    locale,
+  } = parsed.data;
 
   const variantIds = items.map((i) => i.variantId);
   const variants = await prisma.productVariant.findMany({
@@ -133,17 +143,21 @@ export async function POST(request: Request) {
   const method = effectiveMethod(shippingMethod, subtotalCents, parcelFlyCount);
   // Live Canada Post quote where possible, static zone rate when the API is
   // unreachable. Either way it's decided here, never taken from the browser —
-  // the quote the customer saw is a preview, this is the charge.
-  const shippingCents = isFreeShipping(subtotalCents)
-    ? 0
-    : (
-        await resolveShippingRate(
-          method,
-          shipping.province,
-          shipping.postalCode,
-          parcelFlyCount
-        )
-      ).cents;
+  // the quote the customer saw is a preview, this is the charge. The service
+  // code is only intent too: resolveShippingRate re-checks it against the
+  // live tier list and free-shipping only ever zeroes out the cheapest one.
+  const rate = await resolveShippingRate(
+    method,
+    shipping.province,
+    shipping.postalCode,
+    parcelFlyCount,
+    {
+      subtotalCents,
+      serviceCode: shippingServiceCode,
+      language: locale === "fr" ? "fr-CA" : "en-CA",
+    }
+  );
+  const shippingCents = rate.cents;
   amountTotalCents += shippingCents;
 
   let paymentIntent;
@@ -188,6 +202,8 @@ export async function POST(request: Request) {
       shippingPostalCode: shipping.postalCode,
       shippingCountry: shipping.country,
       shippingMethod: method,
+      shippingServiceCode: rate.serviceCode ?? null,
+      shippingServiceName: rate.serviceName ?? null,
       shippingCents,
       notes: notes?.trim() || null,
       discountCents,

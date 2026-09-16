@@ -136,6 +136,11 @@ model Order {
   // Recorded per order so a past order can still be read back correctly after
   // the rates in src/lib/shipping.ts change.
   shippingMethod        String      @default("TRACKED")
+  // Which Canada Post service was actually bought, when the customer picked
+  // among live tiers (Regular/Expedited/Xpresspost/Priority). Null for
+  // Lettermail and for the zone-table fallback, neither of which has tiers.
+  shippingServiceCode   String?
+  shippingServiceName   String?
   shippingCents         Int         @default(0)
   // What the customer asked for in their own words, and what the bulk tiers
   // took off — both recorded so an old order reads correctly after the rules change.

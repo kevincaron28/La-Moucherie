@@ -68,6 +68,7 @@ type OrderEmailData = {
   discountCents: number;
   shippingCents: number;
   shippingMethod: string;
+  shippingServiceName: string | null;
   notes: string | null;
   shippingLine1: string;
   shippingLine2: string | null;
@@ -192,7 +193,9 @@ export async function sendOrderNotificationToOwner(order: OrderEmailData) {
   const shippingLabel =
     order.shippingMethod === "LETTER"
       ? "Poste-lettre (Lettermail) — sans suivi"
-      : "Colis régulier (Regular Parcel) — avec suivi";
+      : order.shippingServiceName
+        ? `${escapeHtml(order.shippingServiceName)} — avec suivi`
+        : "Colis régulier (Regular Parcel) — avec suivi";
 
   const pack = packagingFor(flyCount, order.shippingMethod === "LETTER" ? "LETTER" : "TRACKED");
   const shippingPaid =

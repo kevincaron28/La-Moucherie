@@ -123,7 +123,8 @@ async function getAccessToken(): Promise<string | null> {
 export async function getRates(
   destinationPostalCode: string,
   weightGrams: number,
-  dimensionsCm: { length: number; width: number; height: number }
+  dimensionsCm: { length: number; width: number; height: number },
+  language: "en-CA" | "fr-CA" = "en-CA"
 ): Promise<CanadaPostQuote[] | null> {
   if (!canadaPostConfigured()) return null;
   if (!isValidPostalCode(destinationPostalCode)) return null;
@@ -173,7 +174,7 @@ export async function getRates(
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Accept-Language": "en-CA",
+        "Accept-Language": language,
       },
       body: JSON.stringify(body),
       signal: controller.signal,
@@ -226,8 +227,9 @@ export async function getRates(
 export async function cheapestTrackedCents(
   destinationPostalCode: string,
   weightGrams: number,
-  dimensionsCm: { length: number; width: number; height: number }
+  dimensionsCm: { length: number; width: number; height: number },
+  language: "en-CA" | "fr-CA" = "en-CA"
 ): Promise<CanadaPostQuote | null> {
-  const quotes = await getRates(destinationPostalCode, weightGrams, dimensionsCm);
+  const quotes = await getRates(destinationPostalCode, weightGrams, dimensionsCm, language);
   return quotes?.[0] ?? null;
 }

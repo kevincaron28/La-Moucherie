@@ -100,8 +100,11 @@ export default async function OrderPrintPage({
           <div className="mt-1 rounded border border-gray-300 bg-gray-50 p-3">
             <p className="font-semibold">
               {order.shippingMethod === "LETTER"
-                ? (locale === "fr" ? "Poste-lettre" : "Lettermail")
-                : (locale === "fr" ? "Colis avec suivi" : "Tracked Parcel")}
+                ? locale === "fr"
+                  ? "Poste-lettre"
+                  : "Lettermail"
+                : (order.shippingServiceName ??
+                  (locale === "fr" ? "Colis avec suivi" : "Tracked Parcel"))}
             </p>
             <p className="mt-1 text-xs text-gray-700">
               {locale === "fr" ? packaging.labelFr : packaging.labelEn}

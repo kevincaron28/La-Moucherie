@@ -225,7 +225,6 @@
     "shippingTracked": "Tracked parcel",
     "shippingTrackedHint": "Tracked door to door, with a delivery confirmation.",
     "shippingFree": "Free",
-    "shippingFreeApplied": "Your order ships free, tracked — nothing to choose.",
     "freeShippingHint": "Add {amount} more for free tracked shipping.",
     "bulkDiscount": "Bulk discount ({percent}%)",
     "bulkHint": "Add {count} more {count, plural, one {fly} other {flies}} to save {percent}%.",
@@ -234,7 +233,10 @@
     "addToOrder": "Add to your order",
     "addToOrderHint": "Shipping is already paid for — adding a fly or a box costs nothing extra to send.",
     "addOne": "Add",
-    "shippingLetterMaxHint": "Not available above {max} flies — switches automatically to the tracked parcel."
+    "shippingLetterMaxHint": "Not available above {max} flies — switches automatically to the tracked parcel.",
+    "shippingLetterFreeHint": "Not needed — your order already ships free, tracked.",
+    "shippingSpeed": "Choose your speed",
+    "transitDays": "{days, plural, one {~1 business day} other {~# business days}}"
   },
   "OrderConfirmation": {
     "title": "Thank you for your order!",

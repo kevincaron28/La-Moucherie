@@ -225,7 +225,6 @@
     "shippingTracked": "Colis avec suivi",
     "shippingTrackedHint": "Suivi de porte à porte, avec confirmation de livraison.",
     "shippingFree": "Offerte",
-    "shippingFreeApplied": "Votre commande est livrée gratuitement, avec suivi — rien à choisir.",
     "freeShippingHint": "Ajoutez {amount} pour la livraison suivie gratuite.",
     "bulkDiscount": "Rabais quantité ({percent} %)",
     "bulkHint": "Ajoutez {count} mouche{count, plural, one {} other {s}} de plus pour économiser {percent} %.",
@@ -234,7 +233,10 @@
     "addToOrder": "Ajoutez à votre commande",
     "addToOrderHint": "La livraison est déjà payée — ajouter une mouche ou une boîte ne coûte rien de plus à expédier.",
     "addOne": "Ajouter",
-    "shippingLetterMaxHint": "Pas offert au-delà de {max} mouches — passe automatiquement au colis avec suivi."
+    "shippingLetterMaxHint": "Pas offert au-delà de {max} mouches — passe automatiquement au colis avec suivi.",
+    "shippingLetterFreeHint": "Pas nécessaire — votre commande est déjà livrée gratuitement, avec suivi.",
+    "shippingSpeed": "Choisissez votre rapidité",
+    "transitDays": "{days, plural, one {~1 jour ouvrable} other {~# jours ouvrables}}"
   },
   "OrderConfirmation": {
     "title": "Merci pour votre commande !",

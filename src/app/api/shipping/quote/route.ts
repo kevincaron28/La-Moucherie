@@ -4,7 +4,6 @@ import { resolveShippingRate } from "@/lib/shipping-quote";
 import {
   SHIPPING_METHODS,
   isProvinceCode,
-  isFreeShipping,
   effectiveMethod,
 } from "@/lib/shipping";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
@@ -15,6 +14,8 @@ const schema = z.object({
   postalCode: z.string().min(6).max(10),
   flyCount: z.number().int().min(1).max(500),
   subtotalCents: z.number().int().min(0),
+  serviceCode: z.string().max(20).optional(),
+  locale: z.enum(["fr", "en"]).default("fr"),
 });
 
 /**
@@ -32,20 +33,21 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
-  const { method, province, postalCode, flyCount, subtotalCents } = parsed.data;
+  const { method, province, postalCode, flyCount, subtotalCents, serviceCode, locale } =
+    parsed.data;
 
   if (!isProvinceCode(province)) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
-  }
-
-  if (isFreeShipping(subtotalCents)) {
-    return NextResponse.json({ cents: 0, source: "free" });
   }
 
   // A preview has to match what create-payment-intent will actually charge —
   // quoting the flat letter rate for a fly count that no longer qualifies
   // would show a price the checkout is about to override.
   const resolvedMethod = effectiveMethod(method, subtotalCents, flyCount);
-  const rate = await resolveShippingRate(resolvedMethod, province, postalCode, flyCount);
+  const rate = await resolveShippingRate(resolvedMethod, province, postalCode, flyCount, {
+    subtotalCents,
+    serviceCode,
+    language: locale === "fr" ? "fr-CA" : "en-CA",
+  });
   return NextResponse.json({ ...rate, method: resolvedMethod });
 }

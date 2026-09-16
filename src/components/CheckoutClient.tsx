@@ -33,6 +33,13 @@ import {
 } from "@/lib/shipping";
 import type { Locale } from "@/i18n/routing";
 
+type ServiceOption = {
+  serviceCode: string;
+  serviceName: string;
+  cents: number;
+  transitDays: number | null;
+};
+
 type ShippingForm = {
   email: string;
   customerName: string;
@@ -85,10 +92,14 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   // pass just to forget the previous answer.
   const [liveRate, setLiveRate] = useState<{
     key: string;
-    cents: number;
     source: string;
-    serviceName?: string;
+    services?: ServiceOption[];
   } | null>(null);
+  // Which live tier the customer picked, when more than one was on offer.
+  // Null means "not chosen yet" — the cheapest tier is used until they pick.
+  const [selectedServiceCode, setSelectedServiceCode] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (sessionStatus !== "authenticated") return;
@@ -152,22 +163,39 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   const quoteKey = `${form.province}:${form.postalCode
     .trim()
     .toUpperCase()
-    .replace(/\s/g, "")}:${parcelFlyCount}`;
+    .replace(/\s/g, "")}:${parcelFlyCount}:${locale}`;
 
   // A quote fetched for different inputs is simply not applicable, rather than
   // something an effect has to clear.
   const applicableLiveRate =
-    liveRate && liveRate.key === quoteKey && !freeShipping ? liveRate : null;
+    liveRate && liveRate.key === quoteKey ? liveRate : null;
+  // Every live tier at its real (never free-adjusted) price, cheapest first —
+  // absent when no live quote is available, which is when the picker below
+  // stays hidden and the static zone rate is used instead.
+  const services = applicableLiveRate?.services ?? null;
+  const cheapestServiceCode = services?.[0]?.serviceCode ?? null;
+  // A previous pick that no longer appears in a fresh quote (a different
+  // postal code, say) silently falls back to the cheapest tier rather than
+  // needing an effect to notice and reset it.
+  const effectiveServiceCode =
+    (selectedServiceCode &&
+      services?.some((s) => s.serviceCode === selectedServiceCode) &&
+      selectedServiceCode) ||
+    cheapestServiceCode;
+  const selectedService =
+    services?.find((s) => s.serviceCode === effectiveServiceCode) ?? null;
+  const isCheapestSelected = effectiveServiceCode === cheapestServiceCode;
 
-  const zoneShippingCents = shippingCostCents(
-    chosenMethod,
-    discountedSubtotal,
-    form.province
-  );
+  // Free shipping only zeroes out the cheapest tier — see shipping-quote.ts.
+  const trackedCents = selectedService
+    ? isCheapestSelected && freeShipping
+      ? 0
+      : selectedService.cents
+    : shippingCostCents("TRACKED", discountedSubtotal, form.province);
   const shippingCents =
-    chosenMethod === "TRACKED" && applicableLiveRate
-      ? applicableLiveRate.cents
-      : zoneShippingCents;
+    chosenMethod === "TRACKED"
+      ? trackedCents
+      : shippingCostCents(chosenMethod, discountedSubtotal, form.province);
   const total = discountedSubtotal + shippingCents;
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
 
@@ -176,7 +204,10 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   );
 
   useEffect(() => {
-    if (!postalReady || shippingMethod !== "TRACKED" || freeShipping) return;
+    // chosenMethod, not the raw radio pick: quotes are still needed once
+    // free shipping or the letter cap force the parcel to ship tracked, even
+    // if the customer's own pick is still "LETTER" from before the cart grew.
+    if (!postalReady || chosenMethod !== "TRACKED") return;
     let cancelled = false;
     // Debounced: the postal code fires this on every keystroke otherwise, and
     // each miss is an upstream API call.
@@ -190,6 +221,7 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
           postalCode: form.postalCode.trim(),
           flyCount: Math.max(1, parcelFlyCount),
           subtotalCents: discountedSubtotal,
+          locale,
         }),
       })
         .then((res) => (res.ok ? res.json() : null))
@@ -209,10 +241,10 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
     quoteKey,
     form.postalCode,
     form.province,
-    shippingMethod,
-    freeShipping,
+    chosenMethod,
     parcelFlyCount,
     discountedSubtotal,
+    locale,
   ]);
 
   const inCart = new Set(items.map((i) => i.variantId));
@@ -254,6 +286,8 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
             country: form.country,
           },
           shippingMethod: chosenMethod,
+          shippingServiceCode:
+            chosenMethod === "TRACKED" ? effectiveServiceCode ?? undefined : undefined,
           notes: notes.trim() || undefined,
           locale,
         }),
@@ -383,20 +417,18 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
               <legend className="font-display font-semibold text-forest">
                 {t("shippingMethod")}
               </legend>
-              {freeShipping ? (
-                <p className="rounded-lg border border-halo/30 bg-halo/5 px-4 py-3 text-sm text-ink/80">
-                  {t("shippingFreeApplied")}
-                </p>
-              ) : (
-                (["LETTER", "TRACKED"] as const).map((method) => {
-                  // LETTER stays visible but unselectable past the cap, rather
-                  // than disappearing — losing at $3.50 flat is exactly the
-                  // silent-undercharge bug this whole change exists to close,
-                  // so the reason it's gone needs to be on screen, not implied.
-                  const disabled = method === "LETTER" && overLetterCap;
-                  return (
+              {(["LETTER", "TRACKED"] as const).map((method) => {
+                // LETTER stays visible but unselectable past the cap or once
+                // free shipping forces tracked, rather than disappearing —
+                // losing at $3.50 flat is exactly the silent-undercharge bug
+                // this whole change exists to close, so the reason it's gone
+                // needs to be on screen, not implied.
+                const disabled = method === "LETTER" && (overLetterCap || freeShipping);
+                const price = method === "TRACKED" ? trackedCents : rateFor(method, form.province);
+                const showFree = method === "TRACKED" && price === 0;
+                return (
+                  <div key={method}>
                     <label
-                      key={method}
                       className={`flex items-start gap-3 rounded-lg border px-4 py-3 transition ${
                         disabled
                           ? "cursor-not-allowed border-forest/10 opacity-50"
@@ -422,25 +454,82 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
                             {t(method === "LETTER" ? "shippingLetter" : "shippingTracked")}
                           </span>
                           <span className="text-sm font-medium text-forest">
-                            {method === "TRACKED" && applicableLiveRate
-                              ? formatPrice(applicableLiveRate.cents, locale)
-                              : formatPrice(rateFor(method, form.province), locale)}
+                            {showFree ? (
+                              <span className="text-halo">{t("shippingFree")}</span>
+                            ) : (
+                              formatPrice(price, locale)
+                            )}
                           </span>
                         </span>
                         <span className="mt-0.5 block text-xs text-ink/60">
-                          {disabled
+                          {method === "LETTER" && overLetterCap
                             ? t("shippingLetterMaxHint", { max: LETTER_MAX_FLIES })
-                            : t(
-                                method === "LETTER"
-                                  ? "shippingLetterHint"
-                                  : "shippingTrackedHint"
-                              )}
+                            : method === "LETTER" && freeShipping
+                              ? t("shippingLetterFreeHint")
+                              : t(
+                                  method === "LETTER"
+                                    ? "shippingLetterHint"
+                                    : "shippingTrackedHint"
+                                )}
                         </span>
                       </span>
                     </label>
-                  );
-                })
-              )}
+
+                    {method === "TRACKED" &&
+                      chosenMethod === "TRACKED" &&
+                      services &&
+                      services.length > 1 && (
+                        <div className="mt-2 ml-7 space-y-2 border-l-2 border-forest/10 pl-4">
+                          <p className="text-xs font-medium text-forest">
+                            {t("shippingSpeed")}
+                          </p>
+                          {services.map((svc, idx) => {
+                            const isCheapest = idx === 0;
+                            const svcFree = isCheapest && freeShipping;
+                            const isSelected = svc.serviceCode === effectiveServiceCode;
+                            return (
+                              <label
+                                key={svc.serviceCode}
+                                className={`flex cursor-pointer items-center justify-between gap-3 rounded-lg border px-3 py-2 text-xs transition ${
+                                  isSelected
+                                    ? "border-halo bg-halo/5"
+                                    : "border-forest/15 hover:border-forest/35"
+                                }`}
+                              >
+                                <span className="flex items-center gap-2">
+                                  <input
+                                    type="radio"
+                                    name="shippingService"
+                                    checked={isSelected}
+                                    onChange={() => setSelectedServiceCode(svc.serviceCode)}
+                                    className="accent-halo"
+                                  />
+                                  <span>
+                                    <span className="block font-medium text-forest">
+                                      {svc.serviceName}
+                                    </span>
+                                    {svc.transitDays != null && (
+                                      <span className="block text-ink/55">
+                                        {t("transitDays", { days: svc.transitDays })}
+                                      </span>
+                                    )}
+                                  </span>
+                                </span>
+                                <span className="font-medium text-forest">
+                                  {svcFree ? (
+                                    <span className="text-halo">{t("shippingFree")}</span>
+                                  ) : (
+                                    formatPrice(svc.cents, locale)
+                                  )}
+                                </span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )}
+                  </div>
+                );
+              })}
             </fieldset>
 
             <div>
