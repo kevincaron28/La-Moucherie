@@ -22,15 +22,16 @@ hashtag feed widget; `robots.txt` + `sitemap.ts`; and a homepage/About page buil
 the real founders, Claudya Cazes and Kevin.
 
 **Needs attention before the shop can actually sell:**
-- The catalog has 6 fly patterns but **zero purchasable variants right now** — hook
-  sizes and stock were intentionally cleared while real inventory is confirmed. Every
-  product shows "Out of Stock" until sizes are added back via `db:studio` or the admin
-  dashboard. The "planned patterns" list on `/admin` tracks 14 candidate patterns worth
-  tying next, curated from a regional river/species guide — delete an entry ("Tied it")
-  once it becomes a real `Product`.
-- 2 of 6 products (Elk Wing Caddis, Egg Sucking Leech) still use the placeholder SVG
+- The catalog has 20 fly patterns (the original 6, plus 14 published from the former
+  "planned patterns" list) with real hook-size variants — **but every variant is at zero
+  stock**, intentionally, while real inventory is confirmed. Every product shows "Out of
+  Stock" until stock counts are set via `db:studio` or the admin dashboard. The
+  "planned patterns" list on `/admin` is now empty — add new candidates there as they come
+  up; an entry disappears ("Tied it") once it becomes a real `Product`.
+- 2 of 20 products (Elk Wing Caddis, Egg Sucking Leech) still use the placeholder SVG
   image; Bead Head Hare's Ear, Montana Stone, Woolly Bugger Black and Lefty Deceiver have
-  real (temporary, phone-shot) photos pending proper lightbox photography.
+  real (temporary, phone-shot) photos pending proper lightbox photography; the 14 newly
+  published patterns all use the placeholder image too, pending real photos.
 - `RESEND_API_KEY` isn't set in production yet, so the newsletter and every other
   transactional email currently just log (`[email:not-configured] would send …`) instead
   of sending. Nothing is broken — the site is designed to run fine either way — but no
@@ -49,9 +50,11 @@ or the console) must target `br-lively-bonus-aynn765z` explicitly — don't trus
 stop this from tripping someone up again.
 
 **Recommended next upgrades**, roughly in order of value once inventory/photos catch up:
-1. Publish real hook sizes/stock so the shop can actually take orders again.
-2. Finish product photography (2 placeholders remaining) and consider a photo of Kevin
-   too — the homepage/About story currently only has one of Claudya.
+1. Set real stock counts on the variants that need it so the shop can actually take
+   orders again — hook sizes are already published for all 20 patterns.
+2. Photograph the 14 newly-published patterns plus the 2 remaining originals (Elk Wing
+   Caddis, Egg Sucking Leech), and consider a photo of Kevin too — the homepage/About
+   story currently only has one of Claudya.
 3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
 4. Publish the assortment/fly-box products once pricing is settled.
 5. Rename the Neon branches (or otherwise fix the Vercel↔Neon wiring) so "production" in
