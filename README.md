@@ -5,6 +5,44 @@ Mouches artisanales du Québec — an independent, handmade fly-tying shop.
 A bilingual (French/English) e-commerce storefront built with Next.js, Prisma/PostgreSQL,
 and an embedded Stripe Elements checkout.
 
+## Where things stand (updated 2026-09-16)
+
+**Live and working:** bilingual storefront and Stripe checkout; Canada Post live shipping
+quotes with a service-tier picker (Regular/Expedited/Xpresspost/Priority) plus a
+postal-code shipping estimator on the cart page; the "fly dozen" deal (buy 10 of the same
+pattern, get 2 free — see below) replacing the old percentage tiers; reviews open to any
+signed-in customer, with a verified-purchase badge and "was this helpful" voting; an admin
+dashboard at `/admin` (review moderation, low-stock alerts, order print slips, and a
+newsletter compose-and-send tool); a newsletter signup/unsubscribe funnel; a header
+Shop dropdown (categories + species) and a `/shop/water` index page; `robots.txt` +
+`sitemap.ts`; and a homepage/About page built around the real founders, Claudya Cazes and
+Kevin.
+
+**Needs attention before the shop can actually sell:**
+- The catalog has 6 fly patterns but **zero purchasable variants right now** — hook
+  sizes and stock were intentionally cleared while real inventory is confirmed (see
+  "Catalog scope" below). Every product shows "Out of Stock" until sizes are added back
+  via `db:studio` or a new migration/seed entry.
+- 2 of 6 products (Elk Wing Caddis, Egg Sucking Leech) still use the placeholder SVG
+  image; Bead Head Hare's Ear, Montana Stone, Woolly Bugger Black and Lefty Deceiver have
+  real (temporary, phone-shot) photos pending proper lightbox photography.
+- `RESEND_API_KEY` isn't set in production yet, so the newsletter and every other
+  transactional email currently just log (`[email:not-configured] would send …`) instead
+  of sending. Nothing is broken — the site is designed to run fine either way — but no
+  real email goes out until that's configured.
+- The 3 curated fly-box (`ASSORTMENT`) products exist in `prisma/seed.ts` but aren't live
+  in the database.
+
+**Recommended next upgrades**, roughly in order of value once inventory/photos catch up:
+1. Publish real hook sizes/stock so the shop can actually take orders again.
+2. Finish product photography (2 placeholders remaining) and consider a photo of Kevin
+   too — the homepage/About story currently only has one of Claudya.
+3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
+4. Publish the assortment/fly-box products once pricing is settled.
+5. From the wider site audit (not yet built): a "shop by species" grid on the homepage,
+   an Instagram/social feed section, and a proper content funnel from social → fishing
+   reports → product.
+
 ## Stack
 
 - **Next.js 16** (App Router, TypeScript) + Tailwind CSS v4
@@ -150,7 +188,9 @@ renders less rather than showing an empty heading.
 That metadata drives three things: the spec panel on a product page,
 `/shop/species/<slug>` landing pages (prerendered for both locales, since they
 exist to be found in search), and `/shop/water/<slug>` pages built from the
-`FishingWater` table.
+`FishingWater` table — plus a `/shop/water` index listing every named water,
+and a header dropdown (desktop "Shop" link) into both categories and species
+so they're reachable without landing on `/shop` first.
 
 Named water is the sharpest form of the Québec position and the strongest SEO
 asset here — no competitor outside the province can credibly claim the
@@ -187,18 +227,20 @@ would drag unrelated singles into a tier they hadn't earned. Price each box belo
 what the same flies cost as singles *after* the tier, or it's a worse deal than
 the cart it replaces.
 
-## Bulk pricing
+## The fly dozen deal
 
-Quantity tiers live in `src/lib/discount.ts`: 6+ flies 5%, 12+ 10%, 24+ 15%.
-They count flies rather than dollars because flies have always been sold by the
-dozen, and because twelve flies is twelve flies' worth of bench time whether
-they're one pattern or twelve. The discount is applied server-side from the
-server's own subtotal — the browser never sends one — and the free-shipping
-threshold is judged on the discounted amount, on what the customer actually pays.
+`src/lib/discount.ts` implements "buy 10 of the same fly, get 2 free" — every
+complete dozen of **one pattern** in the cart has its two cheapest units waived.
+This replaced an earlier cart-wide 6/12/24-flies percentage-tier system, which
+let a customer reach a discount by padding the cart with twelve unrelated
+singles; the dozen deal is computed **per `productId`**, so it can only be
+earned by depth in one pattern, and mixing patterns earns nothing.
 
-Tiers create a deliberate cliff: 23 flies can cost more than 24. The checkout
-tells the customer how many more flies reach the next tier, which turns that
-into a nudge rather than a surprise.
+It's applied server-side in `create-payment-intent`, from the database's own
+product/category data — the browser only expresses intent (which service tier,
+which items), never a discount amount. `ASSORTMENT` boxes are excluded, same
+reasoning as before: they're already priced as a bundle. The cart and checkout
+UI nudge toward whichever single pattern is closest to its next dozen, by name.
 
 ## Order details for fulfilment
 
@@ -274,6 +316,21 @@ The price charged uses Canada Post's `due` (tax-inclusive), not `base` — `base
 would lose 5-15% depending on the destination province. The browser's quote is a
 preview only; `create-payment-intent` resolves the rate again server-side.
 
+**Service tiers.** `resolveShippingRate` (`src/lib/shipping-quote.ts`) returns every live
+tier Canada Post quotes (Regular, Expedited, Xpresspost, Priority, whichever apply),
+cheapest first, and the checkout page lets the customer pick among them once tracked
+shipping applies. Free shipping only zeroes out the **cheapest** tier — a customer can
+still pay to upgrade to a faster one above the free-shipping threshold, since giving away
+Priority for free would blow past the margin the threshold exists to protect. The
+`shippingServiceCode`/`shippingServiceName` the customer picked are re-validated
+server-side against the live tier list (never trusted from the browser) and recorded on
+the `Order` for the owner-notification email and the print slip.
+
+**Shipping estimator.** The cart page also has a standalone `ShippingEstimator`
+component — province + postal code only, no address required — so someone can check
+the price before ever starting checkout. It hits the same `/api/shipping/quote`
+endpoint checkout uses.
+
 `GET /api/admin/canada-post-check` quotes one test parcel and reports what came
 back, so a credential problem reads directly instead of being inferred from a
 checkout that quietly fell back. It renders a readable page rather than JSON
@@ -343,11 +400,65 @@ enforce nothing.
 
 ## Reviews
 
-Customers can leave a star rating + written review from any product page. Every review is
-saved with `status: PENDING` and is **not shown publicly** until approved — open
-`npm run db:studio`, find the `Review` table, and change `status` to `APPROVED` (or
-`REJECTED`). If the reviewer's email matches a `PAID` order that included the product,
-`verifiedPurchase` is set automatically and shows a "Verified purchase" badge.
+Any **signed-in** customer can leave a star rating + written review on **any** product —
+a purchase is no longer required (it was, earlier; that gate was removed deliberately).
+`verifiedPurchase` is still set from a real order lookup at submit time, so the badge on
+each review stays honest even though it's no longer a requirement to review at all.
+Sign-in itself remains the only gate, both to enforce one-review-per-product-per-account
+(`Review`'s `@@unique([productId, userId])`) and as a cheap anti-spam floor.
+
+Every review is saved `PENDING` and isn't shown publicly until approved — either in
+`npm run db:studio` (the `Review` table, flip `status` to `APPROVED`/`REJECTED`), or from
+the **admin dashboard** at `/admin`, which lists everything pending with one-click
+Approve/Reject buttons.
+
+Each visible review also carries a "was this review helpful?" yes/no vote
+(`ReviewVote`, keyed on a hashed visitor IP so the same visitor can't vote twice — the
+hash exists purely to block repeat votes, never to identify anyone).
+
+## Admin dashboard
+
+`/admin` is gated by `isAdmin()` (`src/lib/admin.ts`) — signed in with an address in
+`ADMIN_EMAILS` (defaults to `OWNER_EMAIL`). One page, several sections: pending review
+moderation, low-stock variant alerts, recent paid orders with print-slip links, the
+newsletter composer (below), and a link to the Canada Post diagnostic. There's no
+separate product-editing UI — that's still `db:studio` or `prisma/seed.ts`.
+
+## Newsletter
+
+`NewsletterSubscriber` is this app's own table — not a Resend audience — kept
+consistent with Prisma being the source of truth everywhere else. Sign-up is a footer
+form (`src/components/NewsletterSignup.tsx`) → `POST /api/newsletter/subscribe`; every
+subscriber gets a permanent, per-subscriber unsubscribe token (stored **plaintext**,
+deliberately unlike the hashed password-reset token — this link has to keep working in
+every future campaign email, not just once right after issue) baked into a link at
+`/newsletter/unsubscribe`.
+
+Sending is admin-only: the "Newsletter" section of `/admin` composes a subject + HTML
+body per locale (optionally prefilled from a published fishing report), and
+`POST /api/admin/newsletter/send` batches the send through Resend
+(`sendNewsletterCampaign` in `src/lib/email.ts`, chunked at 100 recipients per Resend's
+batch-API limit), appending each recipient's own unsubscribe link. Every send is logged
+to `NewsletterCampaign` so the dashboard shows history and a send can't happen twice by
+accident. Like all other email here, this is a no-op (logs instead of sending) until
+`RESEND_API_KEY` is set.
+
+## Brand & identity
+
+La Moucherie is a family business run by Claudya Cazes and Kevin. The homepage hero and
+About page (`src/app/[locale]/page.tsx`, `.../about/page.tsx`) are built around their real
+story — Claudya's first fly-fishing trip to Pulaski, NY three years ago, picking up a vise
+two years ago, tying seriously this season — with a real photo of Claudya
+(`public/about/claudya-steelhead.jpg`) rather than a stock/placeholder image.
+
+The visual system (forest/rust/gold/halo palette, Fraunces + Inter) was **kept**, not
+replaced, after reviewing a full rebrand mockup against three directions — see
+`src/app/globals.css`'s header comment for why the palette was chosen (it's drawn from
+the omble de fontaine / brook trout). What changed is Fraunces now also loads weight 800
+and italic (for the heavier hero headline and the About page pull-quote), plus a
+hand-drawn river-line SVG accent on the homepage hero. If a fuller visual overhaul is
+revisited later, two more aggressive directions (dark/condensed, high-contrast patch
+badge) were explored and can be picked up again rather than designed from scratch.
 
 ## Catalog naming
 
@@ -368,16 +479,20 @@ shows up in the shop's category filter.
 
 ## Known limitations / natural next steps
 
-- No admin UI yet — manage products and moderate reviews via `npm run db:studio` or by
-  editing `prisma/seed.ts`.
-- No email verification on signup.
-- Abandoned checkouts leave `PENDING` orders behind; nothing prunes them yet.
+See "Where things stand" at the top for the current catalog/photo/email-config gaps —
+this list is the smaller, longer-lived stuff:
+
+- There's an admin dashboard at `/admin` now (review moderation, low-stock, order print
+  slips, newsletter), but no product-editing UI yet — manage products/variants via
+  `npm run db:studio` or `prisma/seed.ts`.
+- Abandoned checkouts leave `PENDING` orders behind; the daily cron cancels old ones (see
+  "Abandoned orders") but nothing prunes the row itself.
 - The contact form stores messages in the database (`ContactMessage` table, viewable via
-  `db:studio`) rather than sending an email — wire up a transactional email provider
-  (Resend, Postmark, SendGrid) when you're ready.
-- Product photos are placeholder illustrations (`public/products/`) — swap in real photos
-  of your flies.
+  `db:studio`); the owner is also emailed via Resend if `OWNER_EMAIL`/`RESEND_API_KEY`
+  are set.
 - Single currency (CAD) throughout.
+- No product-image upload pipeline — new photos are added by hand to `public/products/`
+  or `public/about/` and referenced by path in the database.
 
 ## Database connections
 
