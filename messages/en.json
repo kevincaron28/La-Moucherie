@@ -13,7 +13,7 @@
     "searchPlaceholder": "Search flies...",
     "search": "Search",
     "reports": "What's working",
-    "catches": "Catches",
+    "catches": "Community",
     "waters": "Québec waters"
   },
   "Account": {
@@ -318,7 +318,7 @@
     "allFlies": "All flies",
     "waters": "Québec waters",
     "reports": "What's working",
-    "catches": "Catches",
+    "catches": "Community",
     "account": "My account"
   },
   "Shipping": {
@@ -417,10 +417,11 @@
     "backToReports": "All reports"
   },
   "Catches": {
-    "title": "Caught on a Moucherie",
+    "title": "The La Moucherie community",
     "intro": "Your fish, our flies. Every photo here was sent in by an angler who caught it on one of our patterns.",
     "submitHint": "Caught something on one of our flies? Send us the photo by",
     "submitCta": "email",
-    "empty": "No photos yet — be the first. Send us your catch."
+    "empty": "No photos yet — be the first. Send us your catch.",
+    "instagramTitle": "On Instagram"
   }
 }

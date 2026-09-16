@@ -13,7 +13,7 @@
     "searchPlaceholder": "Rechercher une mouche...",
     "search": "Rechercher",
     "reports": "Ce qui travaille",
-    "catches": "Prises",
+    "catches": "Communauté",
     "waters": "Eaux du Québec"
   },
   "Account": {
@@ -318,7 +318,7 @@
     "allFlies": "Toutes les mouches",
     "waters": "Eaux du Québec",
     "reports": "Ce qui travaille",
-    "catches": "Prises",
+    "catches": "Communauté",
     "account": "Mon compte"
   },
   "Shipping": {
@@ -417,10 +417,11 @@
     "backToReports": "Tous les rapports"
   },
   "Catches": {
-    "title": "Pris sur une Moucherie",
+    "title": "La communauté La Moucherie",
     "intro": "Vos poissons, nos mouches. Chaque photo ici a été envoyée par un pêcheur qui a pris son poisson sur un de nos patrons.",
     "submitHint": "Vous avez pris quelque chose sur une de nos mouches ? Envoyez-nous la photo par",
     "submitCta": "courriel",
-    "empty": "Pas encore de photos — soyez le premier. Envoyez-nous votre prise."
+    "empty": "Pas encore de photos — soyez le premier. Envoyez-nous votre prise.",
+    "instagramTitle": "Sur Instagram"
   }
 }
