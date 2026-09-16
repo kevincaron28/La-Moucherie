@@ -52,25 +52,28 @@ const ZONE_BY_PROVINCE: Record<ProvinceCode, ShippingZone> = {
 // can't quote it — the API rates parcels, and Lettermail isn't one.)
 export const LETTER_RATE_CENTS = 350;
 
-// How many flies actually fit under that flat rate — capped by physical fit in
-// a 6×9" (23×15cm), 2cm-thick envelope, not by weight. A tied fly isn't flat:
-// hackle, wings and wound thread have real bulk a per-gram estimate says
-// nothing about, so weight was never going to be the constraint that bites
-// first. 36 — three dozen — is a judgment call about what actually lies flat
-// without getting crushed, made by someone who ties these and knows their
-// bulk, not derived from a formula. It also matches the dozen-based language
-// the bulk tiers and boxes already use, rather than introducing a new unit.
+// How many flies stay on the flat rate. Not a postage-cost question — the
+// Lettermail bracket is flat up to 100g/2cm, so the $0.50 margin ($3.50
+// charged vs ~$3.00 real cost) is the same whether the envelope holds 3
+// flies or 30. The real question is which orders should GET the subsidized
+// rate at all.
 //
-// LETTER_RATE_CENTS is priced for Canada Post's up-to-100g non-standard
-// Lettermail bracket (sourced quote: $2.61 before tax / $3.00 with tax — $3.50
-// leaves a little margin), so it's worth knowing weight was never close to
-// binding here: 36 flies plus the envelope below comes to about 50g, well
-// under that bracket. The 2cm of physical space runs out long before the
-// 100g of weight allowance does.
+// A 12-fly order is roughly $45-55 — still price-sensitive enough that a
+// $22-32 tracked charge would nearly double the total and kill the sale,
+// which is the actual reason Lettermail exists (see the file header). A
+// 13+-fly order is $50-140+: a customer already committing to that size
+// purchase is far less likely to abandon over real shipping, and tracking is
+// worth more to them on a bigger, higher-value parcel. Below 12, protect the
+// sale with the flat rate; above it, charge what shipping actually costs
+// rather than giving away margin nobody was asking for.
+//
+// (12 also sits comfortably inside the physical bracket regardless — this
+// was 36 before, itself a judgment call on what lies flat in a 2cm envelope
+// without crushing, so 12 was never going to be the tight constraint.)
 const LETTER_TARE_GRAMS = 15;
 const LETTER_GRAMS_PER_FLY = 1;
 
-export const LETTER_MAX_FLIES = 36;
+export const LETTER_MAX_FLIES = 12;
 
 export function canUseLetter(flyCount: number): boolean {
   return flyCount <= LETTER_MAX_FLIES;
@@ -130,6 +133,15 @@ export function rateFor(method: ShippingMethod, province: string): number {
 // Raised from $75 once real rates came in. At $75 a free Atlantic parcel costs
 // $32.14 — some 43% of the order, more than the flies are likely to make. $100
 // keeps the giveaway under a third of the order even in the dearest zone.
+//
+// Re-checked when LETTER_MAX_FLIES dropped to 12 (moving more mid-size orders
+// onto real tracked rates instead of the flat one) — left unchanged.
+// $32.14 / $100 = 32.1%, already just under the 1/3 ceiling this number was
+// chosen to sit under; this is judged against the post-discount subtotal
+// (see create-payment-intent), so it's real revenue, not list price. Lowering
+// it to soften the mid-size orders' new shipping cost would push the
+// worst-zone giveaway over that ceiling — the two numbers pull in opposite
+// directions, and this one was already at its floor.
 export const FREE_SHIPPING_THRESHOLD_CENTS = 10000;
 
 export function isFreeShipping(subtotalCents: number): boolean {
