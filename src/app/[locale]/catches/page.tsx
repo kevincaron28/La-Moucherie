@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
@@ -100,6 +101,17 @@ export default async function CatchesPage({
           ))}
         </ul>
       )}
+
+      <div className="mt-16 border-t border-forest/10 pt-10">
+        <h2 className="font-display text-xl font-semibold text-forest">
+          {t("instagramTitle")}
+        </h2>
+        <div className="mt-6 sk-ww-instagram-hashtag-feed" data-embed-id="25714398" />
+        <Script
+          src="https://widgets.sociablekit.com/instagram-hashtag-feed/widget.js"
+          strategy="lazyOnload"
+        />
+      </div>
     </div>
   );
 }
