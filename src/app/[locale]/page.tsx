@@ -26,17 +26,36 @@ export default async function HomePage({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-forest text-cream">
-        <div className="texture-rope pointer-events-none absolute inset-0 opacity-10" />
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24">
+      <section className="relative overflow-hidden bg-parchment">
+        {/* A hand-drawn river line, not a stock texture — the same kind of
+            line you'd sketch showing someone where to fish. */}
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-40"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 600"
+          aria-hidden
+        >
+          <path
+            d="M-50 480 C 200 450, 260 540, 460 500 S 720 400, 900 450 S 1300 380, 1500 420"
+            stroke="#ac4d15"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="1 9"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24">
           <div>
-            <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
               {t("heroKicker")}
             </p>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-tight sm:text-5xl">
+            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.05] text-forest sm:text-5xl">
               {t("heroTitle")}
             </h1>
-            <p className="mt-5 max-w-md text-lg text-cream/80">{t("heroSubtitle")}</p>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-ink/75">
+              {t("heroSubtitle")}
+            </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/shop"
@@ -45,23 +64,29 @@ export default async function HomePage({
                 {t("heroCta")}
               </Link>
               <Link
-                href="/about"
-                className="rounded-full border border-cream/40 px-6 py-3 text-sm font-semibold text-cream transition hover:bg-cream/10"
+                href="/reports"
+                className="rounded-full border border-forest/30 px-6 py-3 text-sm font-semibold text-forest transition hover:bg-forest/5"
               >
                 {t("heroSecondaryCta")}
               </Link>
             </div>
           </div>
-          <div className="mx-auto w-64 rounded-full ring-4 ring-belly/40 drop-shadow-2xl sm:w-80 md:w-full md:max-w-sm">
-            <div className="relative aspect-square w-full overflow-hidden rounded-full">
+
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-forest/10 shadow-xl shadow-forest/10">
               <Image
-                src="/brand/logo-512.png"
-                alt="La Moucherie"
+                src="/about/claudya-steelhead.jpg"
+                alt={t("heroImageAlt")}
                 fill
-                sizes="(min-width: 768px) 24rem, 16rem"
+                sizes="(min-width: 768px) 28rem, 90vw"
                 className="object-cover"
                 priority
               />
+            </div>
+            <div className="absolute -bottom-5 -left-5 flex h-24 w-24 rotate-[-8deg] items-center justify-center rounded-full bg-gold text-center shadow-lg shadow-forest/20">
+              <span className="font-display text-xs font-semibold leading-tight text-forest">
+                {t("badgeSmallBatch")}
+              </span>
             </div>
           </div>
         </div>
@@ -92,9 +117,19 @@ export default async function HomePage({
       )}
 
       <section className="border-t border-forest/10 bg-cream/60">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[auto_1fr] md:items-center">
+          <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full border-4 border-cream shadow-lg shadow-forest/15 sm:h-36 sm:w-36">
+            <Image
+              src="/about/claudya-steelhead.jpg"
+              alt={t("heroImageAlt")}
+              fill
+              sizes="9rem"
+              className="object-cover"
+              style={{ objectPosition: "30% 20%" }}
+            />
+          </div>
           <div>
-            <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-rust">
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
               {t("storyKicker")}
             </p>
             <h2 className="mt-3 font-display text-2xl font-semibold text-forest sm:text-3xl">
@@ -102,7 +137,10 @@ export default async function HomePage({
             </h2>
             <p className="mt-4 text-ink/75">{t("storyBody")}</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-3 md:grid-cols-1">
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+          <div className="grid gap-6 sm:grid-cols-3">
             <ValueItem title={t("valuesHandmadeTitle")} body={t("valuesHandmadeBody")} />
             <ValueItem title={t("valuesLocalTitle")} body={t("valuesLocalBody")} />
             <ValueItem title={t("valuesQualityTitle")} body={t("valuesQualityBody")} />
