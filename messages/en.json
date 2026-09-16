@@ -176,7 +176,10 @@
     "success": "Thanks! Your review will be published after moderation.",
     "error": "Something went wrong. Please try again.",
     "hideForm": "Cancel",
-    "outOfFive": "out of 5"
+    "outOfFive": "out of 5",
+    "wasHelpful": "Was this review helpful?",
+    "helpfulYes": "Yes",
+    "helpfulNo": "No"
   },
   "Cart": {
     "title": "Your cart",

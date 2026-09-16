@@ -176,7 +176,10 @@
     "success": "Merci ! Votre avis sera publié après modération.",
     "error": "Une erreur est survenue. Veuillez réessayer.",
     "hideForm": "Annuler",
-    "outOfFive": "sur 5"
+    "outOfFive": "sur 5",
+    "wasHelpful": "Cet avis vous a-t-il été utile ?",
+    "helpfulYes": "Oui",
+    "helpfulNo": "Non"
   },
   "Cart": {
     "title": "Votre panier",
