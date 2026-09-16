@@ -87,18 +87,23 @@ export function canUseLetter(flyCount: number): boolean {
 // the counter, so a pre-tax rate here would lose ~13-15% on every parcel.
 //
 // Source: live quotes from /api/admin/canada-post-check (the actual Rating
-// API this code calls), 80g in a 20x15x5cm box from J0L 2N0 — the small-box
-// weight packagingFor() actually ships most tracked orders at, not the 500g
-// this table used to assume. A spot-check at 2000g (unrealistically heavy for
-// a fly order) only moved the Atlantic quote from $25.35 to $32.30, so the
-// remaining sensitivity between 80g and the real 150g medium-box ceiling is
-// small — these figures are a close, safe read on what orders actually cost.
+// API this code calls) at 150g in a 25x20x8cm box from J0L 2N0 — the
+// medium-box weight/size packagingFor() ships anything over 20 flies at,
+// not the 500g this table used to assume.
+//
+// Only Atlantic (the worst case, which is what actually sets the free-
+// shipping margin below) was quoted directly at 150g: $27.45, up from $25.35
+// at 80g — an 8.3% jump. The other four zones are that same 80g quote scaled
+// by that ratio, not independently re-quoted at 150g; getting exact figures
+// for all five would take several more round trips for a table that's only
+// a fallback when the live API is briefly unreachable. If one of these ever
+// looks off, re-quote it directly rather than trust the scaling.
 export const TRACKED_RATE_BY_ZONE_CENTS: Record<ShippingZone, number> = {
-  QC: 2153, // Gaspé, the far edge of the province
-  ONTARIO: 1750, // Toronto
-  ATLANTIC: 2535, // St. John's, the dearest quote of the set
-  WEST: 2259, // Vancouver
-  NORTH: 2904, // Iqaluit
+  QC: 2331, // Gaspé, the far edge of the province
+  ONTARIO: 1895, // Toronto
+  ATLANTIC: 2745, // St. John's, the dearest quote of the set — directly quoted
+  WEST: 2446, // Vancouver
+  NORTH: 3145, // Iqaluit
 };
 
 export function zoneForProvince(province: string): ShippingZone {
@@ -130,14 +135,15 @@ export function rateFor(method: ShippingMethod, province: string): number {
 // Raised from $75 once real rates came in. The original $75 -> $100 call used
 // a $32.14 Atlantic estimate that turned out to be built on a 500g parcel;
 // real tracked orders ship at 80-150g (see TRACKED_RATE_BY_ZONE_CENTS above),
-// and the live quote at that weight is $25.35. Judged against the
-// post-discount subtotal (see create-payment-intent), so it's real revenue,
-// not list price: $25.35 / $100 = 25.35%, comfortably under the 1/3 ceiling
-// this number was chosen to respect — real headroom, not the near-zero margin
-// the stale estimate implied. Whether to use that headroom (e.g. lowering the
-// threshold so more of the mid-size orders LETTER_MAX_FLIES pushed onto real
-// tracked rates can reach free shipping) is a conversion-vs-margin trade-off,
-// not something this math settles by itself — left at $100 pending that call.
+// and the live quote at the real 150g medium-box weight is $27.45. Judged
+// against the post-discount subtotal (see create-payment-intent), so it's
+// real revenue, not list price: $27.45 / $100 = 27.45%, comfortably under the
+// 1/3 ceiling this number was chosen to respect — real headroom (the ceiling
+// wouldn't be hit until ~$82), not the near-zero margin the stale estimate
+// implied. Whether to use that headroom (e.g. lowering the threshold so more
+// of the mid-size orders LETTER_MAX_FLIES pushed onto real tracked rates can
+// reach free shipping) is a conversion-vs-margin trade-off, not something
+// this math settles by itself — left at $100 pending that call.
 export const FREE_SHIPPING_THRESHOLD_CENTS = 10000;
 
 export function isFreeShipping(subtotalCents: number): boolean {
