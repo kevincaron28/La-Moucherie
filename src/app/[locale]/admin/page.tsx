@@ -20,10 +20,12 @@ export default async function AdminPage({
   const [
     pendingReviews,
     lowStockVariants,
+    noVariantProducts,
     recentOrders,
     subscriberCount,
     recentReports,
     recentCampaigns,
+    plannedFlies,
   ] = await Promise.all([
     prisma.review.findMany({
       where: { status: "PENDING" },
@@ -39,6 +41,14 @@ export default async function AdminPage({
       },
       orderBy: { stock: "asc" },
       take: 30,
+    }),
+    // Zero variants is a different, more urgent problem than low stock — a
+    // product like this has nothing to add to cart at all, and the
+    // stock-based query above never sees it (there's no variant row to find).
+    prisma.product.findMany({
+      where: { active: true, variants: { none: {} } },
+      select: { id: true, slug: true, nameFr: true, nameEn: true },
+      orderBy: { nameFr: "asc" },
     }),
     prisma.order.findMany({
       where: { status: { in: ["PAID", "FULFILLED"] } },
@@ -64,6 +74,9 @@ export default async function AdminPage({
     prisma.newsletterCampaign.findMany({
       orderBy: { sentAt: "desc" },
       take: 5,
+    }),
+    prisma.plannedFly.findMany({
+      orderBy: [{ category: "asc" }, { createdAt: "asc" }],
     }),
   ]);
 
@@ -98,6 +111,7 @@ export default async function AdminPage({
           stock: v.stock,
           product: v.product,
         }))}
+        noVariantProducts={noVariantProducts}
         recentOrders={recentOrders.map((o) => ({
           id: o.id,
           customerName: o.customerName,
@@ -117,6 +131,14 @@ export default async function AdminPage({
           subjectEn: c.subjectEn,
           recipientCount: c.recipientCount,
           sentAt: c.sentAt.toISOString(),
+        }))}
+        plannedFlies={plannedFlies.map((p) => ({
+          id: p.id,
+          nameFr: p.nameFr,
+          nameEn: p.nameEn,
+          category: p.category,
+          species: p.species,
+          notes: p.notes,
         }))}
       />
     </div>

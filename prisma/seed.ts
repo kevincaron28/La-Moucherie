@@ -295,6 +295,121 @@ const products: ProductSeed[] = [
 ];
 
 
+// A tying to-do list, not catalog data — patterns worth adding once they're
+// actually tied, priced and photographed. Curated from a southwestern
+// Montérégie river/species guide (Châteauguay, Richelieu, Yamaska, Yamaska
+// Nord), cross-referenced against what's already in `products` above so
+// nothing here duplicates a real pattern. Only inserted once, into an empty
+// table — see the `plannedFlies.count()` guard in `main()` — since after
+// that it's a living list the admin dashboard adds to and clears from.
+const plannedFlies: {
+  nameFr: string;
+  nameEn: string;
+  category: ProductCategory;
+  species: FishSpecies[];
+  notes: string;
+}[] = [
+  {
+    nameFr: "Pheasant Tail",
+    nameEn: "Pheasant Tail Nymph",
+    category: ProductCategory.NYMPH,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#14-18. La nymphe passe-partout quand on ne sait pas ce qui éclot.",
+  },
+  {
+    nameFr: "Zebra Midge",
+    nameEn: "Zebra Midge",
+    category: ProductCategory.NYMPH,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#16-20. Fin de saison / hiver, Yamaska Nord.",
+  },
+  {
+    nameFr: "Pupe de trichoptère",
+    nameEn: "Caddis Pupa",
+    category: ProductCategory.NYMPH,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#12-16. Complète l'Elk Wing Caddis déjà au catalogue — stade pupe/larve.",
+  },
+  {
+    nameFr: "Hendrickson",
+    nameEn: "Hendrickson",
+    category: ProductCategory.DRY_FLY,
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#10-14. Éclosion de mai, Yamaska Nord.",
+  },
+  {
+    nameFr: "Clouser Minnow",
+    nameEn: "Clouser Minnow",
+    category: ProductCategory.STREAMER,
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE", "WALLEYE"],
+    notes:
+      "#4-10. Probablement le patron poisson-appât le plus utile localement — Châteauguay, Richelieu, Yamaska.",
+  },
+  {
+    nameFr: "Game Changer",
+    nameEn: "Game Changer",
+    category: ProductCategory.STREAMER,
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE"],
+    notes: "2-4po articulé. Piliers de pont et fosses du Richelieu.",
+  },
+  {
+    nameFr: "Pike Deceiver",
+    nameEn: "Pike Deceiver",
+    category: ProductCategory.STREAMER,
+    species: ["NORTHERN_PIKE"],
+    notes: "#2-4. Gros profil poisson-appât pour la rivière aux Brochets.",
+  },
+  {
+    nameFr: "Bunny Leech",
+    nameEn: "Bunny Leech",
+    category: ProductCategory.STREAMER,
+    species: ["NORTHERN_PIKE", "SMALLMOUTH_BASS"],
+    notes: "#2-4, bande de lapin. Brochet et gros achigans.",
+  },
+  {
+    nameFr: "Sauterelle en mousse",
+    nameEn: "Foam Hopper",
+    category: ProductCategory.DRY_FLY,
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#8-12. Terrestre, juillet-septembre, en bordure sur Châteauguay et Yamaska Nord.",
+  },
+  {
+    nameFr: "Fourmi en mousse",
+    nameEn: "Foam Ant",
+    category: ProductCategory.DRY_FLY,
+    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#12-16, terrestre.",
+  },
+  {
+    nameFr: "Coléoptère en mousse",
+    nameEn: "Foam Beetle",
+    category: ProductCategory.DRY_FLY,
+    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    notes: "#10-14, terrestre, berges ombragées.",
+  },
+  {
+    nameFr: "Popper",
+    nameEn: "Popper",
+    category: ProductCategory.DRY_FLY,
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS"],
+    notes: "#4-8, mouche de surface. Juin-septembre, pic en eau chaude.",
+  },
+  {
+    nameFr: "Backstabber",
+    nameEn: "Backstabber",
+    category: ProductCategory.WET_FLY,
+    species: [],
+    notes: "Mouche à carpe — Châteauguay/Richelieu. La carpe n'est pas encore dans la liste des espèces.",
+  },
+  {
+    nameFr: "Écrevisse pour carpe",
+    nameEn: "Carp Crayfish",
+    category: ProductCategory.WET_FLY,
+    species: [],
+    notes: "#6-10. Même lacune : pas d'espèce « carpe » dans l'énumération pour l'instant.",
+  },
+];
+
 // Named water. The sharpest form of the Québec position — and the strongest SEO
 // asset here, because nobody outside the province can credibly claim these.
 const waters = [
@@ -423,6 +538,14 @@ async function main() {
     });
   }
   console.log(`Seeded ${products.length} products.`);
+
+  // Only ever inserted into an empty table — after that it's a living list
+  // the admin dashboard adds to and clears from, so a re-seed must not stomp
+  // on it the way products/waters above intentionally do.
+  if ((await prisma.plannedFly.count()) === 0) {
+    await prisma.plannedFly.createMany({ data: plannedFlies });
+    console.log(`Seeded ${plannedFlies.length} planned flies.`);
+  }
 
   // Reports and catches are curated by hand afterwards; this just makes sure
   // one well-formed example exists to edit rather than a blank table.

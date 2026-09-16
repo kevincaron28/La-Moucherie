@@ -255,6 +255,22 @@ model NewsletterCampaign {
   sentAt         DateTime @default(now())
 }
 
+/// A tying to-do list, not a catalog entry — patterns worth adding once
+/// they're actually tied, priced and photographed. Lets the admin dashboard
+/// answer "what should I tie next" without inventing a half-real Product row
+/// (no price, no photo, nothing to sell yet) for something that isn't real
+/// stock. Deleted once the real Product exists — there's no "done" flag,
+/// because turning into a Product *is* done.
+model PlannedFly {
+  id        String          @id @default(cuid())
+  nameFr    String
+  nameEn    String
+  category  ProductCategory
+  species   FishSpecies[]   @default([])
+  notes     String?
+  createdAt DateTime        @default(now())
+}
+
 model OrderItem {
   id              String          @id @default(cuid())
   order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)

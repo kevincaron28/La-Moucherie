@@ -64,21 +64,68 @@ type NewsletterCampaign = {
   sentAt: string;
 };
 
+type NoVariantProduct = {
+  id: string;
+  slug: string;
+  nameFr: string;
+  nameEn: string;
+};
+
+type PlannedFly = {
+  id: string;
+  nameFr: string;
+  nameEn: string;
+  category: string;
+  species: string[];
+  notes: string | null;
+};
+
+const PLANNED_CATEGORY_OPTIONS = [
+  { value: "DRY_FLY", fr: "Mouche sèche", en: "Dry Fly" },
+  { value: "NYMPH", fr: "Nymphe", en: "Nymph" },
+  { value: "STREAMER", fr: "Streamer", en: "Streamer" },
+  { value: "WET_FLY", fr: "Mouche noyée", en: "Wet Fly" },
+];
+
+const PLANNED_SPECIES_OPTIONS = [
+  { value: "BROOK_TROUT", fr: "Omble de fontaine", en: "Brook Trout" },
+  { value: "BROWN_TROUT", fr: "Truite brune", en: "Brown Trout" },
+  { value: "RAINBOW_TROUT", fr: "Truite arc-en-ciel", en: "Rainbow Trout" },
+  { value: "LANDLOCKED_SALMON", fr: "Ouananiche", en: "Landlocked Salmon" },
+  { value: "ATLANTIC_SALMON", fr: "Saumon atlantique", en: "Atlantic Salmon" },
+  { value: "SMALLMOUTH_BASS", fr: "Achigan à petite bouche", en: "Smallmouth Bass" },
+  { value: "LARGEMOUTH_BASS", fr: "Achigan à grande bouche", en: "Largemouth Bass" },
+  { value: "NORTHERN_PIKE", fr: "Grand brochet", en: "Northern Pike" },
+  { value: "WALLEYE", fr: "Doré jaune", en: "Walleye" },
+];
+
+const emptyPlannedForm = {
+  nameFr: "",
+  nameEn: "",
+  category: "NYMPH",
+  species: [] as string[],
+  notes: "",
+};
+
 export function AdminDashboardClient({
   pendingReviews: initialReviews,
   lowStockVariants,
+  noVariantProducts,
   recentOrders,
   subscriberCount,
   recentReports,
   recentCampaigns: initialCampaigns,
+  plannedFlies: initialPlannedFlies,
   locale,
 }: {
   pendingReviews: PendingReview[];
   lowStockVariants: LowStockVariant[];
+  noVariantProducts: NoVariantProduct[];
   recentOrders: RecentOrder[];
   subscriberCount: number;
   recentReports: RecentReport[];
   recentCampaigns: NewsletterCampaign[];
+  plannedFlies: PlannedFly[];
   locale: string;
 }) {
   const [reviews, setReviews] = useState<PendingReview[]>(initialReviews);
@@ -129,6 +176,58 @@ export function AdminDashboardClient({
       );
     } finally {
       setSending(false);
+    }
+  }
+
+  const [plannedFlies, setPlannedFlies] = useState<PlannedFly[]>(initialPlannedFlies);
+  const [plannedForm, setPlannedForm] = useState(emptyPlannedForm);
+  const [addingPlanned, setAddingPlanned] = useState(false);
+  const [tyingId, setTyingId] = useState<string | null>(null);
+
+  function togglePlannedSpecies(value: string) {
+    setPlannedForm((f) => ({
+      ...f,
+      species: f.species.includes(value)
+        ? f.species.filter((s) => s !== value)
+        : [...f.species, value],
+    }));
+  }
+
+  async function handleAddPlanned(e: React.FormEvent) {
+    e.preventDefault();
+    setAddingPlanned(true);
+    try {
+      const res = await fetch("/api/admin/planned-flies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...plannedForm,
+          notes: plannedForm.notes.trim() || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPlannedFlies((prev) => [...prev, data.planned]);
+        setPlannedForm(emptyPlannedForm);
+      } else {
+        alert(locale === "fr" ? "Erreur lors de l'ajout." : "Something went wrong adding it.");
+      }
+    } catch {
+      alert(locale === "fr" ? "Erreur de connexion." : "Connection error.");
+    } finally {
+      setAddingPlanned(false);
+    }
+  }
+
+  async function handleTied(id: string) {
+    setTyingId(id);
+    try {
+      const res = await fetch(`/api/admin/planned-flies/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setPlannedFlies((prev) => prev.filter((p) => p.id !== id));
+      }
+    } finally {
+      setTyingId(null);
     }
   }
 
@@ -237,7 +336,45 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 2. Low Stock Alerts */}
+      {/* 2. No Sizes Yet — more urgent than low stock: nothing to add to cart at all */}
+      {noVariantProducts.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between border-b border-rust/30 pb-4">
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-rust">
+                {locale === "fr" ? "Aucune taille en stock" : "No sizes in stock"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Ces patrons n'ont aucune variante (taille d'hameçon) — impossible de les commander tant qu'on n'en ajoute pas."
+                  : "These patterns have no variants (hook sizes) at all — nothing can be ordered until some are added back."}
+              </p>
+            </div>
+            <span className="rounded-full bg-rust/15 px-3 py-1 font-mono text-xs font-semibold text-rust">
+              {noVariantProducts.length}
+            </span>
+          </div>
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {noVariantProducts.map((p) => (
+              <li key={p.id}>
+                <Link
+                  href={`/shop/${p.slug}`}
+                  className="inline-block rounded-full border border-rust/30 bg-rust/5 px-4 py-2 text-sm font-medium text-rust transition hover:bg-rust/10"
+                >
+                  {locale === "fr" ? p.nameFr : p.nameEn}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs text-ink/50">
+            {locale === "fr"
+              ? "Ajoutez des tailles via npm run db:studio (table ProductVariant) une fois l'inventaire confirmé."
+              : "Add sizes via npm run db:studio (ProductVariant table) once real inventory is confirmed."}
+          </p>
+        </section>
+      )}
+
+      {/* 3. Low Stock Alerts */}
       <section>
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
@@ -297,7 +434,183 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 3. Recent Paid Orders & Bench Print Slips */}
+      {/* 4. Planned Patterns — what to tie next, not a real product yet */}
+      <section>
+        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {locale === "fr" ? "Patrons à monter" : "Planned Patterns"}
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              {locale === "fr"
+                ? "Une liste de montage, pas le catalogue — une fois monté, prix et photographié, créez le vrai produit et retirez-le d'ici."
+                : "A tying to-do list, not the catalog — once it's actually tied, priced and photographed, create the real product and clear it from here."}
+            </p>
+          </div>
+          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
+            {plannedFlies.length}
+          </span>
+        </div>
+
+        {plannedFlies.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
+            {locale === "fr" ? "Rien de planifié pour le moment." : "Nothing planned right now."}
+          </div>
+        ) : (
+          <ul className="mt-6 space-y-3">
+            {plannedFlies.map((p) => {
+              const categoryLabel = PLANNED_CATEGORY_OPTIONS.find(
+                (c) => c.value === p.category
+              );
+              return (
+                <li
+                  key={p.id}
+                  className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-forest/15 bg-parchment p-5"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-display font-semibold text-forest">
+                        {locale === "fr" ? p.nameFr : p.nameEn}
+                      </span>
+                      <span className="rounded-full bg-forest/10 px-2 py-0.5 text-[11px] font-medium text-forest">
+                        {categoryLabel ? (locale === "fr" ? categoryLabel.fr : categoryLabel.en) : p.category}
+                      </span>
+                    </div>
+                    {p.species.length > 0 && (
+                      <p className="mt-1.5 text-xs text-ink/60">
+                        {p.species
+                          .map((sp) => {
+                            const opt = PLANNED_SPECIES_OPTIONS.find((o) => o.value === sp);
+                            return opt ? (locale === "fr" ? opt.fr : opt.en) : sp;
+                          })
+                          .join(" · ")}
+                      </p>
+                    )}
+                    {p.notes && <p className="mt-1.5 text-sm text-ink/75">{p.notes}</p>}
+                  </div>
+                  <button
+                    type="button"
+                    disabled={tyingId === p.id}
+                    onClick={() => handleTied(p.id)}
+                    className="shrink-0 rounded-full border border-forest/25 px-4 py-2 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
+                  >
+                    {locale === "fr" ? "Monté ✓" : "Tied it ✓"}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <form
+          onSubmit={handleAddPlanned}
+          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-cream/30 p-6"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+            {locale === "fr" ? "Ajouter un patron planifié" : "Add a planned pattern"}
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Nom (FR)" : "Name (FR)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={plannedForm.nameFr}
+                onChange={(e) => setPlannedForm((f) => ({ ...f, nameFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Nom (EN)" : "Name (EN)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={plannedForm.nameEn}
+                onChange={(e) => setPlannedForm((f) => ({ ...f, nameEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Catégorie" : "Category"}
+              </label>
+              <select
+                value={plannedForm.category}
+                onChange={(e) => setPlannedForm((f) => ({ ...f, category: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              >
+                {PLANNED_CATEGORY_OPTIONS.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {locale === "fr" ? c.fr : c.en}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-ink/60">
+              {locale === "fr" ? "Espèces" : "Species"}
+            </label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {PLANNED_SPECIES_OPTIONS.map((sp) => {
+                const active = plannedForm.species.includes(sp.value);
+                return (
+                  <button
+                    key={sp.value}
+                    type="button"
+                    onClick={() => togglePlannedSpecies(sp.value)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                      active
+                        ? "border-forest bg-forest text-cream"
+                        : "border-forest/20 text-forest hover:border-forest/50"
+                    }`}
+                  >
+                    {locale === "fr" ? sp.fr : sp.en}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-ink/60">
+              {locale === "fr" ? "Notes" : "Notes"}
+            </label>
+            <textarea
+              rows={2}
+              value={plannedForm.notes}
+              onChange={(e) => setPlannedForm((f) => ({ ...f, notes: e.target.value }))}
+              placeholder={
+                locale === "fr"
+                  ? "Taille, rivière, saison — tout ce qui aide à s'en souvenir."
+                  : "Size, river, season — whatever helps remember it later."
+              }
+              className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={addingPlanned}
+            className="rounded-full bg-forest px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest/90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {addingPlanned
+              ? locale === "fr"
+                ? "Ajout…"
+                : "Adding…"
+              : locale === "fr"
+                ? "Ajouter à la liste"
+                : "Add to the list"}
+          </button>
+        </form>
+      </section>
+
+      {/* 5. Recent Paid Orders & Bench Print Slips */}
       <section>
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
@@ -362,7 +675,7 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 4. Newsletter */}
+      {/* 6. Newsletter */}
       <section>
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
@@ -494,7 +807,7 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 5. Quick Operational Links */}
+      {/* 7. Quick Operational Links */}
       <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
         <h3 className="font-display text-lg font-semibold text-forest">
           {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}
