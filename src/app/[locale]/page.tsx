@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
+import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
 
 export default async function HomePage({
@@ -13,6 +14,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Home");
+  const tAngling = await getTranslations("Angling");
 
   const featured = await prisma.product.findMany({
     where: { active: true, featured: true },
@@ -23,6 +25,19 @@ export default async function HomePage({
     orderBy: { createdAt: "asc" },
     take: 4,
   });
+
+  // One query for every species' fly count, rather than one per card — the
+  // catalog is small enough to tally in JS.
+  const speciesTags = await prisma.product.findMany({
+    where: { active: true },
+    select: { species: true },
+  });
+  const speciesCounts = new Map<string, number>();
+  for (const p of speciesTags) {
+    for (const sp of p.species) {
+      speciesCounts.set(sp, (speciesCounts.get(sp) ?? 0) + 1);
+    }
+  }
 
   return (
     <>
@@ -92,6 +107,28 @@ export default async function HomePage({
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="max-w-xl">
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
+            {t("speciesSectionKicker")}
+          </p>
+          <h2 className="mt-3 font-display text-2xl font-semibold text-forest sm:text-3xl">
+            {t("speciesSectionTitle")}
+          </h2>
+        </div>
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+          {SPECIES.map((sp) => (
+            <SpeciesCard
+              key={sp}
+              href={`/shop/species/${SPECIES_SLUGS[sp]}`}
+              label={tAngling(`species.${sp}`)}
+              count={speciesCounts.get(sp) ?? 0}
+              countLabel={t("speciesFlyCount", { count: speciesCounts.get(sp) ?? 0 })}
+            />
+          ))}
+        </div>
+      </section>
+
       {featured.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -157,5 +194,31 @@ function ValueItem({ title, body }: { title: string; body: string }) {
       <h3 className="font-display font-semibold text-forest">{title}</h3>
       <p className="mt-1 text-sm text-ink/70">{body}</p>
     </div>
+  );
+}
+
+function SpeciesCard({
+  href,
+  label,
+  count,
+  countLabel,
+}: {
+  href: string;
+  label: string;
+  count: number;
+  countLabel: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`rounded-xl border px-4 py-4 text-center transition ${
+        count > 0
+          ? "border-forest/15 bg-cream/50 hover:border-forest/40 hover:bg-cream"
+          : "border-forest/10 bg-cream/20 opacity-60 hover:opacity-100"
+      }`}
+    >
+      <span className="block font-display text-sm font-semibold text-forest">{label}</span>
+      <span className="mt-1 block text-xs text-ink/55">{countLabel}</span>
+    </Link>
   );
 }
