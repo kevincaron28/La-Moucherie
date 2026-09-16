@@ -111,7 +111,7 @@ export async function sendOrderConfirmation(order: OrderEmailData) {
   const adjustments =
     (order.discountCents > 0
       ? extraRow(
-          fr ? "Rabais quantité" : "Bulk discount",
+          fr ? "Offre douzaine" : "Fly dozen deal",
           `-${formatPrice(order.discountCents, locale, order.currency)}`
         )
       : "") +

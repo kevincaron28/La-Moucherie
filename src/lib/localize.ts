@@ -17,8 +17,3 @@ export const CATEGORY_ORDER = [
   "WET_FLY",
 ] as const;
 
-// A bundle is already priced as a deal, so it sits outside the per-fly bulk
-// tiers — otherwise the same flies would be discounted twice.
-export function countsTowardBulkTiers(category: string): boolean {
-  return category !== "ASSORTMENT";
-}

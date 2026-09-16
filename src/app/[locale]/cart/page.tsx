@@ -9,12 +9,11 @@ import { useEffect, Suspense } from "react";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import {
-  eligibleQuantity,
-  eligibleSubtotalCents,
   discountCents as computeDiscount,
-  tierFor,
-  nextTier,
+  totalFreeUnits,
+  closestToNextDozen,
   totalQuantity,
+  DOZEN_SIZE,
 } from "@/lib/discount";
 import { FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
 import { ShippingEstimator } from "@/components/ShippingEstimator";
@@ -34,18 +33,26 @@ function CartPageContent() {
   const { items, removeItem, setQuantity, subtotalCents, mergeItems } = useCart();
   const recoverToken = useSearchParams().get("recover");
 
-  const flyCount = eligibleQuantity(items);
   // Packaging follows everything in the box, assortments included — same
-  // distinction checkout makes between the bulk-discount count and the
+  // distinction checkout makes between the dozen-deal count and the
   // shipping-weight count.
   const parcelFlyCount = totalQuantity(items);
-  const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
-  const currentTier = tierFor(flyCount);
-  const upcoming = nextTier(flyCount);
+  const discount = computeDiscount(items);
+  const freeUnits = totalFreeUnits(items);
+  // The single pattern closest to its next free pair — there's no point
+  // nudging toward all of them at once.
+  const dozenHint = closestToNextDozen(items);
+  const dozenHintItem = dozenHint
+    ? items.find((i) => i.productId === dozenHint.productId)
+    : null;
   const discountedSubtotal = subtotalCents - discount;
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - discountedSubtotal;
   const freePercent = Math.min(100, Math.round((discountedSubtotal / FREE_SHIPPING_THRESHOLD_CENTS) * 100));
-  const tierProgressPercent = Math.min(100, Math.round((flyCount / 24) * 100));
+  const dozenProgressPercent = dozenHint
+    ? Math.round(((DOZEN_SIZE - dozenHint.remaining) / DOZEN_SIZE) * 100)
+    : freeUnits > 0
+      ? 100
+      : 0;
 
   // Arriving from an abandoned-cart email: rebuild the basket from the order,
   // re-priced against today's catalogue rather than the old snapshot.
@@ -86,21 +93,25 @@ function CartPageContent() {
         <div className="rounded-2xl border border-forest/15 bg-cream/50 p-4">
           <div className="flex items-center justify-between text-xs font-semibold text-forest">
             <span>
-              {currentTier
-                ? t("bulkTierApplied", { percent: currentTier.percent })
-                : upcoming
-                ? t("bulkTierProgress", {
-                    count: upcoming.minQuantity - flyCount,
-                    percent: upcoming.percent,
+              {dozenHint && dozenHintItem
+                ? t("dozenDealProgress", {
+                    count: dozenHint.remaining,
+                    pattern: pick(dozenHintItem.nameFr, dozenHintItem.nameEn, locale),
                   })
-                : t("bulkTierApplied", { percent: 15 })}
+                : freeUnits > 0
+                  ? t("dozenDealApplied", { count: freeUnits })
+                  : t("dozenDealIntro")}
             </span>
-            <span className="font-mono text-ink/60">{flyCount}/24</span>
+            {dozenHint && (
+              <span className="font-mono text-ink/60">
+                {DOZEN_SIZE - dozenHint.remaining}/{DOZEN_SIZE}
+              </span>
+            )}
           </div>
           <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-forest/10">
             <div
               className="h-full bg-rust transition-all duration-500 ease-out"
-              style={{ width: `${tierProgressPercent}%` }}
+              style={{ width: `${dozenProgressPercent}%` }}
             />
           </div>
         </div>
@@ -195,7 +206,7 @@ function CartPageContent() {
               <span className="line-through">{formatPrice(subtotalCents, locale)}</span>
             </div>
             <div className="flex items-center gap-4 text-sm font-medium text-rust">
-              <span>{t("bulkTierApplied", { percent: currentTier?.percent ?? 0 })}</span>
+              <span>{t("dozenDealApplied", { count: freeUnits })}</span>
               <span>-{formatPrice(discount, locale)}</span>
             </div>
             <div className="flex items-center gap-4 text-xl font-semibold text-forest border-t border-forest/10 pt-2">

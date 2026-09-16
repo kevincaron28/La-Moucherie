@@ -13,11 +13,9 @@ import { PaymentForm } from "@/components/PaymentForm";
 import { TrustBadges } from "@/components/TrustBadges";
 import {
   discountCents as computeDiscount,
-  eligibleQuantity,
-  eligibleSubtotalCents,
   totalQuantity,
-  tierFor,
-  nextTier,
+  totalFreeUnits,
+  closestToNextDozen,
 } from "@/lib/discount";
 import {
   PROVINCES,
@@ -138,14 +136,17 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Curated boxes are already priced as a bundle, so they sit outside the tiers.
-  const flyCount = eligibleQuantity(items);
   // Packaging follows everything in the box, assortments included — a curated
-  // box of twelve still weighs twelve flies even though it skips the tiers.
+  // box of twelve still weighs twelve flies even though it skips the dozen deal.
   const parcelFlyCount = totalQuantity(items);
-  const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
-  const tier = tierFor(flyCount);
-  const upcoming = nextTier(flyCount);
+  const discount = computeDiscount(items);
+  const freeUnits = totalFreeUnits(items);
+  // The single pattern closest to its next free pair, to nudge toward —
+  // there's no point advertising all of them at once.
+  const dozenHint = closestToNextDozen(items);
+  const dozenHintItem = dozenHint
+    ? items.find((i) => i.productId === dozenHint.productId)
+    : null;
   const discountedSubtotal = subtotalCents - discount;
 
   const freeShipping = isFreeShipping(discountedSubtotal);
@@ -648,9 +649,9 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
           ))}
         </ul>
         <div className="mt-4 space-y-2 border-t border-forest/10 pt-4 text-sm">
-          {discount > 0 && tier && (
+          {discount > 0 && (
             <div className="flex justify-between text-halo">
-              <span>{t("bulkDiscount", { percent: tier.percent })}</span>
+              <span>{t("dozenDiscount", { count: freeUnits })}</span>
               <span>-{formatPrice(discount, locale)}</span>
             </div>
           )}
@@ -671,11 +672,11 @@ export function CheckoutClient({ suggestions = [] }: { suggestions?: Suggestion[
               })}
             </p>
           )}
-          {upcoming && (
+          {dozenHint && dozenHintItem && (
             <p className="text-xs text-ink/55">
-              {t("bulkHint", {
-                count: upcoming.minQuantity - flyCount,
-                percent: upcoming.percent,
+              {t("dozenHint", {
+                count: dozenHint.remaining,
+                pattern: pick(dozenHintItem.nameFr, dozenHintItem.nameEn, locale),
               })}
             </p>
           )}
