@@ -14,8 +14,10 @@ import {
   discountCents as computeDiscount,
   tierFor,
   nextTier,
+  totalQuantity,
 } from "@/lib/discount";
 import { FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
+import { ShippingEstimator } from "@/components/ShippingEstimator";
 import type { Locale } from "@/i18n/routing";
 
 export default function CartPage() {
@@ -33,6 +35,10 @@ function CartPageContent() {
   const recoverToken = useSearchParams().get("recover");
 
   const flyCount = eligibleQuantity(items);
+  // Packaging follows everything in the box, assortments included — same
+  // distinction checkout makes between the bulk-discount count and the
+  // shipping-weight count.
+  const parcelFlyCount = totalQuantity(items);
   const discount = computeDiscount(eligibleSubtotalCents(items), flyCount);
   const currentTier = tierFor(flyCount);
   const upcoming = nextTier(flyCount);
@@ -117,6 +123,10 @@ function CartPageContent() {
             />
           </div>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <ShippingEstimator flyCount={parcelFlyCount} subtotalCents={discountedSubtotal} />
       </div>
 
       <div className="mt-8 divide-y divide-forest/10 border-y border-forest/10">

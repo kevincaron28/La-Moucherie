@@ -195,6 +195,21 @@
     "bulkTierApplied": "{percent}% bulk discount applied to your flies!",
     "bulkTierProgress": "Add {count} more {count, plural, one {fly} other {flies}} to get {percent}% off."
   },
+  "ShippingEstimator": {
+    "title": "Estimate your shipping",
+    "hint": "See what shipping costs before you check out — just your province and postal code.",
+    "province": "Province",
+    "postalCode": "Postal code",
+    "prompt": "Enter a postal code to see rates.",
+    "loading": "Checking Canada Post rates…",
+    "letter": "Letter mail (no tracking)",
+    "tracked": "Tracked parcel",
+    "free": "Free",
+    "freeApplies": "Your order already qualifies for free tracked shipping.",
+    "letterMaxHint": "Letter mail isn't available above {max} flies for this order — priced as a tracked parcel below.",
+    "transitDays": "{days, plural, one {~1 business day} other {~# business days}}",
+    "errorGeneric": "Couldn't reach Canada Post right now — try again in a moment."
+  },
   "Checkout": {
     "title": "Checkout",
     "contactTitle": "Contact information",

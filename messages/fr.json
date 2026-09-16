@@ -195,6 +195,21 @@
     "bulkTierApplied": "Rabais volume de {percent}% appliqué sur vos mouches !",
     "bulkTierProgress": "Ajoutez {count} {count, plural, one {mouche} other {mouches}} de plus pour obtenir {percent}% de rabais."
   },
+  "ShippingEstimator": {
+    "title": "Estimez vos frais de port",
+    "hint": "Voyez le coût de la livraison avant de passer à la caisse — juste votre province et votre code postal.",
+    "province": "Province",
+    "postalCode": "Code postal",
+    "prompt": "Entrez un code postal pour voir les tarifs.",
+    "loading": "Vérification des tarifs Postes Canada…",
+    "letter": "Poste-lettre (sans suivi)",
+    "tracked": "Colis avec suivi",
+    "free": "Offerte",
+    "freeApplies": "Votre commande est déjà admissible à la livraison suivie gratuite.",
+    "letterMaxHint": "Le poste-lettre n'est pas offert au-delà de {max} mouches pour cette commande — tarifé comme colis avec suivi ci-dessous.",
+    "transitDays": "{days, plural, one {~1 jour ouvrable} other {~# jours ouvrables}}",
+    "errorGeneric": "Impossible de joindre Postes Canada pour le moment — réessayez dans un instant."
+  },
   "Checkout": {
     "title": "Paiement",
     "contactTitle": "Coordonnées",
