@@ -86,21 +86,18 @@ export function canUseLetter(flyCount: number): boolean {
 // Figures are tax-inclusive. Canada Post quotes before tax but charges it at
 // the counter, so a pre-tax rate here would lose ~13-15% on every parcel.
 //
-// Source: Canada Post Find a Rate, Regular Parcel, 500 g, 20x15x5 cm from
-// J0L 2N0, September 2026 prices.
-//
-// STILL WORTH ONE SANITY CHECK: the source quotes put Toronto cheaper than
-// Montréal and Whitehorse cheaper than Vancouver, which no distance-zoned
-// carrier does. The likely cause is Find a Rate returning a different service
-// for some destinations (Regular Parcel isn't offered everywhere). It doesn't
-// make these numbers unusable — each is at or above what that zone should
-// cost — but the QC rate sitting above Ontario is the visible symptom, and one
-// counter receipt would settle it.
+// Source: live quotes from /api/admin/canada-post-check (the actual Rating
+// API this code calls), 80g in a 20x15x5cm box from J0L 2N0 — the small-box
+// weight packagingFor() actually ships most tracked orders at, not the 500g
+// this table used to assume. A spot-check at 2000g (unrealistically heavy for
+// a fly order) only moved the Atlantic quote from $25.35 to $32.30, so the
+// remaining sensitivity between 80g and the real 150g medium-box ceiling is
+// small — these figures are a close, safe read on what orders actually cost.
 export const TRACKED_RATE_BY_ZONE_CENTS: Record<ShippingZone, number> = {
-  QC: 2639, // Gaspé, the far edge of the province
-  ONTARIO: 2216, // Toronto
-  ATLANTIC: 3214, // St. John's, the dearest quote of the set
-  WEST: 2864, // Vancouver
+  QC: 2153, // Gaspé, the far edge of the province
+  ONTARIO: 1750, // Toronto
+  ATLANTIC: 2535, // St. John's, the dearest quote of the set
+  WEST: 2259, // Vancouver
   NORTH: 2904, // Iqaluit
 };
 
@@ -130,18 +127,17 @@ export function rateFor(method: ShippingMethod, province: string): number {
 // rate: giving away the untracked one saves the customer little and teaches
 // nothing.
 //
-// Raised from $75 once real rates came in. At $75 a free Atlantic parcel costs
-// $32.14 — some 43% of the order, more than the flies are likely to make. $100
-// keeps the giveaway under a third of the order even in the dearest zone.
-//
-// Re-checked when LETTER_MAX_FLIES dropped to 12 (moving more mid-size orders
-// onto real tracked rates instead of the flat one) — left unchanged.
-// $32.14 / $100 = 32.1%, already just under the 1/3 ceiling this number was
-// chosen to sit under; this is judged against the post-discount subtotal
-// (see create-payment-intent), so it's real revenue, not list price. Lowering
-// it to soften the mid-size orders' new shipping cost would push the
-// worst-zone giveaway over that ceiling — the two numbers pull in opposite
-// directions, and this one was already at its floor.
+// Raised from $75 once real rates came in. The original $75 -> $100 call used
+// a $32.14 Atlantic estimate that turned out to be built on a 500g parcel;
+// real tracked orders ship at 80-150g (see TRACKED_RATE_BY_ZONE_CENTS above),
+// and the live quote at that weight is $25.35. Judged against the
+// post-discount subtotal (see create-payment-intent), so it's real revenue,
+// not list price: $25.35 / $100 = 25.35%, comfortably under the 1/3 ceiling
+// this number was chosen to respect — real headroom, not the near-zero margin
+// the stale estimate implied. Whether to use that headroom (e.g. lowering the
+// threshold so more of the mid-size orders LETTER_MAX_FLIES pushed onto real
+// tracked rates can reach free shipping) is a conversion-vs-margin trade-off,
+// not something this math settles by itself — left at $100 pending that call.
 export const FREE_SHIPPING_THRESHOLD_CENTS = 10000;
 
 export function isFreeShipping(subtotalCents: number): boolean {
