@@ -12,17 +12,22 @@ quotes with a service-tier picker (Regular/Expedited/Xpresspost/Priority) plus a
 postal-code shipping estimator on the cart page; the "fly dozen" deal (buy 10 of the same
 pattern, get 2 free — see below) replacing the old percentage tiers; reviews open to any
 signed-in customer, with a verified-purchase badge and "was this helpful" voting; an admin
-dashboard at `/admin` (review moderation, low-stock alerts, order print slips, and a
-newsletter compose-and-send tool); a newsletter signup/unsubscribe funnel; a header
-Shop dropdown (categories + species) and a `/shop/water` index page; `robots.txt` +
-`sitemap.ts`; and a homepage/About page built around the real founders, Claudya Cazes and
-Kevin.
+dashboard at `/admin` (review moderation, low-stock alerts, a "no sizes in stock" alert for
+products with zero variants, a "planned patterns" tying to-do list, order print slips, and
+a newsletter compose-and-send tool); a newsletter signup/unsubscribe funnel; a header Shop
+dropdown (categories + species), a "shop by species" grid on the homepage, and a
+`/shop/water` index page; the former "Catches" page is now `/catches` → **Community**
+(nav + footer relabeled), combining approved angler photos with an embedded Instagram
+hashtag feed widget; `robots.txt` + `sitemap.ts`; and a homepage/About page built around
+the real founders, Claudya Cazes and Kevin.
 
 **Needs attention before the shop can actually sell:**
 - The catalog has 6 fly patterns but **zero purchasable variants right now** — hook
-  sizes and stock were intentionally cleared while real inventory is confirmed (see
-  "Catalog scope" below). Every product shows "Out of Stock" until sizes are added back
-  via `db:studio` or a new migration/seed entry.
+  sizes and stock were intentionally cleared while real inventory is confirmed. Every
+  product shows "Out of Stock" until sizes are added back via `db:studio` or the admin
+  dashboard. The "planned patterns" list on `/admin` tracks 14 candidate patterns worth
+  tying next, curated from a regional river/species guide — delete an entry ("Tied it")
+  once it becomes a real `Product`.
 - 2 of 6 products (Elk Wing Caddis, Egg Sucking Leech) still use the placeholder SVG
   image; Bead Head Hare's Ear, Montana Stone, Woolly Bugger Black and Lefty Deceiver have
   real (temporary, phone-shot) photos pending proper lightbox photography.
@@ -33,15 +38,24 @@ Kevin.
 - The 3 curated fly-box (`ASSORTMENT`) products exist in `prisma/seed.ts` but aren't live
   in the database.
 
+**Operational note — two Neon database branches exist, and Neon's own labels are
+misleading.** The Neon project (`wild-surf-31785131`) has a branch named "production"
+(`br-sweet-frog-aybo5mlh`, flagged primary/default in the Neon console) — but Vercel's
+actual Production deployment connects to a *different* branch, named "vercel-dev"
+(`br-lively-bonus-aynn765z`). Confirmed by cross-checking table existence, `Order` rows,
+and Vercel's own build logs. Any direct SQL against this database (via the Neon MCP tools
+or the console) must target `br-lively-bonus-aynn765z` explicitly — don't trust the
+"production"/primary/default labels. Consider renaming the branches in the Neon console to
+stop this from tripping someone up again.
+
 **Recommended next upgrades**, roughly in order of value once inventory/photos catch up:
 1. Publish real hook sizes/stock so the shop can actually take orders again.
 2. Finish product photography (2 placeholders remaining) and consider a photo of Kevin
    too — the homepage/About story currently only has one of Claudya.
 3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
 4. Publish the assortment/fly-box products once pricing is settled.
-5. From the wider site audit (not yet built): a "shop by species" grid on the homepage,
-   an Instagram/social feed section, and a proper content funnel from social → fishing
-   reports → product.
+5. Rename the Neon branches (or otherwise fix the Vercel↔Neon wiring) so "production" in
+   the Neon console actually is production.
 
 ## Stack
 
