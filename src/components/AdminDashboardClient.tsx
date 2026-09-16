@@ -46,19 +46,91 @@ type RecentOrder = {
   itemCount: number;
 };
 
+type RecentReport = {
+  id: string;
+  titleFr: string;
+  titleEn: string;
+  bodyFr: string;
+  bodyEn: string;
+  conditionsFr: string;
+  conditionsEn: string;
+};
+
+type NewsletterCampaign = {
+  id: string;
+  subjectFr: string;
+  subjectEn: string;
+  recipientCount: number;
+  sentAt: string;
+};
+
 export function AdminDashboardClient({
   pendingReviews: initialReviews,
   lowStockVariants,
   recentOrders,
+  subscriberCount,
+  recentReports,
+  recentCampaigns: initialCampaigns,
   locale,
 }: {
   pendingReviews: PendingReview[];
   lowStockVariants: LowStockVariant[];
   recentOrders: RecentOrder[];
+  subscriberCount: number;
+  recentReports: RecentReport[];
+  recentCampaigns: NewsletterCampaign[];
   locale: string;
 }) {
   const [reviews, setReviews] = useState<PendingReview[]>(initialReviews);
   const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const [campaign, setCampaign] = useState({
+    subjectFr: "",
+    subjectEn: "",
+    bodyFr: "",
+    bodyEn: "",
+  });
+  const [campaigns, setCampaigns] = useState<NewsletterCampaign[]>(initialCampaigns);
+  const [sending, setSending] = useState(false);
+  const [sendResult, setSendResult] = useState<string | null>(null);
+
+  function prefillFromReport(r: RecentReport) {
+    setCampaign({
+      subjectFr: r.titleFr,
+      subjectEn: r.titleEn,
+      bodyFr: `<h2>${r.titleFr}</h2><p><strong>Conditions :</strong> ${r.conditionsFr}</p><p>${r.bodyFr}</p>`,
+      bodyEn: `<h2>${r.titleEn}</h2><p><strong>Conditions:</strong> ${r.conditionsEn}</p><p>${r.bodyEn}</p>`,
+    });
+    setSendResult(null);
+  }
+
+  async function handleSendCampaign(e: React.FormEvent) {
+    e.preventDefault();
+    setSending(true);
+    setSendResult(null);
+    try {
+      const res = await fetch("/api/admin/newsletter/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(campaign),
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setCampaigns((prev) => [data.campaign, ...prev]);
+      setCampaign({ subjectFr: "", subjectEn: "", bodyFr: "", bodyEn: "" });
+      setSendResult(
+        locale === "fr"
+          ? `Envoyé à ${data.campaign.recipientCount} abonné${data.campaign.recipientCount > 1 ? "s" : ""}.`
+          : `Sent to ${data.campaign.recipientCount} subscriber${data.campaign.recipientCount > 1 ? "s" : ""}.`
+      );
+    } catch {
+      setSendResult(
+        locale === "fr" ? "Erreur lors de l'envoi." : "Something went wrong sending it."
+      );
+    } finally {
+      setSending(false);
+    }
+  }
 
   async function handleModeration(reviewId: string, status: "APPROVED" | "REJECTED") {
     setProcessingId(reviewId);
@@ -254,7 +326,7 @@ export function AdminDashboardClient({
                   <th className="p-3">Articles</th>
                   <th className="p-3">Total</th>
                   <th className="p-3">Statut</th>
-                  <th className="p-3 text-right">Fiche d'étau</th>
+                  <th className="p-3 text-right">Fiche d&apos;étau</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-forest/10">
@@ -290,7 +362,139 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 4. Quick Operational Links */}
+      {/* 4. Newsletter */}
+      <section>
+        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {locale === "fr" ? "Infolettre" : "Newsletter"}
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              {locale === "fr"
+                ? "Rapports de pêche, nouveaux patrons ou promotions — envoyés à tous les abonnés actifs."
+                : "Fishing reports, new patterns, or sales — sent to every active subscriber."}
+            </p>
+          </div>
+          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
+            {subscriberCount} {locale === "fr" ? "abonnés" : "subscribers"}
+          </span>
+        </div>
+
+        {recentReports.length > 0 && (
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+              {locale === "fr" ? "Pré-remplir depuis un rapport" : "Prefill from a report"}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {recentReports.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  onClick={() => prefillFromReport(r)}
+                  className="rounded-full border border-forest/25 px-3 py-1.5 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
+                >
+                  {locale === "fr" ? r.titleFr : r.titleEn}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSendCampaign}
+          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-parchment p-6"
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Sujet (FR)" : "Subject (FR)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={campaign.subjectFr}
+                onChange={(e) => setCampaign((c) => ({ ...c, subjectFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Sujet (EN)" : "Subject (EN)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={campaign.subjectEn}
+                onChange={(e) => setCampaign((c) => ({ ...c, subjectEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Contenu (FR, HTML)" : "Body (FR, HTML)"}
+              </label>
+              <textarea
+                required
+                rows={8}
+                value={campaign.bodyFr}
+                onChange={(e) => setCampaign((c) => ({ ...c, bodyFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Contenu (EN, HTML)" : "Body (EN, HTML)"}
+              </label>
+              <textarea
+                required
+                rows={8}
+                value={campaign.bodyEn}
+                onChange={(e) => setCampaign((c) => ({ ...c, bodyEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              disabled={sending || subscriberCount === 0}
+              className="rounded-full bg-rust px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {sending
+                ? locale === "fr"
+                  ? "Envoi en cours…"
+                  : "Sending…"
+                : locale === "fr"
+                  ? `Envoyer à ${subscriberCount} abonné${subscriberCount > 1 ? "s" : ""}`
+                  : `Send to ${subscriberCount} subscriber${subscriberCount > 1 ? "s" : ""}`}
+            </button>
+            {sendResult && <p className="text-sm text-forest">{sendResult}</p>}
+          </div>
+        </form>
+
+        {campaigns.length > 0 && (
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+              {locale === "fr" ? "Campagnes envoyées" : "Sent campaigns"}
+            </p>
+            <ul className="mt-2 space-y-1.5 text-sm text-ink/70">
+              {campaigns.map((c) => (
+                <li key={c.id} className="flex items-center justify-between gap-3">
+                  <span>{locale === "fr" ? c.subjectFr : c.subjectEn}</span>
+                  <span className="shrink-0 text-xs text-ink/50">
+                    {c.recipientCount} · {dateFormatter.format(new Date(c.sentAt))}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+
+      {/* 5. Quick Operational Links */}
       <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
         <h3 className="font-display text-lg font-semibold text-forest">
           {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}

@@ -231,6 +231,30 @@ model ContactMessage {
   createdAt DateTime @default(now())
 }
 
+model NewsletterSubscriber {
+  id     String @id @default(cuid())
+  email  String @unique
+  locale String @default("fr")
+  // Plaintext, unlike PasswordResetToken's hash — this link has to keep
+  // working in every future campaign email, not just once right after it's
+  // issued, so there's no stored secret to hash it against.
+  unsubscribeToken String    @unique
+  subscribedAt     DateTime  @default(now())
+  unsubscribedAt   DateTime?
+
+  @@index([unsubscribedAt])
+}
+
+/// A log line per campaign sent, mostly so the admin dashboard can show what
+/// already went out rather than risk a double-send with no record of it.
+model NewsletterCampaign {
+  id             String   @id @default(cuid())
+  subjectFr      String
+  subjectEn      String
+  recipientCount Int
+  sentAt         DateTime @default(now())
+}
+
 model OrderItem {
   id              String          @id @default(cuid())
   order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)

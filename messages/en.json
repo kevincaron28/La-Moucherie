@@ -13,7 +13,8 @@
     "searchPlaceholder": "Search flies...",
     "search": "Search",
     "reports": "What's working",
-    "catches": "Catches"
+    "catches": "Catches",
+    "waters": "Québec waters"
   },
   "Account": {
     "loginTitle": "Sign in",
@@ -164,8 +165,7 @@
     "emptyCanReview": "No reviews yet for this product. Be the first to leave one!",
     "verifiedPurchase": "Verified purchase",
     "writeReview": "Write a review",
-    "onlyBuyers": "Only customers who bought this fly can leave a review.",
-    "signInToReview": "Sign in to review a product you've purchased.",
+    "signInToReview": "Sign in to leave a review.",
     "signIn": "Sign in",
     "alreadyReviewed": "You've already reviewed this product. Thank you!",
     "rating": "Your rating",
@@ -284,6 +284,20 @@
     "error": "Something went wrong. Please try again or email us directly.",
     "directEmail": "You can also reach us directly at"
   },
+  "Newsletter": {
+    "signupLabel": "Get the hatch report",
+    "signupHint": "New patterns, sales, and what's working on the water — a few emails a month, never more.",
+    "emailPlaceholder": "you@email.com",
+    "submit": "Join",
+    "submitting": "Joining…",
+    "success": "You're in — check your inbox to see it land.",
+    "error": "Something went wrong. Please try again.",
+    "unsubTitle": "Unsubscribe",
+    "unsubWorking": "One moment…",
+    "unsubDone": "You're unsubscribed. You won't get any more emails from this list.",
+    "unsubFailed": "This link isn't valid — it may have already been used.",
+    "backHome": "Back to La Moucherie"
+  },
   "Footer": {
     "tagline": "Handcrafted flies from Québec",
     "shop": "Shop",
@@ -297,6 +311,7 @@
     "learnHeading": "Learn",
     "helpHeading": "Help",
     "allFlies": "All flies",
+    "waters": "Québec waters",
     "reports": "What's working",
     "catches": "Catches",
     "account": "My account"
@@ -381,7 +396,12 @@
     "empty": "No flies are tagged for this water yet.",
     "recentReports": "Recent reports",
     "backToShop": "Back to the shop",
-    "otherWaters": "Other waters"
+    "otherWaters": "Other waters",
+    "indexMetaTitle": "Québec waters — La Moucherie",
+    "indexMetaDescription": "Flies matched to the rivers and lakes we actually fish, water by water.",
+    "indexTitle": "Québec water, by name",
+    "indexIntro": "Not a generic catalogue — flies picked for the rivers and lakes we fish ourselves. Find your water, see what works there.",
+    "indexEmpty": "The first waters are coming soon."
   },
   "Reports": {
     "title": "What's working",

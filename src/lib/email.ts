@@ -334,6 +334,82 @@ export async function sendEmailVerification(args: {
   });
 }
 
+export async function sendNewsletterWelcome(args: {
+  to: string;
+  locale: string;
+  unsubscribeToken: string;
+}) {
+  const fr = args.locale === "fr";
+  const url = `${siteUrl()}/${fr ? "fr" : "en"}/newsletter/unsubscribe?token=${args.unsubscribeToken}`;
+  const html = layout(
+    fr
+      ? `<p>Bienvenue dans la boîte à mouches !</p>
+         <p>Vous recevrez nos rapports de pêche, nos nouveaux patrons et nos promotions — quelques courriels par mois, jamais plus.</p>
+         <p style="font-size:12px;color:#9a9082;margin-top:20px"><a href="${url}" style="color:#9a9082">Se désabonner</a></p>`
+      : `<p>Welcome to the fly box!</p>
+         <p>You'll get our fishing reports, new patterns and sales — a few emails a month, never more.</p>
+         <p style="font-size:12px;color:#9a9082;margin-top:20px"><a href="${url}" style="color:#9a9082">Unsubscribe</a></p>`
+  );
+  await send({
+    to: args.to,
+    subject: fr ? "Bienvenue chez La Moucherie" : "Welcome to La Moucherie",
+    html,
+  });
+}
+
+/**
+ * Sends one campaign to every given recipient, each with their own
+ * personalized unsubscribe link, in Resend's batch API (capped at 100
+ * emails per call, hence the chunking). Returns how many actually went out —
+ * 0 both when Resend isn't configured and when every chunk failed, since
+ * either way nothing was sent.
+ */
+export async function sendNewsletterCampaign(args: {
+  subjectFr: string;
+  subjectEn: string;
+  bodyHtmlFr: string;
+  bodyHtmlEn: string;
+  recipients: { email: string; locale: string; unsubscribeToken: string }[];
+}): Promise<number> {
+  if (!resend) {
+    console.info(
+      `[email:not-configured] would send campaign "${args.subjectFr}" to ${args.recipients.length} subscriber(s)`
+    );
+    return 0;
+  }
+
+  let sent = 0;
+  const BATCH_SIZE = 100;
+  for (let i = 0; i < args.recipients.length; i += BATCH_SIZE) {
+    const chunk = args.recipients.slice(i, i + BATCH_SIZE);
+    const payload = chunk.map((r) => {
+      const fr = r.locale === "fr";
+      const url = `${siteUrl()}/${fr ? "fr" : "en"}/newsletter/unsubscribe?token=${r.unsubscribeToken}`;
+      const footer = `<p style="margin-top:24px;font-size:12px;color:#9a9082">
+        ${fr ? "Vous recevez ceci parce que vous êtes inscrit à l'infolettre La Moucherie." : "You're receiving this because you're subscribed to the La Moucherie newsletter."}
+        <a href="${url}" style="color:#9a9082">${fr ? "Se désabonner" : "Unsubscribe"}</a></p>`;
+      return {
+        from: FROM,
+        to: r.email,
+        subject: fr ? args.subjectFr : args.subjectEn,
+        html: layout((fr ? args.bodyHtmlFr : args.bodyHtmlEn) + footer),
+      };
+    });
+
+    try {
+      const { error } = await resend.batch.send(payload);
+      if (error) {
+        console.error("[email:campaign:failed]", error);
+      } else {
+        sent += chunk.length;
+      }
+    } catch (err) {
+      console.error("[email:campaign:threw]", err);
+    }
+  }
+  return sent;
+}
+
 export async function sendAbandonedCart(args: {
   to: string;
   name: string;

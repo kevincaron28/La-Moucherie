@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
+import { CATEGORY_ORDER } from "@/lib/localize";
+import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SearchBox } from "./SearchBox";
 
@@ -31,9 +34,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-forest md:flex">
-          <Link href="/shop" className="transition hover:text-rust">
-            {t("shop")}
-          </Link>
+          <ShopMenu />
           <Link href="/reports" className="transition hover:text-rust">
             {t("reports")}
           </Link>
@@ -115,5 +116,103 @@ export function Header() {
         <SearchBox />
       </div>
     </header>
+  );
+}
+
+/**
+ * The desktop "Shop" link doubles as a dropdown into categories and species —
+ * both already have real pages, they just weren't reachable before landing on
+ * /shop first. Click-toggled rather than hover-only so it works the same on
+ * trackpads and touch laptops that don't have a reliable :hover state.
+ */
+function ShopMenu() {
+  const t = useTranslations("Nav");
+  const tCategories = useTranslations("Categories");
+  const tAngling = useTranslations("Angling");
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex items-center gap-1 transition hover:text-rust"
+      >
+        {t("shop")}
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        >
+          <path d="M5.5 7.5l4.5 4.5 4.5-4.5" stroke="currentColor" strokeWidth={1.6} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-[26rem] rounded-xl border border-forest/15 bg-parchment p-5 shadow-lg">
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+                {tCategories("ALL")}
+              </p>
+              <ul className="mt-2.5 space-y-2 text-sm">
+                <li>
+                  <Link href="/shop" onClick={() => setOpen(false)} className="text-forest hover:text-rust">
+                    {tCategories("ALL")}
+                  </Link>
+                </li>
+                {CATEGORY_ORDER.map((cat) => (
+                  <li key={cat}>
+                    <Link
+                      href={`/shop?category=${cat}`}
+                      onClick={() => setOpen(false)}
+                      className="text-forest hover:text-rust"
+                    >
+                      {tCategories(cat)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+                {tAngling("speciesTitle")}
+              </p>
+              <ul className="mt-2.5 space-y-2 text-sm">
+                {SPECIES.map((sp) => (
+                  <li key={sp}>
+                    <Link
+                      href={`/shop/species/${SPECIES_SLUGS[sp]}`}
+                      onClick={() => setOpen(false)}
+                      className="text-forest hover:text-rust"
+                    >
+                      {tAngling(`species.${sp}`)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <Link
+            href="/shop/water"
+            onClick={() => setOpen(false)}
+            className="mt-4 block border-t border-forest/10 pt-3 text-sm font-medium text-forest hover:text-rust"
+          >
+            {t("waters")} &rarr;
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }

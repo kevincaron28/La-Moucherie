@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL;
 
@@ -36,6 +37,7 @@ export function Footer() {
               <TikTokIcon />
             </a>
           )}
+          <NewsletterSignup className="mt-6" />
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3">
@@ -47,6 +49,11 @@ export function Footer() {
               <li>
                 <Link href="/shop" className="hover:text-cream">
                   {t("allFlies")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/water" className="hover:text-cream">
+                  {t("waters")}
                 </Link>
               </li>
               {SPECIES.slice(0, 4).map((s) => (

@@ -54,10 +54,6 @@ export function WriteReviewForm({
     );
   }
 
-  if (eligibility === "not_a_purchaser") {
-    return <p className="text-sm text-ink/60">{t("onlyBuyers")}</p>;
-  }
-
   if (eligibility === "already_reviewed" || status === "success") {
     return (
       <p className="text-sm font-medium text-forest">

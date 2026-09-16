@@ -41,25 +41,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "product_not_found" }, { status: 400 });
   }
 
-  // Only someone who actually bought this product, on this account, may review it.
-  // Identity comes from the session — never from client-supplied name/email.
-  const purchase = await prisma.order.findFirst({
-    where: {
-      userId: user.id,
-      status: { in: ["PAID", "FULFILLED"] },
-      items: { some: { productId } },
-    },
-  });
-  if (!purchase) {
-    return NextResponse.json({ error: "not_a_purchaser" }, { status: 403 });
-  }
-
   const existing = await prisma.review.findUnique({
     where: { productId_userId: { productId, userId: user.id } },
   });
   if (existing) {
     return NextResponse.json({ error: "already_reviewed" }, { status: 409 });
   }
+
+  // Anyone signed in may review — a purchase is no longer required, only
+  // reflected in the badge. Identity still comes from the session, never
+  // from client-supplied name/email.
+  const purchase = await prisma.order.findFirst({
+    where: {
+      userId: user.id,
+      status: { in: ["PAID", "FULFILLED"] },
+      items: { some: { productId } },
+    },
+    select: { id: true },
+  });
 
   await prisma.review.create({
     data: {
@@ -71,7 +70,7 @@ export async function POST(request: Request) {
       title,
       body,
       locale,
-      verifiedPurchase: true,
+      verifiedPurchase: Boolean(purchase),
     },
   });
 

@@ -13,7 +13,8 @@
     "searchPlaceholder": "Rechercher une mouche...",
     "search": "Rechercher",
     "reports": "Ce qui travaille",
-    "catches": "Prises"
+    "catches": "Prises",
+    "waters": "Eaux du Québec"
   },
   "Account": {
     "loginTitle": "Se connecter",
@@ -164,8 +165,7 @@
     "emptyCanReview": "Aucun avis pour ce produit pour le moment. Soyez le premier à en laisser un !",
     "verifiedPurchase": "Achat vérifié",
     "writeReview": "Laisser un avis",
-    "onlyBuyers": "Seuls les clients ayant acheté cette mouche peuvent laisser un avis.",
-    "signInToReview": "Connectez-vous pour laisser un avis sur un produit que vous avez acheté.",
+    "signInToReview": "Connectez-vous pour laisser un avis.",
     "signIn": "Se connecter",
     "alreadyReviewed": "Vous avez déjà laissé un avis sur ce produit. Merci !",
     "rating": "Votre note",
@@ -284,6 +284,20 @@
     "error": "Une erreur est survenue. Veuillez réessayer ou nous écrire directement.",
     "directEmail": "Vous pouvez aussi nous écrire directement à"
   },
+  "Newsletter": {
+    "signupLabel": "Recevez le rapport de pêche",
+    "signupHint": "Nouveaux patrons, promotions et ce qui fonctionne sur l'eau — quelques courriels par mois, jamais plus.",
+    "emailPlaceholder": "vous@courriel.com",
+    "submit": "S'inscrire",
+    "submitting": "Inscription…",
+    "success": "C'est fait — vérifiez votre boîte de réception.",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "unsubTitle": "Désabonnement",
+    "unsubWorking": "Un instant…",
+    "unsubDone": "Vous êtes désabonné. Vous ne recevrez plus de courriels de cette liste.",
+    "unsubFailed": "Ce lien n'est pas valide — il a peut-être déjà été utilisé.",
+    "backHome": "Retour à La Moucherie"
+  },
   "Footer": {
     "tagline": "Mouches artisanales du Québec",
     "shop": "Boutique",
@@ -297,6 +311,7 @@
     "learnHeading": "Apprendre",
     "helpHeading": "Aide",
     "allFlies": "Toutes les mouches",
+    "waters": "Eaux du Québec",
     "reports": "Ce qui travaille",
     "catches": "Prises",
     "account": "Mon compte"
@@ -381,7 +396,12 @@
     "empty": "Aucune mouche n'est encore associée à cette eau.",
     "recentReports": "Derniers rapports",
     "backToShop": "Retour à la boutique",
-    "otherWaters": "Autres eaux"
+    "otherWaters": "Autres eaux",
+    "indexMetaTitle": "Eaux du Québec — La Moucherie",
+    "indexMetaDescription": "Des mouches choisies pour les rivières et lacs qu'on pêche vraiment, plan d'eau par plan d'eau.",
+    "indexTitle": "Les eaux du Québec, une à une",
+    "indexIntro": "Pas un catalogue générique — des mouches choisies pour les rivières et lacs qu'on pêche nous-mêmes. Trouvez votre plan d'eau, voyez ce qui fonctionne.",
+    "indexEmpty": "Les premières eaux arrivent bientôt."
   },
   "Reports": {
     "title": "Ce qui travaille",

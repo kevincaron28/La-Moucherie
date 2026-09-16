@@ -17,7 +17,14 @@ export default async function AdminPage({
     notFound();
   }
 
-  const [pendingReviews, lowStockVariants, recentOrders] = await Promise.all([
+  const [
+    pendingReviews,
+    lowStockVariants,
+    recentOrders,
+    subscriberCount,
+    recentReports,
+    recentCampaigns,
+  ] = await Promise.all([
     prisma.review.findMany({
       where: { status: "PENDING" },
       include: {
@@ -38,6 +45,25 @@ export default async function AdminPage({
       include: { items: true },
       orderBy: { createdAt: "desc" },
       take: 15,
+    }),
+    prisma.newsletterSubscriber.count({ where: { unsubscribedAt: null } }),
+    prisma.fishingReport.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      take: 5,
+      select: {
+        id: true,
+        titleFr: true,
+        titleEn: true,
+        bodyFr: true,
+        bodyEn: true,
+        conditionsFr: true,
+        conditionsEn: true,
+      },
+    }),
+    prisma.newsletterCampaign.findMany({
+      orderBy: { sentAt: "desc" },
+      take: 5,
     }),
   ]);
 
@@ -82,6 +108,15 @@ export default async function AdminPage({
           shippingMethod: o.shippingMethod,
           createdAt: o.createdAt.toISOString(),
           itemCount: o.items.reduce((sum, i) => sum + i.quantity, 0),
+        }))}
+        subscriberCount={subscriberCount}
+        recentReports={recentReports}
+        recentCampaigns={recentCampaigns.map((c) => ({
+          id: c.id,
+          subjectFr: c.subjectFr,
+          subjectEn: c.subjectEn,
+          recipientCount: c.recipientCount,
+          sentAt: c.sentAt.toISOString(),
         }))}
       />
     </div>
