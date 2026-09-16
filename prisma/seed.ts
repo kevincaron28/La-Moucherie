@@ -292,123 +292,349 @@ const products: ProductSeed[] = [
       { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "WBB-STD-10", stock: 22 },
     ],
   },
+  // The 14 patterns formerly tracked in `plannedFlies` below, now tied and
+  // published as real cards — out of stock (stock: 0 on every variant) until
+  // real inventory is confirmed, same as the rest of the catalog above.
+  {
+    slug: "pheasant-tail-nymph",
+    nameFr: "Pheasant Tail",
+    nameEn: "Pheasant Tail Nymph",
+    descriptionFr:
+      "La nymphe passe-partout par excellence — un corps fin en fibres de queue de faisan, cuivré et discret, qui imite à peu près n'importe quelle éphémère en dérive. Quand on ne sait pas ce qui éclot, c'est celle qu'on attache.",
+    descriptionEn:
+      "The ultimate go-anywhere nymph — a slim, coppery pheasant-tail-fibre body that passes for almost any drifting mayfly. When you don't know what's hatching, this is what goes on.",
+    category: ProductCategory.NYMPH,
+    basePriceCents: 350,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SPRING", "SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["NYMPHING", "DEAD_DRIFT"],
+    imitatesFr: ["Nymphe d'éphémère"],
+    imitatesEn: ["Mayfly nymph"],
+    variants: [
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "PTN-STD-14", stock: 0 },
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "PTN-STD-16", stock: 0 },
+      { nameFr: "Hameçon #18", nameEn: "Hook #18", sku: "PTN-STD-18", stock: 0 },
+    ],
+  },
+  {
+    slug: "zebra-midge",
+    nameFr: "Zebra Midge",
+    nameEn: "Zebra Midge",
+    descriptionFr:
+      "Une minuscule nymphe de fil et de bille, montée pour imiter les larves de chironomes qui restent actives même en plein hiver. Petite, discrète, et redoutable quand rien d'autre ne travaille.",
+    descriptionEn:
+      "A tiny wire-and-bead nymph tied to imitate midge larvae that stay active even in the dead of winter. Small, subtle, and deadly when nothing else is working.",
+    category: ProductCategory.NYMPH,
+    basePriceCents: 325,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["FALL"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["NYMPHING", "DEAD_DRIFT"],
+    imitatesFr: ["Larve de chironome"],
+    imitatesEn: ["Midge larva"],
+    variants: [
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "ZM-STD-16", stock: 0 },
+      { nameFr: "Hameçon #18", nameEn: "Hook #18", sku: "ZM-STD-18", stock: 0 },
+      { nameFr: "Hameçon #20", nameEn: "Hook #20", sku: "ZM-STD-20", stock: 0 },
+    ],
+  },
+  {
+    slug: "caddis-pupa",
+    nameFr: "Pupe de trichoptère",
+    nameEn: "Caddis Pupa",
+    descriptionFr:
+      "Le complément logique de notre Elk Wing Caddis : une imitation de la pupe qui remonte vers la surface juste avant l'éclosion. Efficace dans les minutes qui précèdent une sortie de trichoptères en surface.",
+    descriptionEn:
+      "The logical companion to our Elk Wing Caddis: an imitation of the pupa rising toward the surface just before it hatches. Deadly in the minutes right before caddis start popping on top.",
+    category: ProductCategory.NYMPH,
+    basePriceCents: 350,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["NYMPHING", "SWING"],
+    imitatesFr: ["Pupe de trichoptère"],
+    imitatesEn: ["Caddis pupa"],
+    variants: [
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "CP-STD-12", stock: 0 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "CP-STD-14", stock: 0 },
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "CP-STD-16", stock: 0 },
+    ],
+  },
+  {
+    slug: "hendrickson",
+    nameFr: "Hendrickson",
+    nameEn: "Hendrickson",
+    descriptionFr:
+      "Une sèche classique montée pour l'éclosion de mai, quand les grandes éphémères Hendrickson sortent en nombre. Silhouette fine, hackle bien réparti, pour flotter juste dans le courant.",
+    descriptionEn:
+      "A classic dry tied for the May Hendrickson hatch, when the big mayflies come off in numbers. A slim profile and evenly-wound hackle to ride right in the film.",
+    category: ProductCategory.DRY_FLY,
+    basePriceCents: 375,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SPRING"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["DEAD_DRIFT"],
+    imitatesFr: ["Éphémère Hendrickson"],
+    imitatesEn: ["Hendrickson mayfly"],
+    variants: [
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "HDK-STD-10", stock: 0 },
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "HDK-STD-12", stock: 0 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "HDK-STD-14", stock: 0 },
+    ],
+  },
+  {
+    slug: "clouser-minnow",
+    nameFr: "Clouser Minnow",
+    nameEn: "Clouser Minnow",
+    descriptionFr:
+      "Probablement le streamer poisson-appât le plus polyvalent qui existe — des yeux plombés qui font nager la mouche en jig, efficaces autant pour l'achigan que pour le doré ou le brochet. Un incontournable de toute boîte à streamers.",
+    descriptionEn:
+      "Probably the most versatile baitfish streamer there is — weighted eyes that give it a jigging action, just as effective on bass, walleye, or pike. A must in any streamer box.",
+    category: ProductCategory.STREAMER,
+    basePriceCents: 475,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE", "WALLEYE"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "LAKE", "STILLWATER"],
+    techniques: ["STRIP", "TROLLING"],
+    imitatesFr: ["Poisson-appât", "Ménés"],
+    imitatesEn: ["Baitfish", "Minnows"],
+    variants: [
+      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "CLM-STD-04", stock: 0 },
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "CLM-STD-06", stock: 0 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "CLM-STD-08", stock: 0 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "CLM-STD-10", stock: 0 },
+    ],
+  },
+  {
+    slug: "game-changer",
+    nameFr: "Game Changer",
+    nameEn: "Game Changer",
+    descriptionFr:
+      "Un streamer articulé au mouvement très réaliste — le corps segmenté ondule dans l'eau comme un vrai poisson-appât, même au repos. Redoutable autour des piliers de pont et dans les fosses profondes.",
+    descriptionEn:
+      "An articulated streamer with an unusually lifelike swim — the segmented body undulates like a real baitfish even at rest. Deadly around bridge pilings and deep holding pools.",
+    category: ProductCategory.STREAMER,
+    basePriceCents: 650,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "LAKE"],
+    techniques: ["STRIP"],
+    imitatesFr: ["Poisson-appât articulé"],
+    imitatesEn: ["Articulated baitfish"],
+    variants: [
+      { nameFr: "2 po", nameEn: '2"', sku: "GC-STD-02", stock: 0 },
+      { nameFr: "3 po", nameEn: '3"', sku: "GC-STD-03", stock: 0 },
+      { nameFr: "4 po", nameEn: '4"', sku: "GC-STD-04", stock: 0 },
+    ],
+  },
+  {
+    slug: "pike-deceiver",
+    nameFr: "Pike Deceiver",
+    nameEn: "Pike Deceiver",
+    descriptionFr:
+      "Une version agrandie du Deceiver, montée large et haute pour offrir un gros profil aux brochets. Du mouvement, de la présence, et assez de flash pour se faire voir en eau teintée.",
+    descriptionEn:
+      "A scaled-up Deceiver, tied wide and tall to give pike a big profile to key on. Plenty of movement, presence, and enough flash to get noticed in stained water.",
+    category: ProductCategory.STREAMER,
+    basePriceCents: 550,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["NORTHERN_PIKE"],
+    seasons: ["SPRING", "SUMMER"],
+    waterTypes: ["RIVER", "LAKE"],
+    techniques: ["STRIP"],
+    imitatesFr: ["Poisson-appât"],
+    imitatesEn: ["Baitfish"],
+    variants: [
+      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "PD-STD-04", stock: 0 },
+      { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "PD-STD-02", stock: 0 },
+    ],
+  },
+  {
+    slug: "bunny-leech",
+    nameFr: "Bunny Leech",
+    nameEn: "Bunny Leech",
+    descriptionFr:
+      "Une bande de fourrure de lapin montée en queue — un mouvement dans l'eau qu'aucun matériel synthétique n'égale vraiment. Simple, increvable, et efficace sur le brochet comme sur les gros achigans.",
+    descriptionEn:
+      "A strip of rabbit fur tied in as the tail — movement in the water that no synthetic really matches. Simple, tough, and just as effective on pike as on big bass.",
+    category: ProductCategory.STREAMER,
+    basePriceCents: 500,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["NORTHERN_PIKE", "SMALLMOUTH_BASS"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "LAKE"],
+    techniques: ["STRIP"],
+    imitatesFr: ["Sangsue", "Poisson-appât"],
+    imitatesEn: ["Leech", "Baitfish"],
+    variants: [
+      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "BL-STD-04", stock: 0 },
+      { nameFr: "Hameçon #2", nameEn: "Hook #2", sku: "BL-STD-02", stock: 0 },
+    ],
+  },
+  {
+    slug: "foam-hopper",
+    nameFr: "Sauterelle en mousse",
+    nameEn: "Foam Hopper",
+    descriptionFr:
+      "Une imitation de sauterelle en mousse, increvable, qui flotte quelle que soit la dérive. Terrestre par excellence : à lancer en bordure les jours chauds et secs de la fin de l'été.",
+    descriptionEn:
+      "A foam grasshopper imitation, tough enough to survive any drift, that floats no matter what. The classic terrestrial: cast it along the banks on hot, dry late-summer days.",
+    category: ProductCategory.DRY_FLY,
+    basePriceCents: 400,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SUMMER", "FALL"],
+    waterTypes: ["RIVER", "STREAM", "LAKE"],
+    techniques: ["DEAD_DRIFT", "SKATE"],
+    imitatesFr: ["Sauterelle"],
+    imitatesEn: ["Grasshopper"],
+    variants: [
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "FH-STD-08", stock: 0 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "FH-STD-10", stock: 0 },
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "FH-STD-12", stock: 0 },
+    ],
+  },
+  {
+    slug: "foam-ant",
+    nameFr: "Fourmi en mousse",
+    nameEn: "Foam Ant",
+    descriptionFr:
+      "Une petite fourmi en mousse, discrète mais diablement efficace en pleine canicule, quand les insectes terrestres tombent dans l'eau depuis les branches basses.",
+    descriptionEn:
+      "A small foam ant, unassuming but brutally effective at the height of summer, when terrestrials keep dropping into the water from overhanging branches.",
+    category: ProductCategory.DRY_FLY,
+    basePriceCents: 350,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SUMMER"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["DEAD_DRIFT"],
+    imitatesFr: ["Fourmi"],
+    imitatesEn: ["Ant"],
+    variants: [
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "FA-STD-12", stock: 0 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "FA-STD-14", stock: 0 },
+      { nameFr: "Hameçon #16", nameEn: "Hook #16", sku: "FA-STD-16", stock: 0 },
+    ],
+  },
+  {
+    slug: "foam-beetle",
+    nameFr: "Coléoptère en mousse",
+    nameEn: "Foam Beetle",
+    descriptionFr:
+      "Un coléoptère en mousse, monté bas sur l'eau, pour les truites qui se tiennent sous les branches en bordure. Petite mouche, grosse confiance quand la truite regarde vers le haut.",
+    descriptionEn:
+      "A foam beetle, tied to sit low in the film, for trout holding under overhanging branches. A small fly that earns a lot of confidence once trout start looking up.",
+    category: ProductCategory.DRY_FLY,
+    basePriceCents: 350,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
+    seasons: ["SUMMER"],
+    waterTypes: ["RIVER", "STREAM"],
+    techniques: ["DEAD_DRIFT"],
+    imitatesFr: ["Coléoptère"],
+    imitatesEn: ["Beetle"],
+    variants: [
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "FB-STD-10", stock: 0 },
+      { nameFr: "Hameçon #12", nameEn: "Hook #12", sku: "FB-STD-12", stock: 0 },
+      { nameFr: "Hameçon #14", nameEn: "Hook #14", sku: "FB-STD-14", stock: 0 },
+    ],
+  },
+  {
+    slug: "popper",
+    nameFr: "Popper",
+    nameEn: "Popper",
+    descriptionFr:
+      "Une mouche de surface en mousse dure, avec une tête concave qui fait un vrai « pop » à la récupération. L'achigan qui frappe dessus, c'est le moment le plus excitant de l'été.",
+    descriptionEn:
+      'A hard-foam topwater fly with a concave face that makes a real "pop" on the strip. A bass exploding on this is the most exciting take of the summer.',
+    category: ProductCategory.DRY_FLY,
+    basePriceCents: 450,
+    images: ["/products/placeholder-fly.svg"],
+    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS"],
+    seasons: ["SUMMER"],
+    waterTypes: ["LAKE", "STILLWATER", "RIVER"],
+    techniques: ["STRIP", "SKATE"],
+    imitatesFr: ["Grenouille", "Insecte de surface"],
+    imitatesEn: ["Frog", "Surface bug"],
+    variants: [
+      { nameFr: "Hameçon #4", nameEn: "Hook #4", sku: "POP-STD-04", stock: 0 },
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "POP-STD-06", stock: 0 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "POP-STD-08", stock: 0 },
+    ],
+  },
+  {
+    slug: "backstabber",
+    nameFr: "Backstabber",
+    nameEn: "Backstabber",
+    descriptionFr:
+      "Une mouche à carpe montée pointe vers le haut, pour éviter de s'accrocher au fond en pêchant à vue dans les hauts-fonds. Discrète, elle imite une petite proie qui fuit devant le poisson.",
+    descriptionEn:
+      "A carp fly tied hook-point-up to avoid snagging bottom while sight-fishing the shallows. A subtle pattern that reads as small prey fleeing in front of a feeding fish.",
+    category: ProductCategory.WET_FLY,
+    basePriceCents: 450,
+    images: ["/products/placeholder-fly.svg"],
+    // Carp isn't in the FishSpecies enum yet — see the note this pattern
+    // carried on the planned-flies list.
+    species: [],
+    seasons: ["SUMMER"],
+    waterTypes: ["RIVER", "LAKE"],
+    techniques: ["DEAD_DRIFT"],
+    imitatesFr: ["Petite proie", "Larve"],
+    imitatesEn: ["Small prey", "Larva"],
+    variants: [
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "BS-STD-06", stock: 0 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "BS-STD-08", stock: 0 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "BS-STD-10", stock: 0 },
+    ],
+  },
+  {
+    slug: "carp-crayfish",
+    nameFr: "Écrevisse pour carpe",
+    nameEn: "Carp Crayfish",
+    descriptionFr:
+      "Une imitation d'écrevisse montée pour la carpe, avec des pinces mobiles et un lest orienté pour se poser pinces en avant. À présenter tranquillement devant un poisson repéré, jamais en pleine face.",
+    descriptionEn:
+      "A crayfish imitation tied for carp, with mobile claws and weight positioned to land claws-first. Presented quietly in front of a spotted fish, never right in its face.",
+    category: ProductCategory.WET_FLY,
+    basePriceCents: 475,
+    images: ["/products/placeholder-fly.svg"],
+    species: [],
+    seasons: ["SUMMER"],
+    waterTypes: ["RIVER", "LAKE"],
+    techniques: ["DEAD_DRIFT"],
+    imitatesFr: ["Écrevisse"],
+    imitatesEn: ["Crayfish"],
+    variants: [
+      { nameFr: "Hameçon #6", nameEn: "Hook #6", sku: "CCR-STD-06", stock: 0 },
+      { nameFr: "Hameçon #8", nameEn: "Hook #8", sku: "CCR-STD-08", stock: 0 },
+      { nameFr: "Hameçon #10", nameEn: "Hook #10", sku: "CCR-STD-10", stock: 0 },
+    ],
+  },
 ];
 
 
 // A tying to-do list, not catalog data — patterns worth adding once they're
-// actually tied, priced and photographed. Curated from a southwestern
-// Montérégie river/species guide (Châteauguay, Richelieu, Yamaska, Yamaska
-// Nord), cross-referenced against what's already in `products` above so
-// nothing here duplicates a real pattern. Only inserted once, into an empty
-// table — see the `plannedFlies.count()` guard in `main()` — since after
-// that it's a living list the admin dashboard adds to and clears from.
+// actually tied, priced and photographed. Starts empty: the 14 patterns
+// originally curated here (from a southwestern Montérégie river/species
+// guide) have all since been tied and moved into `products` above. Only
+// inserted once, into an empty table — see the `plannedFlies.count()` guard
+// in `main()` — since after that it's a living list the admin dashboard
+// adds to and clears from.
 const plannedFlies: {
   nameFr: string;
   nameEn: string;
   category: ProductCategory;
   species: FishSpecies[];
   notes: string;
-}[] = [
-  {
-    nameFr: "Pheasant Tail",
-    nameEn: "Pheasant Tail Nymph",
-    category: ProductCategory.NYMPH,
-    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#14-18. La nymphe passe-partout quand on ne sait pas ce qui éclot.",
-  },
-  {
-    nameFr: "Zebra Midge",
-    nameEn: "Zebra Midge",
-    category: ProductCategory.NYMPH,
-    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#16-20. Fin de saison / hiver, Yamaska Nord.",
-  },
-  {
-    nameFr: "Pupe de trichoptère",
-    nameEn: "Caddis Pupa",
-    category: ProductCategory.NYMPH,
-    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#12-16. Complète l'Elk Wing Caddis déjà au catalogue — stade pupe/larve.",
-  },
-  {
-    nameFr: "Hendrickson",
-    nameEn: "Hendrickson",
-    category: ProductCategory.DRY_FLY,
-    species: ["BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#10-14. Éclosion de mai, Yamaska Nord.",
-  },
-  {
-    nameFr: "Clouser Minnow",
-    nameEn: "Clouser Minnow",
-    category: ProductCategory.STREAMER,
-    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE", "WALLEYE"],
-    notes:
-      "#4-10. Probablement le patron poisson-appât le plus utile localement — Châteauguay, Richelieu, Yamaska.",
-  },
-  {
-    nameFr: "Game Changer",
-    nameEn: "Game Changer",
-    category: ProductCategory.STREAMER,
-    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "NORTHERN_PIKE"],
-    notes: "2-4po articulé. Piliers de pont et fosses du Richelieu.",
-  },
-  {
-    nameFr: "Pike Deceiver",
-    nameEn: "Pike Deceiver",
-    category: ProductCategory.STREAMER,
-    species: ["NORTHERN_PIKE"],
-    notes: "#2-4. Gros profil poisson-appât pour la rivière aux Brochets.",
-  },
-  {
-    nameFr: "Bunny Leech",
-    nameEn: "Bunny Leech",
-    category: ProductCategory.STREAMER,
-    species: ["NORTHERN_PIKE", "SMALLMOUTH_BASS"],
-    notes: "#2-4, bande de lapin. Brochet et gros achigans.",
-  },
-  {
-    nameFr: "Sauterelle en mousse",
-    nameEn: "Foam Hopper",
-    category: ProductCategory.DRY_FLY,
-    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#8-12. Terrestre, juillet-septembre, en bordure sur Châteauguay et Yamaska Nord.",
-  },
-  {
-    nameFr: "Fourmi en mousse",
-    nameEn: "Foam Ant",
-    category: ProductCategory.DRY_FLY,
-    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#12-16, terrestre.",
-  },
-  {
-    nameFr: "Coléoptère en mousse",
-    nameEn: "Foam Beetle",
-    category: ProductCategory.DRY_FLY,
-    species: ["SMALLMOUTH_BASS", "BROOK_TROUT", "BROWN_TROUT", "RAINBOW_TROUT"],
-    notes: "#10-14, terrestre, berges ombragées.",
-  },
-  {
-    nameFr: "Popper",
-    nameEn: "Popper",
-    category: ProductCategory.DRY_FLY,
-    species: ["SMALLMOUTH_BASS", "LARGEMOUTH_BASS"],
-    notes: "#4-8, mouche de surface. Juin-septembre, pic en eau chaude.",
-  },
-  {
-    nameFr: "Backstabber",
-    nameEn: "Backstabber",
-    category: ProductCategory.WET_FLY,
-    species: [],
-    notes: "Mouche à carpe — Châteauguay/Richelieu. La carpe n'est pas encore dans la liste des espèces.",
-  },
-  {
-    nameFr: "Écrevisse pour carpe",
-    nameEn: "Carp Crayfish",
-    category: ProductCategory.WET_FLY,
-    species: [],
-    notes: "#6-10. Même lacune : pas d'espèce « carpe » dans l'énumération pour l'instant.",
-  },
-];
+}[] = [];
 
 // Named water. The sharpest form of the Québec position — and the strongest SEO
 // asset here, because nobody outside the province can credibly claim these.
