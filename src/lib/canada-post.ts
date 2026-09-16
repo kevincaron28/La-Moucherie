@@ -19,11 +19,15 @@ import { ORIGIN_POSTAL_CODE } from "@/lib/shipping";
 // now talks to instead.
 
 const API_HOST = "https://api.canadapost-postescanada.ca";
-// The bare "/oauth2/token" path 503s with a gateway HTML error page — it
-// doesn't route to anything. The OAuth provider is mounted under its own
-// path on this host.
-const TOKEN_URL = `${API_HOST}/cpc-api-native-oauth-provider/oauth2/token`;
-const RATING_URL = `${API_HOST}/rating/v1/prices`;
+// Confirmed against the portal's own OpenAPI export (Rating-3.0.0.yaml) —
+// `servers`, `x-ibm-endpoints` and `securitySchemes.Oauth2.flows.clientCredentials.tokenUrl`
+// all agree on this base path. Two prior guesses (a bare `/oauth2/token`,
+// then `/cpc-api-native-oauth-provider/oauth2/token` without this prefix)
+// both 503'd with a gateway HTML page: `/prod/devportal-portaildesdeveloppeurs`
+// looks like a sandbox artifact but is actually part of the real path.
+const API_BASE = `${API_HOST}/prod/devportal-portaildesdeveloppeurs`;
+const TOKEN_URL = `${API_BASE}/cpc-api-native-oauth-provider/oauth2/token`;
+const RATING_URL = `${API_BASE}/rating/v1/prices`;
 
 const TIMEOUT_MS = 4000;
 
