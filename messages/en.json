@@ -176,7 +176,9 @@
     "description": "Description",
     "details": "Details",
     "shippingNote": "🇨🇦 Canada-wide shipping from {letterPrice} · free tracked shipping over {threshold}",
-    "pairsWellWith": "Pairs well with"
+    "pairsWellWith": "Pairs well with",
+    "tiedWith": "Tied with",
+    "tiedWithNote": "The dressing we use for this pattern. Tie it yourself if you'd rather — we'd still call that a good outcome."
   },
   "Reviews": {
     "title": "Customer reviews",

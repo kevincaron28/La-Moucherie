@@ -176,7 +176,9 @@
     "description": "Description",
     "details": "Détails",
     "shippingNote": "🇨🇦 Livraison partout au Canada dès {letterPrice} · envoi suivi gratuit dès {threshold}",
-    "pairsWellWith": "Complète bien avec"
+    "pairsWellWith": "Complète bien avec",
+    "tiedWith": "Monté avec",
+    "tiedWithNote": "La recette qu'on utilise pour ce patron. Montez-la vous-même si vous préférez — on trouverait ça très bien aussi."
   },
   "Reviews": {
     "title": "Avis clients",

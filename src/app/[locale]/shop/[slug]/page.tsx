@@ -7,6 +7,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { AnglerSpecs } from "@/components/AnglerSpecs";
 import { ProductCard } from "@/components/ProductCard";
 import { getReviewEligibility } from "@/lib/review-eligibility";
+import { pick } from "@/lib/localize";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 
@@ -73,6 +74,16 @@ export default async function ProductPage({
     include: {
       variants: { orderBy: { createdAt: "asc" } },
       waters: { select: { slug: true, nameFr: true, nameEn: true } },
+      // Names and per-fly spec only. Supplier notes and quantities stay in the
+      // admin run sheet — that's sourcing, not merchandising.
+      materials: {
+        orderBy: { position: "asc" },
+        select: {
+          specFr: true,
+          specEn: true,
+          material: { select: { nameFr: true, nameEn: true } },
+        },
+      },
     },
   });
 
@@ -188,6 +199,30 @@ export default async function ProductPage({
         proTip={locale === "fr" ? product.proTipFr : product.proTipEn}
         waters={product.waters}
       />
+      {product.materialsPublic && product.materials.length > 0 && (
+        <section className="mt-16 border-t border-forest/10 pt-10">
+          <h2 className="font-display text-xl font-semibold text-forest">
+            {t("tiedWith")}
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-ink/60">{t("tiedWithNote")}</p>
+          <ul className="mt-5 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+            {product.materials.map((m, i) => {
+              const spec = pick(m.specFr ?? "", m.specEn ?? "", locale);
+              return (
+                <li
+                  key={i}
+                  className="flex justify-between gap-4 border-b border-forest/10 py-1.5 text-sm"
+                >
+                  <span className="font-medium text-forest">
+                    {pick(m.material.nameFr, m.material.nameEn, locale)}
+                  </span>
+                  {spec && <span className="text-right text-ink/60">{spec}</span>}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
       {pairsWellWith.length > 0 && (
         <section className="mt-16 border-t border-forest/10 pt-10">
           <h2 className="font-display text-xl font-semibold text-forest">

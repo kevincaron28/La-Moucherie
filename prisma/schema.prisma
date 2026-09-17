@@ -30,6 +30,64 @@ enum ProductCategory {
   ASSORTMENT
 }
 
+// Where a material sits in the recipe, roughly in tying order. Doubles as the
+// grouping for the consolidated shopping list on the production run sheet.
+enum MaterialCategory {
+  HOOK
+  BEAD_WEIGHT
+  THREAD
+  TAIL
+  BODY
+  RIB
+  THORAX
+  HACKLE
+  WING
+  HEAD
+  ADHESIVE
+  OTHER
+}
+
+// A material as it exists in the bin, not as it appears in one recipe — two
+// patterns calling for black 8/0 thread must point at the SAME row, or the
+// shopping list can't roll them up into one line.
+model Material {
+  id           String            @id @default(cuid())
+  nameFr       String
+  nameEn       String
+  category     MaterialCategory
+  // Brand, spec, where it's bought. Never rendered publicly: this is sourcing.
+  supplierNote String?
+  products     ProductMaterial[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([category, nameEn])
+  @@index([category])
+}
+
+model ProductMaterial {
+  id         String   @id @default(cuid())
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String
+  // Restrict, not Cascade: deleting a material that recipes still reference
+  // should fail loudly rather than quietly gutting them.
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Restrict)
+  materialId String
+  // How this pattern uses it — "olive, size 14", "2.5mm gold". The Material row
+  // stays generic so it can still group.
+  specFr     String?
+  specEn     String?
+  // Set for things consumed one-per-fly (hook, bead) so the run sheet can total
+  // them against the number of flies to tie. Null for thread, dubbing, hackle
+  // and anything else where "you either have it or you don't".
+  perFlyQty  Int?
+  // Tying order, bottom of the hook up.
+  position   Int      @default(0)
+
+  @@unique([productId, materialId])
+  @@index([productId])
+}
+
 enum OrderStatus {
   PENDING
   PAID
@@ -46,36 +104,42 @@ enum ReviewStatus {
 }
 
 model Product {
-  id             String           @id @default(cuid())
-  slug           String           @unique
-  nameFr         String
-  nameEn         String
-  descriptionFr  String
-  descriptionEn  String
-  category       ProductCategory
-  basePriceCents Int
-  currency       String           @default("cad")
-  images         String[]         @default([])
-  active         Boolean          @default(true)
-  featured       Boolean          @default(false)
-  species        FishSpecies[]    @default([])
-  seasons        FishingSeason[]  @default([])
-  waterTypes     WaterType[]      @default([])
-  techniques     Technique[]      @default([])
-  imitatesFr     String[]         @default([])
-  imitatesEn     String[]         @default([])
-  howToFishFr    String?
-  howToFishEn    String?
-  proTipFr       String?
-  proTipEn       String?
-  waters         FishingWater[]   @relation("ProductWaters")
-  reports        FishingReport[]  @relation("ReportProducts")
-  catches        CatchPhoto[]
-  variants       ProductVariant[]
-  orderItems     OrderItem[]
-  reviews        Review[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id              String            @id @default(cuid())
+  slug            String            @unique
+  nameFr          String
+  nameEn          String
+  descriptionFr   String
+  descriptionEn   String
+  category        ProductCategory
+  basePriceCents  Int
+  currency        String            @default("cad")
+  images          String[]          @default([])
+  active          Boolean           @default(true)
+  featured        Boolean           @default(false)
+  species         FishSpecies[]     @default([])
+  seasons         FishingSeason[]   @default([])
+  waterTypes      WaterType[]       @default([])
+  techniques      Technique[]       @default([])
+  imitatesFr      String[]          @default([])
+  imitatesEn      String[]          @default([])
+  howToFishFr     String?
+  howToFishEn     String?
+  proTipFr        String?
+  proTipEn        String?
+  waters          FishingWater[]    @relation("ProductWaters")
+  reports         FishingReport[]   @relation("ReportProducts")
+  catches         CatchPhoto[]
+  materials       ProductMaterial[]
+  // Recipes are seeded from the standard published dressing for each pattern,
+  // which is a starting point, not how this bench actually ties it. Nothing is
+  // shown to customers until someone has checked that fly's recipe and flipped
+  // this on.
+  materialsPublic Boolean           @default(false)
+  variants        ProductVariant[]
+  orderItems      OrderItem[]
+  reviews         Review[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 
   @@index([category])
   @@index([active, featured])

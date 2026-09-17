@@ -1500,6 +1500,16 @@ export function AdminDashboardClient({
           >
             📦 {locale === "fr" ? "Vérifier l'API Postes Canada" : "Check Canada Post API"} &rarr;
           </a>
+          <a
+            href={`/${locale}/admin/production`}
+            className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-parchment px-4 py-2 text-xs font-semibold text-forest shadow-sm transition hover:bg-forest/10"
+          >
+            🧵{" "}
+            {locale === "fr"
+              ? "Feuille de production (à monter + matériaux)"
+              : "Production run sheet (to tie + materials)"}{" "}
+            &rarr;
+          </a>
         </div>
       </section>
     </div>
