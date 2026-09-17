@@ -604,6 +604,17 @@ to `NewsletterCampaign` so the dashboard shows history and a send can't happen t
 accident. Like all other email here, this is a no-op (logs instead of sending) until
 `RESEND_API_KEY` is set.
 
+## Branch convention
+
+**`main` is the only branch.** It deploys straight to production; there is no staging
+branch and no long-lived feature branch. Push work to `main`.
+
+Earlier sessions also mirrored every commit to `claude/fly-tying-shop-stripe-jlr7w6`,
+which made Vercel build each push twice — once as production from `main`, once as a
+preview from the branch — and made the deployment list read as though work were landing
+on the branch instead of `main`. It wasn't: the two refs were byte-identical. That mirror
+push has been dropped; don't reintroduce it.
+
 ## Brand & identity
 
 La Moucherie is a family business run by Claudya and Kevin. Customer-facing copy uses
