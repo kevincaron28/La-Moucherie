@@ -53,6 +53,7 @@ export default async function AboutPage({
         <p>{t("p1")}</p>
         <p>{t("p2")}</p>
         <p>{t("p3")}</p>
+        <p>{t("p4")}</p>
       </div>
     </div>
   );

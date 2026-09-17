@@ -19,7 +19,7 @@ dropdown (categories + species), a "shop by species" grid on the homepage, and a
 `/shop/water` index page; the former "Catches" page is now `/catches` → **Community**
 (nav + footer relabeled), combining approved angler photos with an embedded Instagram
 hashtag feed widget; `robots.txt` + `sitemap.ts`; and a homepage/About page built around
-the real founders, Claudya Cazes and Kevin.
+the real founders, Claudya and Kevin.
 
 **Needs attention before the shop can actually sell:**
 - The catalog has 34 fly patterns plus 3 curated boxes, all with real hook-size variants —
@@ -570,7 +570,10 @@ accident. Like all other email here, this is a no-op (logs instead of sending) u
 
 ## Brand & identity
 
-La Moucherie is a family business run by Claudya Cazes and Kevin. The homepage hero and
+La Moucherie is a family business run by Claudya and Kevin. Customer-facing copy uses
+first names only — the full surname is deliberately kept to the single spot where it
+carries weight (`About.p1`), not repeated across hero copy, image alt text and meta
+descriptions. Don't reintroduce it elsewhere. The homepage hero and
 About page (`src/app/[locale]/page.tsx`, `.../about/page.tsx`) are built around their real
 story — Claudya's first fly-fishing trip to Pulaski, NY three years ago, picking up a vise
 two years ago, tying seriously this season — with a real photo of Claudya

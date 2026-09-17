@@ -113,10 +113,10 @@
   "Home": {
     "heroKicker": "A family bench — Montérégie, Québec",
     "heroTitle": "Flies for the water we actually fish.",
-    "heroSubtitle": "Hand-tied by Claudya Cazes and Kevin — small batches, tested on the same rivers and lakes they're built for.",
+    "heroSubtitle": "Hand-tied by Claudya and Kevin — small batches, tested on the same rivers and lakes they're built for.",
     "heroCta": "Shop the Flies",
     "heroSecondaryCta": "What's Working Now",
-    "heroImageAlt": "Claudya Cazes holding a steelhead on the Salmon River in Pulaski, New York",
+    "heroImageAlt": "Claudya holding a steelhead on the Salmon River in Pulaski, New York",
     "badgeSmallBatch": "Small batch",
     "speciesSectionKicker": "Shop by species",
     "speciesSectionTitle": "What are you chasing?",
@@ -126,7 +126,7 @@
     "shopAllCta": "Shop the full collection",
     "storyKicker": "Meet the tyer",
     "storyTitle": "Claudya's first trip to Pulaski changed everything.",
-    "storyBody": "Three years ago, a trip to the Salmon River in Pulaski, New York, turned Claudya into a fly angler for good. Two years ago, she picked up a vise. This season, tying got serious — patterns built for the species she actually chases: walleye, bass, pike, and the steelhead and salmon that started it all.",
+    "storyBody": "Three years ago, a trip to the Salmon River in Pulaski, New York, turned Claudya into a fly angler for good. Two years ago, she picked up a vise. This season, tying got serious — patterns built for the species she actually chases: walleye, bass, pike, and the steelhead and salmon that started it all. And there's a next generation already curious about all of it, which is the part we didn't plan on.",
     "valuesHandmadeTitle": "Tied by hand",
     "valuesHandmadeBody": "No mass production — every fly is checked before it ships.",
     "valuesLocalTitle": "Québec roots",
@@ -296,12 +296,13 @@
   },
   "About": {
     "title": "Started on the Salmon River, tied on our own bench.",
-    "metaDescription": "La Moucherie is run by Claudya Cazes and Kevin out of Montérégie, Québec — hand-tied flies, tested on the water they're tied for, sold the way we'd want to buy them ourselves.",
+    "metaDescription": "La Moucherie is a family bench in Montérégie, Québec, run by Claudya and Kevin — hand-tied flies, tested on the water they're tied for, sold the way we'd want to buy them ourselves.",
     "kicker": "A family business — Montérégie, Québec",
     "p1": "La Moucherie is run by Claudya Cazes and Kevin — she ties, he keeps the shop running, and between the two of us there's rarely a day without a fly in the vise. Claudya's own path to fly fishing started three years ago, on a trip to Pulaski, New York — the kind of first trip that changes what you fish for good. She fell for it standing in that river, and she's been chasing that feeling ever since, on the fly rod and off it: walleye, bass, pike, whatever's biting, spinning or baitcast when the fly rod isn't the right tool for the day.",
     "p2": "Two years ago, tying flies together became part of that — something to do at the bench between trips, tying to the species and water she actually fishes rather than a stock catalog. This season it turned into something more serious and more careful: patterns tested on the same water they're tied for, sized and weighted for how she actually fishes them, sold the way we'd want to buy them ourselves.",
     "p3": "We're small on purpose. Every fly that leaves this bench has been tied by one of us, checked by the other, and packed by hand — no factory bin, no minimum order neither of us would want to fill.",
-    "quote": "My first trip to Pulaski changed what I fish for — three years later, I'm tying the flies myself. — Claudya"
+    "quote": "My first trip to Pulaski changed what I fish for — three years later, I'm tying the flies myself. — Claudya",
+    "p4": "Family business is a phrase that gets used loosely, so here is what we mean by it: two of us at one bench, and a next generation already taken with fishing — no encouragement required. We would rather build something worth handing down than something worth scaling."
   },
   "Contact": {
     "title": "Contact",

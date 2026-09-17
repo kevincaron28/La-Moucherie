@@ -113,10 +113,10 @@
   "Home": {
     "heroKicker": "Un étau familial — Montérégie, Québec",
     "heroTitle": "Des mouches pour l'eau qu'on pêche vraiment.",
-    "heroSubtitle": "Montées à la main par Claudya Cazes et Kevin — en petits lots, testées sur les mêmes rivières et lacs pour lesquels elles sont conçues.",
+    "heroSubtitle": "Montées à la main par Claudya et Kevin — en petits lots, testées sur les mêmes rivières et lacs pour lesquels elles sont conçues.",
     "heroCta": "Voir les mouches",
     "heroSecondaryCta": "Ce qui travaille en ce moment",
-    "heroImageAlt": "Claudya Cazes tenant une truite arc-en-ciel sur la Salmon River à Pulaski, dans l'État de New York",
+    "heroImageAlt": "Claudya tenant une truite arc-en-ciel sur la Salmon River à Pulaski, dans l'État de New York",
     "badgeSmallBatch": "Petits lots",
     "speciesSectionKicker": "Magasiner par espèce",
     "speciesSectionTitle": "Qu'est-ce que vous pêchez ?",
@@ -126,7 +126,7 @@
     "shopAllCta": "Voir toute la boutique",
     "storyKicker": "Rencontrez la monteuse",
     "storyTitle": "Le premier voyage de Claudya à Pulaski a tout changé.",
-    "storyBody": "Il y a trois ans, un voyage sur la Salmon River, à Pulaski dans l'État de New York, a fait de Claudya une passionnée de pêche à la mouche pour de bon. Il y a deux ans, elle a pris l'étau en main. Cette saison, le montage est devenu sérieux — des patrons pensés pour les espèces qu'elle pêche vraiment : doré, achigan, brochet, et la truite arc-en-ciel et le saumon qui ont tout déclenché.",
+    "storyBody": "Il y a trois ans, un voyage sur la Salmon River, à Pulaski dans l'État de New York, a fait de Claudya une passionnée de pêche à la mouche pour de bon. Il y a deux ans, elle a pris l'étau en main. Cette saison, le montage est devenu sérieux — des patrons pensés pour les espèces qu'elle pêche vraiment : doré, achigan, brochet, et la truite arc-en-ciel et le saumon qui ont tout déclenché. Et il y a déjà une relève curieuse de tout ça — la partie qu'on n'avait pas planifiée.",
     "valuesHandmadeTitle": "Montage à la main",
     "valuesHandmadeBody": "Aucune production de masse — chaque mouche est vérifiée avant l'envoi.",
     "valuesLocalTitle": "Racines québécoises",
@@ -296,12 +296,13 @@
   },
   "About": {
     "title": "Commencé sur la Salmon River, monté sur notre propre étau.",
-    "metaDescription": "La Moucherie est dirigée par Claudya Cazes et Kevin, en Montérégie, Québec — des mouches montées à la main, testées sur l'eau pour laquelle elles sont montées, vendues comme on voudrait nous-mêmes les acheter.",
+    "metaDescription": "La Moucherie, c'est un étau familial en Montérégie, au Québec, tenu par Claudya et Kevin — des mouches montées à la main, testées sur l'eau pour laquelle elles sont montées, vendues comme on voudrait nous-mêmes les acheter.",
     "kicker": "Une entreprise familiale — Montérégie, Québec",
     "p1": "La Moucherie est dirigée par Claudya Cazes et Kevin — elle monte, il s'occupe de la boutique, et à nous deux, il y a rarement une journée sans mouche à l'étau. Le parcours de Claudya vers la pêche à la mouche a commencé il y a trois ans, lors d'un voyage à Pulaski, dans l'État de New York — le genre de premier voyage qui change ce qu'on pêche pour de bon. Elle est tombée en amour debout dans cette rivière, et elle poursuit cette sensation depuis — à la mouche ou autrement : doré, achigan, brochet, ce qui mord, au lancer-léger ou au baitcast quand la canne à mouche n'est pas le bon outil pour la journée.",
     "p2": "Il y a deux ans, monter des mouches ensemble s'est ajouté à tout ça — une façon d'occuper l'étau entre les sorties, en montant pour les espèces et les eaux qu'elle pêche réellement plutôt que pour un catalogue générique. Cette saison, c'est devenu plus sérieux, et plus soigné : des patrons testés sur l'eau même pour laquelle ils sont montés, ajustés en taille et en lestage selon la façon dont elle les pêche vraiment, vendus comme on voudrait nous-mêmes les acheter.",
     "p3": "On reste petits, volontairement. Chaque mouche qui quitte cet étau a été montée par l'un de nous, vérifiée par l'autre, et emballée à la main — pas de bac d'usine, pas de commande minimum qu'aucun de nous deux ne voudrait remplir.",
-    "quote": "Mon premier voyage à Pulaski a changé ce que je pêche — trois ans plus tard, je monte moi-même les mouches. — Claudya"
+    "quote": "Mon premier voyage à Pulaski a changé ce que je pêche — trois ans plus tard, je monte moi-même les mouches. — Claudya",
+    "p4": "« Entreprise familiale », c'est une expression qu'on utilise à toutes les sauces, alors voici ce qu'on veut dire : deux personnes au même étau, et une relève déjà mordue de pêche, sans qu'on ait eu à insister. On préfère bâtir quelque chose qui se transmet que quelque chose qui prend de l'expansion."
   },
   "Contact": {
     "title": "Contact",
