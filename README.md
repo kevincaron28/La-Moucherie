@@ -62,59 +62,53 @@ stop this from tripping someone up again.
 
 ## This week's punch list (from the 2026-09-17 site audit)
 
-The owner ran a full audit of the live site and asked for everything in it. It's ~46
-items spanning copy fixes to multi-week content projects, so this is being worked in
-passes rather than one sitting. Status as of today:
+The owner ran a full audit of the live site and asked for everything in it — ~46 items
+spanning copy fixes to multi-week content projects. Most of what's actually buildable
+(as opposed to requiring real photos or business decisions) shipped in one pass:
 
-**Done and pushed today:**
-- Reviews can now carry optional catch details (species, water, hook size, conditions —
-  all skippable) shown as a tag line under the review body.
-- Add-to-cart shows a checkmark + "Added" then a "View cart" link, instead of silently
-  resetting. Cart's free-shipping progress bar and product-card hover zoom were already
-  in place.
-- `/shop` gained season and water-type filter pills alongside the existing category ones.
-- New `/shop/finder` — a species/water/season picker that shows matching flies (falls
-  back to species-only if nothing matches all three), linked from the header Shop dropdown.
+**Done and pushed:**
+- Reviews carry optional catch details (species, water, hook size, conditions) shown as
+  a tag line under the review body.
+- Add-to-cart shows a checkmark + "Added" then a "View cart" link. Cart's free-shipping
+  progress bar and product-card hover zoom were already in place.
+- `/shop` gained season and water-type filter pills; new `/shop/finder` (species/water/
+  season picker), linked from the header Shop dropdown.
+- Product pages: a "pairs well with" cross-sell (same category, falling back to species
+  overlap), a shipping-price note under the price, sharper SEO titles/descriptions. The
+  "how to fish it"/"tyer's tip" callout and JSON-LD `Product` schema already existed.
+- Admin dashboard can now publish a `FishingReport` or `CatchPhoto` directly — previously
+  the only way was `db:studio`, which is why both pages looked unfinished. Nothing was
+  seeded; that's for the owner to fill with real reports/catches.
+- Homepage: a trust bar, a "What's Working" teaser (shows the latest published report,
+  or a plain invite if none exists yet), a real-catches teaser (renders only once
+  approved catches exist), a newsletter/hatch-report signup banner.
+- New pages: `/faq` (shipping/returns/sizes/storage, pulling real numbers from
+  `shipping.ts`), `/wholesale` and `/ambassadors` (shells + contact CTA — no invented
+  terms), `/hatches` (general Québec-region insect-hatch reference, matched to catalog
+  patterns, explicitly not live conditions).
+- Contact page: reason-for-contact chips (product/order/wholesale/ambassador/custom).
+- Footer: 4 columns (Shop/Fishing/About/Help) instead of 3, linking everything above.
+  Sitemap updated for all new routes.
 
-**Still to build, roughly in priority order:**
-1. **Product page depth** — a "how to fish it" callout (data already exists in
-   `howToFishFr/En`/`proTipFr/En`, just needs a distinct box), a "pairs well with"
-   cross-sell (same-category/species products), a shipping-price note under the price,
-   and stronger per-product SEO titles/meta descriptions.
-2. **Structured data & SEO** — JSON-LD `Product` schema (price/availability from real
-   variant stock), better `generateMetadata` on the homepage/shop/species/Community/About/
-   Reports pages, a sitemap completeness check.
-3. **Footer expansion** — Shop/Fishing/About/Help/Follow/Newsletter columns (currently a
-   3-column subset), plus links to the FAQ, Wholesale, and Ambassador pages below.
-4. **FAQ page** — shipping, returns, hook sizes, storage, custom orders, wholesale —
-   pulling real answers from `src/lib/shipping.ts` constants and existing policy, not
-   invented specifics.
-5. **Contact page categorization** — reason-for-contact prompts (product question, order
-   help, wholesale, ambassador, custom fly) instead of one generic form.
-6. **Wholesale and Ambassador page shells** — a landing page + contact CTA for each.
-   Terms/pricing/criteria are a business decision, not something to invent — these ship
-   as clean shells pointing at Contact until the owner has real terms to publish.
-7. **Admin tooling for "What's Working" and Community** — there is currently *no* way to
-   publish a `FishingReport` or a `CatchPhoto` except `db:studio`. That's the honest fix
-   for both pages looking unfinished: give the owner a real form, not fabricated content.
-8. **Homepage restructure** — a trust bar (hand-tied / Québec / small batch / Canada
-   shipping), a "What's Working" teaser card, a real-catches teaser (once any exist), and
-   a newsletter/hatch-report signup block nearer the bottom.
-9. **A general Hatches reference page** — common Québec-region insect hatches (caddis,
-   mayfly, stonefly, midge, terrestrial) matched to catalog patterns, written as
-   established fly-fishing entomology, not as live/current conditions.
-10. **Language-consistency pass** — spot-check FR/EN terminology across product,
-    checkout, and email copy for drift now that the catalog's grown to 20 patterns.
-
-**Deliberately not doing, and why:**
-- **Inventing current water temps/hatch data for real rivers.** The audit's "What's
-  Working" example (specific °C, specific hatch table, dated "today") would be fine as a
-  template but is actively misleading if published as fact without the owner's real
-  input. Building the admin tool (#7 above) is the honest version of this ask.
-- **Fake customer catches or testimonials.** Won't invent angler names/photos for
-  Community. Same fix: give the owner a way to add real ones (#7).
+**Deliberately not done, and why:**
+- **Inventing current water temps/hatch data for real rivers.** The admin tool above is
+  the honest version of this — the owner fills in real conditions, nothing's fabricated.
+- **Fake customer catches or testimonials.** Same fix: the admin tool lets the owner add
+  real ones (their own catches, friends', customers') whenever they exist.
 - **Wholesale/ambassador pricing, criteria, or ambassador profiles.** Business decisions,
   not something to fabricate — shells only until real content exists.
+
+**Still open, lower priority:**
+- A language-consistency spot-check across product/checkout/email copy — worth doing now
+  that the catalog's at 20 patterns, but nothing specific is known to be wrong.
+- `generateMetadata` on a few pages (About, Community, species pages) is still the Next.js
+  default rather than hand-tuned — homepage, shop, FAQ, hatches, wholesale, and product
+  pages already have real titles/descriptions.
+- The mega-menu / full homepage visual redesign from the audit's mockup wasn't attempted —
+  the existing Shop dropdown and homepage section order cover most of the same ground
+  without a ground-up redesign.
+- A "Fly Finder" quiz UI exists at `/shop/finder`; a richer multi-step wizard version
+  wasn't built — the single-form version does the same job.
 
 ## Stack
 
