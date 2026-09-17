@@ -136,7 +136,17 @@
     "newsletterTitle": "Stay on the water",
     "newsletterBody": "New patterns, seasonal picks, and notes from the vise — straight to your inbox.",
     "newsletterPlaceholder": "Your email",
-    "newsletterCta": "Subscribe"
+    "newsletterCta": "Subscribe",
+    "trustHandmade": "Hand-tied",
+    "trustQuebec": "Québec",
+    "trustSmallBatch": "Small batch",
+    "trustShipping": "Canada shipping from {price}",
+    "workingTeaserKicker": "What's working",
+    "workingTeaserEmpty": "See what's working on Québec water right now.",
+    "workingTeaserCta": "Read the latest report →",
+    "catchesTeaserKicker": "Community",
+    "catchesTeaserTitle": "Caught on La Moucherie",
+    "catchesTeaserCta": "See more →"
   },
   "NotFound": {
     "title": "Page not found",

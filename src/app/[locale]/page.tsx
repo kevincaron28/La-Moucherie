@@ -1,9 +1,13 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { pick } from "@/lib/localize";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
+import { LETTER_RATE_CENTS } from "@/lib/shipping";
+import { formatPrice } from "@/lib/format";
 import type { Locale } from "@/i18n/routing";
 
 export default async function HomePage({
@@ -24,6 +28,26 @@ export default async function HomePage({
     },
     orderBy: { createdAt: "asc" },
     take: 4,
+  });
+
+  const latestReport = await prisma.fishingReport.findFirst({
+    where: { published: true },
+    orderBy: { publishedAt: "desc" },
+    select: { slug: true, titleFr: true, titleEn: true, conditionsFr: true, conditionsEn: true },
+  });
+
+  const recentCatches = await prisma.catchPhoto.findMany({
+    where: { approved: true },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: {
+      id: true,
+      imageUrl: true,
+      anglerName: true,
+      captionFr: true,
+      captionEn: true,
+      species: true,
+    },
   });
 
   // One query for every species' fly count, rather than one per card — the
@@ -107,6 +131,18 @@ export default async function HomePage({
         </div>
       </section>
 
+      <section className="border-y border-forest/10 bg-cream/50">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4 py-5 text-center text-xs font-semibold uppercase tracking-wide text-forest/70 sm:px-6">
+          <span>{t("trustHandmade")}</span>
+          <span className="text-forest/25">·</span>
+          <span>{t("trustQuebec")}</span>
+          <span className="text-forest/25">·</span>
+          <span>{t("trustSmallBatch")}</span>
+          <span className="text-forest/25">·</span>
+          <span>{t("trustShipping", { price: formatPrice(LETTER_RATE_CENTS, locale) })}</span>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="max-w-xl">
           <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
@@ -182,6 +218,80 @@ export default async function HomePage({
             <ValueItem title={t("valuesLocalTitle")} body={t("valuesLocalBody")} />
             <ValueItem title={t("valuesQualityTitle")} body={t("valuesQualityBody")} />
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <Link
+          href="/reports"
+          className="block rounded-2xl border border-forest/15 bg-parchment px-6 py-8 transition hover:border-forest/30 hover:shadow-lg hover:shadow-forest/5 sm:px-10"
+        >
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
+            {t("workingTeaserKicker")}
+          </p>
+          {latestReport ? (
+            <>
+              <h2 className="mt-3 font-display text-2xl font-semibold text-forest">
+                {pick(latestReport.titleFr, latestReport.titleEn, locale)}
+              </h2>
+              <p className="mt-2 max-w-xl text-ink/70">
+                {pick(latestReport.conditionsFr, latestReport.conditionsEn, locale)}
+              </p>
+            </>
+          ) : (
+            <h2 className="mt-3 max-w-xl font-display text-2xl font-semibold text-forest">
+              {t("workingTeaserEmpty")}
+            </h2>
+          )}
+          <span className="mt-4 inline-block text-sm font-semibold text-rust underline underline-offset-4">
+            {t("workingTeaserCta")}
+          </span>
+        </Link>
+      </section>
+
+      {recentCatches.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-rust">
+                {t("catchesTeaserKicker")}
+              </p>
+              <h2 className="mt-2 font-display text-2xl font-semibold text-forest sm:text-3xl">
+                {t("catchesTeaserTitle")}
+              </h2>
+            </div>
+            <Link
+              href="/catches"
+              className="text-sm font-semibold text-rust underline underline-offset-4 hover:text-rust-dark"
+            >
+              {t("catchesTeaserCta")}
+            </Link>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {recentCatches.map((c) => (
+              <div
+                key={c.id}
+                className="overflow-hidden rounded-2xl border border-forest/10 bg-cream"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={c.imageUrl}
+                  alt={pick(c.captionFr ?? "", c.captionEn ?? "", locale) || c.anglerName}
+                  className="aspect-square w-full object-cover"
+                  loading="lazy"
+                />
+                <p className="p-3 font-display text-sm font-semibold text-forest">
+                  {c.anglerName}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="border-t border-forest/10 bg-forest">
+        <div className="mx-auto max-w-2xl px-4 py-16 text-center sm:px-6">
+          <NewsletterSignup className="[&_label]:block [&_p]:mx-auto [&_p]:max-w-sm [&_div]:mx-auto [&_div]:justify-center" />
         </div>
       </section>
     </>

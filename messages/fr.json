@@ -136,7 +136,17 @@
     "newsletterTitle": "Restez à l'affût",
     "newsletterBody": "Nouveaux patrons, sélections de saison et notes d'atelier — directement dans votre boîte courriel.",
     "newsletterPlaceholder": "Votre courriel",
-    "newsletterCta": "S'inscrire"
+    "newsletterCta": "S'inscrire",
+    "trustHandmade": "Montage à la main",
+    "trustQuebec": "Québec",
+    "trustSmallBatch": "Petits lots",
+    "trustShipping": "Livraison au Canada dès {price}",
+    "workingTeaserKicker": "Ce qui travaille",
+    "workingTeaserEmpty": "Découvrez ce qui travaille sur l'eau du Québec en ce moment.",
+    "workingTeaserCta": "Lire le dernier rapport →",
+    "catchesTeaserKicker": "Communauté",
+    "catchesTeaserTitle": "Pris sur La Moucherie",
+    "catchesTeaserCta": "Voir plus →"
   },
   "NotFound": {
     "title": "Page introuvable",
