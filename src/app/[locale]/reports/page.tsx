@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
@@ -9,6 +10,16 @@ import type { Locale } from "@/i18n/routing";
 // page whose whole content (published reports) is meant to change from the
 // admin dashboard alone, with no code change or redeploy involved.
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Reports" });
+  return { title: t("title"), description: t("intro") };
+}
 
 export default async function ReportsPage({
   params,

@@ -195,7 +195,7 @@ export async function sendOrderNotificationToOwner(order: OrderEmailData) {
       ? "Poste-lettre (Lettermail) — sans suivi"
       : order.shippingServiceName
         ? `${escapeHtml(order.shippingServiceName)} — avec suivi`
-        : "Colis régulier (Regular Parcel) — avec suivi";
+        : "Colis avec suivi (Tracked Parcel)";
 
   const pack = packagingFor(flyCount, order.shippingMethod === "LETTER" ? "LETTER" : "TRACKED");
   const shippingPaid =

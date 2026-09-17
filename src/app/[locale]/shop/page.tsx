@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import type { ProductCategory, FishSpecies } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
@@ -14,6 +15,16 @@ import {
   isWaterType,
 } from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Shop" });
+  return { title: t("title"), description: t("subtitle") };
+}
 
 export default async function ShopPage({
   params,

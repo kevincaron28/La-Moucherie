@@ -296,6 +296,7 @@
   },
   "About": {
     "title": "Commencé sur la Salmon River, monté sur notre propre étau.",
+    "metaDescription": "La Moucherie est dirigée par Claudya Cazes et Kevin, en Montérégie, Québec — des mouches montées à la main, testées sur l'eau pour laquelle elles sont montées, vendues comme on voudrait nous-mêmes les acheter.",
     "kicker": "Une entreprise familiale — Montérégie, Québec",
     "p1": "La Moucherie est dirigée par Claudya Cazes et Kevin — elle monte, il s'occupe de la boutique, et à nous deux, il y a rarement une journée sans mouche à l'étau. Le parcours de Claudya vers la pêche à la mouche a commencé il y a trois ans, lors d'un voyage à Pulaski, dans l'État de New York — le genre de premier voyage qui change ce qu'on pêche pour de bon. Elle est tombée en amour debout dans cette rivière, et elle poursuit cette sensation depuis — à la mouche ou autrement : doré, achigan, brochet, ce qui mord, au lancer-léger ou au baitcast quand la canne à mouche n'est pas le bon outil pour la journée.",
     "p2": "Il y a deux ans, monter des mouches ensemble s'est ajouté à tout ça — une façon d'occuper l'étau entre les sorties, en montant pour les espèces et les eaux qu'elle pêche réellement plutôt que pour un catalogue générique. Cette saison, c'est devenu plus sérieux, et plus soigné : des patrons testés sur l'eau même pour laquelle ils sont montés, ajustés en taille et en lestage selon la façon dont elle les pêche vraiment, vendus comme on voudrait nous-mêmes les acheter.",
@@ -332,7 +333,7 @@
     "q2": "Où livrez-vous ?",
     "a2": "Partout au Canada.",
     "q3": "Combien coûte la livraison ?",
-    "a3": "L'envoi en enveloppe débute à {letterPrice} pour une petite commande; l'envoi suivi est gratuit à partir de {threshold}.",
+    "a3": "Le poste-lettre débute à {letterPrice} pour une petite commande; l'envoi suivi est gratuit à partir de {threshold}.",
     "q4": "Combien de temps prend une commande ?",
     "a4": "Les commandes sont montées et emballées à la main, puis expédiées dans un délai de 2 à 5 jours ouvrables.",
     "q5": "Quelles tailles d'hameçon offrez-vous ?",

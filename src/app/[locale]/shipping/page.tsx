@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import { formatPrice } from "@/lib/format";
 import {
   LETTER_RATE_CENTS,
@@ -6,6 +7,16 @@ import {
   FREE_SHIPPING_THRESHOLD_CENTS,
 } from "@/lib/shipping";
 import type { Locale } from "@/i18n/routing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Shipping" });
+  return { title: t("title"), description: t("intro") };
+}
 
 export default async function ShippingPage({
   params,

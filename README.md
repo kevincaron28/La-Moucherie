@@ -84,7 +84,6 @@ reports/catches wouldn't have shown new content without this).
    Caddis, Egg Sucking Leech), and consider a photo of Kevin too — the homepage/About
    story currently only has one of Claudya.
 3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
-4. Publish the assortment/fly-box products once pricing is settled.
 
 ## This week's punch list (from the 2026-09-17 site audit)
 
@@ -115,6 +114,17 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
 - Contact page: reason-for-contact chips (product/order/wholesale/ambassador/custom).
 - Footer: 4 columns (Shop/Fishing/About/Help) instead of 3, linking everything above.
   Sitemap updated for all new routes.
+- The 3 curated fly-box (`ASSORTMENT`) products (Discovery/Brook Trout/Streamer boxes)
+  are live — real prices and descriptions from `prisma/seed.ts`, at zero stock like the
+  rest of the catalog until real inventory is confirmed.
+- `generateMetadata` added to About, Community, `/shop`, `/reports`, and `/shipping` —
+  the only pages left without hand-tuned titles/descriptions were the account/cart/
+  checkout/admin flows, which don't need SEO metadata.
+- Language-consistency pass across product/checkout/email copy: fixed one drift (FAQ's
+  French copy said "l'envoi en enveloppe" instead of "poste-lettre") and aligned the
+  owner-facing order-notification email's shipping label with the customer-facing
+  wording. Dozen-deal naming, "Community" branding, brand-name capitalization, and
+  French "mouche" terminology were all already consistent — checked, not just assumed.
 
 **Deliberately not done, and why:**
 - **Inventing current water temps/hatch data for real rivers.** The admin tool above is
@@ -125,11 +135,6 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   not something to fabricate — shells only until real content exists.
 
 **Still open, lower priority:**
-- A language-consistency spot-check across product/checkout/email copy — worth doing now
-  that the catalog's at 20 patterns, but nothing specific is known to be wrong.
-- `generateMetadata` on a few pages (About, Community, species pages) is still the Next.js
-  default rather than hand-tuned — homepage, shop, FAQ, hatches, wholesale, and product
-  pages already have real titles/descriptions.
 - The mega-menu / full homepage visual redesign from the audit's mockup wasn't attempted —
   the existing Shop dropdown and homepage section order cover most of the same ground
   without a ground-up redesign.
