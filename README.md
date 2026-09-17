@@ -60,6 +60,62 @@ stop this from tripping someone up again.
 5. Rename the Neon branches (or otherwise fix the Vercel↔Neon wiring) so "production" in
    the Neon console actually is production.
 
+## This week's punch list (from the 2026-09-17 site audit)
+
+The owner ran a full audit of the live site and asked for everything in it. It's ~46
+items spanning copy fixes to multi-week content projects, so this is being worked in
+passes rather than one sitting. Status as of today:
+
+**Done and pushed today:**
+- Reviews can now carry optional catch details (species, water, hook size, conditions —
+  all skippable) shown as a tag line under the review body.
+- Add-to-cart shows a checkmark + "Added" then a "View cart" link, instead of silently
+  resetting. Cart's free-shipping progress bar and product-card hover zoom were already
+  in place.
+- `/shop` gained season and water-type filter pills alongside the existing category ones.
+- New `/shop/finder` — a species/water/season picker that shows matching flies (falls
+  back to species-only if nothing matches all three), linked from the header Shop dropdown.
+
+**Still to build, roughly in priority order:**
+1. **Product page depth** — a "how to fish it" callout (data already exists in
+   `howToFishFr/En`/`proTipFr/En`, just needs a distinct box), a "pairs well with"
+   cross-sell (same-category/species products), a shipping-price note under the price,
+   and stronger per-product SEO titles/meta descriptions.
+2. **Structured data & SEO** — JSON-LD `Product` schema (price/availability from real
+   variant stock), better `generateMetadata` on the homepage/shop/species/Community/About/
+   Reports pages, a sitemap completeness check.
+3. **Footer expansion** — Shop/Fishing/About/Help/Follow/Newsletter columns (currently a
+   3-column subset), plus links to the FAQ, Wholesale, and Ambassador pages below.
+4. **FAQ page** — shipping, returns, hook sizes, storage, custom orders, wholesale —
+   pulling real answers from `src/lib/shipping.ts` constants and existing policy, not
+   invented specifics.
+5. **Contact page categorization** — reason-for-contact prompts (product question, order
+   help, wholesale, ambassador, custom fly) instead of one generic form.
+6. **Wholesale and Ambassador page shells** — a landing page + contact CTA for each.
+   Terms/pricing/criteria are a business decision, not something to invent — these ship
+   as clean shells pointing at Contact until the owner has real terms to publish.
+7. **Admin tooling for "What's Working" and Community** — there is currently *no* way to
+   publish a `FishingReport` or a `CatchPhoto` except `db:studio`. That's the honest fix
+   for both pages looking unfinished: give the owner a real form, not fabricated content.
+8. **Homepage restructure** — a trust bar (hand-tied / Québec / small batch / Canada
+   shipping), a "What's Working" teaser card, a real-catches teaser (once any exist), and
+   a newsletter/hatch-report signup block nearer the bottom.
+9. **A general Hatches reference page** — common Québec-region insect hatches (caddis,
+   mayfly, stonefly, midge, terrestrial) matched to catalog patterns, written as
+   established fly-fishing entomology, not as live/current conditions.
+10. **Language-consistency pass** — spot-check FR/EN terminology across product,
+    checkout, and email copy for drift now that the catalog's grown to 20 patterns.
+
+**Deliberately not doing, and why:**
+- **Inventing current water temps/hatch data for real rivers.** The audit's "What's
+  Working" example (specific °C, specific hatch table, dated "today") would be fine as a
+  template but is actively misleading if published as fact without the owner's real
+  input. Building the admin tool (#7 above) is the honest version of this ask.
+- **Fake customer catches or testimonials.** Won't invent angler names/photos for
+  Community. Same fix: give the owner a way to add real ones (#7).
+- **Wholesale/ambassador pricing, criteria, or ambassador profiles.** Business decisions,
+  not something to fabricate — shells only until real content exists.
+
 ## Stack
 
 - **Next.js 16** (App Router, TypeScript) + Tailwind CSS v4
