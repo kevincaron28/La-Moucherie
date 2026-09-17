@@ -47,7 +47,9 @@ project (direct SQL landing on the wrong branch). Both are now renamed to match 
 `br-lively-bonus-aynn765z` is "production" and is the project's primary/default branch;
 `br-sweet-frog-aybo5mlh` is "unused-legacy-do-not-use". Any direct SQL should still target
 `br-lively-bonus-aynn765z` by ID, but the console labels no longer lie about which one
-that is.
+that is. `br-sweet-frog-aybo5mlh` can't be deleted even though it's unused — Neon refuses
+("cannot delete the root branch") since every other branch in the project, including
+`production`, was forked from it. It'll just sit there renamed and harmless.
 
 **Operational note — git branch hygiene, cleaned up 2026-09-17.** Several stale
 feature branches (from abandoned worktree agents and superseded Canada Post fixes) had
