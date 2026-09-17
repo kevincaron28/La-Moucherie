@@ -111,6 +111,21 @@ type AdminCatch = {
   product: WaterRef | null;
 };
 
+type AdminHatchReport = {
+  id: string;
+  anglerName: string;
+  email: string;
+  observedOn: string;
+  waterName: string | null;
+  hatchId: string | null;
+  hookSize: number | null;
+  intensity: string | null;
+  note: string | null;
+  approved: boolean;
+  fromShop: boolean;
+  productName: string | null;
+};
+
 const emptyReportForm = {
   titleFr: "",
   titleEn: "",
@@ -174,6 +189,7 @@ export function AdminDashboardClient({
   plannedFlies: initialPlannedFlies,
   allReports: initialAllReports,
   allCatches: initialAllCatches,
+  hatchReports: initialHatchReports,
   waters,
   activeProducts,
   locale,
@@ -188,6 +204,7 @@ export function AdminDashboardClient({
   plannedFlies: PlannedFly[];
   allReports: AdminReport[];
   allCatches: AdminCatch[];
+  hatchReports: AdminHatchReport[];
   waters: WaterOption[];
   activeProducts: ProductOption[];
   locale: string;
@@ -358,6 +375,8 @@ export function AdminDashboardClient({
   }
 
   const [catches, setCatches] = useState<AdminCatch[]>(initialAllCatches);
+  const [hatchReports, setHatchReports] = useState<AdminHatchReport[]>(initialHatchReports);
+  const [hatchBusyId, setHatchBusyId] = useState<string | null>(null);
   const [catchForm, setCatchForm] = useState(emptyCatchForm);
   const [addingCatch, setAddingCatch] = useState(false);
   const [catchBusyId, setCatchBusyId] = useState<string | null>(null);
@@ -424,6 +443,36 @@ export function AdminDashboardClient({
       }
     } finally {
       setCatchBusyId(null);
+    }
+  }
+
+  async function handleToggleHatchReport(r: AdminHatchReport) {
+    setHatchBusyId(r.id);
+    try {
+      const res = await fetch(`/api/admin/hatch-reports/${r.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ approved: !r.approved }),
+      });
+      if (res.ok) {
+        setHatchReports((prev) =>
+          prev.map((x) => (x.id === r.id ? { ...x, approved: !x.approved } : x))
+        );
+      }
+    } finally {
+      setHatchBusyId(null);
+    }
+  }
+
+  async function handleDeleteHatchReport(id: string) {
+    setHatchBusyId(id);
+    try {
+      const res = await fetch(`/api/admin/hatch-reports/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setHatchReports((prev) => prev.filter((r) => r.id !== id));
+      }
+    } finally {
+      setHatchBusyId(null);
     }
   }
 
@@ -1486,7 +1535,103 @@ export function AdminDashboardClient({
         </form>
       </section>
 
-      {/* 9. Quick Operational Links */}
+      {/* 9. Angler hatch reports — moderation queue */}
+      <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 className="font-display text-lg font-semibold text-forest">
+            {locale === "fr" ? "Rapports d'éclosion" : "Hatch reports"}
+          </h3>
+          {hatchReports.some((r) => !r.approved) && (
+            <span className="rounded-full bg-rust px-3 py-1 text-xs font-semibold text-cream">
+              {hatchReports.filter((r) => !r.approved).length}{" "}
+              {locale === "fr" ? "en attente" : "waiting"}
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-xs text-ink/55">
+          {locale === "fr"
+            ? "Rien n'apparaît sur /reports tant que ce n'est pas approuvé."
+            : "Nothing appears on /reports until it's approved."}
+        </p>
+
+        {hatchReports.length === 0 ? (
+          <p className="mt-4 text-sm text-ink/60">
+            {locale === "fr" ? "Aucun rapport pour l'instant." : "No reports yet."}
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {hatchReports.map((r) => (
+              <li
+                key={r.id}
+                className={`rounded-xl border p-4 ${
+                  r.approved ? "border-forest/15 bg-parchment" : "border-rust/30 bg-rust/5"
+                }`}
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="text-sm font-semibold text-forest">
+                    {r.waterName ??
+                      (locale === "fr" ? "Plan d'eau non nommé" : "Unnamed water")}
+                  </p>
+                  <p className="text-xs text-ink/50">
+                    {new Date(r.observedOn).toLocaleDateString(
+                      locale === "fr" ? "fr-CA" : "en-CA",
+                      { year: "numeric", month: "short", day: "numeric" }
+                    )}
+                  </p>
+                </div>
+
+                <p className="mt-1 text-xs text-ink/60">
+                  {[
+                    r.hatchId,
+                    r.hookSize ? `#${r.hookSize}` : null,
+                    r.intensity,
+                    r.productName,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ") || (locale === "fr" ? "Aucun détail" : "No details")}
+                </p>
+
+                {r.note && <p className="mt-2 text-sm text-ink/80">{r.note}</p>}
+
+                <p className="mt-2 text-xs text-ink/45">
+                  {r.fromShop
+                    ? locale === "fr"
+                      ? "Notre propre rapport"
+                      : "Our own report"
+                    : `${r.anglerName} · ${r.email}`}
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={hatchBusyId === r.id}
+                    onClick={() => handleToggleHatchReport(r)}
+                    className="rounded-full border border-forest/30 px-3 py-1.5 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
+                  >
+                    {r.approved
+                      ? locale === "fr"
+                        ? "Retirer du site"
+                        : "Unpublish"
+                      : locale === "fr"
+                        ? "Approuver"
+                        : "Approve"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={hatchBusyId === r.id}
+                    onClick={() => handleDeleteHatchReport(r.id)}
+                    className="rounded-full border border-rust/30 px-3 py-1.5 text-xs font-semibold text-rust transition hover:bg-rust/10 disabled:opacity-50"
+                  >
+                    {locale === "fr" ? "Supprimer" : "Delete"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* 10. Quick Operational Links */}
       <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
         <h3 className="font-display text-lg font-semibold text-forest">
           {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}

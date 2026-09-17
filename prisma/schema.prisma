@@ -88,6 +88,90 @@ model ProductMaterial {
   @@index([productId])
 }
 
+// How much of the insect was actually on the water. Deliberately coarse: an
+// angler can answer this honestly from memory, which "how many per minute"
+// invites them to invent.
+enum HatchIntensity {
+  NONE
+  SPARSE
+  STEADY
+  HEAVY
+}
+
+enum WaterLevel {
+  LOW
+  NORMAL
+  HIGH
+}
+
+enum WaterClarity {
+  CLEAR
+  STAINED
+  MUDDY
+}
+
+enum SkyCondition {
+  SUNNY
+  PARTLY_CLOUDY
+  OVERCAST
+  RAIN
+}
+
+/// An angler's report of what was hatching, submitted from the public form.
+///
+/// Deliberately NOT a FishingReport: that model is bilingual throughout
+/// (titleFr/titleEn, bodyFr/bodyEn…) because the shop writes both languages.
+/// A visitor writes one. Keeping them apart also means this data stays
+/// structured rather than prose, which is what lets it be aggregated later
+/// ("Hendrickson reported on four rivers in ten days") instead of only read.
+model HatchReport {
+  id         String @id @default(cuid())
+  anglerName String
+  /// Stored so the shop can follow up or thank someone. Never rendered
+  /// publicly, and never a marketing consent on its own — see consentSource
+  /// on NewsletterSubscriber.
+  email      String
+  locale     String @default("fr")
+
+  water      FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
+  waterId    String?
+  /// Most of Québec isn't in FishingWater. Without this the form dead-ends for
+  /// anyone fishing an unnamed river — it is also the only free-text field
+  /// here, so it carries the moderation weight.
+  waterOther String?
+  observedOn DateTime
+
+  /// Matches a Hatch id in src/lib/hatches.ts. Not a foreign key, because that
+  /// catalogue lives in code rather than the database — validated on write,
+  /// which makes those ids permanent: renaming one orphans every report
+  /// pointing at it.
+  hatchId   String?
+  hookSize  Int?
+  species   FishSpecies?
+  intensity HatchIntensity?
+
+  waterLevel   WaterLevel?
+  waterClarity WaterClarity?
+  sky          SkyCondition?
+  waterTempC   Float?
+
+  /// The fly that actually worked, when they picked one.
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productId String?
+
+  note String?
+
+  /// Nothing renders until it is approved by hand, same as CatchPhoto.
+  approved  Boolean  @default(false)
+  /// Filed by the shop rather than a visitor. Auto-approved, and labelled as
+  /// such on the page rather than passed off as a stranger's report.
+  fromShop  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([approved, observedOn])
+  @@index([hatchId, observedOn])
+}
+
 enum OrderStatus {
   PENDING
   PAID
@@ -129,6 +213,7 @@ model Product {
   waters          FishingWater[]    @relation("ProductWaters")
   reports         FishingReport[]   @relation("ReportProducts")
   catches         CatchPhoto[]
+  hatchReports    HatchReport[]
   materials       ProductMaterial[]
   // Recipes are seeded from the standard published dressing for each pattern,
   // which is a starting point, not how this bench actually ties it. Nothing is
@@ -309,6 +394,10 @@ model NewsletterSubscriber {
   // working in every future campaign email, not just once right after it's
   // issued, so there's no stored secret to hash it against.
   unsubscribeToken String    @unique
+  // CASL requires express consent for commercial email, and requires you to
+  // be able to show how it was obtained. A bare timestamp cannot answer that;
+  // this names the form the person actually ticked.
+  consentSource    String    @default("newsletter_form")
   subscribedAt     DateTime  @default(now())
   unsubscribedAt   DateTime?
 
@@ -426,6 +515,7 @@ model FishingWater {
   products      Product[]       @relation("ProductWaters")
   reports       FishingReport[]
   catches       CatchPhoto[]
+  hatchReports  HatchReport[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
+import { HATCHES } from "@/lib/hatches";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -29,13 +30,34 @@ export default async function ReportsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Reports");
+  const tHatch = await getTranslations("HatchReport");
 
-  const reports = await prisma.fishingReport.findMany({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-    include: { water: { select: { slug: true, nameFr: true, nameEn: true } } },
-    take: 30,
-  });
+  const [reports, hatchReports] = await Promise.all([
+    prisma.fishingReport.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      include: { water: { select: { slug: true, nameFr: true, nameEn: true } } },
+      take: 30,
+    }),
+    prisma.hatchReport.findMany({
+      where: { approved: true },
+      orderBy: { observedOn: "desc" },
+      take: 25,
+      select: {
+        id: true,
+        anglerName: true,
+        observedOn: true,
+        hatchId: true,
+        hookSize: true,
+        intensity: true,
+        note: true,
+        fromShop: true,
+        waterOther: true,
+        water: { select: { nameFr: true, nameEn: true } },
+        product: { select: { slug: true, nameFr: true, nameEn: true } },
+      },
+    }),
+  ]);
 
   const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
@@ -72,6 +94,84 @@ export default async function ReportsPage({
           ))}
         </ul>
       )}
+
+      {/* Angler-submitted reports, kept visibly separate from the shop's own
+          writing so the two voices aren't confused for one another. */}
+      <section className="mt-16 border-t border-forest/15 pt-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {tHatch("sectionTitle")}
+            </h2>
+            <p className="mt-1 text-sm text-ink/65">{tHatch("sectionIntro")}</p>
+          </div>
+          <Link
+            href="/reports/submit"
+            className="rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest-dark"
+          >
+            {tHatch("submitCta")}
+          </Link>
+        </div>
+
+        {hatchReports.length === 0 ? (
+          <p className="mt-8 text-sm text-ink/60">{tHatch("sectionEmpty")}</p>
+        ) : (
+          <ul className="mt-8 space-y-4">
+            {hatchReports.map((r) => {
+              const hatch = HATCHES.find((h) => h.id === r.hatchId);
+              const where =
+                (r.water && pick(r.water.nameFr, r.water.nameEn, locale)) ||
+                r.waterOther ||
+                null;
+              return (
+                <li
+                  key={r.id}
+                  className="rounded-2xl border border-forest/15 bg-cream/30 p-5"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <p className="font-display font-semibold text-forest">
+                      {where ?? tHatch("unknownWater")}
+                    </p>
+                    <p className="text-xs text-ink/50">
+                      {dateFormatter.format(r.observedOn)}
+                    </p>
+                  </div>
+
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                    {hatch && (
+                      <span className="rounded-full bg-forest/10 px-2.5 py-1 font-medium text-forest">
+                        {pick(hatch.nameFr, hatch.nameEn, locale)}
+                        {r.hookSize ? ` #${r.hookSize}` : ""}
+                      </span>
+                    )}
+                    {r.intensity && (
+                      <span className="rounded-full border border-forest/20 px-2.5 py-1 text-ink/70">
+                        {tHatch(`intensity${r.intensity}`)}
+                      </span>
+                    )}
+                    {r.product && (
+                      <Link
+                        href={`/shop/${r.product.slug}`}
+                        className="rounded-full border border-rust/40 px-2.5 py-1 font-medium text-rust hover:bg-rust/5"
+                      >
+                        {pick(r.product.nameFr, r.product.nameEn, locale)}
+                      </Link>
+                    )}
+                  </div>
+
+                  {r.note && <p className="mt-3 text-sm text-ink/75">{r.note}</p>}
+
+                  <p className="mt-3 text-xs text-ink/45">
+                    {r.fromShop
+                      ? tHatch("bylineShop")
+                      : tHatch("byline", { name: r.anglerName })}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

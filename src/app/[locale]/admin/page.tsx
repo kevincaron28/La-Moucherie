@@ -28,6 +28,7 @@ export default async function AdminPage({
     plannedFlies,
     allReports,
     allCatches,
+    hatchReports,
     waters,
     activeProducts,
   ] = await Promise.all([
@@ -94,6 +95,15 @@ export default async function AdminPage({
         product: { select: { slug: true, nameFr: true, nameEn: true } },
       },
       take: 30,
+    }),
+    // Unapproved first: the queue is the reason to open this section.
+    prisma.hatchReport.findMany({
+      orderBy: [{ approved: "asc" }, { observedOn: "desc" }],
+      include: {
+        water: { select: { nameFr: true, nameEn: true } },
+        product: { select: { nameFr: true, nameEn: true } },
+      },
+      take: 40,
     }),
     prisma.fishingWater.findMany({
       select: { id: true, slug: true, nameFr: true, nameEn: true },
@@ -176,6 +186,28 @@ export default async function AdminPage({
           conditionsEn: r.conditionsEn,
           published: r.published,
           water: r.water,
+        }))}
+        hatchReports={hatchReports.map((r) => ({
+          id: r.id,
+          anglerName: r.anglerName,
+          email: r.email,
+          observedOn: r.observedOn.toISOString(),
+          waterName: r.water
+            ? locale === "fr"
+              ? r.water.nameFr
+              : r.water.nameEn
+            : r.waterOther,
+          hatchId: r.hatchId,
+          hookSize: r.hookSize,
+          intensity: r.intensity,
+          note: r.note,
+          approved: r.approved,
+          fromShop: r.fromShop,
+          productName: r.product
+            ? locale === "fr"
+              ? r.product.nameFr
+              : r.product.nameEn
+            : null,
         }))}
         allCatches={allCatches.map((c) => ({
           id: c.id,

@@ -141,6 +141,41 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   this sandbox by the egress proxy's org policy, so the owner deleted these three via the
   GitHub UI).
 
+## Angler hatch reports (`/reports/submit`)
+
+`HatchReport` is deliberately **not** a `FishingReport`. That model is bilingual
+throughout (`titleFr`/`titleEn`, `bodyFr`/`bodyEn`…) because the shop writes both
+languages; a visitor writes one, and making those fields nullable to accommodate that
+would rot the editorial reports sharing the table. Keeping them apart also keeps this data
+*structured* rather than prose, which is what will let it be aggregated later ("Hendrickson
+reported on four rivers in ten days") instead of only read.
+
+The form is almost entirely selectors, because the data already existed: waters come from
+`FishingWater`, the insect list from the 38 entries in `hatches.ts`, and **hook size is
+derived from whichever insect was picked** — so the two hardest questions answer
+themselves. Only `note` is free text.
+
+Three things that matter when changing it:
+
+- **`hatchId` is validated in the route, not by a foreign key**, because the hatch
+  catalogue lives in code. An unrecognised id would become an unfilterable orphan, so the
+  endpoint rejects it — and hatch ids are therefore permanent.
+- **`waterOther` is the escape hatch.** Most of Québec isn't in `FishingWater`; without it
+  the form dead-ends for anyone fishing an unnamed river. It's also the only free-text
+  field, so it carries the moderation weight.
+- **`fromShop` lets the shop seed the section** through the same model, auto-approved and
+  labelled as ours rather than passed off as a stranger's.
+
+Nothing publishes without approval (`approved` defaults false, same as `CatchPhoto`), the
+endpoint is rate-limited and honeypotted, and the owner gets an email per submission —
+without that last part the queue is invisible until someone happens to open `/admin`,
+which is how a submission feature quietly dies.
+
+**CASL.** Filing a report is not consent to be marketed to. The newsletter opt-in is a
+separate, unticked checkbox, and a subscriber created that way records
+`consentSource = "hatch_report_form"` — Canadian anti-spam law requires being able to show
+*how* express consent was obtained, which a bare `subscribedAt` cannot answer.
+
 ## Materials & the production run sheet (`/admin/production`)
 
 Each pattern has a recipe: `Material` rows (what's in the bin) joined to products

@@ -282,6 +282,38 @@ export async function sendContactNotification(message: {
   });
 }
 
+/**
+ * Tells the bench a hatch report is waiting. Without this the moderation queue
+ * is invisible until someone happens to open /admin, which is how a submission
+ * feature quietly dies.
+ */
+export async function sendHatchReportNotification(report: {
+  id: string;
+  anglerName: string;
+  water: string | null;
+  waterId: string | null;
+  hatchId: string | null;
+  note: string | null;
+}) {
+  if (!OWNER_EMAIL) return;
+  const where = report.water ?? report.waterId ?? "—";
+  await send({
+    to: OWNER_EMAIL,
+    subject: `Rapport d'éclosion à approuver — ${report.anglerName}`,
+    html: layout(
+      `<p><strong>Nouveau rapport d'éclosion</strong>, en attente d'approbation.</p>
+       <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px">
+         <tr><td style="padding:4px 0;color:#6b6357">Pêcheur</td><td style="padding:4px 0">${escapeHtml(report.anglerName)}</td></tr>
+         <tr><td style="padding:4px 0;color:#6b6357">Plan d'eau</td><td style="padding:4px 0">${escapeHtml(where)}</td></tr>
+         <tr><td style="padding:4px 0;color:#6b6357">Insecte</td><td style="padding:4px 0">${escapeHtml(report.hatchId ?? "—")}</td></tr>
+       </table>
+       ${report.note ? `<p style="font-size:14px">« ${escapeHtml(report.note)} »</p>` : ""}
+       <p style="font-size:13px;color:#6b6357">Rien n'est publié tant que vous ne l'approuvez pas dans le tableau de bord.</p>
+       <p><a href="${siteUrl()}/fr/admin" style="color:#ac4d15">Ouvrir le tableau de bord</a></p>`
+    ),
+  });
+}
+
 export async function sendPasswordReset(args: {
   to: string;
   name: string;
