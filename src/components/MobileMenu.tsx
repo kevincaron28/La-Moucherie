@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
@@ -103,8 +104,15 @@ export function MobileMenu({ locale }: { locale: string }) {
         </svg>
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 md:hidden">
+      {/* Portalled straight to <body>: the header this button lives in has
+          backdrop-blur, and a backdrop-filter ancestor becomes the containing
+          block for `position: fixed` descendants — without the portal, this
+          overlay's "fixed inset-0" was sized to the header bar's own height
+          instead of the viewport, so the drawer never actually covered the
+          screen. */}
+      {open &&
+        createPortal(
+          <div className="fixed inset-0 z-50 md:hidden">
           <button
             type="button"
             aria-label={t("close")}
@@ -192,8 +200,9 @@ export function MobileMenu({ locale }: { locale: string }) {
               </Section>
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+          document.body
+        )}
     </>
   );
 }
