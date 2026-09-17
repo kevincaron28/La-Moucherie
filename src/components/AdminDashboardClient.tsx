@@ -181,6 +181,19 @@ const emptyPlannedForm = {
   notes: "",
 };
 
+const SECTION_NAV = [
+  { id: "reviews", fr: "Avis", en: "Reviews" },
+  { id: "hatch-reports", fr: "Rapports d'éclosion", en: "Hatch reports" },
+  { id: "no-sizes", fr: "Sans tailles", en: "No sizes" },
+  { id: "low-stock", fr: "Stock bas", en: "Low stock" },
+  { id: "planned", fr: "Patrons à venir", en: "Planned patterns" },
+  { id: "orders", fr: "Commandes", en: "Orders" },
+  { id: "reports", fr: "Rapports de pêche", en: "Fishing reports" },
+  { id: "catches", fr: "Prises", en: "Catches" },
+  { id: "newsletter", fr: "Infolettre", en: "Newsletter" },
+  { id: "tools", fr: "Outils", en: "Tools" },
+] as const;
+
 export function AdminDashboardClient({
   pendingReviews: initialReviews,
   lowStockVariants,
@@ -506,10 +519,55 @@ export function AdminDashboardClient({
     day: "numeric",
   });
 
+  const attentionItems = [
+    { id: "reviews", count: reviews.length, fr: "avis à modérer", en: "reviews to moderate" },
+    {
+      id: "hatch-reports",
+      count: hatchReports.filter((r) => !r.approved).length,
+      fr: "rapports d'éclosion à approuver",
+      en: "hatch reports to approve",
+    },
+    { id: "no-sizes", count: noVariantProducts.length, fr: "produits sans tailles", en: "products with no sizes" },
+    { id: "low-stock", count: lowStockVariants.length, fr: "tailles en stock bas", en: "low-stock sizes" },
+  ].filter((item) => item.count > 0);
+
   return (
     <div className="space-y-12">
+      {/* Dashboard overview: what needs a decision right now, plus a quick
+          jump to every section below. This page runs to ten sections — the
+          fastest way to find the newsletter composer without scrolling past
+          nine others is a real nav, not muscle memory. */}
+      {attentionItems.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-rust/30 bg-rust/5 p-4">
+          <span className="text-xs font-semibold uppercase tracking-wide text-rust">
+            {locale === "fr" ? "À faire" : "Needs attention"}
+          </span>
+          {attentionItems.map((item) => (
+            <a key={item.id} href={`#${item.id}`} className={chipClass("accent")}>
+              {item.count} {locale === "fr" ? item.fr : item.en}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <nav className="flex flex-wrap gap-x-4 gap-y-1.5 border-b border-forest/10 pb-6 text-xs font-medium text-ink/50">
+        {SECTION_NAV.map((s) => (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            className="underline-offset-2 hover:text-rust hover:underline"
+          >
+            {locale === "fr" ? s.fr : s.en}
+          </a>
+        ))}
+      </nav>
+
+      <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
+        {locale === "fr" ? "En attente d'une décision" : "Awaiting a decision"}
+      </p>
+
       {/* 1. Pending Reviews */}
-      <section>
+      <section id="reviews">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -585,9 +643,109 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 2. No Sizes Yet — more urgent than low stock: nothing to add to cart at all */}
+      {/* 2. Angler hatch reports — moderation queue */}
+      <section id="hatch-reports" className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 className="font-display text-lg font-semibold text-forest">
+            {locale === "fr" ? "Rapports d'éclosion" : "Hatch reports"}
+          </h3>
+          {hatchReports.some((r) => !r.approved) && (
+            <span className="rounded-full bg-rust px-3 py-1 text-xs font-semibold text-cream">
+              {hatchReports.filter((r) => !r.approved).length}{" "}
+              {locale === "fr" ? "en attente" : "waiting"}
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-xs text-ink/55">
+          {locale === "fr"
+            ? "Rien n'apparaît sur /reports tant que ce n'est pas approuvé."
+            : "Nothing appears on /reports until it's approved."}
+        </p>
+
+        {hatchReports.length === 0 ? (
+          <p className="mt-4 text-sm text-ink/60">
+            {locale === "fr" ? "Aucun rapport pour l'instant." : "No reports yet."}
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {hatchReports.map((r) => (
+              <li
+                key={r.id}
+                className={`rounded-xl border p-4 ${
+                  r.approved ? "border-forest/15 bg-parchment" : "border-rust/30 bg-rust/5"
+                }`}
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="text-sm font-semibold text-forest">
+                    {r.waterName ??
+                      (locale === "fr" ? "Plan d'eau non nommé" : "Unnamed water")}
+                  </p>
+                  <p className="text-xs text-ink/50">
+                    {new Date(r.observedOn).toLocaleDateString(
+                      locale === "fr" ? "fr-CA" : "en-CA",
+                      { year: "numeric", month: "short", day: "numeric" }
+                    )}
+                  </p>
+                </div>
+
+                <p className="mt-1 text-xs text-ink/60">
+                  {[
+                    r.hatchId,
+                    r.hookSize ? `#${r.hookSize}` : null,
+                    r.intensity,
+                    r.productName,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ") || (locale === "fr" ? "Aucun détail" : "No details")}
+                </p>
+
+                {r.note && <p className="mt-2 text-sm text-ink/80">{r.note}</p>}
+
+                <p className="mt-2 text-xs text-ink/45">
+                  {r.fromShop
+                    ? locale === "fr"
+                      ? "Notre propre rapport"
+                      : "Our own report"
+                    : `${r.anglerName} · ${r.email}`}
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={hatchBusyId === r.id}
+                    onClick={() => handleToggleHatchReport(r)}
+                    className="rounded-full border border-forest/30 px-3 py-1.5 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
+                  >
+                    {r.approved
+                      ? locale === "fr"
+                        ? "Retirer du site"
+                        : "Unpublish"
+                      : locale === "fr"
+                        ? "Approuver"
+                        : "Approve"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={hatchBusyId === r.id}
+                    onClick={() => handleDeleteHatchReport(r.id)}
+                    className="rounded-full border border-rust/30 px-3 py-1.5 text-xs font-semibold text-rust transition hover:bg-rust/10 disabled:opacity-50"
+                  >
+                    {locale === "fr" ? "Supprimer" : "Delete"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
+        {locale === "fr" ? "Alertes de stock" : "Stock alerts"}
+      </p>
+
+      {/* 3. No Sizes Yet — more urgent than low stock: nothing to add to cart at all */}
       {noVariantProducts.length > 0 && (
-        <section>
+        <section id="no-sizes">
           <div className="flex items-center justify-between border-b border-rust/30 pb-4">
             <div>
               <h2 className="font-display text-2xl font-semibold text-rust">
@@ -623,8 +781,8 @@ export function AdminDashboardClient({
         </section>
       )}
 
-      {/* 3. Low Stock Alerts */}
-      <section>
+      {/* 4. Low Stock Alerts */}
+      <section id="low-stock">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -683,8 +841,12 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 4. Planned Patterns — what to tie next, not a real product yet */}
-      <section>
+      <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
+        {locale === "fr" ? "Catalogue et commandes" : "Catalog and orders"}
+      </p>
+
+      {/* 5. Planned Patterns — what to tie next, not a real product yet */}
+      <section id="planned">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -859,8 +1021,8 @@ export function AdminDashboardClient({
         </form>
       </section>
 
-      {/* 5. Recent Paid Orders & Bench Print Slips */}
-      <section>
+      {/* 6. Recent Paid Orders & Bench Print Slips */}
+      <section id="orders">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -924,140 +1086,12 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 6. Newsletter */}
-      <section>
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Infolettre" : "Newsletter"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Rapports de pêche, nouveaux patrons ou promotions — envoyés à tous les abonnés actifs."
-                : "Fishing reports, new patterns, or sales — sent to every active subscriber."}
-            </p>
-          </div>
-          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
-            {subscriberCount} {locale === "fr" ? "abonnés" : "subscribers"}
-          </span>
-        </div>
-
-        {recentReports.length > 0 && (
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
-              {locale === "fr" ? "Pré-remplir depuis un rapport" : "Prefill from a report"}
-            </p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {recentReports.map((r) => (
-                <button
-                  key={r.id}
-                  type="button"
-                  onClick={() => prefillFromReport(r)}
-                  className="rounded-full border border-forest/25 px-3 py-1.5 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
-                >
-                  {locale === "fr" ? r.titleFr : r.titleEn}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <form
-          onSubmit={handleSendCampaign}
-          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-parchment p-6"
-        >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
-                {locale === "fr" ? "Sujet (FR)" : "Subject (FR)"}
-              </label>
-              <input
-                type="text"
-                required
-                value={campaign.subjectFr}
-                onChange={(e) => setCampaign((c) => ({ ...c, subjectFr: e.target.value }))}
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
-                {locale === "fr" ? "Sujet (EN)" : "Subject (EN)"}
-              </label>
-              <input
-                type="text"
-                required
-                value={campaign.subjectEn}
-                onChange={(e) => setCampaign((c) => ({ ...c, subjectEn: e.target.value }))}
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
-              />
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
-                {locale === "fr" ? "Contenu (FR, HTML)" : "Body (FR, HTML)"}
-              </label>
-              <textarea
-                required
-                rows={8}
-                value={campaign.bodyFr}
-                onChange={(e) => setCampaign((c) => ({ ...c, bodyFr: e.target.value }))}
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
-                {locale === "fr" ? "Contenu (EN, HTML)" : "Body (EN, HTML)"}
-              </label>
-              <textarea
-                required
-                rows={8}
-                value={campaign.bodyEn}
-                onChange={(e) => setCampaign((c) => ({ ...c, bodyEn: e.target.value }))}
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button
-              type="submit"
-              disabled={sending || subscriberCount === 0}
-              className="rounded-full bg-rust px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {sending
-                ? locale === "fr"
-                  ? "Envoi en cours…"
-                  : "Sending…"
-                : locale === "fr"
-                  ? `Envoyer à ${subscriberCount} abonné${subscriberCount > 1 ? "s" : ""}`
-                  : `Send to ${subscriberCount} subscriber${subscriberCount > 1 ? "s" : ""}`}
-            </button>
-            {sendResult && <p className="text-sm text-forest">{sendResult}</p>}
-          </div>
-        </form>
-
-        {campaigns.length > 0 && (
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
-              {locale === "fr" ? "Campagnes envoyées" : "Sent campaigns"}
-            </p>
-            <ul className="mt-2 space-y-1.5 text-sm text-ink/70">
-              {campaigns.map((c) => (
-                <li key={c.id} className="flex items-center justify-between gap-3">
-                  <span>{locale === "fr" ? c.subjectFr : c.subjectEn}</span>
-                  <span className="shrink-0 text-xs text-ink/50">
-                    {c.recipientCount} · {dateFormatter.format(new Date(c.sentAt))}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
+      <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
+        {locale === "fr" ? "Contenu publié" : "Published content"}
+      </p>
 
       {/* 7. Fishing Reports — "What's Working" has no publish path but this */}
-      <section>
+      <section id="reports">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -1286,7 +1320,7 @@ export function AdminDashboardClient({
       </section>
 
       {/* 8. Community Catches — real ones only, added by hand */}
-      <section>
+      <section id="catches">
         <div className="flex items-center justify-between border-b border-forest/15 pb-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
@@ -1577,104 +1611,140 @@ export function AdminDashboardClient({
         </form>
       </section>
 
-      {/* 9. Angler hatch reports — moderation queue */}
-      <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h3 className="font-display text-lg font-semibold text-forest">
-            {locale === "fr" ? "Rapports d'éclosion" : "Hatch reports"}
-          </h3>
-          {hatchReports.some((r) => !r.approved) && (
-            <span className="rounded-full bg-rust px-3 py-1 text-xs font-semibold text-cream">
-              {hatchReports.filter((r) => !r.approved).length}{" "}
-              {locale === "fr" ? "en attente" : "waiting"}
-            </span>
-          )}
+      {/* 9. Newsletter */}
+      <section id="newsletter">
+        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {locale === "fr" ? "Infolettre" : "Newsletter"}
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              {locale === "fr"
+                ? "Rapports de pêche, nouveaux patrons ou promotions — envoyés à tous les abonnés actifs."
+                : "Fishing reports, new patterns, or sales — sent to every active subscriber."}
+            </p>
+          </div>
+          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
+            {subscriberCount} {locale === "fr" ? "abonnés" : "subscribers"}
+          </span>
         </div>
-        <p className="mt-1 text-xs text-ink/55">
-          {locale === "fr"
-            ? "Rien n'apparaît sur /reports tant que ce n'est pas approuvé."
-            : "Nothing appears on /reports until it's approved."}
-        </p>
 
-        {hatchReports.length === 0 ? (
-          <p className="mt-4 text-sm text-ink/60">
-            {locale === "fr" ? "Aucun rapport pour l'instant." : "No reports yet."}
-          </p>
-        ) : (
-          <ul className="mt-4 space-y-3">
-            {hatchReports.map((r) => (
-              <li
-                key={r.id}
-                className={`rounded-xl border p-4 ${
-                  r.approved ? "border-forest/15 bg-parchment" : "border-rust/30 bg-rust/5"
-                }`}
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-sm font-semibold text-forest">
-                    {r.waterName ??
-                      (locale === "fr" ? "Plan d'eau non nommé" : "Unnamed water")}
-                  </p>
-                  <p className="text-xs text-ink/50">
-                    {new Date(r.observedOn).toLocaleDateString(
-                      locale === "fr" ? "fr-CA" : "en-CA",
-                      { year: "numeric", month: "short", day: "numeric" }
-                    )}
-                  </p>
-                </div>
+        {recentReports.length > 0 && (
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+              {locale === "fr" ? "Pré-remplir depuis un rapport" : "Prefill from a report"}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {recentReports.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  onClick={() => prefillFromReport(r)}
+                  className="rounded-full border border-forest/25 px-3 py-1.5 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
+                >
+                  {locale === "fr" ? r.titleFr : r.titleEn}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
-                <p className="mt-1 text-xs text-ink/60">
-                  {[
-                    r.hatchId,
-                    r.hookSize ? `#${r.hookSize}` : null,
-                    r.intensity,
-                    r.productName,
-                  ]
-                    .filter(Boolean)
-                    .join(" · ") || (locale === "fr" ? "Aucun détail" : "No details")}
-                </p>
+        <form
+          onSubmit={handleSendCampaign}
+          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-parchment p-6"
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Sujet (FR)" : "Subject (FR)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={campaign.subjectFr}
+                onChange={(e) => setCampaign((c) => ({ ...c, subjectFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Sujet (EN)" : "Subject (EN)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={campaign.subjectEn}
+                onChange={(e) => setCampaign((c) => ({ ...c, subjectEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Contenu (FR, HTML)" : "Body (FR, HTML)"}
+              </label>
+              <textarea
+                required
+                rows={8}
+                value={campaign.bodyFr}
+                onChange={(e) => setCampaign((c) => ({ ...c, bodyFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+                {locale === "fr" ? "Contenu (EN, HTML)" : "Body (EN, HTML)"}
+              </label>
+              <textarea
+                required
+                rows={8}
+                value={campaign.bodyEn}
+                onChange={(e) => setCampaign((c) => ({ ...c, bodyEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-cream/40 px-3 py-2 font-mono text-xs text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
 
-                {r.note && <p className="mt-2 text-sm text-ink/80">{r.note}</p>}
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              disabled={sending || subscriberCount === 0}
+              className="rounded-full bg-rust px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {sending
+                ? locale === "fr"
+                  ? "Envoi en cours…"
+                  : "Sending…"
+                : locale === "fr"
+                  ? `Envoyer à ${subscriberCount} abonné${subscriberCount > 1 ? "s" : ""}`
+                  : `Send to ${subscriberCount} subscriber${subscriberCount > 1 ? "s" : ""}`}
+            </button>
+            {sendResult && <p className="text-sm text-forest">{sendResult}</p>}
+          </div>
+        </form>
 
-                <p className="mt-2 text-xs text-ink/45">
-                  {r.fromShop
-                    ? locale === "fr"
-                      ? "Notre propre rapport"
-                      : "Our own report"
-                    : `${r.anglerName} · ${r.email}`}
-                </p>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    disabled={hatchBusyId === r.id}
-                    onClick={() => handleToggleHatchReport(r)}
-                    className="rounded-full border border-forest/30 px-3 py-1.5 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
-                  >
-                    {r.approved
-                      ? locale === "fr"
-                        ? "Retirer du site"
-                        : "Unpublish"
-                      : locale === "fr"
-                        ? "Approuver"
-                        : "Approve"}
-                  </button>
-                  <button
-                    type="button"
-                    disabled={hatchBusyId === r.id}
-                    onClick={() => handleDeleteHatchReport(r.id)}
-                    className="rounded-full border border-rust/30 px-3 py-1.5 text-xs font-semibold text-rust transition hover:bg-rust/10 disabled:opacity-50"
-                  >
-                    {locale === "fr" ? "Supprimer" : "Delete"}
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+        {campaigns.length > 0 && (
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+              {locale === "fr" ? "Campagnes envoyées" : "Sent campaigns"}
+            </p>
+            <ul className="mt-2 space-y-1.5 text-sm text-ink/70">
+              {campaigns.map((c) => (
+                <li key={c.id} className="flex items-center justify-between gap-3">
+                  <span>{locale === "fr" ? c.subjectFr : c.subjectEn}</span>
+                  <span className="shrink-0 text-xs text-ink/50">
+                    {c.recipientCount} · {dateFormatter.format(new Date(c.sentAt))}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </section>
 
       {/* 10. Quick Operational Links */}
-      <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
+      <section id="tools" className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
         <h3 className="font-display text-lg font-semibold text-forest">
           {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}
         </h3>
