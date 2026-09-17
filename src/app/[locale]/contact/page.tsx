@@ -9,6 +9,20 @@ export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
     "idle"
   );
+  const [reason, setReason] = useState<string | null>(null);
+
+  const reasons = [
+    { key: "product", label: t("reasonProduct"), starter: t("reasonProductStarter") },
+    { key: "order", label: t("reasonOrder"), starter: t("reasonOrderStarter") },
+    { key: "wholesale", label: t("reasonWholesale"), starter: t("reasonWholesaleStarter") },
+    { key: "ambassador", label: t("reasonAmbassador"), starter: t("reasonAmbassadorStarter") },
+    { key: "custom", label: t("reasonCustom"), starter: t("reasonCustomStarter") },
+  ];
+
+  function selectReason(key: string, starter: string) {
+    setReason(key);
+    setForm((f) => ({ ...f, message: f.message.trim() ? f.message : starter }));
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,7 +46,24 @@ export default function ContactPage() {
       <h1 className="font-display text-3xl font-semibold text-forest">{t("title")}</h1>
       <p className="mt-3 text-ink/70">{t("subtitle")}</p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <div className="mt-6 flex flex-wrap gap-2">
+        {reasons.map((r) => (
+          <button
+            key={r.key}
+            type="button"
+            onClick={() => selectReason(r.key, r.starter)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              reason === r.key
+                ? "border-rust bg-rust text-cream"
+                : "border-forest/20 text-forest hover:border-forest/50"
+            }`}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label className="text-sm font-medium text-forest">{t("name")}</label>
           <input

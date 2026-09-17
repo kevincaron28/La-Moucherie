@@ -302,7 +302,55 @@
     "sending": "Sending…",
     "success": "Thanks! Your message has been sent.",
     "error": "Something went wrong. Please try again or email us directly.",
-    "directEmail": "You can also reach us directly at"
+    "directEmail": "You can also reach us directly at",
+    "reasonProduct": "Product question",
+    "reasonProductStarter": "Not sure what fly you need — ",
+    "reasonOrder": "Order help",
+    "reasonOrderStarter": "I need help with an order — ",
+    "reasonWholesale": "Wholesale",
+    "reasonWholesaleStarter": "Interested in carrying La Moucherie — ",
+    "reasonAmbassador": "Ambassador / field team",
+    "reasonAmbassadorStarter": "I'd like to fish and represent La Moucherie — ",
+    "reasonCustom": "Custom pattern",
+    "reasonCustomStarter": "Looking for a specific pattern — "
+  },
+  "FAQ": {
+    "title": "Frequently asked questions",
+    "intro": "Shipping, sizes, returns, custom patterns — the questions we get most.",
+    "q1": "Are your flies tied in Québec?",
+    "a1": "Yes, every fly is hand-tied at our bench in Montérégie, Québec.",
+    "q2": "Where do you ship?",
+    "a2": "Anywhere in Canada.",
+    "q3": "How much is shipping?",
+    "a3": "Letter mail starts at {letterPrice} for a small order; tracked parcel shipping is free once your order reaches {threshold}.",
+    "q4": "How long does an order take?",
+    "a4": "Orders are tied and packed by hand and go out within 2–5 business days.",
+    "q5": "What hook sizes do you carry?",
+    "a5": "It varies by pattern — each product page lists the exact sizes currently available.",
+    "q6": "Can I return a fly?",
+    "a6": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have already been fished can't be returned.",
+    "q7": "Can I request a custom pattern?",
+    "a7": "Yes — tell us what you're after through the contact page and we'll let you know if we can tie it.",
+    "q8": "How should I store my flies?",
+    "a8": "Somewhere dry, out of direct sun — a standard fly box works fine. Let flies dry fully before boxing them after a day on the water, to keep hooks from rusting.",
+    "q9": "Do you work with fly shops, guides, or outfitters?",
+    "a9": "Yes — see our wholesale page for details.",
+    "stillHaveQuestions": "Still have a question?",
+    "contactCta": "Get in touch"
+  },
+  "Wholesale": {
+    "title": "Stock La Moucherie",
+    "intro": "We're open to carrying our flies through fly shops, guide services, and outfitters across Québec and beyond.",
+    "who": "If that's you, we'd like to hear what you're looking for — patterns, sizes, quantities — so we can figure out together whether it's a fit.",
+    "cta": "Terms and pricing are worked out case by case for now — write to us and we'll follow up directly.",
+    "contactCta": "Get in touch about wholesale"
+  },
+  "Ambassadors": {
+    "title": "La Moucherie Field Team",
+    "intro": "We're building relationships with anglers who fish the same waters these flies are tied for.",
+    "who": "If you're out on Québec rivers and lakes regularly and want to fish and talk about La Moucherie flies, we'd like to hear from you.",
+    "cta": "There's no formal program yet — reach out and tell us about your fishing, and we'll go from there.",
+    "contactCta": "Get in touch"
   },
   "Newsletter": {
     "signupLabel": "Get the hatch report",
@@ -331,10 +379,15 @@
     "learnHeading": "Learn",
     "helpHeading": "Help",
     "allFlies": "All flies",
+    "flyFinder": "Fly Finder",
     "waters": "Québec waters",
     "reports": "What's working",
     "catches": "Community",
-    "account": "My account"
+    "account": "My account",
+    "aboutHeading": "About",
+    "wholesale": "Wholesale",
+    "ambassadors": "Ambassadors",
+    "faq": "FAQ"
   },
   "Shipping": {
     "title": "Shipping & returns",

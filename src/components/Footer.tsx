@@ -40,7 +40,7 @@ export function Footer() {
           <NewsletterSignup className="mt-6" />
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
               {t("shopHeading")}
@@ -52,11 +52,16 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/shop/finder" className="hover:text-cream">
+                  {t("flyFinder")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/shop/water" className="hover:text-cream">
                   {t("waters")}
                 </Link>
               </li>
-              {SPECIES.slice(0, 4).map((s) => (
+              {SPECIES.slice(0, 3).map((s) => (
                 <li key={s}>
                   <Link
                     href={`/shop/species/${SPECIES_SLUGS[s]}`}
@@ -84,9 +89,32 @@ export function Footer() {
                   {t("catches")}
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-gold">
+              {t("aboutHeading")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-cream/80">
               <li>
                 <Link href="/about" className="hover:text-cream">
                   {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-cream">
+                  {t("contact")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/wholesale" className="hover:text-cream">
+                  {t("wholesale")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/ambassadors" className="hover:text-cream">
+                  {t("ambassadors")}
                 </Link>
               </li>
             </ul>
@@ -103,8 +131,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-cream">
-                  {t("contact")}
+                <Link href="/faq" className="hover:text-cream">
+                  {t("faq")}
                 </Link>
               </li>
               <li>

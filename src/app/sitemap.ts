@@ -8,7 +8,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   // Static marketing routes
-  const staticPaths = ["", "/shop", "/shop/water", "/reports", "/catches", "/about", "/contact"];
+  const staticPaths = [
+    "",
+    "/shop",
+    "/shop/water",
+    "/shop/finder",
+    "/reports",
+    "/catches",
+    "/about",
+    "/contact",
+    "/faq",
+    "/wholesale",
+    "/ambassadors",
+    "/shipping",
+  ];
   const staticEntries: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {

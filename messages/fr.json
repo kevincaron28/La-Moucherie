@@ -302,7 +302,55 @@
     "sending": "Envoi en cours…",
     "success": "Merci ! Votre message a bien été envoyé.",
     "error": "Une erreur est survenue. Veuillez réessayer ou nous écrire directement.",
-    "directEmail": "Vous pouvez aussi nous écrire directement à"
+    "directEmail": "Vous pouvez aussi nous écrire directement à",
+    "reasonProduct": "Question sur un produit",
+    "reasonProductStarter": "Je ne suis pas certain de la mouche qu'il me faut — ",
+    "reasonOrder": "Aide avec une commande",
+    "reasonOrderStarter": "J'ai besoin d'aide avec une commande — ",
+    "reasonWholesale": "Vente en gros",
+    "reasonWholesaleStarter": "Intéressé à offrir La Moucherie — ",
+    "reasonAmbassador": "Ambassadeur / équipe de terrain",
+    "reasonAmbassadorStarter": "J'aimerais pêcher et représenter La Moucherie — ",
+    "reasonCustom": "Patron sur mesure",
+    "reasonCustomStarter": "Je cherche un patron spécifique — "
+  },
+  "FAQ": {
+    "title": "Questions fréquentes",
+    "intro": "Livraison, tailles, retours, patrons sur mesure — les questions qu'on nous pose le plus.",
+    "q1": "Est-ce que vos mouches sont montées au Québec ?",
+    "a1": "Oui, chaque mouche est montée à la main à notre étau, en Montérégie, au Québec.",
+    "q2": "Où livrez-vous ?",
+    "a2": "Partout au Canada.",
+    "q3": "Combien coûte la livraison ?",
+    "a3": "L'envoi en enveloppe débute à {letterPrice} pour une petite commande; l'envoi suivi est gratuit à partir de {threshold}.",
+    "q4": "Combien de temps prend une commande ?",
+    "a4": "Les commandes sont montées et emballées à la main, puis expédiées dans un délai de 2 à 5 jours ouvrables.",
+    "q5": "Quelles tailles d'hameçon offrez-vous ?",
+    "a5": "Ça varie selon le patron — chaque fiche produit indique les tailles réellement disponibles.",
+    "q6": "Puis-je retourner une mouche ?",
+    "a6": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées.",
+    "q7": "Puis-je demander un patron sur mesure ?",
+    "a7": "Oui — dites-nous ce que vous cherchez via la page contact, et nous vous dirons si on peut le monter.",
+    "q8": "Comment dois-je entreposer mes mouches ?",
+    "a8": "Dans un endroit sec, à l'abri du soleil direct — une boîte à mouches standard convient très bien. Laissez les mouches sécher complètement avant de les ranger après une sortie, pour éviter la rouille sur les hameçons.",
+    "q9": "Travaillez-vous avec des boutiques, guides ou pourvoiries ?",
+    "a9": "Oui — voir notre page grossistes pour les détails.",
+    "stillHaveQuestions": "Une autre question ?",
+    "contactCta": "Écrivez-nous"
+  },
+  "Wholesale": {
+    "title": "Offrir La Moucherie",
+    "intro": "Nous sommes ouverts à ce que nos mouches soient offertes par des boutiques de pêche, des services de guide et des pourvoiries, au Québec et ailleurs.",
+    "who": "Si c'est votre cas, on aimerait savoir ce que vous cherchez — patrons, tailles, quantités — pour voir ensemble si ça convient.",
+    "cta": "Les conditions et les prix se discutent au cas par cas pour l'instant — écrivez-nous et on vous répondra directement.",
+    "contactCta": "Nous écrire au sujet du gros"
+  },
+  "Ambassadors": {
+    "title": "L'équipe de terrain La Moucherie",
+    "intro": "On bâtit des liens avec des pêcheurs qui fréquentent les mêmes eaux pour lesquelles ces mouches sont montées.",
+    "who": "Si vous pêchez régulièrement les rivières et lacs du Québec et que vous voulez pêcher et parler des mouches La Moucherie, on aimerait vous entendre.",
+    "cta": "Il n'y a pas encore de programme formel — écrivez-nous et parlez-nous de votre pêche, on partira de là.",
+    "contactCta": "Nous écrire"
   },
   "Newsletter": {
     "signupLabel": "Recevez le rapport de pêche",
@@ -331,10 +379,15 @@
     "learnHeading": "Apprendre",
     "helpHeading": "Aide",
     "allFlies": "Toutes les mouches",
+    "flyFinder": "Trouve-mouche",
     "waters": "Eaux du Québec",
     "reports": "Ce qui travaille",
     "catches": "Communauté",
-    "account": "Mon compte"
+    "account": "Mon compte",
+    "aboutHeading": "À propos",
+    "wholesale": "Vente en gros",
+    "ambassadors": "Ambassadeurs",
+    "faq": "FAQ"
   },
   "Shipping": {
     "title": "Livraison et retours",
