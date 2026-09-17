@@ -184,7 +184,17 @@
     "outOfFive": "sur 5",
     "wasHelpful": "Cet avis vous a-t-il été utile ?",
     "helpfulYes": "Oui",
-    "helpfulNo": "Non"
+    "helpfulNo": "Non",
+    "catchDetailsTitle": "Détails de la prise (facultatif)",
+    "catchDetailsHint": "Partagez ce qui a fonctionné, si vous le souhaitez.",
+    "speciesCaught": "Espèce capturée",
+    "speciesCaughtPlaceholder": "Choisir une espèce",
+    "waterName": "Plan d'eau",
+    "waterNamePlaceholder": "ex. Rivière Jacques-Cartier",
+    "hookSize": "Taille d'hameçon",
+    "hookSizePlaceholder": "ex. #14",
+    "conditions": "Conditions",
+    "conditionsPlaceholder": "ex. Éclosion du soir, eau claire"
   },
   "Cart": {
     "title": "Votre panier",

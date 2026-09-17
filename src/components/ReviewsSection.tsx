@@ -6,6 +6,25 @@ import { ReviewHelpfulVote } from "@/components/ReviewHelpfulVote";
 import type { ReviewEligibility } from "@/lib/review-eligibility";
 import type { Locale } from "@/i18n/routing";
 
+function CatchDetails({
+  review,
+  speciesLabel,
+}: {
+  review: Review;
+  speciesLabel: string | null;
+}) {
+  const parts = [speciesLabel, review.waterName, review.hookSize, review.conditions].filter(
+    (part): part is string => Boolean(part)
+  );
+  if (parts.length === 0) return null;
+
+  return (
+    <p className="mt-2 text-xs font-medium text-forest/70">
+      🎣 {parts.join(" · ")}
+    </p>
+  );
+}
+
 function VerifiedBadge({ label }: { label: string }) {
   return (
     <span className="inline-flex items-center gap-1 rounded-full bg-halo/10 px-2 py-0.5 text-[11px] font-medium text-halo">
@@ -33,6 +52,7 @@ export function ReviewsSection({
   eligibility: ReviewEligibility;
 }) {
   const t = useTranslations("Reviews");
+  const tAngling = useTranslations("Angling");
   const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
     month: "long",
@@ -74,6 +94,12 @@ export function ReviewsSection({
                 {review.title}
               </h3>
               <p className="mt-2 whitespace-pre-line text-ink/75">{review.body}</p>
+              <CatchDetails
+                review={review}
+                speciesLabel={
+                  review.speciesCaught ? tAngling(`species.${review.speciesCaught}`) : null
+                }
+              />
               <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink/50">
                 <span className="font-medium text-ink/70">{review.customerName}</span>
                 {review.verifiedPurchase && (

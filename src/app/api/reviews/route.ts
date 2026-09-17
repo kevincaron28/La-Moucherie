@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { FishSpecies } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { checkRateLimit, tooManyRequests } from "@/lib/rate-limit";
+
+// Free text a reviewer might leave blank — coerced from "" to undefined so an
+// untouched form field never becomes an empty-string column value.
+const optionalNote = z
+  .string()
+  .max(200)
+  .optional()
+  .transform((v) => (v && v.trim() ? v.trim() : undefined));
 
 const reviewSchema = z.object({
   productId: z.string().min(1),
@@ -10,6 +19,13 @@ const reviewSchema = z.object({
   title: z.string().min(1).max(200),
   body: z.string().min(1).max(3000),
   locale: z.enum(["fr", "en"]),
+  speciesCaught: z.preprocess(
+    (v) => (v === "" ? undefined : v),
+    z.nativeEnum(FishSpecies).optional()
+  ),
+  waterName: optionalNote,
+  hookSize: optionalNote,
+  conditions: optionalNote,
 });
 
 export async function POST(request: Request) {
@@ -29,7 +45,8 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
-  const { productId, rating, title, body, locale } = parsed.data;
+  const { productId, rating, title, body, locale, speciesCaught, waterName, hookSize, conditions } =
+    parsed.data;
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
   if (!user) {
@@ -70,6 +87,10 @@ export async function POST(request: Request) {
       title,
       body,
       locale,
+      speciesCaught,
+      waterName,
+      hookSize,
+      conditions,
       verifiedPurchase: Boolean(purchase),
     },
   });

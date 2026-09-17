@@ -184,7 +184,17 @@
     "outOfFive": "out of 5",
     "wasHelpful": "Was this review helpful?",
     "helpfulYes": "Yes",
-    "helpfulNo": "No"
+    "helpfulNo": "No",
+    "catchDetailsTitle": "Catch details (optional)",
+    "catchDetailsHint": "Tell other anglers what worked, if you'd like.",
+    "speciesCaught": "Species caught",
+    "speciesCaughtPlaceholder": "Select a species",
+    "waterName": "Water",
+    "waterNamePlaceholder": "e.g. Rivière Jacques-Cartier",
+    "hookSize": "Hook size",
+    "hookSizePlaceholder": "e.g. #14",
+    "conditions": "Conditions",
+    "conditionsPlaceholder": "e.g. Evening hatch, clear water"
   },
   "Cart": {
     "title": "Your cart",

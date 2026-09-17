@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { StarRatingInput } from "@/components/StarRating";
+import { SPECIES } from "@/lib/angling";
 import type { ReviewEligibility } from "@/lib/review-eligibility";
 
 export function WriteReviewForm({
@@ -14,13 +15,22 @@ export function WriteReviewForm({
   eligibility: ReviewEligibility;
 }) {
   const t = useTranslations("Reviews");
+  const tAngling = useTranslations("Angling");
   const locale = useLocale();
 
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
     "idle"
   );
-  const [form, setForm] = useState({ rating: 0, title: "", body: "" });
+  const [form, setForm] = useState({
+    rating: 0,
+    title: "",
+    body: "",
+    speciesCaught: "",
+    waterName: "",
+    hookSize: "",
+    conditions: "",
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,7 +44,15 @@ export function WriteReviewForm({
       });
       if (!res.ok) throw new Error();
       setStatus("success");
-      setForm({ rating: 0, title: "", body: "" });
+      setForm({
+        rating: 0,
+        title: "",
+        body: "",
+        speciesCaught: "",
+        waterName: "",
+        hookSize: "",
+        conditions: "",
+      });
     } catch {
       setStatus("error");
     }
@@ -120,6 +138,64 @@ export function WriteReviewForm({
           onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
           className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
         />
+      </div>
+
+      <div className="space-y-3 rounded-xl border border-forest/10 bg-parchment/60 p-4">
+        <div>
+          <p className="text-sm font-medium text-forest">{t("catchDetailsTitle")}</p>
+          <p className="text-xs text-ink/50">{t("catchDetailsHint")}</p>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className="text-xs font-medium text-forest">{t("speciesCaught")}</label>
+            <select
+              value={form.speciesCaught}
+              onChange={(e) => setForm((f) => ({ ...f, speciesCaught: e.target.value }))}
+              className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+            >
+              <option value="">{t("speciesCaughtPlaceholder")}</option>
+              {SPECIES.map((species) => (
+                <option key={species} value={species}>
+                  {tAngling(`species.${species}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-forest">{t("waterName")}</label>
+            <input
+              type="text"
+              value={form.waterName}
+              onChange={(e) => setForm((f) => ({ ...f, waterName: e.target.value }))}
+              placeholder={t("waterNamePlaceholder")}
+              className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none placeholder:text-ink/35 focus:border-halo"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-forest">{t("hookSize")}</label>
+            <input
+              type="text"
+              value={form.hookSize}
+              onChange={(e) => setForm((f) => ({ ...f, hookSize: e.target.value }))}
+              placeholder={t("hookSizePlaceholder")}
+              className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none placeholder:text-ink/35 focus:border-halo"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-forest">{t("conditions")}</label>
+            <input
+              type="text"
+              value={form.conditions}
+              onChange={(e) => setForm((f) => ({ ...f, conditions: e.target.value }))}
+              placeholder={t("conditionsPlaceholder")}
+              className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none placeholder:text-ink/35 focus:border-halo"
+            />
+          </div>
+        </div>
       </div>
 
       {status === "error" && <p className="text-sm text-rust">{t("error")}</p>}

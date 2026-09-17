@@ -95,6 +95,12 @@ model Review {
   title            String
   body             String
   locale           String       @default("fr")
+  // What was actually on the line when the fly worked — all optional, since
+  // most reviewers will only ever fill in the star rating and a comment.
+  speciesCaught    FishSpecies?
+  waterName        String?
+  hookSize         String?
+  conditions       String?
   verifiedPurchase Boolean      @default(false)
   status           ReviewStatus @default(PENDING)
   helpfulCount     Int          @default(0)
