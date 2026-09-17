@@ -22,16 +22,15 @@ hashtag feed widget; `robots.txt` + `sitemap.ts`; and a homepage/About page buil
 the real founders, Claudya Cazes and Kevin.
 
 **Needs attention before the shop can actually sell:**
-- The catalog has 20 fly patterns (the original 6, plus 14 published from the former
-  "planned patterns" list) with real hook-size variants — **but every variant is at zero
-  stock**, intentionally, while real inventory is confirmed. Every product shows "Out of
-  Stock" until stock counts are set via `db:studio` or the admin dashboard. The
-  "planned patterns" list on `/admin` is now empty — add new candidates there as they come
-  up; an entry disappears ("Tied it") once it becomes a real `Product`.
-- 2 of 20 products (Elk Wing Caddis, Egg Sucking Leech) still use the placeholder SVG
-  image; Bead Head Hare's Ear, Montana Stone, Woolly Bugger Black and Lefty Deceiver have
-  real (temporary, phone-shot) photos pending proper lightbox photography; the 14 newly
-  published patterns all use the placeholder image too, pending real photos.
+- The catalog has 34 fly patterns plus 3 curated boxes, all with real hook-size variants —
+  **but every variant is at zero stock**, intentionally, while real inventory is confirmed.
+  Every product shows "Out of Stock" until stock counts are set via `db:studio` or the
+  admin dashboard. The "planned patterns" list on `/admin` is empty — add new candidates
+  there as they come up; an entry disappears ("Tied it") once it becomes a real `Product`.
+- Only 4 products (Bead Head Hare's Ear, Montana Stone, Woolly Bugger Black, Lefty
+  Deceiver) have real photos, and those are temporary phone shots pending proper lightbox
+  photography. **Every other product uses the placeholder SVG** — this is now the single
+  biggest visual gap on the site.
 - `RESEND_API_KEY` isn't set in production yet, so the newsletter and every other
   transactional email currently just log (`[email:not-configured] would send …`) instead
   of sending. Nothing is broken — the site is designed to run fine either way — but no
@@ -79,10 +78,9 @@ reports/catches wouldn't have shown new content without this).
 
 **Recommended next upgrades**, roughly in order of value once inventory/photos catch up:
 1. Set real stock counts on the variants that need it so the shop can actually take
-   orders again — hook sizes are already published for all 20 patterns.
-2. Photograph the 14 newly-published patterns plus the 2 remaining originals (Elk Wing
-   Caddis, Egg Sucking Leech), and consider a photo of Kevin too — the homepage/About
-   story currently only has one of Claudya.
+   orders again — hook sizes are already published for all 34 patterns.
+2. Photograph the catalog — 30 of 34 patterns still use the placeholder image. Consider a
+   photo of Kevin too; the homepage/About story currently only has one of Claudya.
 3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
 
 ## This week's punch list (from the 2026-09-17 site audit)
@@ -109,8 +107,7 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   approved catches exist), a newsletter/hatch-report signup banner.
 - New pages: `/faq` (shipping/returns/sizes/storage, pulling real numbers from
   `shipping.ts`), `/wholesale` and `/ambassadors` (shells + contact CTA — no invented
-  terms), `/hatches` (general Québec-region insect-hatch reference, matched to catalog
-  patterns, explicitly not live conditions).
+  terms), `/hatches` (see the hatch chart section below).
 - Contact page: reason-for-contact chips (product/order/wholesale/ambassador/custom).
 - Footer: 4 columns (Shop/Fishing/About/Help) instead of 3, linking everything above.
   Sitemap updated for all new routes.
@@ -148,6 +145,28 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   `vercel/install-vercel-web-analytics-uh0jl7` — remote branch deletion is blocked from
   this sandbox by the egress proxy's org policy, so the owner deleted these three via the
   GitHub UI).
+
+## The hatch chart (`/hatches`)
+
+`src/lib/hatches.ts` holds La Moucherie's own hatch chart for southern Québec — 38 entries
+across mayflies, caddis, stoneflies, midges and terrestrials, each with its scientific
+name, an overall emergence window, one or two peak windows (several species are
+double-brooded), hook sizes, time of day, a bilingual fishing note, and the catalog
+patterns that cover it. The page renders it as a 12-month timeline with a marker on
+today's date, and leads with a "what's on the water right now" panel computed from that
+date — which is why the route is `force-dynamic`.
+
+**On sourcing.** The timing was written from entomology for this region and cross-checked
+against three references the owner supplied (a southern-Québec mayfly calendar, a
+Laurentians hatch chart, and a southern-Ontario chart). Emergence dates are facts, not
+anyone's copyrightable expression, but none of those charts' text, structure or selection
+was copied — the entries, groupings, notes and layout here are original. One of the three
+(lemoucheux.ca) carries an explicit all-rights-reserved notice, so it was used strictly to
+sanity-check dates against, never reproduced.
+
+Every hatch's `patternSlugs` must resolve to an active product or the link silently
+disappears from the page. When adding a hatch or renaming a product slug, re-check that
+mapping.
 
 ## Stack
 
