@@ -55,8 +55,8 @@ that is. `br-sweet-frog-aybo5mlh` can't be deleted even though it's unused — N
 feature branches (from abandoned worktree agents and superseded Canada Post fixes) had
 piled up locally and on `origin`, none with any content not already merged into `main`.
 The stale ones with zero unique value were identified via `git diff --stat` against
-`main` and `git merge-base --is-ancestor`; deleting them needs a one-time manual step —
-see "Still open" below. Going forward: prefer working directly against `main` (or a
+`main` and `git merge-base --is-ancestor`, then deleted (see "Still open" below for the
+one that took a manual step). Going forward: prefer working directly against `main` (or a
 short-lived branch merged back the same session) over long-lived per-feature branches,
 and treat any branch a background/worktree agent creates as disposable the moment its
 work lands on `main` — it should be deleted right after merging, not left around.
