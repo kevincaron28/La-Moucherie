@@ -49,6 +49,22 @@ or the console) must target `br-lively-bonus-aynn765z` explicitly — don't trus
 "production"/primary/default labels. Consider renaming the branches in the Neon console to
 stop this from tripping someone up again.
 
+**Operational note — expect a brief window after a migration where the pooled
+connection can 500 on the new column/table.** Confirmed 2026-09-17: a deploy applied a
+migration successfully (`prisma migrate deploy`, via `DATABASE_URL_UNPOOLED`) and the
+column was verified present via direct SQL, but the app's first live request afterward
+(via pooled `DATABASE_URL`) still 500'd with `P2022 column does not exist` — then the
+exact same route succeeded on the next request, ~2 minutes later, with no further errors.
+Looks like Neon's connection pooler needs a short settle time after DDL before every
+pooled connection reflects it. Not something to work around in code; if a page 500s right
+after a deploy that included a migration, wait a couple of minutes and recheck before
+assuming something is actually broken. Separately: pages with no dynamic route segment
+(`/`, `/catches`, `/reports`) are marked `export const dynamic = "force-dynamic"` so they
+read live data on every request — without it, Next prerenders them once at build time and
+freezes that HTML until the next deploy, which silently breaks any page whose content the
+admin dashboard is meant to update (exactly what happened here: the admin CRUD for
+reports/catches wouldn't have shown new content without this).
+
 **Recommended next upgrades**, roughly in order of value once inventory/photos catch up:
 1. Set real stock counts on the variants that need it so the shop can actually take
    orders again — hook sizes are already published for all 20 patterns.
