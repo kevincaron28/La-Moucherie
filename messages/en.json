@@ -15,7 +15,18 @@
     "reports": "What's working",
     "catches": "Community",
     "waters": "Québec waters",
-    "flyFinder": "Fly Finder"
+    "flyFinder": "Fly Finder",
+    "menu": "Menu",
+    "close": "Close",
+    "learn": "Learn",
+    "hatchChart": "Hatch chart",
+    "hatchChartHint": "What's emerging month by month, and what to tie on.",
+    "insectGuides": "Insect guides",
+    "faq": "FAQ",
+    "onTheWater": "On the water",
+    "submitReport": "File a hatch report",
+    "aboutSection": "The shop",
+    "shipping": "Shipping & returns"
   },
   "Account": {
     "loginTitle": "Sign in",

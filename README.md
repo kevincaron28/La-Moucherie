@@ -639,6 +639,23 @@ to `NewsletterCampaign` so the dashboard shows history and a send can't happen t
 accident. Like all other email here, this is a no-op (logs instead of sending) until
 `RESEND_API_KEY` is set.
 
+## Navigation
+
+Grouped by what someone is trying to do, not by what the codebase contains:
+**Shop** (categories, species, Fly Finder, shop by water), **Learn** (hatch chart, the
+insect guides, FAQ), **On the water** (what's working, file a report, community, waters),
+then Our story and Contact.
+
+On a phone this is a drawer, not the horizontally scrolling strip it used to be. That
+strip held five links and physically could not show the rest of the site — the hatch
+chart, every insect page, the FAQ and the Fly Finder were unreachable on mobile except
+through the footer, which is where the site's best content was effectively buried. The
+drawer carries the whole map; a single always-visible row underneath the logo keeps the
+hatch chart, shop and reports one tap away without opening it.
+
+`/wholesale` and `/ambassadors` stay footer-only on purpose: they're shells until there
+are real terms to publish.
+
 ## Branch convention
 
 **`main` is the only branch.** It deploys straight to production; there is no staging

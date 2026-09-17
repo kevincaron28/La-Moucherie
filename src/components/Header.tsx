@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
@@ -10,9 +10,13 @@ import { CATEGORY_ORDER } from "@/lib/localize";
 import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SearchBox } from "./SearchBox";
+import { MobileMenu } from "./MobileMenu";
+import { INSECT_ARTICLES } from "@/lib/insect-articles";
+import { HATCHES } from "@/lib/hatches";
 
 export function Header() {
   const t = useTranslations("Nav");
+  const locale = useLocale();
   const { itemCount } = useCart();
   const { status } = useSession();
 
@@ -35,12 +39,8 @@ export function Header() {
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-forest md:flex">
           <ShopMenu />
-          <Link href="/reports" className="transition hover:text-rust">
-            {t("reports")}
-          </Link>
-          <Link href="/catches" className="transition hover:text-rust">
-            {t("catches")}
-          </Link>
+          <LearnMenu />
+          <OnWaterMenu />
           <Link href="/about" className="transition hover:text-rust">
             {t("about")}
           </Link>
@@ -51,7 +51,7 @@ export function Header() {
 
         <SearchBox className="hidden max-w-[16rem] flex-1 lg:block" />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <LocaleSwitcher />
           <Link
             href={status === "authenticated" ? "/account" : "/account/login"}
@@ -97,20 +97,17 @@ export function Header() {
               </span>
             )}
           </Link>
+          <MobileMenu locale={locale} />
         </div>
       </div>
-      <nav className="flex items-center gap-5 overflow-x-auto border-t border-forest/10 px-4 py-2 text-sm font-medium text-forest md:hidden">
+      {/* One tap to the whole site on a phone, grouped — see MobileMenu for
+          why the old scrolling strip had to go. */}
+      <nav className="flex items-center gap-4 border-t border-forest/10 px-4 py-2 text-sm font-medium text-forest md:hidden">
+        <Link href="/hatches" className="font-semibold text-rust">
+          {t("hatchChart")}
+        </Link>
         <Link href="/shop">{t("shop")}</Link>
         <Link href="/reports">{t("reports")}</Link>
-        <Link href="/catches">{t("catches")}</Link>
-        <Link href="/about">{t("about")}</Link>
-        <Link href="/contact">{t("contact")}</Link>
-        <Link
-          href={status === "authenticated" ? "/account" : "/account/login"}
-          className="sm:hidden"
-        >
-          {status === "authenticated" ? t("account") : t("signIn")}
-        </Link>
       </nav>
       <div className="border-t border-forest/10 px-4 py-2 lg:hidden">
         <SearchBox />
@@ -220,6 +217,165 @@ function ShopMenu() {
               {t("waters")} &rarr;
             </Link>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Shared open/close plumbing for the header dropdowns: click-toggled, closes on
+ * outside click. Hover-only menus are unreliable on touch laptops and
+ * unreachable by keyboard.
+ */
+function useDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return { open, setOpen, ref };
+}
+
+function DropdownButton({
+  label,
+  open,
+  onClick,
+}: {
+  label: string;
+  open: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-expanded={open}
+      className="flex items-center gap-1 transition hover:text-rust"
+    >
+      {label}
+      <svg
+        viewBox="0 0 20 20"
+        className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+        aria-hidden
+      >
+        <path
+          d="M5.5 7.5l4.5 4.5 4.5-4.5"
+          stroke="currentColor"
+          strokeWidth={1.6}
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
+/** The educational content — the reason a stranger lands on this site at all. */
+function LearnMenu() {
+  const t = useTranslations("Nav");
+  const locale = useLocale();
+  const { open, setOpen, ref } = useDropdown();
+
+  return (
+    <div ref={ref} className="relative">
+      <DropdownButton label={t("learn")} open={open} onClick={() => setOpen((o) => !o)} />
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-72 rounded-xl border border-forest/15 bg-parchment p-5 shadow-lg">
+          <Link
+            href="/hatches"
+            onClick={() => setOpen(false)}
+            className="block font-display text-sm font-semibold text-rust hover:text-rust-dark"
+          >
+            {t("hatchChart")} &rarr;
+          </Link>
+          <p className="mt-1 text-xs text-ink/55">{t("hatchChartHint")}</p>
+
+          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">
+            {t("insectGuides")}
+          </p>
+          <ul className="mt-2.5 space-y-2 text-sm">
+            {INSECT_ARTICLES.map((a) => {
+              const hatch = HATCHES.find((h) => h.id === a.hatchId);
+              if (!hatch) return null;
+              return (
+                <li key={a.hatchId}>
+                  <Link
+                    href={`/hatches/${a.hatchId}`}
+                    onClick={() => setOpen(false)}
+                    className="text-forest hover:text-rust"
+                  >
+                    {locale === "fr" ? hatch.nameFr : hatch.nameEn}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="mt-4 border-t border-forest/10 pt-3">
+            <Link
+              href="/faq"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-forest hover:text-rust"
+            >
+              {t("faq")} &rarr;
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Conditions and community: what's happening out there right now. */
+function OnWaterMenu() {
+  const t = useTranslations("Nav");
+  const { open, setOpen, ref } = useDropdown();
+
+  const links = [
+    { href: "/reports", label: t("reports") },
+    { href: "/reports/submit", label: t("submitReport") },
+    { href: "/catches", label: t("catches") },
+    { href: "/shop/water", label: t("waters") },
+  ];
+
+  return (
+    <div ref={ref} className="relative">
+      <DropdownButton
+        label={t("onTheWater")}
+        open={open}
+        onClick={() => setOpen((o) => !o)}
+      />
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-60 rounded-xl border border-forest/15 bg-parchment p-5 shadow-lg">
+          <ul className="space-y-2.5 text-sm">
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="text-forest hover:text-rust"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

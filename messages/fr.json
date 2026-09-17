@@ -15,7 +15,18 @@
     "reports": "Ce qui travaille",
     "catches": "Communauté",
     "waters": "Eaux du Québec",
-    "flyFinder": "Trouve-mouche"
+    "flyFinder": "Trouve-mouche",
+    "menu": "Menu",
+    "close": "Fermer",
+    "learn": "Apprendre",
+    "hatchChart": "Calendrier d'éclosions",
+    "hatchChartHint": "Ce qui éclot mois par mois, et quoi monter au bout.",
+    "insectGuides": "Fiches d'insectes",
+    "faq": "FAQ",
+    "onTheWater": "Sur l'eau",
+    "submitReport": "Envoyer un rapport",
+    "aboutSection": "La boutique",
+    "shipping": "Livraison et retours"
   },
   "Account": {
     "loginTitle": "Se connecter",
