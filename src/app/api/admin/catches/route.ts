@@ -7,6 +7,7 @@ import { isAdmin } from "@/lib/admin";
 const schema = z.object({
   anglerName: z.string().min(1).max(100),
   imageUrl: z.string().min(1).max(500),
+  instagramUrl: z.string().max(500).optional(),
   captionFr: z.string().max(500).optional(),
   captionEn: z.string().max(500).optional(),
   species: z.nativeEnum(FishSpecies).optional(),

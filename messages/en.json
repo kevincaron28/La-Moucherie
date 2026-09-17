@@ -568,7 +568,8 @@
     "submitHint": "Caught something on one of our flies? Send us the photo by",
     "submitCta": "email",
     "empty": "No photos yet — be the first. Send us your catch.",
-    "instagramTitle": "On Instagram"
+    "instagramHint": "Or tag us on",
+    "viaInstagram": "Via Instagram ↗"
   },
   "HatchReport": {
     "title": "File a hatch report",

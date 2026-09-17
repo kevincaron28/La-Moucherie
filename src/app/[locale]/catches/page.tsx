@@ -1,9 +1,9 @@
-import Script from "next/script";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
+import { chipClass } from "@/lib/chip";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -45,6 +45,12 @@ export default async function CatchesPage({
   });
 
   const tiktok = process.env.NEXT_PUBLIC_TIKTOK_URL;
+  const instagram = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
+  const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -57,6 +63,20 @@ export default async function CatchesPage({
         <Link href="/contact" className="text-rust underline underline-offset-2">
           {t("submitCta")}
         </Link>
+        {instagram && (
+          <>
+            {" "}
+            {t("instagramHint")}{" "}
+            <a
+              href={instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-rust underline underline-offset-2"
+            >
+              Instagram
+            </a>
+          </>
+        )}
         {tiktok && (
           <>
             {" "}
@@ -79,7 +99,7 @@ export default async function CatchesPage({
           {catches.map((c) => (
             <li
               key={c.id}
-              className="overflow-hidden rounded-2xl border border-forest/10 bg-parchment"
+              className="overflow-hidden rounded-2xl border border-forest/10 bg-cream/40"
             >
               {/* Photos are curated URLs, not uploads, so next/image can't
                   optimise arbitrary hosts here. */}
@@ -90,45 +110,58 @@ export default async function CatchesPage({
                 className="aspect-square w-full bg-cream object-cover"
                 loading="lazy"
               />
-              <div className="p-4">
-                <p className="font-display font-semibold text-forest">{c.anglerName}</p>
-                <p className="mt-0.5 text-xs text-ink/55">
-                  {[
-                    c.species && tAngling(`species.${c.species}`),
-                    c.water && pick(c.water.nameFr, c.water.nameEn, locale),
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </p>
+              <div className="p-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                  <p className="font-display font-semibold text-forest">{c.anglerName}</p>
+                  <p className="text-xs text-ink/50">{dateFormatter.format(c.createdAt)}</p>
+                </div>
+
+                {(c.species || c.sizeLabel || c.water) && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {c.species && (
+                      <span className={chipClass("solid")}>
+                        {tAngling(`species.${c.species}`)}
+                      </span>
+                    )}
+                    {c.sizeLabel && <span className={chipClass("outline")}>{c.sizeLabel}</span>}
+                    {c.water && (
+                      <span className={chipClass("outline")}>
+                        {pick(c.water.nameFr, c.water.nameEn, locale)}
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 {(c.captionFr || c.captionEn) && (
-                  <p className="mt-2 text-sm text-ink/75">
+                  <p className="mt-3 text-sm text-ink/75">
                     {pick(c.captionFr ?? "", c.captionEn ?? "", locale)}
                   </p>
                 )}
-                {c.product && (
-                  <Link
-                    href={`/shop/${c.product.slug}`}
-                    className="mt-3 inline-block text-sm font-medium text-rust underline underline-offset-2"
-                  >
-                    {pick(c.product.nameFr, c.product.nameEn, locale)}
-                  </Link>
+
+                {(c.product || c.instagramUrl) && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {c.product && (
+                      <Link href={`/shop/${c.product.slug}`} className={chipClass("accent")}>
+                        {pick(c.product.nameFr, c.product.nameEn, locale)}
+                      </Link>
+                    )}
+                    {c.instagramUrl && (
+                      <a
+                        href={c.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={chipClass("accent")}
+                      >
+                        {t("viaInstagram")}
+                      </a>
+                    )}
+                  </div>
                 )}
               </div>
             </li>
           ))}
         </ul>
       )}
-
-      <div className="mt-16 border-t border-forest/10 pt-10">
-        <h2 className="font-display text-xl font-semibold text-forest">
-          {t("instagramTitle")}
-        </h2>
-        <div className="mt-6 sk-ww-instagram-hashtag-feed" data-embed-id="25714398" />
-        <Script
-          src="https://widgets.sociablekit.com/instagram-hashtag-feed/widget.js"
-          strategy="lazyOnload"
-        />
-      </div>
     </div>
   );
 }

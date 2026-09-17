@@ -5,6 +5,7 @@ import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import { NewsletterSignup } from "./NewsletterSignup";
 
 const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL;
+const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 
 export function Footer() {
   const t = useTranslations("Footer");
@@ -26,16 +27,31 @@ export function Footer() {
             <span className="font-display text-lg font-semibold">La Moucherie</span>
           </div>
           <p className="mt-3 max-w-xs text-sm text-cream/70">{t("tagline")}</p>
-          {TIKTOK_URL && (
-            <a
-              href={TIKTOK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="TikTok"
-              className="mt-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-cream/20 text-cream transition hover:border-cream/50 hover:text-gold"
-            >
-              <TikTokIcon />
-            </a>
+          {(INSTAGRAM_URL || TIKTOK_URL) && (
+            <div className="mt-4 flex items-center gap-2">
+              {INSTAGRAM_URL && (
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/20 text-cream transition hover:border-cream/50 hover:text-gold"
+                >
+                  <InstagramIcon />
+                </a>
+              )}
+              {TIKTOK_URL && (
+                <a
+                  href={TIKTOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="TikTok"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/20 text-cream transition hover:border-cream/50 hover:text-gold"
+                >
+                  <TikTokIcon />
+                </a>
+              )}
+            </div>
           )}
           <NewsletterSignup className="mt-6" />
         </div>
@@ -165,6 +181,23 @@ function TikTokIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
       <path d="M16.6 5.82c-.7-.77-1.09-1.77-1.09-2.82H12.7v13.44a2.59 2.59 0 1 1-1.83-2.48V10.9a5.86 5.86 0 0 0-.87-.07A5.83 5.83 0 1 0 15.83 16.66V9.02a8.24 8.24 0 0 0 4.87 1.57V7.75a4.83 4.83 0 0 1-4.1-1.93z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      className="h-4 w-4"
+      aria-hidden
+    >
+      <rect x={3} y={3} width={18} height={18} rx={5} />
+      <circle cx={12} cy={12} r={4} />
+      <circle cx={17.2} cy={6.8} r={0.6} fill="currentColor" stroke="none" />
     </svg>
   );
 }

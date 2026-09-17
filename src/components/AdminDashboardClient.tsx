@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StarRating } from "@/components/StarRating";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
+import { chipClass } from "@/lib/chip";
 
 type PendingReview = {
   id: string;
@@ -100,6 +101,7 @@ type AdminCatch = {
   id: string;
   anglerName: string;
   imageUrl: string;
+  instagramUrl: string | null;
   captionFr: string | null;
   captionEn: string | null;
   species: string | null;
@@ -140,6 +142,7 @@ const emptyReportForm = {
 const emptyCatchForm = {
   anglerName: "",
   imageUrl: "",
+  instagramUrl: "",
   captionFr: "",
   captionEn: "",
   species: "",
@@ -390,6 +393,7 @@ export function AdminDashboardClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...catchForm,
+          instagramUrl: catchForm.instagramUrl || undefined,
           captionFr: catchForm.captionFr || undefined,
           captionEn: catchForm.captionEn || undefined,
           species: catchForm.species || undefined,
@@ -1344,6 +1348,16 @@ export function AdminDashboardClient({
                       {locale === "fr" ? c.captionFr : c.captionEn}
                     </p>
                   )}
+                  {c.instagramUrl && (
+                    <a
+                      href={c.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`mt-2 inline-block ${chipClass("accent")}`}
+                    >
+                      {locale === "fr" ? "Voir la publication ↗" : "View the post ↗"}
+                    </a>
+                  )}
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <button
@@ -1404,6 +1418,34 @@ export function AdminDashboardClient({
                 value={catchForm.imageUrl}
                 onChange={(e) => setCatchForm((f) => ({ ...f, imageUrl: e.target.value }))}
                 placeholder="/catches/example.jpg"
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+              {/* A quick visual check before it goes live — the fastest way
+                  to catch a bad copy-paste from Instagram's own image URL. */}
+              {catchForm.imageUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={catchForm.imageUrl}
+                  alt=""
+                  className="mt-2 h-20 w-20 rounded-lg border border-forest/15 bg-cream object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                  onLoad={(e) => {
+                    e.currentTarget.style.display = "";
+                  }}
+                />
+              )}
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Lien Instagram (optionnel)" : "Instagram link (optional)"}
+              </label>
+              <input
+                type="text"
+                value={catchForm.instagramUrl}
+                onChange={(e) => setCatchForm((f) => ({ ...f, instagramUrl: e.target.value }))}
+                placeholder="https://www.instagram.com/p/…"
                 className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
               />
             </div>

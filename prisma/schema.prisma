@@ -548,6 +548,10 @@ model FishingReport {
 model CatchPhoto {
   id           String        @id @default(cuid())
   imageUrl     String
+  // The post itself, so the card can credit and link back to it instead of
+  // embedding a live feed — the whole point of curating by hand from the
+  // #LaMoucherie hashtag instead of trusting an auto-embed to pick well.
+  instagramUrl String?
   anglerName   String
   captionFr    String?
   captionEn    String?

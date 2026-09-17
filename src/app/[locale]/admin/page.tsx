@@ -213,6 +213,7 @@ export default async function AdminPage({
           id: c.id,
           anglerName: c.anglerName,
           imageUrl: c.imageUrl,
+          instagramUrl: c.instagramUrl,
           captionFr: c.captionFr,
           captionEn: c.captionEn,
           species: c.species,

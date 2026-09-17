@@ -568,7 +568,8 @@
     "submitHint": "Vous avez pris quelque chose sur une de nos mouches ? Envoyez-nous la photo par",
     "submitCta": "courriel",
     "empty": "Pas encore de photos — soyez le premier. Envoyez-nous votre prise.",
-    "instagramTitle": "Sur Instagram"
+    "instagramHint": "Ou identifiez-nous sur",
+    "viaInstagram": "Via Instagram ↗"
   },
   "HatchReport": {
     "title": "Envoyer un rapport d'éclosion",

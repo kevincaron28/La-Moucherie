@@ -17,9 +17,9 @@ products with zero variants, a "planned patterns" tying to-do list, order print 
 a newsletter compose-and-send tool); a newsletter signup/unsubscribe funnel; a header Shop
 dropdown (categories + species), a "shop by species" grid on the homepage, and a
 `/shop/water` index page; the former "Catches" page is now `/catches` → **Community**
-(nav + footer relabeled), combining approved angler photos with an embedded Instagram
-hashtag feed widget; `robots.txt` + `sitemap.ts`; and a homepage/About page built around
-the real founders, Claudya and Kevin.
+(nav + footer relabeled), showing only hand-approved angler photos — no live embed, so a
+bad photo never appears just because it used the right hashtag; `robots.txt` +
+`sitemap.ts`; and a homepage/About page built around the real founders, Claudya and Kevin.
 
 **Needs attention before the shop can actually sell:**
 - The catalog has 34 fly patterns plus 3 curated boxes, all with real hook-size variants —
@@ -408,8 +408,20 @@ page.
 
 `/catches` is customer catch photos, approved by hand. There's no upload
 pipeline on purpose: approval is the whole point, and curating a handful of
-photos a month by pasting a URL into `db:studio` is less machinery than hosting
-images. Set `approved` to show one.
+photos a month by pasting a URL is less machinery than hosting images. It used
+to also embed a live SociableKit widget of the `#LaMoucherie` hashtag feed —
+that's gone, because an auto-embed can't tell a good photo from a bad one, and
+having both a curated grid and an uncurated feed on the same page undercut the
+"every photo here was picked by hand" framing.
+
+The replacement is the "Add a catch" form on `/admin`: paste the image URL
+(right-click → copy image address on the Instagram post, or host the file
+yourself) and, optionally, the post's own URL — the card then links back to it
+as "View the post" / "Via Instagram". A thumbnail preview shows next to the
+Photo URL field so a bad paste is obvious before it's saved. Tick "approve
+immediately" to publish right away, or leave it off to review later; either
+way the daily workflow is: check the hashtag, paste a URL, done — no
+`db:studio` required.
 
 ## Assortments
 
@@ -612,6 +624,15 @@ Each visible review also carries a "was this review helpful?" yes/no vote
 (`ReviewVote`, keyed on a hashed visitor IP so the same visitor can't vote twice — the
 hash exists purely to block repeat votes, never to identify anyone).
 
+The review card (`ReviewsSection.tsx`) is the reference for every other piece of
+user-submitted content on the site: a `rounded-2xl border border-forest/10 bg-cream/40`
+container, a header row pairing the primary name with a date, and small pill labels for
+facts (species, verified-purchase, hook size). Community catches (`/catches`) and angler
+hatch reports (`/reports`) reuse the same container tokens and the same pill via
+`chipClass()` in `src/lib/chip.ts`, so a page built from three different content types —
+a review, a photo, a hatch note — still reads as one family of cards rather than three
+competing designs.
+
 ## Admin dashboard
 
 `/admin` is gated by `isAdmin()` (`src/lib/admin.ts`) — signed in with an address in
@@ -780,7 +801,8 @@ Any Node host works; Vercel is the path of least resistance for Next.js. You'll 
 
 ## Social links
 
-Set `NEXT_PUBLIC_TIKTOK_URL` (see `.env.example`) to your TikTok profile URL to show the
-TikTok icon in the footer — it's hidden automatically while that variable is empty. TikTok
-is the only social link wired up for now; the same pattern (env var + conditional icon in
-`src/components/Footer.tsx`) can be repeated for Instagram/YouTube/etc. later.
+Set `NEXT_PUBLIC_TIKTOK_URL` and/or `NEXT_PUBLIC_INSTAGRAM_URL` (see `.env.example`) to
+show that platform's icon in the footer — each is hidden automatically while its variable
+is empty. `NEXT_PUBLIC_INSTAGRAM_URL` also drives the "tag us on Instagram" link on
+`/catches`. The same pattern (env var + conditional icon in `src/components/Footer.tsx`)
+can be repeated for YouTube/etc. later.

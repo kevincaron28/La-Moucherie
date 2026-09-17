@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import { HATCHES } from "@/lib/hatches";
+import { chipClass } from "@/lib/chip";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -126,7 +127,7 @@ export default async function ReportsPage({
               return (
                 <li
                   key={r.id}
-                  className="rounded-2xl border border-forest/15 bg-cream/30 p-5"
+                  className="rounded-2xl border border-forest/10 bg-cream/40 p-5"
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <p className="font-display font-semibold text-forest">
@@ -137,31 +138,30 @@ export default async function ReportsPage({
                     </p>
                   </div>
 
-                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-                    {hatch && (
-                      <span className="rounded-full bg-forest/10 px-2.5 py-1 font-medium text-forest">
-                        {pick(hatch.nameFr, hatch.nameEn, locale)}
-                        {r.hookSize ? ` #${r.hookSize}` : ""}
-                      </span>
-                    )}
-                    {r.intensity && (
-                      <span className="rounded-full border border-forest/20 px-2.5 py-1 text-ink/70">
-                        {tHatch(`intensity${r.intensity}`)}
-                      </span>
-                    )}
-                    {r.product && (
-                      <Link
-                        href={`/shop/${r.product.slug}`}
-                        className="rounded-full border border-rust/40 px-2.5 py-1 font-medium text-rust hover:bg-rust/5"
-                      >
-                        {pick(r.product.nameFr, r.product.nameEn, locale)}
-                      </Link>
-                    )}
-                  </div>
+                  {(hatch || r.intensity || r.product) && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {hatch && (
+                        <span className={chipClass("solid")}>
+                          {pick(hatch.nameFr, hatch.nameEn, locale)}
+                          {r.hookSize ? ` #${r.hookSize}` : ""}
+                        </span>
+                      )}
+                      {r.intensity && (
+                        <span className={chipClass("outline")}>
+                          {tHatch(`intensity${r.intensity}`)}
+                        </span>
+                      )}
+                      {r.product && (
+                        <Link href={`/shop/${r.product.slug}`} className={chipClass("accent")}>
+                          {pick(r.product.nameFr, r.product.nameEn, locale)}
+                        </Link>
+                      )}
+                    </div>
+                  )}
 
                   {r.note && <p className="mt-3 text-sm text-ink/75">{r.note}</p>}
 
-                  <p className="mt-3 text-xs text-ink/45">
+                  <p className="mt-3 text-xs text-ink/50">
                     {r.fromShop
                       ? tHatch("bylineShop")
                       : tHatch("byline", { name: r.anglerName })}
