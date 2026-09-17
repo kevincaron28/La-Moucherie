@@ -14,7 +14,8 @@
     "search": "Search",
     "reports": "What's working",
     "catches": "Community",
-    "waters": "Québec waters"
+    "waters": "Québec waters",
+    "flyFinder": "Fly Finder"
   },
   "Account": {
     "loginTitle": "Sign in",
@@ -149,7 +150,8 @@
     "emptySearch": "No results for \"{query}\".",
     "searchResultsFor": "Results for \"{query}\"",
     "clearSearch": "Clear search",
-    "from": "from"
+    "from": "from",
+    "all": "All"
   },
   "Product": {
     "back": "Back to shop",
@@ -394,6 +396,18 @@
     "empty": "No flies are tagged for this species yet. Write to us — we tie to order.",
     "backToShop": "Back to the shop",
     "otherSpecies": "Other species"
+  },
+  "FlyFinder": {
+    "metaTitle": "Fly Finder — La Moucherie",
+    "metaDescription": "Tell us what you're fishing for and we'll show you the flies that fit.",
+    "title": "Fly Finder",
+    "intro": "Species, water, season — pick what applies and we'll show you what fits. Leave any of them blank to widen the search.",
+    "anySpecies": "Any species",
+    "anyWater": "Any water",
+    "anySeason": "Any season",
+    "submit": "Find my flies",
+    "noResults": "Nothing matches all three yet — try loosening one of the filters.",
+    "relaxedNotice": "Nothing matched every filter, so here's everything tied for that species."
   },
   "WaterPage": {
     "metaTitle": "Flies for the {water} — La Moucherie",

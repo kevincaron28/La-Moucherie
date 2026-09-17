@@ -14,7 +14,8 @@
     "search": "Rechercher",
     "reports": "Ce qui travaille",
     "catches": "Communauté",
-    "waters": "Eaux du Québec"
+    "waters": "Eaux du Québec",
+    "flyFinder": "Trouve-mouche"
   },
   "Account": {
     "loginTitle": "Se connecter",
@@ -149,7 +150,8 @@
     "emptySearch": "Aucun résultat pour \"{query}\".",
     "searchResultsFor": "Résultats pour \"{query}\"",
     "clearSearch": "Effacer la recherche",
-    "from": "à partir de"
+    "from": "à partir de",
+    "all": "Toutes"
   },
   "Product": {
     "back": "Retour à la boutique",
@@ -394,6 +396,18 @@
     "empty": "Aucune mouche n'est encore associée à cette espèce. Écrivez-nous — on monte sur demande.",
     "backToShop": "Retour à la boutique",
     "otherSpecies": "Autres espèces"
+  },
+  "FlyFinder": {
+    "metaTitle": "Trouve-mouche — La Moucherie",
+    "metaDescription": "Dites-nous ce que vous pêchez et on vous montre les mouches qui conviennent.",
+    "title": "Trouve-mouche",
+    "intro": "Espèce, eau, saison — choisissez ce qui s'applique, on vous montre ce qui convient. Laissez un champ vide pour élargir la recherche.",
+    "anySpecies": "Toute espèce",
+    "anyWater": "Toute eau",
+    "anySeason": "Toute saison",
+    "submit": "Trouver mes mouches",
+    "noResults": "Rien ne correspond aux trois critères pour l'instant — essayez d'en retirer un.",
+    "relaxedNotice": "Rien ne correspondait à tous les critères, voici donc tout ce qui est monté pour cette espèce."
   },
   "WaterPage": {
     "metaTitle": "Mouches pour la {water} — La Moucherie",

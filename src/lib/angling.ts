@@ -54,3 +54,11 @@ export function speciesFromSlug(slug: string): Species | null {
 export function isSpecies(value: unknown): value is Species {
   return typeof value === "string" && (SPECIES as readonly string[]).includes(value);
 }
+
+export function isSeason(value: unknown): value is Season {
+  return typeof value === "string" && (SEASONS as readonly string[]).includes(value);
+}
+
+export function isWaterType(value: unknown): value is WaterTypeKey {
+  return typeof value === "string" && (WATER_TYPES as readonly string[]).includes(value);
+}
