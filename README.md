@@ -5,7 +5,7 @@ Mouches artisanales du Québec — an independent, handmade fly-tying shop.
 A bilingual (French/English) e-commerce storefront built with Next.js, Prisma/PostgreSQL,
 and an embedded Stripe Elements checkout.
 
-## Where things stand (updated 2026-09-16)
+## Where things stand (updated 2026-09-17)
 
 **Live and working:** bilingual storefront and Stripe checkout; Canada Post live shipping
 quotes with a service-tier picker (Regular/Expedited/Xpresspost/Priority) plus a
@@ -39,15 +39,25 @@ the real founders, Claudya Cazes and Kevin.
 - The 3 curated fly-box (`ASSORTMENT`) products exist in `prisma/seed.ts` but aren't live
   in the database.
 
-**Operational note — two Neon database branches exist, and Neon's own labels are
-misleading.** The Neon project (`wild-surf-31785131`) has a branch named "production"
-(`br-sweet-frog-aybo5mlh`, flagged primary/default in the Neon console) — but Vercel's
-actual Production deployment connects to a *different* branch, named "vercel-dev"
-(`br-lively-bonus-aynn765z`). Confirmed by cross-checking table existence, `Order` rows,
-and Vercel's own build logs. Any direct SQL against this database (via the Neon MCP tools
-or the console) must target `br-lively-bonus-aynn765z` explicitly — don't trust the
-"production"/primary/default labels. Consider renaming the branches in the Neon console to
-stop this from tripping someone up again.
+**Operational note — Neon branch naming was fixed 2026-09-17.** The branch Vercel's
+Production deployment actually connects to (`br-lively-bonus-aynn765z`) used to be
+mislabeled "vercel-dev" while an unused branch (`br-sweet-frog-aybo5mlh`) was labeled
+"production" and flagged primary/default — a trap that caused real confusion earlier this
+project (direct SQL landing on the wrong branch). Both are now renamed to match reality:
+`br-lively-bonus-aynn765z` is "production" and is the project's primary/default branch;
+`br-sweet-frog-aybo5mlh` is "unused-legacy-do-not-use". Any direct SQL should still target
+`br-lively-bonus-aynn765z` by ID, but the console labels no longer lie about which one
+that is.
+
+**Operational note — git branch hygiene, cleaned up 2026-09-17.** Several stale
+feature branches (from abandoned worktree agents and superseded Canada Post fixes) had
+piled up locally and on `origin`, none with any content not already merged into `main`.
+The stale ones with zero unique value were identified via `git diff --stat` against
+`main` and `git merge-base --is-ancestor`; deleting them needs a one-time manual step —
+see "Still open" below. Going forward: prefer working directly against `main` (or a
+short-lived branch merged back the same session) over long-lived per-feature branches,
+and treat any branch a background/worktree agent creates as disposable the moment its
+work lands on `main` — it should be deleted right after merging, not left around.
 
 **Operational note — expect a brief window after a migration where the pooled
 connection can 500 on the new column/table.** Confirmed 2026-09-17: a deploy applied a
@@ -73,8 +83,6 @@ reports/catches wouldn't have shown new content without this).
    story currently only has one of Claudya.
 3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
 4. Publish the assortment/fly-box products once pricing is settled.
-5. Rename the Neon branches (or otherwise fix the Vercel↔Neon wiring) so "production" in
-   the Neon console actually is production.
 
 ## This week's punch list (from the 2026-09-17 site audit)
 
@@ -125,6 +133,16 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   without a ground-up redesign.
 - A "Fly Finder" quiz UI exists at `/shop/finder`; a richer multi-step wizard version
   wasn't built — the single-form version does the same job.
+- **Stale branch deletion needs a manual step.** The Claude Code sandbox's permission
+  classifier blocks `git push --delete` and `git branch -D` outright (`[Git Destructive]`),
+  and there's no GitHub MCP tool for deleting a remote branch either — so identifying stale
+  branches could be automated this session, but actually removing them couldn't. Safe to
+  delete, confirmed zero unique content vs. `main`: remote `claude/canada-post-rest-migration`,
+  `claude/canada-post-token-url-fix`, `vercel/install-vercel-web-analytics-uh0jl7`; local
+  `fix-token-url-commit`, `old-branch-before-restart`, the stale local `main` (distinct from
+  `origin/main`), and the three `worktree-agent-*` branches. Delete via the GitHub UI
+  (Branches page) or `git push origin --delete <branch>` / `git branch -D <branch>` from a
+  machine without the sandbox restriction.
 
 ## Stack
 
