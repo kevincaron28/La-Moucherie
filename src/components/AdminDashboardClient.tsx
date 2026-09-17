@@ -80,6 +80,62 @@ type PlannedFly = {
   notes: string | null;
 };
 
+type WaterRef = { slug: string; nameFr: string; nameEn: string };
+type WaterOption = { id: string; slug: string; nameFr: string; nameEn: string };
+type ProductOption = { id: string; slug: string; nameFr: string; nameEn: string };
+
+type AdminReport = {
+  id: string;
+  titleFr: string;
+  titleEn: string;
+  bodyFr: string;
+  bodyEn: string;
+  conditionsFr: string;
+  conditionsEn: string;
+  published: boolean;
+  water: WaterRef | null;
+};
+
+type AdminCatch = {
+  id: string;
+  anglerName: string;
+  imageUrl: string;
+  captionFr: string | null;
+  captionEn: string | null;
+  species: string | null;
+  sizeLabel: string | null;
+  conditionsFr: string | null;
+  conditionsEn: string | null;
+  approved: boolean;
+  water: WaterRef | null;
+  product: WaterRef | null;
+};
+
+const emptyReportForm = {
+  titleFr: "",
+  titleEn: "",
+  bodyFr: "",
+  bodyEn: "",
+  conditionsFr: "",
+  conditionsEn: "",
+  waterId: "",
+  published: true,
+};
+
+const emptyCatchForm = {
+  anglerName: "",
+  imageUrl: "",
+  captionFr: "",
+  captionEn: "",
+  species: "",
+  waterId: "",
+  productId: "",
+  sizeLabel: "",
+  conditionsFr: "",
+  conditionsEn: "",
+  approved: true,
+};
+
 const PLANNED_CATEGORY_OPTIONS = [
   { value: "DRY_FLY", fr: "Mouche sèche", en: "Dry Fly" },
   { value: "NYMPH", fr: "Nymphe", en: "Nymph" },
@@ -116,6 +172,10 @@ export function AdminDashboardClient({
   recentReports,
   recentCampaigns: initialCampaigns,
   plannedFlies: initialPlannedFlies,
+  allReports: initialAllReports,
+  allCatches: initialAllCatches,
+  waters,
+  activeProducts,
   locale,
 }: {
   pendingReviews: PendingReview[];
@@ -126,6 +186,10 @@ export function AdminDashboardClient({
   recentReports: RecentReport[];
   recentCampaigns: NewsletterCampaign[];
   plannedFlies: PlannedFly[];
+  allReports: AdminReport[];
+  allCatches: AdminCatch[];
+  waters: WaterOption[];
+  activeProducts: ProductOption[];
   locale: string;
 }) {
   const [reviews, setReviews] = useState<PendingReview[]>(initialReviews);
@@ -228,6 +292,138 @@ export function AdminDashboardClient({
       }
     } finally {
       setTyingId(null);
+    }
+  }
+
+  const [reports, setReports] = useState<AdminReport[]>(initialAllReports);
+  const [reportForm, setReportForm] = useState(emptyReportForm);
+  const [addingReport, setAddingReport] = useState(false);
+  const [reportBusyId, setReportBusyId] = useState<string | null>(null);
+
+  async function handleAddReport(e: React.FormEvent) {
+    e.preventDefault();
+    setAddingReport(true);
+    try {
+      const res = await fetch("/api/admin/reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...reportForm,
+          waterId: reportForm.waterId || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const water = waters.find((w) => w.id === reportForm.waterId) ?? null;
+        setReports((prev) => [{ ...data.report, water }, ...prev]);
+        setReportForm(emptyReportForm);
+      } else {
+        alert(locale === "fr" ? "Erreur lors de l'ajout." : "Something went wrong adding it.");
+      }
+    } catch {
+      alert(locale === "fr" ? "Erreur de connexion." : "Connection error.");
+    } finally {
+      setAddingReport(false);
+    }
+  }
+
+  async function handleToggleReportPublished(report: AdminReport) {
+    setReportBusyId(report.id);
+    try {
+      const res = await fetch(`/api/admin/reports/${report.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ published: !report.published }),
+      });
+      if (res.ok) {
+        setReports((prev) =>
+          prev.map((r) => (r.id === report.id ? { ...r, published: !r.published } : r))
+        );
+      }
+    } finally {
+      setReportBusyId(null);
+    }
+  }
+
+  async function handleDeleteReport(id: string) {
+    setReportBusyId(id);
+    try {
+      const res = await fetch(`/api/admin/reports/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setReports((prev) => prev.filter((r) => r.id !== id));
+      }
+    } finally {
+      setReportBusyId(null);
+    }
+  }
+
+  const [catches, setCatches] = useState<AdminCatch[]>(initialAllCatches);
+  const [catchForm, setCatchForm] = useState(emptyCatchForm);
+  const [addingCatch, setAddingCatch] = useState(false);
+  const [catchBusyId, setCatchBusyId] = useState<string | null>(null);
+
+  async function handleAddCatch(e: React.FormEvent) {
+    e.preventDefault();
+    setAddingCatch(true);
+    try {
+      const res = await fetch("/api/admin/catches", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...catchForm,
+          captionFr: catchForm.captionFr || undefined,
+          captionEn: catchForm.captionEn || undefined,
+          species: catchForm.species || undefined,
+          waterId: catchForm.waterId || undefined,
+          productId: catchForm.productId || undefined,
+          sizeLabel: catchForm.sizeLabel || undefined,
+          conditionsFr: catchForm.conditionsFr || undefined,
+          conditionsEn: catchForm.conditionsEn || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const water = waters.find((w) => w.id === catchForm.waterId) ?? null;
+        const product = activeProducts.find((p) => p.id === catchForm.productId) ?? null;
+        setCatches((prev) => [{ ...data.catchPhoto, water, product }, ...prev]);
+        setCatchForm(emptyCatchForm);
+      } else {
+        alert(locale === "fr" ? "Erreur lors de l'ajout." : "Something went wrong adding it.");
+      }
+    } catch {
+      alert(locale === "fr" ? "Erreur de connexion." : "Connection error.");
+    } finally {
+      setAddingCatch(false);
+    }
+  }
+
+  async function handleToggleCatchApproved(c: AdminCatch) {
+    setCatchBusyId(c.id);
+    try {
+      const res = await fetch(`/api/admin/catches/${c.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ approved: !c.approved }),
+      });
+      if (res.ok) {
+        setCatches((prev) =>
+          prev.map((x) => (x.id === c.id ? { ...x, approved: !x.approved } : x))
+        );
+      }
+    } finally {
+      setCatchBusyId(null);
+    }
+  }
+
+  async function handleDeleteCatch(id: string) {
+    setCatchBusyId(id);
+    try {
+      const res = await fetch(`/api/admin/catches/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setCatches((prev) => prev.filter((c) => c.id !== id));
+      }
+    } finally {
+      setCatchBusyId(null);
     }
   }
 
@@ -807,7 +1003,490 @@ export function AdminDashboardClient({
         )}
       </section>
 
-      {/* 7. Quick Operational Links */}
+      {/* 7. Fishing Reports — "What's Working" has no publish path but this */}
+      <section>
+        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {locale === "fr" ? "Rapports de pêche" : "Fishing Reports"}
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              {locale === "fr"
+                ? "Ce que vous savez vraiment sur l'eau en ce moment — pas de données inventées. Publié = visible sur /reports."
+                : "What you actually know about the water right now — never invented. Published = live on /reports."}
+            </p>
+          </div>
+          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
+            {reports.length}
+          </span>
+        </div>
+
+        {reports.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
+            {locale === "fr" ? "Aucun rapport pour le moment." : "No reports yet."}
+          </div>
+        ) : (
+          <ul className="mt-6 space-y-3">
+            {reports.map((r) => (
+              <li
+                key={r.id}
+                className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-forest/15 bg-parchment p-5"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-display font-semibold text-forest">
+                      {locale === "fr" ? r.titleFr : r.titleEn}
+                    </span>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                        r.published
+                          ? "bg-forest/10 text-forest"
+                          : "bg-ink/10 text-ink/60"
+                      }`}
+                    >
+                      {r.published
+                        ? locale === "fr"
+                          ? "Publié"
+                          : "Published"
+                        : locale === "fr"
+                          ? "Brouillon"
+                          : "Draft"}
+                    </span>
+                    {r.water && (
+                      <span className="text-xs text-ink/50">
+                        {locale === "fr" ? r.water.nameFr : r.water.nameEn}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1.5 text-sm text-ink/75">
+                    {locale === "fr" ? r.conditionsFr : r.conditionsEn}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={reportBusyId === r.id}
+                    onClick={() => handleToggleReportPublished(r)}
+                    className="rounded-full border border-forest/25 px-4 py-2 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
+                  >
+                    {r.published
+                      ? locale === "fr"
+                        ? "Retirer"
+                        : "Unpublish"
+                      : locale === "fr"
+                        ? "Publier"
+                        : "Publish"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={reportBusyId === r.id}
+                    onClick={() => handleDeleteReport(r.id)}
+                    className="rounded-full border border-rust/40 px-4 py-2 text-xs font-semibold text-rust transition hover:bg-rust/10 disabled:opacity-50"
+                  >
+                    {locale === "fr" ? "Supprimer" : "Delete"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form
+          onSubmit={handleAddReport}
+          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-cream/30 p-6"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+            {locale === "fr" ? "Ajouter un rapport" : "Add a report"}
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Titre (FR)" : "Title (FR)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={reportForm.titleFr}
+                onChange={(e) => setReportForm((f) => ({ ...f, titleFr: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Titre (EN)" : "Title (EN)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={reportForm.titleEn}
+                onChange={(e) => setReportForm((f) => ({ ...f, titleEn: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Conditions (FR)" : "Conditions (FR)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={reportForm.conditionsFr}
+                onChange={(e) => setReportForm((f) => ({ ...f, conditionsFr: e.target.value }))}
+                placeholder={locale === "fr" ? "ex. Eau claire, 14°C" : "e.g. Clear water, 14°C"}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Conditions (EN)" : "Conditions (EN)"}
+              </label>
+              <input
+                type="text"
+                required
+                value={reportForm.conditionsEn}
+                onChange={(e) => setReportForm((f) => ({ ...f, conditionsEn: e.target.value }))}
+                placeholder={locale === "fr" ? "ex. Eau claire, 14°C" : "e.g. Clear water, 14°C"}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Détails (FR)" : "Body (FR)"}
+              </label>
+              <textarea
+                required
+                rows={4}
+                value={reportForm.bodyFr}
+                onChange={(e) => setReportForm((f) => ({ ...f, bodyFr: e.target.value }))}
+                placeholder={
+                  locale === "fr"
+                    ? "Éclosions observées, patrons qui marchent, technique…"
+                    : "Hatches seen, patterns working, technique…"
+                }
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Détails (EN)" : "Body (EN)"}
+              </label>
+              <textarea
+                required
+                rows={4}
+                value={reportForm.bodyEn}
+                onChange={(e) => setReportForm((f) => ({ ...f, bodyEn: e.target.value }))}
+                placeholder={
+                  locale === "fr"
+                    ? "Éclosions observées, patrons qui marchent, technique…"
+                    : "Hatches seen, patterns working, technique…"
+                }
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 sm:items-end">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Plan d'eau (optionnel)" : "Water (optional)"}
+              </label>
+              <select
+                value={reportForm.waterId}
+                onChange={(e) => setReportForm((f) => ({ ...f, waterId: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              >
+                <option value="">{locale === "fr" ? "Aucun" : "None"}</option>
+                {waters.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {locale === "fr" ? w.nameFr : w.nameEn}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <label className="flex items-center gap-2 text-sm text-ink/70">
+              <input
+                type="checkbox"
+                checked={reportForm.published}
+                onChange={(e) => setReportForm((f) => ({ ...f, published: e.target.checked }))}
+                className="h-4 w-4 rounded border-forest/40"
+              />
+              {locale === "fr" ? "Publier immédiatement" : "Publish immediately"}
+            </label>
+          </div>
+          <button
+            type="submit"
+            disabled={addingReport}
+            className="rounded-full bg-forest px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest/90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {addingReport
+              ? locale === "fr"
+                ? "Ajout…"
+                : "Adding…"
+              : locale === "fr"
+                ? "Ajouter le rapport"
+                : "Add the report"}
+          </button>
+        </form>
+      </section>
+
+      {/* 8. Community Catches — real ones only, added by hand */}
+      <section>
+        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              {locale === "fr" ? "Prises de la communauté" : "Community Catches"}
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              {locale === "fr"
+                ? "Vos prises, celles d'amis ou de clients — jamais inventées. Approuvé = visible sur /catches."
+                : "Yours, a friend's, a customer's — never fabricated. Approved = live on /catches."}
+            </p>
+          </div>
+          <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
+            {catches.length}
+          </span>
+        </div>
+
+        {catches.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
+            {locale === "fr" ? "Aucune prise pour le moment." : "No catches yet."}
+          </div>
+        ) : (
+          <ul className="mt-6 space-y-3">
+            {catches.map((c) => (
+              <li
+                key={c.id}
+                className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-forest/15 bg-parchment p-5"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-display font-semibold text-forest">
+                      {c.anglerName}
+                    </span>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                        c.approved ? "bg-forest/10 text-forest" : "bg-ink/10 text-ink/60"
+                      }`}
+                    >
+                      {c.approved
+                        ? locale === "fr"
+                          ? "Approuvé"
+                          : "Approved"
+                        : locale === "fr"
+                          ? "En attente"
+                          : "Pending"}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs text-ink/60">
+                    {[
+                      c.species,
+                      c.sizeLabel,
+                      c.water && (locale === "fr" ? c.water.nameFr : c.water.nameEn),
+                      c.product && (locale === "fr" ? c.product.nameFr : c.product.nameEn),
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  {(c.captionFr || c.captionEn) && (
+                    <p className="mt-1.5 text-sm text-ink/75">
+                      {locale === "fr" ? c.captionFr : c.captionEn}
+                    </p>
+                  )}
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={catchBusyId === c.id}
+                    onClick={() => handleToggleCatchApproved(c)}
+                    className="rounded-full border border-forest/25 px-4 py-2 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:opacity-50"
+                  >
+                    {c.approved
+                      ? locale === "fr"
+                        ? "Retirer"
+                        : "Unapprove"
+                      : locale === "fr"
+                        ? "Approuver"
+                        : "Approve"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={catchBusyId === c.id}
+                    onClick={() => handleDeleteCatch(c.id)}
+                    className="rounded-full border border-rust/40 px-4 py-2 text-xs font-semibold text-rust transition hover:bg-rust/10 disabled:opacity-50"
+                  >
+                    {locale === "fr" ? "Supprimer" : "Delete"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form
+          onSubmit={handleAddCatch}
+          className="mt-6 space-y-4 rounded-2xl border border-forest/15 bg-cream/30 p-6"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink/60">
+            {locale === "fr" ? "Ajouter une prise" : "Add a catch"}
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Nom du pêcheur" : "Angler name"}
+              </label>
+              <input
+                type="text"
+                required
+                value={catchForm.anglerName}
+                onChange={(e) => setCatchForm((f) => ({ ...f, anglerName: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "URL de la photo" : "Photo URL"}
+              </label>
+              <input
+                type="text"
+                required
+                value={catchForm.imageUrl}
+                onChange={(e) => setCatchForm((f) => ({ ...f, imageUrl: e.target.value }))}
+                placeholder="/catches/example.jpg"
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Taille (optionnel)" : "Size (optional)"}
+              </label>
+              <input
+                type="text"
+                value={catchForm.sizeLabel}
+                onChange={(e) => setCatchForm((f) => ({ ...f, sizeLabel: e.target.value }))}
+                placeholder={locale === "fr" ? "ex. 18 po" : 'e.g. 18"'}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Espèce (optionnel)" : "Species (optional)"}
+              </label>
+              <select
+                value={catchForm.species}
+                onChange={(e) => setCatchForm((f) => ({ ...f, species: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              >
+                <option value="">{locale === "fr" ? "Aucune" : "None"}</option>
+                {PLANNED_SPECIES_OPTIONS.map((sp) => (
+                  <option key={sp.value} value={sp.value}>
+                    {locale === "fr" ? sp.fr : sp.en}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Plan d'eau (optionnel)" : "Water (optional)"}
+              </label>
+              <select
+                value={catchForm.waterId}
+                onChange={(e) => setCatchForm((f) => ({ ...f, waterId: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              >
+                <option value="">{locale === "fr" ? "Aucun" : "None"}</option>
+                {waters.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {locale === "fr" ? w.nameFr : w.nameEn}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Mouche utilisée (optionnel)" : "Fly used (optional)"}
+              </label>
+              <select
+                value={catchForm.productId}
+                onChange={(e) => setCatchForm((f) => ({ ...f, productId: e.target.value }))}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              >
+                <option value="">{locale === "fr" ? "Aucune" : "None"}</option>
+                {activeProducts.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {locale === "fr" ? p.nameFr : p.nameEn}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Conditions (optionnel)" : "Conditions (optional)"}
+              </label>
+              <input
+                type="text"
+                value={catchForm.conditionsFr}
+                onChange={(e) =>
+                  setCatchForm((f) => ({
+                    ...f,
+                    conditionsFr: e.target.value,
+                    conditionsEn: f.conditionsEn || e.target.value,
+                  }))
+                }
+                placeholder={locale === "fr" ? "ex. Soir, eau claire" : "e.g. Evening, clear water"}
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Légende (optionnel)" : "Caption (optional)"}
+              </label>
+              <input
+                type="text"
+                value={catchForm.captionFr}
+                onChange={(e) =>
+                  setCatchForm((f) => ({
+                    ...f,
+                    captionFr: e.target.value,
+                    captionEn: f.captionEn || e.target.value,
+                  }))
+                }
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+            </div>
+          </div>
+          <label className="flex items-center gap-2 text-sm text-ink/70">
+            <input
+              type="checkbox"
+              checked={catchForm.approved}
+              onChange={(e) => setCatchForm((f) => ({ ...f, approved: e.target.checked }))}
+              className="h-4 w-4 rounded border-forest/40"
+            />
+            {locale === "fr" ? "Approuver immédiatement" : "Approve immediately"}
+          </label>
+          <button
+            type="submit"
+            disabled={addingCatch}
+            className="rounded-full bg-forest px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest/90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {addingCatch
+              ? locale === "fr"
+                ? "Ajout…"
+                : "Adding…"
+              : locale === "fr"
+                ? "Ajouter la prise"
+                : "Add the catch"}
+          </button>
+        </form>
+      </section>
+
+      {/* 9. Quick Operational Links */}
       <section className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
         <h3 className="font-display text-lg font-semibold text-forest">
           {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}

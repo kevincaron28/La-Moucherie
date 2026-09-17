@@ -3,10 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   // Runtime queries go through Neon's pooled host: many short-lived serverless
   // connections are exactly what a pooler is for.
-  url      = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   // Migrations must not. `prisma migrate deploy` takes a session-scoped Postgres
   // advisory lock, and a transaction-mode pooler can't hold one, so every deploy
   // died with "P1002 … timed out trying to acquire a postgres advisory lock".
@@ -46,36 +46,36 @@ enum ReviewStatus {
 }
 
 model Product {
-  id              String          @id @default(cuid())
-  slug            String          @unique
-  nameFr          String
-  nameEn          String
-  descriptionFr   String
-  descriptionEn   String
-  category        ProductCategory
-  basePriceCents  Int
-  currency        String          @default("cad")
-  images          String[]        @default([])
-  active          Boolean         @default(true)
-  featured        Boolean         @default(false)
-  species         FishSpecies[]   @default([])
-  seasons         FishingSeason[] @default([])
-  waterTypes      WaterType[]     @default([])
-  techniques      Technique[]     @default([])
-  imitatesFr      String[]        @default([])
-  imitatesEn      String[]        @default([])
-  howToFishFr     String?
-  howToFishEn     String?
-  proTipFr        String?
-  proTipEn        String?
-  waters          FishingWater[]  @relation("ProductWaters")
-  reports         FishingReport[] @relation("ReportProducts")
-  catches         CatchPhoto[]
-  variants        ProductVariant[]
-  orderItems      OrderItem[]
-  reviews         Review[]
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  nameFr         String
+  nameEn         String
+  descriptionFr  String
+  descriptionEn  String
+  category       ProductCategory
+  basePriceCents Int
+  currency       String           @default("cad")
+  images         String[]         @default([])
+  active         Boolean          @default(true)
+  featured       Boolean          @default(false)
+  species        FishSpecies[]    @default([])
+  seasons        FishingSeason[]  @default([])
+  waterTypes     WaterType[]      @default([])
+  techniques     Technique[]      @default([])
+  imitatesFr     String[]         @default([])
+  imitatesEn     String[]         @default([])
+  howToFishFr    String?
+  howToFishEn    String?
+  proTipFr       String?
+  proTipEn       String?
+  waters         FishingWater[]   @relation("ProductWaters")
+  reports        FishingReport[]  @relation("ReportProducts")
+  catches        CatchPhoto[]
+  variants       ProductVariant[]
+  orderItems     OrderItem[]
+  reviews        Review[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
   @@index([category])
   @@index([active, featured])
@@ -130,17 +130,17 @@ model ReviewVote {
 }
 
 model ProductVariant {
-  id          String      @id @default(cuid())
-  product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId   String
-  nameFr      String
-  nameEn      String
-  sku         String      @unique
-  priceCents  Int?
-  stock       Int         @default(0)
-  orderItems  OrderItem[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id         String      @id @default(cuid())
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String
+  nameFr     String
+  nameEn     String
+  sku        String      @unique
+  priceCents Int?
+  stock      Int         @default(0)
+  orderItems OrderItem[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   @@index([productId])
 }
@@ -188,8 +188,8 @@ model Order {
 }
 
 model User {
-  id                 String   @id @default(cuid())
-  email              String   @unique
+  id                 String                   @id @default(cuid())
+  email              String                   @unique
   passwordHash       String
   name               String
   emailVerified      DateTime?
@@ -203,8 +203,8 @@ model User {
   reviews            Review[]
   resetTokens        PasswordResetToken[]
   verificationTokens EmailVerificationToken[]
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
 }
 
 model PasswordResetToken {
@@ -238,9 +238,9 @@ model ContactMessage {
 }
 
 model NewsletterSubscriber {
-  id     String @id @default(cuid())
-  email  String @unique
-  locale String @default("fr")
+  id               String    @id @default(cuid())
+  email            String    @unique
+  locale           String    @default("fr")
   // Plaintext, unlike PasswordResetToken's hash — this link has to keep
   // working in every future campaign email, not just once right after it's
   // issued, so there's no stored secret to hash it against.
@@ -278,20 +278,20 @@ model PlannedFly {
 }
 
 model OrderItem {
-  id              String          @id @default(cuid())
-  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId         String
-  product         Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
-  productId       String?
-  variant         ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
-  variantId       String?
-  nameSnapshotFr  String
-  nameSnapshotEn  String
-  variantSnapshotFr String        @default("")
-  variantSnapshotEn String        @default("")
-  sku             String
-  unitPriceCents  Int
-  quantity        Int
+  id                String          @id @default(cuid())
+  order             Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId           String
+  product           Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productId         String?
+  variant           ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  variantId         String?
+  nameSnapshotFr    String
+  nameSnapshotEn    String
+  variantSnapshotFr String          @default("")
+  variantSnapshotEn String          @default("")
+  sku               String
+  unitPriceCents    Int
+  quantity          Int
 
   @@index([orderId])
 }
@@ -369,21 +369,21 @@ model FishingWater {
 /// Short seasonal notes on what is working where. The reason to come back to
 /// the site weekly rather than once.
 model FishingReport {
-  id            String        @id @default(cuid())
-  slug          String        @unique
-  titleFr       String
-  titleEn       String
-  bodyFr        String
-  bodyEn        String
-  conditionsFr  String
-  conditionsEn  String
-  water         FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
-  waterId       String?
-  products      Product[]     @relation("ReportProducts")
-  published     Boolean       @default(false)
-  publishedAt   DateTime      @default(now())
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  titleFr      String
+  titleEn      String
+  bodyFr       String
+  bodyEn       String
+  conditionsFr String
+  conditionsEn String
+  water        FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
+  waterId      String?
+  products     Product[]     @relation("ReportProducts")
+  published    Boolean       @default(false)
+  publishedAt  DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@index([published, publishedAt])
 }
@@ -392,18 +392,21 @@ model FishingReport {
 /// whole point, and it avoids running an image-upload pipeline for a handful of
 /// photos a month.
 model CatchPhoto {
-  id         String        @id @default(cuid())
-  imageUrl   String
-  anglerName String
-  captionFr  String?
-  captionEn  String?
-  species    FishSpecies?
-  water      FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
-  waterId    String?
-  product    Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
-  productId  String?
-  approved   Boolean       @default(false)
-  createdAt  DateTime      @default(now())
+  id           String        @id @default(cuid())
+  imageUrl     String
+  anglerName   String
+  captionFr    String?
+  captionEn    String?
+  species      FishSpecies?
+  water        FishingWater? @relation(fields: [waterId], references: [id], onDelete: SetNull)
+  waterId      String?
+  product      Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productId    String?
+  sizeLabel    String?
+  conditionsFr String?
+  conditionsEn String?
+  approved     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
 
   @@index([approved, createdAt])
 }

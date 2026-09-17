@@ -26,6 +26,10 @@ export default async function AdminPage({
     recentReports,
     recentCampaigns,
     plannedFlies,
+    allReports,
+    allCatches,
+    waters,
+    activeProducts,
   ] = await Promise.all([
     prisma.review.findMany({
       where: { status: "PENDING" },
@@ -77,6 +81,28 @@ export default async function AdminPage({
     }),
     prisma.plannedFly.findMany({
       orderBy: [{ category: "asc" }, { createdAt: "asc" }],
+    }),
+    prisma.fishingReport.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { water: { select: { slug: true, nameFr: true, nameEn: true } } },
+      take: 30,
+    }),
+    prisma.catchPhoto.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        water: { select: { slug: true, nameFr: true, nameEn: true } },
+        product: { select: { slug: true, nameFr: true, nameEn: true } },
+      },
+      take: 30,
+    }),
+    prisma.fishingWater.findMany({
+      select: { id: true, slug: true, nameFr: true, nameEn: true },
+      orderBy: { nameFr: "asc" },
+    }),
+    prisma.product.findMany({
+      where: { active: true },
+      select: { id: true, slug: true, nameFr: true, nameEn: true },
+      orderBy: { nameFr: "asc" },
     }),
   ]);
 
@@ -140,6 +166,33 @@ export default async function AdminPage({
           species: p.species,
           notes: p.notes,
         }))}
+        allReports={allReports.map((r) => ({
+          id: r.id,
+          titleFr: r.titleFr,
+          titleEn: r.titleEn,
+          bodyFr: r.bodyFr,
+          bodyEn: r.bodyEn,
+          conditionsFr: r.conditionsFr,
+          conditionsEn: r.conditionsEn,
+          published: r.published,
+          water: r.water,
+        }))}
+        allCatches={allCatches.map((c) => ({
+          id: c.id,
+          anglerName: c.anglerName,
+          imageUrl: c.imageUrl,
+          captionFr: c.captionFr,
+          captionEn: c.captionEn,
+          species: c.species,
+          sizeLabel: c.sizeLabel,
+          conditionsFr: c.conditionsFr,
+          conditionsEn: c.conditionsEn,
+          approved: c.approved,
+          water: c.water,
+          product: c.product,
+        }))}
+        waters={waters}
+        activeProducts={activeProducts}
       />
     </div>
   );
