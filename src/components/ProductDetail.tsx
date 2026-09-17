@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
@@ -66,7 +67,7 @@ export function ProductDetail({
       quantity
     );
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 2000);
+    setTimeout(() => setJustAdded(false), 1200);
   }
 
   return (
@@ -160,14 +161,42 @@ export function ProductDetail({
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          disabled={!inStock}
-          className="mt-8 w-full rounded-full bg-rust py-3 text-sm font-semibold text-cream transition hover:bg-rust-dark disabled:cursor-not-allowed disabled:bg-forest/30 sm:w-auto sm:px-10"
-        >
-          {justAdded ? t("added") : t("addToCart")}
-        </button>
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={!inStock}
+            className={`flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:bg-forest/30 disabled:text-cream sm:w-auto sm:px-10 ${
+              justAdded ? "bg-forest text-cream" : "bg-rust text-cream hover:bg-rust-dark"
+            }`}
+          >
+            {justAdded ? (
+              <>
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  className="h-4 w-4"
+                  aria-hidden
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 10.5l3.5 3.5L16 5.5" />
+                </svg>
+                {t("added")}
+              </>
+            ) : (
+              t("addToCart")
+            )}
+          </button>
+          <Link
+            href="/cart"
+            className={`text-sm font-semibold text-forest underline underline-offset-2 transition-opacity duration-200 hover:text-rust ${
+              justAdded ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          >
+            {t("viewCart")}
+          </Link>
+        </div>
 
         {variant && (
           <p className="mt-4 text-xs uppercase tracking-wide text-ink/40">
