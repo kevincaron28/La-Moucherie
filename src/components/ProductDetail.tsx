@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import { LETTER_RATE_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
 import { StarRating } from "@/components/StarRating";
 import type { Locale } from "@/i18n/routing";
 import type { ProductWithVariants } from "@/components/ProductCard";
@@ -98,6 +99,12 @@ export function ProductDetail({
         )}
         <p className="mt-2 text-xl font-medium text-rust">
           {formatPrice(priceCents, locale, product.currency)}
+        </p>
+        <p className="mt-1.5 text-xs text-ink/55">
+          {t("shippingNote", {
+            letterPrice: formatPrice(LETTER_RATE_CENTS, locale),
+            threshold: formatPrice(FREE_SHIPPING_THRESHOLD_CENTS, locale),
+          })}
         </p>
 
         <p className="mt-6 whitespace-pre-line text-ink/75">

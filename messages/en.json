@@ -164,7 +164,9 @@
     "inStock": "{count} in stock",
     "sku": "SKU",
     "description": "Description",
-    "details": "Details"
+    "details": "Details",
+    "shippingNote": "🇨🇦 Canada-wide shipping from {letterPrice} · free tracked shipping over {threshold}",
+    "pairsWellWith": "Pairs well with"
   },
   "Reviews": {
     "title": "Customer reviews",

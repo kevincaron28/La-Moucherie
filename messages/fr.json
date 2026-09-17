@@ -164,7 +164,9 @@
     "inStock": "{count} en stock",
     "sku": "Réf.",
     "description": "Description",
-    "details": "Détails"
+    "details": "Détails",
+    "shippingNote": "🇨🇦 Livraison partout au Canada dès {letterPrice} · envoi suivi gratuit dès {threshold}",
+    "pairsWellWith": "Complète bien avec"
   },
   "Reviews": {
     "title": "Avis clients",

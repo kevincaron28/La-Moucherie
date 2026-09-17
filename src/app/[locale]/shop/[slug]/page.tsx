@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductDetail } from "@/components/ProductDetail";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { AnglerSpecs } from "@/components/AnglerSpecs";
+import { ProductCard } from "@/components/ProductCard";
 import { getReviewEligibility } from "@/lib/review-eligibility";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -15,16 +16,32 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = await prisma.product.findUnique({ where: { slug } });
+  const product = await prisma.product.findUnique({
+    where: { slug },
+    include: { variants: { orderBy: { createdAt: "asc" } } },
+  });
   if (!product || !product.active) return {};
 
+  const tAngling = await getTranslations({ locale, namespace: "Angling" });
   const name = locale === "fr" ? product.nameFr : product.nameEn;
-  const description = (locale === "fr" ? product.descriptionFr : product.descriptionEn).slice(0, 160);
+  const primarySpecies = product.species[0] ? tAngling(`species.${product.species[0]}`) : null;
+  const title = primarySpecies
+    ? locale === "fr"
+      ? `${name} — Mouche pour ${primarySpecies}`
+      : `${name} — ${primarySpecies} Fly`
+    : name;
+  const sizeRange = product.variants.length > 0
+    ? (locale === "fr" ? product.variants[0].nameFr : product.variants[0].nameEn)
+    : null;
+  const baseDescription = (locale === "fr" ? product.descriptionFr : product.descriptionEn).slice(0, 140);
+  const description = sizeRange
+    ? `${baseDescription} ${locale === "fr" ? `Tailles disponibles : ${sizeRange}${product.variants.length > 1 ? " et plus" : ""}.` : `Sizes available: ${sizeRange}${product.variants.length > 1 ? " and more" : ""}.`}`
+    : baseDescription;
   const image = product.images[0] ?? "/brand/logo-512.png";
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lamoucherie.ca";
 
   return {
-    title: name,
+    title,
     description,
     alternates: {
       canonical: `${baseUrl}/${locale}/shop/${slug}`,
@@ -72,6 +89,35 @@ export default async function ProductPage({
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
   const eligibility = await getReviewEligibility(product.id);
+
+  // Same category first — the shopper is already thinking in that mode.
+  // Falls back to species overlap only when the category alone can't fill 3,
+  // so a niche category never shows unrelated flies just to pad the count.
+  const sameCategory = await prisma.product.findMany({
+    where: { active: true, category: product.category, id: { not: product.id } },
+    include: { variants: true, reviews: { where: { status: "APPROVED" }, select: { rating: true } } },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
+  const pairsWellWith =
+    sameCategory.length >= 3 || product.species.length === 0
+      ? sameCategory
+      : [
+          ...sameCategory,
+          ...(await prisma.product.findMany({
+            where: {
+              active: true,
+              id: { notIn: [product.id, ...sameCategory.map((p) => p.id)] },
+              species: { hasSome: product.species },
+            },
+            include: {
+              variants: true,
+              reviews: { where: { status: "APPROVED" }, select: { rating: true } },
+            },
+            orderBy: { createdAt: "desc" },
+            take: 3 - sameCategory.length,
+          })),
+        ];
 
   const prices = product.variants.map((v) => v.priceCents ?? product.basePriceCents);
   const minPrice = prices.length ? Math.min(...prices) : product.basePriceCents;
@@ -142,6 +188,18 @@ export default async function ProductPage({
         proTip={locale === "fr" ? product.proTipFr : product.proTipEn}
         waters={product.waters}
       />
+      {pairsWellWith.length > 0 && (
+        <section className="mt-16 border-t border-forest/10 pt-10">
+          <h2 className="font-display text-xl font-semibold text-forest">
+            {t("pairsWellWith")}
+          </h2>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
+            {pairsWellWith.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
       <ReviewsSection
         productId={product.id}
         reviews={reviews}
