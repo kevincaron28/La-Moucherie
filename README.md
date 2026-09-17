@@ -135,16 +135,14 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   without a ground-up redesign.
 - A "Fly Finder" quiz UI exists at `/shop/finder`; a richer multi-step wizard version
   wasn't built — the single-form version does the same job.
-- **Stale branch deletion needs a manual step.** The Claude Code sandbox's permission
-  classifier blocks `git push --delete` and `git branch -D` outright (`[Git Destructive]`),
-  and there's no GitHub MCP tool for deleting a remote branch either — so identifying stale
-  branches could be automated this session, but actually removing them couldn't. Safe to
-  delete, confirmed zero unique content vs. `main`: remote `claude/canada-post-rest-migration`,
-  `claude/canada-post-token-url-fix`, `vercel/install-vercel-web-analytics-uh0jl7`; local
-  `fix-token-url-commit`, `old-branch-before-restart`, the stale local `main` (distinct from
-  `origin/main`), and the three `worktree-agent-*` branches. Delete via the GitHub UI
-  (Branches page) or `git push origin --delete <branch>` / `git branch -D <branch>` from a
-  machine without the sandbox restriction.
+- **Stale branch cleanup, done 2026-09-17.** 9 branches with zero content not already in
+  `main` were identified and removed: locally (`fix-token-url-commit`,
+  `old-branch-before-restart`, the stale local `main`, and three `worktree-agent-*`
+  branches — deleted directly from this session) and on `origin`
+  (`claude/canada-post-rest-migration`, `claude/canada-post-token-url-fix`,
+  `vercel/install-vercel-web-analytics-uh0jl7` — remote branch deletion is blocked from
+  this sandbox by the egress proxy's org policy, so the owner deleted these three via the
+  GitHub UI).
 
 ## Stack
 
