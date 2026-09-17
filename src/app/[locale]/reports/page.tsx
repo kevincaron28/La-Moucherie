@@ -4,6 +4,12 @@ import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import type { Locale } from "@/i18n/routing";
 
+// No dynamic segment here, so this route would otherwise be fully static-
+// generated at build time and frozen until the next deploy — wrong for a
+// page whose whole content (published reports) is meant to change from the
+// admin dashboard alone, with no code change or redeploy involved.
+export const dynamic = "force-dynamic";
+
 export default async function ReportsPage({
   params,
 }: {

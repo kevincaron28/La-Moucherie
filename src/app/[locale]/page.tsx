@@ -10,6 +10,12 @@ import { LETTER_RATE_CENTS } from "@/lib/shipping";
 import { formatPrice } from "@/lib/format";
 import type { Locale } from "@/i18n/routing";
 
+// No dynamic segment here, so this route would otherwise be fully static-
+// generated at build time and frozen until the next deploy — wrong for a
+// page whose "What's Working" teaser and real-catches section are meant to
+// change from the admin dashboard alone, with no redeploy involved.
+export const dynamic = "force-dynamic";
+
 export default async function HomePage({
   params,
 }: {
