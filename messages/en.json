@@ -628,5 +628,10 @@
     "unknownWater": "Unnamed water",
     "byline": "Reported by {name}",
     "bylineShop": "From our own bench"
+  },
+  "Construction": {
+    "label": "Site under construction.",
+    "body": "We open March 1st with every pattern back in stock. Everything reads \"out of stock\" until then — the shop isn't gone, it just hasn't opened yet. In the meantime:",
+    "cta": "read the hatch chart →"
   }
 }

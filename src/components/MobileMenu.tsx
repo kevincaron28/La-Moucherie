@@ -137,8 +137,28 @@ export function MobileMenu({ locale }: { locale: string }) {
             </div>
 
             <div className="flex-1 overflow-y-auto overscroll-contain pb-8">
-              {/* Learning content leads: it's the reason someone who has never
-                  heard of the shop is on the site at all. */}
+              {/* Shop first: it is a shop. The educational sections sit
+                  directly under it rather than below the fold. */}
+              <Section title={t("shop")}>
+                <Item onNavigate={close} href="/shop/finder" accent>
+                  {t("flyFinder")}
+                </Item>
+                <Item onNavigate={close} href="/shop">{tCategories("ALL")}</Item>
+                {CATEGORY_ORDER.map((cat) => (
+                  <Item key={cat} onNavigate={close} href={`/shop?category=${cat}`}>
+                    {tCategories(cat)}
+                  </Item>
+                ))}
+              </Section>
+
+              <Section title={tAngling("speciesTitle")}>
+                {SPECIES.map((sp) => (
+                  <Item key={sp} onNavigate={close} href={`/shop/species/${SPECIES_SLUGS[sp]}`}>
+                    {tAngling(`species.${sp}`)}
+                  </Item>
+                ))}
+              </Section>
+
               <Section title={t("learn")}>
                 <Item onNavigate={close} href="/hatches" accent>
                   {t("hatchChart")}
@@ -160,26 +180,6 @@ export function MobileMenu({ locale }: { locale: string }) {
                 <Item onNavigate={close} href="/reports/submit">{t("submitReport")}</Item>
                 <Item onNavigate={close} href="/catches">{t("catches")}</Item>
                 <Item onNavigate={close} href="/shop/water">{t("waters")}</Item>
-              </Section>
-
-              <Section title={t("shop")}>
-                <Item onNavigate={close} href="/shop/finder" accent>
-                  {t("flyFinder")}
-                </Item>
-                <Item onNavigate={close} href="/shop">{tCategories("ALL")}</Item>
-                {CATEGORY_ORDER.map((cat) => (
-                  <Item key={cat} onNavigate={close} href={`/shop?category=${cat}`}>
-                    {tCategories(cat)}
-                  </Item>
-                ))}
-              </Section>
-
-              <Section title={tAngling("speciesTitle")}>
-                {SPECIES.map((sp) => (
-                  <Item key={sp} onNavigate={close} href={`/shop/species/${SPECIES_SLUGS[sp]}`}>
-                    {tAngling(`species.${sp}`)}
-                  </Item>
-                ))}
               </Section>
 
               <Section title={t("aboutSection")}>

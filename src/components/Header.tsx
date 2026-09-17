@@ -103,10 +103,12 @@ export function Header() {
       {/* One tap to the whole site on a phone, grouped — see MobileMenu for
           why the old scrolling strip had to go. */}
       <nav className="flex items-center gap-4 border-t border-forest/10 px-4 py-2 text-sm font-medium text-forest md:hidden">
-        <Link href="/hatches" className="font-semibold text-rust">
+        <Link href="/shop" className="font-semibold">
+          {t("shop")}
+        </Link>
+        <Link href="/hatches" className="text-rust">
           {t("hatchChart")}
         </Link>
-        <Link href="/shop">{t("shop")}</Link>
         <Link href="/reports">{t("reports")}</Link>
       </nav>
       <div className="border-t border-forest/10 px-4 py-2 lg:hidden">

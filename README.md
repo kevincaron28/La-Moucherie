@@ -639,12 +639,23 @@ to `NewsletterCampaign` so the dashboard shows history and a send can't happen t
 accident. Like all other email here, this is a no-op (logs instead of sending) until
 `RESEND_API_KEY` is set.
 
+## Pre-launch notice
+
+`ConstructionBanner` sits above the header on every page: the shop opens **March 1st**
+with the catalogue restocked. It exists because every variant is at zero stock until then,
+so without it a visitor's only available explanation for "Out of Stock" across all 34
+patterns is that the business is dead. It is deliberately not dismissible and not sticky —
+read on arrival, then scrolls away rather than eating a phone's viewport.
+
+**Delete the component and its mount in `[locale]/layout.tsx` once the shop opens.**
+
 ## Navigation
 
 Grouped by what someone is trying to do, not by what the codebase contains:
 **Shop** (categories, species, Fly Finder, shop by water), **Learn** (hatch chart, the
 insect guides, FAQ), **On the water** (what's working, file a report, community, waters),
-then Our story and Contact.
+then Our story and Contact. Shop leads in both the drawer and the always-visible row —
+it is a shop, and the educational sections sit directly under it rather than above it.
 
 On a phone this is a drawer, not the horizontally scrolling strip it used to be. That
 strip held five links and physically could not show the rest of the site — the hatch

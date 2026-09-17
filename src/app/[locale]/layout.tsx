@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ConstructionBanner } from "@/components/ConstructionBanner";
 import "../globals.css";
 
 const fraunces = Fraunces({
@@ -65,6 +66,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <SessionProvider>
             <CartProvider>
+              <ConstructionBanner />
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />

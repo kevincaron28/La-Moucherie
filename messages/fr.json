@@ -628,5 +628,10 @@
     "unknownWater": "Plan d'eau non nommé",
     "byline": "Rapporté par {name}",
     "bylineShop": "De notre propre étau"
+  },
+  "Construction": {
+    "label": "Site en construction.",
+    "body": "On ouvre le 1er mars, avec tous les patrons de retour en stock. D'ici là tout affiche « en rupture » — la boutique n'est pas morte, elle n'est simplement pas encore ouverte. Entre-temps :",
+    "cta": "consultez le calendrier d'éclosions →"
   }
 }
