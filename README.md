@@ -146,6 +146,30 @@ spanning copy fixes to multi-week content projects. Most of what's actually buil
   this sandbox by the egress proxy's org policy, so the owner deleted these three via the
   GitHub UI).
 
+## Materials & the production run sheet (`/admin/production`)
+
+Each pattern has a recipe: `Material` rows (what's in the bin) joined to products
+through `ProductMaterial` (how this pattern uses it). Material rows are deliberately
+generic — "Brown hackle", not "Whiting brown saddle #14" — because two patterns needing
+brown hackle must point at the **same** row or the shopping list can't collapse them into
+one line. Per-pattern detail belongs in `ProductMaterial.spec{Fr,En}`.
+
+`perFlyQty` is set only for things consumed exactly N per fly (hooks, beads, eyes) so the
+run sheet can multiply them out. Thread, dubbing and hackle leave it null: you either have
+those or you don't, and a number would be fiction.
+
+The run sheet takes every out-of-stock variant, lists what to tie at an adjustable count
+per size, and rolls the recipes into a deduplicated shopping list grouped in tying order.
+Hooks additionally break out **by size**, since a single total across every size is
+useless at the shop counter — that's the one material you order by size.
+
+**Recipes are seeded from the standard published dressing for each pattern** (see
+`prisma/fly-recipes.ts`), which is a starting point, not a record of how this bench
+actually ties. That's why `Product.materialsPublic` defaults to `false`: the "Tied with"
+list on a product page stays hidden until someone has read that fly's recipe and turned it
+on. Supplier notes and quantities are never public either way — that's sourcing, not
+merchandising. Re-seed with `npm run db:seed-materials` (idempotent; it upserts).
+
 ## The hatch chart (`/hatches`)
 
 `src/lib/hatches.ts` holds La Moucherie's own hatch chart for southern Québec — 38 entries
