@@ -31,10 +31,6 @@ the real founders, Claudya and Kevin.
   Deceiver) have real photos, and those are temporary phone shots pending proper lightbox
   photography. **Every other product uses the placeholder SVG** — this is now the single
   biggest visual gap on the site.
-- `RESEND_API_KEY` isn't set in production yet, so the newsletter and every other
-  transactional email currently just log (`[email:not-configured] would send …`) instead
-  of sending. Nothing is broken — the site is designed to run fine either way — but no
-  real email goes out until that's configured.
 - The 3 curated fly-box (`ASSORTMENT`) products exist in `prisma/seed.ts` but aren't live
   in the database.
 
@@ -81,7 +77,6 @@ reports/catches wouldn't have shown new content without this).
    orders again — hook sizes are already published for all 34 patterns.
 2. Photograph the catalog — 30 of 34 patterns still use the placeholder image. Consider a
    photo of Kevin too; the homepage/About story currently only has one of Claudya.
-3. Set `RESEND_API_KEY` in production so the newsletter and order emails actually send.
 
 ## This week's punch list (from the 2026-09-17 site audit)
 
@@ -325,6 +320,23 @@ and password-reset links.
 unconfigured. Sends also never throw into their caller, so a mail outage can't fail a
 payment webhook or a contact submission. To turn it on: verify your domain in Resend, then
 set `RESEND_API_KEY`, `EMAIL_FROM` (an address on that domain) and `OWNER_EMAIL`.
+
+Two things that bite when changing the key:
+
+- **Vercel injects env vars at deploy time, so changing one in the dashboard does not
+  reach the deployment already serving traffic.** Redeploy after any change, or the site
+  keeps using the old value. `src/lib/email.ts` also reads `RESEND_API_KEY` once at
+  module scope, so even a warm function keeps whatever it booted with.
+- **`OWNER_EMAIL` is load-bearing beyond email.** `adminEmails()` falls back to it when
+  `ADMIN_EMAILS` is unset, so clearing it locks everyone out of `/admin`. It also gates
+  the owner notifications: `sendOrderNotificationToOwner` and `sendContactNotification`
+  return early with no log line when it's missing, so a new order would simply never
+  reach the bench — silently.
+
+**Never paste a live API key into a chat, a commit, an issue or a screenshot.** Treat one
+that has been anywhere near those as burned: create a replacement in Resend, update the
+Vercel env var, redeploy, then revoke the old key. Keys live in the Vercel dashboard and
+in `.env.local` (git-ignored), nowhere else.
 
 ## Angler metadata, species and water
 
