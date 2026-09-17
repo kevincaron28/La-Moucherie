@@ -197,9 +197,9 @@ export const HATCHES: Hatch[] = [
     sizes: [12, 14],
     timeOfDay: "EVENING",
     noteFr:
-      "Proche parente du March Brown, un peu plus pâle et plus petite, qui prend le relais en fin de journée. Les deux se chevauchent : fiez-vous à la taille avant la couleur.",
+      "Plus pâle et plus petite que le March Brown, elle prend le relais en fin de journée. Les taxonomistes la considèrent souvent comme une simple forme de M. vicarium, mais le pêcheur voit bien deux insectes : fiez-vous à la taille avant la couleur.",
     noteEn:
-      "A close cousin of the March Brown, slightly paler and smaller, taking over late in the day. The two overlap — match size before colour.",
+      "Paler and smaller than the March Brown, taking over late in the day. Taxonomists often treat it as just a form of M. vicarium, but an angler sees two different bugs — match size before colour.",
     patternSlugs: ["march-brown", "light-cahill"],
   },
   {
@@ -453,7 +453,7 @@ export const HATCHES: Hatch[] = [
   {
     id: "little-black-caddis",
     group: "CADDIS",
-    scientific: "Chimarra atterrima",
+    scientific: "Chimarra aterrima",
     nameFr: "Little Black Caddis",
     nameEn: "Little Black Caddis",
     active: { from: [4, 25], to: [6, 10] },
