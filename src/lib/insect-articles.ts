@@ -451,6 +451,346 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ------------------------------------------------------------------ TRICO
+  {
+    hatchId: "trico",
+    metaTitle: {
+      fr: "Tricorythodes — le Trico, l'éclosion du matin qui obsède les puristes",
+      en: "Tricorythodes — the Trico, the morning hatch that obsesses purists",
+    },
+    metaDescription: {
+      fr: "Le Trico (Tricorythodes) au Québec : pourquoi la retombée matinale attire des nuées d'insectes minuscules, et pourquoi le bas de ligne compte plus que le patron.",
+      en: "The Trico (Tricorythodes) in Québec: why the morning spinner fall comes off in clouds of tiny insects, and why tippet matters more than the fly pattern.",
+    },
+    intro: {
+      fr: "Aucune éclosion ne punit autant les erreurs de présentation que celle-ci. Le Trico sort en nuées si denses qu'on croirait de la fumée au-dessus de l'eau, mais chaque insecte fait à peine la taille d'un grain de riz. Les truites s'installent, comptent les calories une à la fois, et refusent tout ce qui dérive un peu de travers.",
+      en: "No hatch punishes a sloppy presentation like this one. The Trico comes off in clouds so dense they can look like smoke over the water, but each insect is barely the size of a grain of rice. Trout settle into a rhythm, counting calories one at a time, and refuse anything that drags even slightly.",
+    },
+    idMarks: [
+      {
+        fr: "Minuscule : taille 20 à 24, un corps de 3 à 4 mm à peine.",
+        en: "Tiny: size 20–24, a body barely 3–4 mm long.",
+      },
+      {
+        fr: "Thorax presque noir chez le mâle; abdomen pâle, crème à olive, chez la femelle — vu de loin, l'essaim paraît tout noir.",
+        en: "Near-black thorax on the male; pale cream-to-olive abdomen on the female — from a distance, the swarm just looks black.",
+      },
+      {
+        fr: "Deux queues seulement, pas trois — inhabituel chez une éphémère de cette allure.",
+        en: "Only two tails, not three — unusual for a mayfly built like this.",
+      },
+      {
+        fr: "Une seule paire d'ailes vraiment fonctionnelle; les ailes postérieures sont réduites ou absentes.",
+        en: "Only one functional pair of wings; the hindwings are reduced or missing.",
+      },
+      {
+        fr: "Nymphe aplatie, agrippée aux roches et à la végétation immergée dans les portions calmes et un peu limoneuses.",
+        en: "A flattened, clinging nymph found on rock and submerged vegetation in slower, slightly silty stretches.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Caenis, tout aussi minuscule et aux ailes tout aussi réduites, mais qui émerge plutôt en soirée et dont la chute est éparse, jamais la nuée dense qu'on voit avec le Trico le matin. Un très petit Baetis peut aussi tromper au premier coup d'œil, mais celui-ci garde trois queues et deux paires d'ailes bien visibles.",
+      en: "Caenis, just as tiny and just as reduced in the hindwing, but it emerges toward evening and its fall is thin and scattered — never the dense morning cloud a Trico produces. A very small Baetis can also fool you at a glance, but it keeps three tails and two clearly visible pairs of wings.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une émergence-éclair", en: "A lightning-fast turnaround" },
+        body: {
+          fr: "La plupart de nos éphémères prennent une journée, parfois plus, entre la sortie de l'eau (subimago) et la mue finale en imago. Le Trico fait ça en une heure, parfois moins. La nymphe grimpe à la surface avant l'aube ou tôt le matin, mue presque aussitôt, et se transforme en imago avant même que la plupart des pêcheurs aient fini leur café.\n\nConséquence pratique : on rate presque toujours la subimago. Ce qu'on voit sur l'eau, dans la grande majorité des cas, c'est déjà la retombée des imagos — la vraie éclosion s'est produite pendant que personne ne regardait.",
+          en: "Most of our mayflies take a full day, sometimes more, between the dun stage and the final molt to the spinner. A Trico does it in about an hour, sometimes less. The nymph climbs to the surface before dawn or early in the morning, molts almost immediately, and is already a spinner before most anglers have finished their coffee.\n\nThe practical result: you almost never see the dun. What you actually see on the water, in the vast majority of cases, is already the spinner fall — the real emergence happened while nobody was watching.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi le matin", en: "Why mornings" },
+        body: {
+          fr: "La retombée des imagos suit la chaleur, pas l'horloge. Elle démarre une fois que l'air s'est réchauffé assez pour que les mâles forment leurs essaims nuptiaux au-dessus de l'eau — typiquement entre 7 h et 10 h, une fois la rosée disparue. Plus tard dans l'été, quand les matinées sont déjà chaudes dès le lever du soleil, tout le spectacle peut se produire une heure plus tôt.\n\nLe Trico produit plusieurs générations entre juillet et la fin septembre, ce qui explique pourquoi la fenêtre active dure trois mois complets plutôt qu'une ou deux semaines comme la plupart des grandes éphémères.",
+          en: "The spinner fall follows temperature, not the clock. It starts once the air has warmed enough for males to form their mating swarms over the water — typically between 7 and 10 a.m., once the dew has burned off. Later in summer, when mornings are already warm at sunrise, the whole show can happen an hour earlier.\n\nTrico runs several generations between July and the end of September, which is why the active window lasts three full months rather than the one or two weeks typical of most of our larger mayflies.",
+        },
+      },
+      {
+        heading: { fr: "Une question de bas de ligne, pas de patron", en: "A tippet question, not a fly-pattern one" },
+        body: {
+          fr: "Avec un insecte aussi uniforme et aussi abondant, les truites se bâtissent une image très précise de ce qu'elles cherchent, et n'importe quel écart dans la silhouette de votre mouche ressort. Ce qui les fait refuser, dans la grande majorité des cas, ce n'est pas le patron : c'est le 5X qui crée un sillage visible à cette taille.\n\nDescendez à 6X, parfois 7X, et cherchez les remous discrets — les nageoires caudales qui se lèvent avec un mouvement très retenu, signe d'un poisson qui sipe sans bouger de sa position. C'est le meilleur indice qu'il est réellement sur les imagos et non en train de gober au hasard.",
+          en: "With an insect this uniform and this abundant, trout build a very precise search image, and any deviation in your fly's silhouette stands out. In the vast majority of refusals, it is not the pattern — it is 5X leaving a visible wake at this size.\n\nDrop to 6X, sometimes 7X, and watch for quiet dorsal-and-tail rises — a very restrained sipping motion from a fish that never moves off its lie. That is the best sign it is genuinely keyed on the spinners rather than gulping at random.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Avant l'aube et tôt le matin, sur le fond.", en: "Before dawn and early morning, on the bottom." },
+        how: {
+          fr: "Une petite nymphe sombre en dérive morte près du fond, dans les portions à courant modéré. Utile surtout comme mouche de fond hors éclosion — la vraie action se joue en surface.",
+          en: "A small dark nymph dead-drifted near bottom in moderate current. Mostly useful as a searching pattern outside the fall — the real action happens on top.",
+        },
+        patternSlugs: ["pheasant-tail-nymph"],
+      },
+      {
+        label: { fr: "Imago (chute)", en: "Spinner (the fall)" },
+        when: { fr: "De 7 h à 10 h environ, une fois la rosée disparue.", en: "Roughly 7 to 10 a.m., once the dew has burned off." },
+        how: {
+          fr: "Une imago étalée qui repose à plat dans la pellicule, en dérive tendue sur 6X ou 7X. Le Griffith's Gnat imite aussi bien un amas de plusieurs imagos collées ensemble qu'un insecte seul.",
+          en: "A spent-wing spinner lying flat in the film, drifted drag-free on 6X or 7X. A Griffith's Gnat also works well as a cluster of several stuck-together spinners rather than a single insect.",
+        },
+        patternSlugs: ["trico-spinner", "griffiths-gnat"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------ MARCH BROWN
+  {
+    hatchId: "march-brown",
+    metaTitle: {
+      fr: "Maccaffertium vicarium — le March Brown, la grosse éphémère de l'après-midi",
+      en: "Maccaffertium vicarium — the March Brown, the big afternoon mayfly",
+    },
+    metaDescription: {
+      fr: "Le March Brown (Maccaffertium vicarium) au Québec : pourquoi cette éclosion sort au compte-gouttes tout l'après-midi, et comment la distinguer du Grey Fox qui prend la relève en soirée.",
+      en: "The March Brown (Maccaffertium vicarium) in Québec: why this hatch trickles off all afternoon instead of coming in a wave, and how to tell it from the Grey Fox that takes over in the evening.",
+    },
+    intro: {
+      fr: "C'est une des rares grosses éphémères qui sort en plein jour plutôt qu'au crépuscule, et elle le fait sans se presser : quelques insectes à la fois, étalés sur des heures, plutôt qu'une vague concentrée. Ça demande de la patience, mais elle est assez grosse pour faire sortir les truites les plus prudentes de leur poste.",
+      en: "This is one of the few big mayflies that comes off in broad daylight instead of at dusk, and it does it unhurried: a handful of insects at a time, spread across hours, rather than one concentrated wave. It takes patience, but it is big enough to pull the most cautious trout out of their lie.",
+    },
+    idMarks: [
+      {
+        fr: "Grosse : taille 10 à 12, avec des ailes antérieures fortement tachetées de brun.",
+        en: "Large: size 10–12, with heavily brown-mottled forewings.",
+      },
+      {
+        fr: "Corps brun tacheté, pattes annelées de brun foncé.",
+        en: "Mottled brown body, legs banded in dark brown.",
+      },
+      {
+        fr: "Nymphe aplatie et large, typique des insectes qui vivent agrippés aux roches en eau vive : tête large, yeux écartés sur le dessus.",
+        en: "A broad, flattened nymph typical of insects that cling to rock in fast water: a wide head with eyes set far apart on top.",
+      },
+      {
+        fr: "Émerge en pleine journée, généralement entre 11 h et 15 h — inhabituel pour une éphémère de cette taille.",
+        en: "Emerges in broad daylight, generally between 11 a.m. and 3 p.m. — unusual for a mayfly this size.",
+      },
+      {
+        fr: "Trois queues, comme la plupart des éphémères.",
+        en: "Three tails, like most mayflies.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Grey Fox (Maccaffertium fuscum), du même genre et souvent traité par les taxonomistes comme une simple forme du March Brown. Sur l'eau, la distinction est pratique plutôt que génétique : le Grey Fox est un cran plus petit (12-14 contre 10-12), plus pâle, et il prend la relève en fin de journée plutôt qu'en après-midi.",
+      en: "The Grey Fox (Maccaffertium fuscum), from the same genus and often treated by taxonomists as just a form of the March Brown. On the water the distinction is practical rather than genetic: the Grey Fox runs a size smaller (12–14 versus 10–12), paler, and takes over late in the day rather than in the afternoon.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nymphe d'eau vive", en: "A fast-water nymph" },
+        body: {
+          fr: "Le corps aplati et les pattes largement écartées de la nymphe ne sont pas décoratifs : c'est l'équipement d'un insecte qui vit agrippé aux roches, en pleine veine de courant, là où l'eau est la mieux oxygénée. Elle s'y nourrit en broutant les algues et le biofilm qui recouvrent les cailloux.\n\nÇa dicte l'habitat à chercher : les rapides et les radiers à fond de roche propre et de gros gravier, pas les portions lentes et limoneuses. C'est presque l'inverse de l'Hexagenia, qui a besoin de vase molle pour creuser son terrier.",
+          en: "The nymph's flattened body and widely splayed legs are not decorative — they are the equipment of an insect that lives clinging to rock, right in the current seam, where the water carries the most oxygen. It feeds there by grazing algae and biofilm off the stones.\n\nThat dictates the habitat to look for: riffles and runs over clean rock and coarse gravel, not slow silty water. It is almost the opposite of Hexagenia, which needs soft silt to dig its burrow.",
+        },
+      },
+      {
+        heading: { fr: "Une éclosion en après-midi, au compte-gouttes", en: "An afternoon hatch, a trickle at a time" },
+        body: {
+          fr: "Contrairement à une émergence synchronisée déclenchée par la tombée de la lumière, celle du March Brown s'étale sur des heures en plein jour, quelques insectes à la fois. Il n'y a presque jamais de vague visible ni de truites qui montent en série.\n\nÇa change la stratégie : plutôt que d'attendre un pod de poissons qui montent, il faut prospecter les postes probables avec une sèche assez grosse et assez flottante pour rester visible longtemps, en acceptant que les touches viennent une à la fois, espacées.",
+          en: "Unlike a synchronized emergence triggered by falling light, the March Brown's stretches across hours in broad daylight, a few insects at a time. There is almost never a visible wave or a pod of steadily rising fish.\n\nThat changes the approach: rather than waiting for a pod of risers, prospect the likely lies with a dry big and buoyant enough to stay visible a long time, and accept that the takes come one at a time, spaced apart.",
+        },
+      },
+      {
+        heading: { fr: "Deux insectes, une saison", en: "Two insects, one season" },
+        body: {
+          fr: "March Brown et Grey Fox partagent la même rivière et se chevauchent sur près de six semaines. En pratique, ça veut dire garder les deux tailles en boîte et suivre l'horloge plus que le calendrier : un 10 ou 12 tacheté brun en après-midi, puis un 12 ou 14 plus pâle — souvent un Light Cahill — quand la lumière baisse en fin de journée.",
+          en: "March Brown and Grey Fox share the same water and overlap for nearly six weeks. In practice that means carrying both sizes and following the clock more than the calendar: a brown-mottled 10 or 12 in the afternoon, then a paler 12 or 14 — often a Light Cahill — once the light starts to drop toward evening.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la journée, surtout avant l'éclosion de l'après-midi.", en: "All day, especially ahead of the afternoon hatch." },
+        how: {
+          fr: "Une nymphe robuste en dérive morte dans les veines rapides, près du fond, là où l'insecte vit réellement.",
+          en: "A sturdy nymph dead-drifted near bottom in fast seams, exactly where the insect actually lives.",
+        },
+        patternSlugs: ["bead-head-hares-ear"],
+      },
+      {
+        label: { fr: "Subimago (dun)", en: "Dun" },
+        when: { fr: "De 11 h à 15 h environ.", en: "Roughly 11 a.m. to 3 p.m." },
+        how: {
+          fr: "Une grosse sèche tachetée, en dérive morte dans les veines et le long des cassures de courant. Restez patient : les touches s'étalent, elles ne s'accumulent pas.",
+          en: "A big mottled dry, dead-drifted through seams and along current breaks. Stay patient — the takes are spread out, not stacked up.",
+        },
+        patternSlugs: ["march-brown"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------------- GRANNOM
+  {
+    hatchId: "grannom",
+    metaTitle: {
+      fr: "Brachycentrus — le Grannom, le premier gros trichoptère du printemps",
+      en: "Brachycentrus — the Grannom, spring's first big caddis",
+    },
+    metaDescription: {
+      fr: "Le Grannom (Brachycentrus) au Québec : le fourreau carré qui le distingue des autres trichoptères, pourquoi il sort en même temps que le Hendrickson, et pourquoi l'après-midi compte autant que le matin.",
+      en: "The Grannom (Brachycentrus) in Québec: the square case that sets it apart from other caddis, why it overlaps with the Hendrickson, and why the afternoon matters as much as the morning.",
+    },
+    intro: {
+      fr: "C'est le signal que le printemps est vraiment arrivé : le premier gros trichoptère de l'année, souvent le même jour que le Hendrickson. Les essaims noirs au-dessus des rapides sont difficiles à manquer, mais la vraie action se joue deux fois — une fois le matin à l'émergence, une fois l'après-midi quand les femelles reviennent pondre.",
+      en: "This is the signal that spring has really arrived: the year's first big caddis, often on the very same day as the Hendrickson. The black swarms over the riffles are hard to miss, but the real action happens twice — once in the morning at emergence, once in the afternoon when the females come back to lay.",
+    },
+    idMarks: [
+      {
+        fr: "Adulte brun très foncé à noir, taille 14 à 16, ailes tenues en toit au repos comme tous les trichoptères.",
+        en: "A very dark brown to black adult, size 14–16, wings held tent-like at rest like all caddisflies.",
+      },
+      {
+        fr: "Une des premières grosses éclosions de trichoptères, souvent en même temps que le Hendrickson fin avril-début mai.",
+        en: "One of the season's first big caddis hatches, often right alongside the Hendrickson in late April–early May.",
+      },
+      {
+        fr: "La larve construit un fourreau conique à quatre faces, fait de fragments de plantes cimentés ensemble — la coupe carrée est le repère le plus rapide, bien différente des fourreaux ronds de galets d'autres trichoptères porteurs de fourreau.",
+        en: "The larva builds a four-sided, tapering case cemented from plant fragments — that square cross-section is the fastest tell, quite different from the round, pebble-built cases of many other case-making caddis.",
+      },
+      {
+        fr: "Vols en essaims denses et voletants au-dessus des rapides et de la végétation riveraine au pic de l'éclosion.",
+        en: "Dense, fluttering swarms over riffles and streamside vegetation at the peak of the hatch.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Little Black Caddis (Chimarra aterrima), présent à la même période au-dessus des mêmes rapides, mais deux fois plus petit (18-20) — facile à prendre pour un moucheron. Le Grannom, en comparaison, est nettement plus gros et plus facile à identifier à l'œil nu.",
+      en: "The Little Black Caddis (Chimarra aterrima), on the water at the same time over the same riffles, but roughly half the size (18–20) — easy to mistake for a midge. The Grannom, by comparison, is clearly bigger and easy to pick out with the naked eye.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le fourreau carré", en: "The square case" },
+        body: {
+          fr: "La larve du Grannom se déplace enfermée dans un fourreau conique à section carrée, fait de petits fragments de plantes cimentés avec de la soie — un détail qui la distingue au premier coup d'œil des trichoptères à fourreau rond ou des espèces qui vivent librement, sans abri. Elle s'en sert pour brouter et filtrer la matière organique fine dans les portions à courant modéré et bien oxygéné.\n\nOn la trouve typiquement collée à la végétation immergée et aux débris ligneux, pas sur la roche nue — c'est là qu'elle trouve à la fois de quoi construire son fourreau et de quoi se nourrir.",
+          en: "The Grannom larva moves around sealed inside a tapering, square-cross-section case built from small plant fragments cemented with silk — a detail that sets it apart at a glance from round-cased caddis or species that live free without any shelter. It uses the case while grazing and filtering fine organic matter in moderate, well-oxygenated current.\n\nYou typically find it clinging to submerged vegetation and woody debris rather than bare rock — that is where it finds both its building material and its food.",
+        },
+      },
+      {
+        heading: { fr: "Les premières grosses sèches du printemps", en: "Spring's first big dries" },
+        body: {
+          fr: "Arriver aussi tôt dans la saison a un avantage : peu d'autres gros insectes se disputent l'attention des truites, qui sortent d'un hiver maigre. Contrairement au March Brown qui s'étale au compte-gouttes, le Grannom émerge souvent en vraie vague synchronisée, surtout les matins doux et couverts — ce qui produit des envols massifs et bien visibles.\n\nSur une rivière où le Hendrickson et le Grannom se chevauchent, les deux éclosions peuvent se confondre en une seule montée de truites qui gobent indifféremment l'un ou l'autre — un des rares moments de l'année où le patron compte vraiment moins que d'habitude.",
+          en: "Coming this early in the season has an advantage: few other large insects are competing for the attention of trout coming out of a lean winter. Unlike the March Brown's steady trickle, the Grannom often emerges in a genuine synchronized wave, especially on mild, overcast mornings — producing dense, unmistakable flights.\n\nOn a river where Hendrickson and Grannom overlap, the two hatches can blur into one rise of fish taking either indifferently — one of the few times all year the exact pattern matters a little less than usual.",
+        },
+      },
+      {
+        heading: { fr: "Le retour en après-midi", en: "The afternoon return" },
+        body: {
+          fr: "Une fois accouplées, les femelles ne se contentent pas de pondre en tapotant la surface : elles reviennent l'après-midi et plongent ou rampent carrément sous l'eau pour coller leurs œufs sur un support immergé. C'est un comportement qui ouvre une deuxième fenêtre de pêche, distincte de l'émergence du matin.\n\nÀ ce moment-là, les truites guettent autant l'insecte qui nage activement sous la surface que celui qui flotte dessus. Une mouche animée, remuée par petites tirées, imite ce mouvement bien mieux qu'une dérive parfaitement morte.",
+          en: "Once mated, the females do not just tap the surface to lay — they come back in the afternoon and actually dive or crawl underwater to glue their eggs onto a submerged surface. That behaviour opens a second fishing window, distinct from the morning emergence.\n\nAt that point trout are watching for the insect swimming actively underwater just as much as the one floating on top. A fly given a little movement — small twitches or strips — imitates that far better than a perfectly dead drift.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Pupe / émergente", en: "Pupa / emerger" },
+        when: { fr: "Le matin, à l'émergence.", en: "Morning, at emergence." },
+        how: {
+          fr: "Une pupe en dérive montante vers la surface, ou juste sous la pellicule au moment de l'éclosion.",
+          en: "A pupa fished on a rising drift toward the surface, or just under the film right at emergence.",
+        },
+        patternSlugs: ["caddis-pupa"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Le matin en sèche, l'après-midi pour la ponte.", en: "Dry in the morning, for egg-laying in the afternoon." },
+        how: {
+          fr: "Une sèche foncée en dérive morte le matin. L'après-midi, une mouche noyée animée en tirées imite la femelle qui plonge pondre — n'importe quelle nymphe verdâtre remuée activement fait la job, elle n'a pas besoin d'être une imitation exacte.",
+          en: "A dark dry dead-drifted in the morning. In the afternoon, a wet fly worked with small strips imitates the diving, egg-laying female — any greenish nymph fished with real movement does the job; it does not need to be an exact imitation.",
+        },
+        patternSlugs: ["black-caddis", "green-rock-worm"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------- OCTOBER CADDIS
+  {
+    hatchId: "october-caddis",
+    metaTitle: {
+      fr: "Pycnopsyche — l'October Caddis, le dernier gros trichoptère avant l'hiver",
+      en: "Pycnopsyche — the October Caddis, the last big caddis before winter",
+    },
+    metaDescription: {
+      fr: "L'October Caddis (Pycnopsyche) au Québec : pourquoi c'est le plus gros trichoptère de l'année, pourquoi il vole en dansant plutôt qu'en ligne droite, et comment le pêcher le long des berges sous-cavées.",
+      en: "The October Caddis (Pycnopsyche) in Québec: why it is the year's biggest caddis, why it flies in an erratic flutter rather than a straight line, and how to fish it tight to undercut banks.",
+    },
+    intro: {
+      fr: "C'est le dernier gros repas de la saison. Quand presque tout le reste a fini de voler, ce gros trichoptère orangé sort encore, l'après-midi, le long des berges — et les truites, qui savent que l'hiver approche, ne se font pas prier pour monter dessus.",
+      en: "This is the season's last big meal. When almost everything else has stopped flying, this big orange caddis is still coming off, in the afternoon, along the banks — and trout, sensing winter closing in, do not need much convincing to come up for it.",
+    },
+    idMarks: [
+      {
+        fr: "Le plus gros trichoptère de l'année : taille 8 à 10.",
+        en: "The year's biggest caddis: size 8–10.",
+      },
+      {
+        fr: "Corps orange à orange brûlé, ailes brun-tan tachetées, tenues en toit au repos.",
+        en: "Orange to burnt-orange body, mottled tan-brown wings held tent-like at rest.",
+      },
+      {
+        fr: "Vol voletant et un peu maladroit, en petits bonds, très différent du vol direct de la plupart des trichoptères.",
+        en: "A fluttering, slightly clumsy flight in short bursts, quite different from the direct flight of most caddis.",
+      },
+      {
+        fr: "Longues antennes filiformes, aussi longues ou plus longues que le corps — un repère qui sépare tout de suite un trichoptère d'un plécoptère ou d'un papillon d'apparence similaire.",
+        en: "Long, thread-like antennae as long as or longer than the body — a mark that instantly separates a caddis from a similar-looking stonefly or moth.",
+      },
+      {
+        fr: "La larve construit un fourreau grossier de fragments d'écorce et de feuilles, souvent complété de petits cailloux à l'approche de la nymphose.",
+        en: "The larva builds a coarse case of bark and leaf fragments, often finished off with small pebbles as it nears pupation.",
+      },
+    ],
+    confusedWith: {
+      fr: "Par sa taille et sa saison, il est pratiquement seul parmi nos trichoptères en octobre. La seule confusion courante vient des dernières phryganes dorées (perles) encore actives : celles-ci replient leurs ailes bien à plat plutôt qu'en toit, portent deux queues et de courtes antennes, plutôt que les longues antennes filiformes du trichoptère.",
+      en: "By size and season it is nearly alone among our caddis in October. The one common mix-up is with the season's last golden stoneflies: those fold their wings flat against the body rather than tent-like, carry two tails, and have short antennae rather than the caddis's long, thread-like ones.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une larve qui déménage", en: "A larva that keeps moving house" },
+        body: {
+          fr: "Jeune, la larve construit un fourreau léger de fragments de feuilles dans les portions plus lentes, riches en litière végétale — bordures, embâcles, sous les berges. En vieillissant, à l'approche de la nymphose en fin d'été, elle reconstruit un fourreau plus robuste, souvent renforcé de petits cailloux, et se déplace vers un substrat un peu plus grossier avant de se sceller pour l'hiver.\n\nÇa veut dire que l'habitat change selon la saison : cherchez les jeunes larves dans la litière des berges calmes en été, et les adultes de fin de saison plutôt près des structures et des berges sous-cavées, là où elles ont fini leur développement.",
+          en: "As a young larva it builds a light case from leaf fragments in slower, litter-rich stretches — margins, log jams, undercut banks. As it ages toward pupation in late summer, it rebuilds a sturdier case, often reinforced with small pebbles, and shifts toward slightly coarser substrate before sealing itself in for winter.\n\nThat means the habitat shifts with the season: look for young larvae in the leaf litter of quiet margins in summer, and late-season adults closer to structure and undercut banks, where they finished developing.",
+        },
+      },
+      {
+        heading: { fr: "La dernière grosse sèche avant l'hiver", en: "The last big dry before winter" },
+        body: {
+          fr: "À mesure que l'activité des insectes aquatiques ralentit vers l'hiver, ce gros trichoptère reste l'un des derniers repas de belle taille encore disponibles. Les truites, qui n'ont pas la sélectivité pointilleuse d'une éclosion de Trico à régler, montent souvent dessus avec une vraie confiance plutôt qu'en sipant prudemment.\n\nC'est l'inverse presque parfait du Trico : ici, la taille et l'abondance relative de l'insecte comptent plus que la précision du patron.",
+          en: "As aquatic insect activity slows down heading into winter, this big caddis remains one of the last sizeable meals still available. Trout, without the pinpoint selectivity a Trico hatch demands, often come up for it with real confidence rather than a cautious sip.\n\nIt is nearly the mirror image of the Trico: here, the insect's size and relative abundance matter more than precision in the pattern.",
+        },
+      },
+      {
+        heading: { fr: "Une sèche qui bouge", en: "A dry fly in motion" },
+        body: {
+          fr: "Dérivez-la serré le long des berges sous-cavées et des structures, là où les truites d'automne se tiennent. Mais gardez en tête que l'adulte naturel continue souvent de voleter et de patiner un peu une fois posé sur l'eau — une dérive parfaitement morte n'est pas toujours ce qui déclenche la touche.\n\nUn petit remous ou un skate discret imite ce comportement, et un Stimulator, flottant et touffu, est justement construit pour ce genre d'animation sans couler.",
+          en: "Drift it tight to undercut banks and structure, where autumn trout are holding. But keep in mind that the natural adult often keeps fluttering and skittering a little once it lands on the water — a perfectly dead drift is not always what triggers the take.\n\nA small twitch or a subtle skate imitates that behaviour, and a Stimulator, buoyant and bushy, is built for exactly that kind of movement without sinking.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Adulte en dérive morte", en: "Adult, dead-drifted" },
+        when: { fr: "L'après-midi, le long des berges.", en: "Afternoon, tight to the banks." },
+        how: {
+          fr: "Une sèche orangée bien flottante, dérivée serré contre les berges sous-cavées et les structures.",
+          en: "A high-floating orange dry, drifted tight against undercut banks and structure.",
+        },
+        patternSlugs: ["elk-wing-caddis"],
+      },
+      {
+        label: { fr: "Adulte animé", en: "Adult, given movement" },
+        when: { fr: "Le même après-midi, quand la dérive morte ne suffit pas.", en: "Same afternoon, when the dead drift alone is not enough." },
+        how: {
+          fr: "Un petit remous ou un skate discret imite le vol voletant de l'insecte une fois posé sur l'eau.",
+          en: "A small twitch or a subtle skate imitates the insect's fluttering once it lands on the water.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
