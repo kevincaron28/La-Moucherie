@@ -5,7 +5,14 @@ import { ProductCard } from "@/components/ProductCard";
 import { SearchBox } from "@/components/SearchBox";
 import { Link } from "@/i18n/navigation";
 import { CATEGORY_ORDER } from "@/lib/localize";
-import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
+import {
+  SPECIES,
+  SPECIES_SLUGS,
+  SEASONS,
+  WATER_TYPES,
+  isSeason,
+  isWaterType,
+} from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
 
 export default async function ShopPage({
@@ -13,10 +20,10 @@ export default async function ShopPage({
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ category?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; q?: string; season?: string; waterType?: string }>;
 }) {
   const { locale } = await params;
-  const { category, q } = await searchParams;
+  const { category, q, season, waterType } = await searchParams;
   setRequestLocale(locale);
 
   const t = await getTranslations("Shop");
@@ -26,6 +33,8 @@ export default async function ShopPage({
   const activeCategory = (CATEGORY_ORDER as readonly string[]).includes(category ?? "")
     ? (category as ProductCategory)
     : undefined;
+  const activeSeason = isSeason(season) ? season : undefined;
+  const activeWaterType = isWaterType(waterType) ? waterType : undefined;
   const query = q?.trim();
 
   const matchedSpecies: FishSpecies[] = [];
@@ -60,6 +69,8 @@ export default async function ShopPage({
     where: {
       active: true,
       ...(activeCategory ? { category: activeCategory } : {}),
+      ...(activeSeason ? { seasons: { has: activeSeason } } : {}),
+      ...(activeWaterType ? { waterTypes: { has: activeWaterType } } : {}),
       ...(query
         ? {
             OR: [
@@ -97,12 +108,25 @@ export default async function ShopPage({
     orderBy: { createdAt: "desc" },
   });
 
-  function categoryHref(cat?: ProductCategory) {
+  function buildHref(overrides: {
+    category?: string;
+    season?: string;
+    waterType?: string;
+  }) {
     const urlParams = new URLSearchParams();
+    const cat = "category" in overrides ? overrides.category : activeCategory;
+    const ssn = "season" in overrides ? overrides.season : activeSeason;
+    const wt = "waterType" in overrides ? overrides.waterType : activeWaterType;
     if (cat) urlParams.set("category", cat);
+    if (ssn) urlParams.set("season", ssn);
+    if (wt) urlParams.set("waterType", wt);
     if (query) urlParams.set("q", query);
     const qs = urlParams.toString();
     return qs ? `/shop?${qs}` : "/shop";
+  }
+
+  function categoryHref(cat?: ProductCategory) {
+    return buildHref({ category: cat });
   }
 
   return (
@@ -144,6 +168,45 @@ export default async function ShopPage({
         )}
       </div>
 
+      <div className="mt-4 flex flex-wrap gap-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+            {tAngling("seasonTitle")}
+          </span>
+          <FilterPill
+            href={buildHref({ season: undefined })}
+            active={!activeSeason}
+            label={t("all")}
+          />
+          {SEASONS.map((s) => (
+            <FilterPill
+              key={s}
+              href={buildHref({ season: activeSeason === s ? undefined : s })}
+              active={activeSeason === s}
+              label={tAngling(`seasons.${s}`)}
+            />
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+            {tAngling("waterTitle")}
+          </span>
+          <FilterPill
+            href={buildHref({ waterType: undefined })}
+            active={!activeWaterType}
+            label={t("all")}
+          />
+          {WATER_TYPES.map((w) => (
+            <FilterPill
+              key={w}
+              href={buildHref({ waterType: activeWaterType === w ? undefined : w })}
+              active={activeWaterType === w}
+              label={tAngling(`waterTypes.${w}`)}
+            />
+          ))}
+        </div>
+      </div>
+
       <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1.5 border-t border-forest/10 pt-4">
         <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">
           {tAngling("speciesTitle")}
@@ -171,6 +234,29 @@ export default async function ShopPage({
         </div>
       )}
     </div>
+  );
+}
+
+function FilterPill({
+  href,
+  active,
+  label,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+        active
+          ? "border-rust bg-rust text-cream"
+          : "border-forest/20 text-forest/70 hover:border-forest/50"
+      }`}
+    >
+      {label}
+    </Link>
   );
 }
 

@@ -204,13 +204,22 @@ function ShopMenu() {
               </ul>
             </div>
           </div>
-          <Link
-            href="/shop/water"
-            onClick={() => setOpen(false)}
-            className="mt-4 block border-t border-forest/10 pt-3 text-sm font-medium text-forest hover:text-rust"
-          >
-            {t("waters")} &rarr;
-          </Link>
+          <div className="mt-4 flex flex-col gap-2 border-t border-forest/10 pt-3">
+            <Link
+              href="/shop/finder"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-forest hover:text-rust"
+            >
+              {t("flyFinder")} &rarr;
+            </Link>
+            <Link
+              href="/shop/water"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-forest hover:text-rust"
+            >
+              {t("waters")} &rarr;
+            </Link>
+          </div>
         </div>
       )}
     </div>
