@@ -378,7 +378,18 @@
     "timeNight": "À la noirceur",
     "timeAllDay": "Toute la journée",
     "reportsLinkIntro": "Pour ce qui se passe réellement sur l'eau en ce moment, et non la moyenne saisonnière :",
-    "reportsLinkCta": "Lire Ce qui travaille"
+    "reportsLinkCta": "Lire Ce qui travaille",
+    "backToChart": "Retour au calendrier",
+    "factSize": "Taille d'hameçon",
+    "factWhen": "Sur l'eau",
+    "factPeak": "Sommet",
+    "factTime": "Moment de la journée",
+    "identifyHeading": "La reconnaître",
+    "confusedWithHeading": "À ne pas confondre avec",
+    "stagesHeading": "La pêcher, stade par stade",
+    "chartLinkIntro": "Tous les autres insectes qui comptent, mois par mois :",
+    "chartLinkCta": "Voir le calendrier complet",
+    "readMore": "En savoir plus"
   },
   "Wholesale": {
     "title": "Offrir La Moucherie",

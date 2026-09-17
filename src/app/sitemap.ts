@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SPECIES_SLUGS } from "@/lib/angling";
+import { INSECT_ARTICLES } from "@/lib/insect-articles";
 import { routing } from "@/i18n/routing";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -67,6 +68,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Per-insect entomology pages. High priority on purpose: these are the pages
+  // most likely to be found cold in search, by someone who has never heard of
+  // the shop.
+  const insectEntries: MetadataRoute.Sitemap = [];
+  for (const article of INSECT_ARTICLES) {
+    for (const locale of routing.locales) {
+      insectEntries.push({
+        url: `${baseUrl}/${locale}/hatches/${article.hatchId}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.8,
+      });
+    }
+  }
+
   // Named Waters
   const waters = await prisma.fishingWater.findMany({
     select: { slug: true, updatedAt: true },
@@ -104,6 +120,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...productEntries,
     ...speciesEntries,
+    ...insectEntries,
     ...waterEntries,
     ...reportEntries,
   ];

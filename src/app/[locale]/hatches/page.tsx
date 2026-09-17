@@ -15,6 +15,7 @@ import {
   type Hatch,
   type HatchGroup,
 } from "@/lib/hatches";
+import { ARTICLE_IDS } from "@/lib/insect-articles";
 import type { Locale } from "@/i18n/routing";
 
 // The chart marks today's date and leads with what's on the water right now, so
@@ -236,7 +237,16 @@ export default async function HatchesPage({
                     >
                       <div>
                         <h3 className="font-display font-semibold text-forest">
-                          {pick(h.nameFr, h.nameEn, locale)}
+                          {ARTICLE_IDS.has(h.id) ? (
+                            <Link
+                              href={`/hatches/${h.id}`}
+                              className="underline decoration-forest/25 underline-offset-4 transition hover:text-rust hover:decoration-rust"
+                            >
+                              {pick(h.nameFr, h.nameEn, locale)}
+                            </Link>
+                          ) : (
+                            pick(h.nameFr, h.nameEn, locale)
+                          )}
                         </h3>
                         <p className="text-xs italic text-ink/50">{h.scientific}</p>
                         <p className="mt-1 text-xs font-medium text-ink/60">

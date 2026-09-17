@@ -378,7 +378,18 @@
     "timeNight": "After dark",
     "timeAllDay": "All day",
     "reportsLinkIntro": "For what's actually happening on the water right now, not the seasonal average:",
-    "reportsLinkCta": "Read What's Working"
+    "reportsLinkCta": "Read What's Working",
+    "backToChart": "Back to the hatch chart",
+    "factSize": "Hook size",
+    "factWhen": "On the water",
+    "factPeak": "Peak",
+    "factTime": "Time of day",
+    "identifyHeading": "Telling it apart",
+    "confusedWithHeading": "Easily confused with",
+    "stagesHeading": "Fishing it, stage by stage",
+    "chartLinkIntro": "Every other insect worth knowing, month by month:",
+    "chartLinkCta": "See the full hatch chart",
+    "readMore": "Read more"
   },
   "Wholesale": {
     "title": "Stock La Moucherie",
