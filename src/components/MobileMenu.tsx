@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { CATEGORY_ORDER } from "@/lib/localize";
-import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
+import { SPECIES, SPECIES_FAMILIES, SPECIES_FAMILY, SPECIES_SLUGS } from "@/lib/angling";
 import { INSECT_ARTICLES } from "@/lib/insect-articles";
 import { HATCHES } from "@/lib/hatches";
 
@@ -160,10 +160,27 @@ export function MobileMenu({ locale }: { locale: string }) {
               </Section>
 
               <Section title={tAngling("speciesTitle")}>
-                {SPECIES.map((sp) => (
-                  <Item key={sp} onNavigate={close} href={`/shop/species/${SPECIES_SLUGS[sp]}`}>
-                    {tAngling(`species.${sp}`)}
-                  </Item>
+                {/* Split into cold-water salmonids vs. warmwater species
+                    rather than one flat list of nine — the two get fished
+                    with genuinely different fly boxes, and grouping them
+                    is easier to scan one-handed than nine names in a row. */}
+                {SPECIES_FAMILIES.map((family) => (
+                  <li key={family}>
+                    <p className="text-[11px] font-medium uppercase tracking-wide text-ink/40">
+                      {tAngling(`speciesFamilies.${family}`)}
+                    </p>
+                    <ul className="mt-2 space-y-3">
+                      {SPECIES.filter((sp) => SPECIES_FAMILY[sp] === family).map((sp) => (
+                        <Item
+                          key={sp}
+                          onNavigate={close}
+                          href={`/shop/species/${SPECIES_SLUGS[sp]}`}
+                        >
+                          {tAngling(`species.${sp}`)}
+                        </Item>
+                      ))}
+                    </ul>
+                  </li>
                 ))}
               </Section>
 

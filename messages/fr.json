@@ -518,6 +518,10 @@
       "LARGEMOUTH_BASS": "l'achigan à grande bouche",
       "NORTHERN_PIKE": "le grand brochet",
       "WALLEYE": "le doré jaune"
+    },
+    "speciesFamilies": {
+      "SALMONID": "Truite & saumon",
+      "WARMWATER": "Achigan & autres"
     }
   },
   "SpeciesPage": {

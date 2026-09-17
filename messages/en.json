@@ -518,6 +518,10 @@
       "LARGEMOUTH_BASS": "largemouth bass",
       "NORTHERN_PIKE": "northern pike",
       "WALLEYE": "walleye"
+    },
+    "speciesFamilies": {
+      "SALMONID": "Trout & salmon",
+      "WARMWATER": "Bass & other"
     }
   },
   "SpeciesPage": {

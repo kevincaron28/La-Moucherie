@@ -46,6 +46,24 @@ export const SPECIES_SLUGS: Record<Species, string> = {
   WALLEYE: "dore-jaune",
 };
 
+// Grouping for display only (mobile nav, /shop/finder) — cold-water
+// salmonids and warmwater species get fished with genuinely different fly
+// boxes, so a flat list of nine names reads better split in two.
+export const SPECIES_FAMILIES = ["SALMONID", "WARMWATER"] as const;
+export type SpeciesFamily = (typeof SPECIES_FAMILIES)[number];
+
+export const SPECIES_FAMILY: Record<Species, SpeciesFamily> = {
+  BROOK_TROUT: "SALMONID",
+  BROWN_TROUT: "SALMONID",
+  RAINBOW_TROUT: "SALMONID",
+  LANDLOCKED_SALMON: "SALMONID",
+  ATLANTIC_SALMON: "SALMONID",
+  SMALLMOUTH_BASS: "WARMWATER",
+  LARGEMOUTH_BASS: "WARMWATER",
+  NORTHERN_PIKE: "WARMWATER",
+  WALLEYE: "WARMWATER",
+};
+
 export function speciesFromSlug(slug: string): Species | null {
   const entry = Object.entries(SPECIES_SLUGS).find(([, s]) => s === slug);
   return entry ? (entry[0] as Species) : null;
