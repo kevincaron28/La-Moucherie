@@ -92,7 +92,8 @@ export function MobileMenu({ locale }: { locale: string }) {
   const tCategories = useTranslations("Categories");
   const tAngling = useTranslations("Angling");
   const tHatches = useTranslations("Hatches");
-  const { status } = useSession();
+  const { status, data: session } = useSession();
+  const isAdmin = session?.user?.isAdmin === true;
   const [open, setOpen] = useState(false);
 
   // A drawer that leaves the page scrollable behind it feels broken on a phone.
@@ -263,6 +264,11 @@ export function MobileMenu({ locale }: { locale: string }) {
                 <Item onNavigate={close} href={status === "authenticated" ? "/account" : "/account/login"}>
                   {status === "authenticated" ? t("account") : t("signIn")}
                 </Item>
+                {isAdmin && (
+                  <Item onNavigate={close} href="/admin" accent>
+                    {t("admin")}
+                  </Item>
+                )}
               </Section>
             </div>
           </div>

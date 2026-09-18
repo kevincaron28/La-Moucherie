@@ -1,20 +1,7 @@
 import { auth } from "@/lib/auth";
+import { adminEmails } from "@/lib/admin-emails";
 
-/**
- * Who may see the operational pages.
- *
- * `ADMIN_EMAILS` is a comma-separated list; it falls back to `OWNER_EMAIL` so
- * there's always exactly one owner without extra configuration. Matching is on
- * the signed-in session's email rather than a role column: there's one operator,
- * and a whole permissions system would be machinery without a user.
- */
-export function adminEmails(): string[] {
-  const configured = process.env.ADMIN_EMAILS ?? process.env.OWNER_EMAIL ?? "";
-  return configured
-    .split(",")
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-}
+export { adminEmails };
 
 /** True when the current session belongs to an operator. */
 export async function isAdmin(): Promise<boolean> {

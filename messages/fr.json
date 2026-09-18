@@ -26,7 +26,8 @@
     "onTheWater": "Sur l'eau",
     "submitReport": "Envoyer un rapport",
     "aboutSection": "La boutique",
-    "shipping": "Livraison et retours"
+    "shipping": "Livraison et retours",
+    "admin": "Admin"
   },
   "Account": {
     "loginTitle": "Se connecter",

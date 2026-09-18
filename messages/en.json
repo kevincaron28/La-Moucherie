@@ -26,7 +26,8 @@
     "onTheWater": "On the water",
     "submitReport": "File a hatch report",
     "aboutSection": "The shop",
-    "shipping": "Shipping & returns"
+    "shipping": "Shipping & returns",
+    "admin": "Admin"
   },
   "Account": {
     "loginTitle": "Sign in",

@@ -18,7 +18,8 @@ export function Header() {
   const t = useTranslations("Nav");
   const locale = useLocale();
   const { itemCount } = useCart();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
+  const isAdmin = session?.user?.isAdmin === true;
 
   return (
     <header className="sticky top-0 z-40 border-b border-forest/15 bg-parchment/95 backdrop-blur">
@@ -52,6 +53,14 @@ export function Header() {
         <SearchBox className="hidden max-w-[16rem] flex-1 lg:block" />
 
         <div className="flex items-center gap-2 sm:gap-4">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="hidden shrink-0 rounded-full border border-rust/40 px-3 py-1.5 text-xs font-semibold text-rust transition hover:bg-rust/10 sm:block"
+            >
+              {t("admin")}
+            </Link>
+          )}
           <LocaleSwitcher />
           <Link
             href={status === "authenticated" ? "/account" : "/account/login"}
