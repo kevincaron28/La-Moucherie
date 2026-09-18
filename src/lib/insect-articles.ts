@@ -1135,6 +1135,338 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ------------------------------------------------------------ QUILL GORDON
+  {
+    hatchId: "quill-gordon",
+    metaTitle: {
+      fr: "Epeorus pluralis — le Quill Gordon, l'éphémère qui éclot sous l'eau",
+      en: "Epeorus pluralis — the Quill Gordon, the mayfly that hatches underwater",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Quill Gordon (Epeorus pluralis) au Québec : pourquoi cette éphémère quitte sa mue de nymphe sous l'eau plutôt qu'en surface, et pourquoi la nymphe qui monte compte plus que le dun.",
+      en: "Identifying and fishing the Quill Gordon (Epeorus pluralis) in Québec: why this mayfly splits its nymphal shuck underwater instead of at the surface, and why the rising nymph matters more than the dun.",
+    },
+    intro: {
+      fr: "C'est la première vraie éphémère de l'année, dès que l'eau touche 10 °C — mais c'est aussi une des rares qui n'émerge jamais vraiment en surface. Le Quill Gordon quitte sa peau de nymphe sous l'eau, et le dun qu'on voit flotter a déjà fini l'essentiel du travail avant même de percer la pellicule.",
+      en: "This is the first real mayfly of the year, as soon as water touches 10°C — but it's also one of the rare ones that never truly emerges at the surface. The Quill Gordon splits its nymphal shuck underwater, and the dun you see floating has already finished the hard part before it ever breaks the film.",
+    },
+    idMarks: [
+      {
+        fr: "Deux queues seulement — la plupart de nos autres éphémères en ont trois, ce qui identifie le genre Epeorus au premier coup d'œil.",
+        en: "Only two tails — most of our other mayflies carry three, which identifies the genus Epeorus at a glance.",
+      },
+      {
+        fr: "Corps gris ardoise à brun-rouille, ailes gris fumé tenues bien droites, taille 12-14.",
+        en: "Slate-grey to rust-brown body, smoke-grey wings held upright, size 12–14.",
+      },
+      {
+        fr: "Nymphe aplatie et large, accrochée aux roches des rapides propres et rapides — un vrai « clinger ».",
+        en: "A broad, flattened nymph clinging to rock in clean, fast riffles — a true \"clinger.\"",
+      },
+      {
+        fr: "Le dun flottant n'a plus de fourreau de nymphe attaché : il a déjà quitté sa mue avant d'atteindre la surface.",
+        en: "The floating dun carries no trailing nymphal shuck — it has already shed it before ever reaching the surface.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Hendrickson (Ephemerella subvaria), qui sort à peu près à la même période et à la même taille, mais qui porte trois queues et un corps plus brun-olive sans le ton ardoise. Le Blue Quill (Paraleptophlebia adoptiva), plus petit (16-18) et dans les eaux plus lentes, chevauche parfois la fin de son éclosion.",
+      en: "The Hendrickson (Ephemerella subvaria), which comes off around the same time and size, but carries three tails and a browner-olive body without the slate cast. The Blue Quill (Paraleptophlebia adoptiva), smaller (16–18) and in slower water, sometimes overlaps the tail end of its emergence.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une émergence sous l'eau", en: "An emergence underwater" },
+        body: {
+          fr: "Chez la plupart de nos éphémères, la nymphe nage ou dérive jusqu'à la pellicule et c'est là, à la surface, qu'elle fend sa peau pour devenir subimago — ce moment de transition, vulnérable et lent, est justement celui que la truite guette. Le genre Epeorus fait les choses autrement : la nymphe fend sa mue directement sous l'eau, souvent tout près du fond, et c'est déjà un dun ailé, prisonnier d'une bulle de gaz sous sa cuticule, qui remonte vers la surface.\n\nÇa change tout pour le pêcheur. Le moment vulnérable n'est plus à la pellicule — il est sous l'eau, pendant la remontée. Une nymphe ou une émergente pêchée en dérive montante, proche du fond, imite bien mieux ce qui se passe réellement qu'une sèche posée à la surface au bon moment.",
+          en: "In most of our mayflies, the nymph swims or drifts up to the film and it's right there, at the surface, that it splits its skin to become a dun — that slow, vulnerable transition is exactly what a trout watches for. The genus Epeorus does it differently: the nymph splits its shuck directly underwater, often close to the bottom, and what rises toward the surface is already a winged dun, trapped in a gas bubble under its old cuticle.\n\nThat changes everything for an angler. The vulnerable moment isn't at the film anymore — it's underwater, during the rise. A nymph or emerger fished on a rising drift near bottom imitates what's actually happening far better than a dry fly perfectly timed at the surface.",
+        },
+      },
+      {
+        heading: { fr: "Une nymphe bâtie pour l'eau vive", en: "A nymph built for fast water" },
+        body: {
+          fr: "Le corps aplati et élargi de la nymphe n'est pas un hasard : c'est une adaptation classique des « clingers », qui réduit la prise du courant et leur permet de rester agrippées aux roches dans les rapides les plus rapides et les mieux oxygénés de la rivière — exactement là où la plupart des autres nymphes ne tiendraient pas.\n\nÇa veut dire chercher le Quill Gordon dans les radiers à fond dur et les têtes de fosse à courant soutenu, jamais dans les baies calmes ou les fonds vaseux. Si le courant n'est pas assez vif pour vous faire perdre pied, il y a de bonnes chances que la nymphe n'y soit pas non plus.",
+          en: "The nymph's flattened, widened body is no accident — it's a classic \"clinger\" adaptation that cuts the current's grip and lets it hold tight to rock in the fastest, most oxygenated riffles on the river, exactly where most other nymphs couldn't hang on.\n\nThat means looking for the Quill Gordon in hard-bottomed riffles and the fast-water heads of pools, never in calm bays or silty flats. If the current isn't strong enough to threaten your footing, there's a good chance the nymph isn't there either.",
+        },
+      },
+      {
+        heading: { fr: "La première éclosion, sur une eau encore froide", en: "The first hatch, on still-cold water" },
+        body: {
+          fr: "Dès que l'eau atteint environ 10 °C, généralement mi-avril dans le sud du Québec, le Quill Gordon devient la première vraie fenêtre de pêche à la sèche de l'année. L'éclosion se concentre en après-midi, quand l'eau a eu le temps de se réchauffer de quelques degrés sous le soleil — une truite qui vient de passer l'hiver à se nourrir au fond n'ignore pas cette occasion.\n\nParce que l'émergence a déjà eu lieu sous l'eau, beaucoup de pêcheurs pêchent une sèche « trop tôt » dans la séquence et se demandent pourquoi les touches restent rares malgré des insectes bien visibles en surface. Essayez une nymphe ou une émergente dans la première demi-heure de l'éclosion visible, avant de monter en sèche une fois que les duns s'accumulent vraiment.",
+          en: "As soon as the water hits roughly 10°C, usually mid-April in southern Québec, the Quill Gordon becomes the year's first real dry-fly window. The hatch concentrates in the afternoon, once the water has had a few hours of sun to warm it slightly — a trout that just spent the winter feeding on the bottom doesn't pass that up.\n\nBecause the emergence already happened underwater, a lot of anglers fish a dry \"too early\" in the sequence and wonder why takes stay scarce despite visible bugs on top. Try a nymph or emerger through the first half hour of a visible hatch, then move up to a dry once duns are genuinely piling up.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe / émergente", en: "Nymph / emerger" },
+        when: { fr: "Juste avant et pendant l'éclosion, en après-midi.", en: "Just before and during the hatch, in the afternoon." },
+        how: {
+          fr: "En dérive montante près du fond, dans les rapides à courant soutenu — c'est là que se joue la vraie émergence.",
+          en: "On a rising drift near bottom, in steady-current riffles — that's where the real emergence happens.",
+        },
+        patternSlugs: ["pheasant-tail-nymph", "bead-head-hares-ear"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En après-midi, une fois les insectes visibles en nombre.", en: "In the afternoon, once bugs are visibly piling up." },
+        how: {
+          fr: "Une sèche grise en dérive morte, une fois que la truite a clairement basculé vers la surface.",
+          en: "A grey dry dead-drifted, once trout have clearly switched their attention to the top.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------------- BLUE QUILL
+  {
+    hatchId: "blue-quill",
+    metaTitle: {
+      fr: "Paraleptophlebia adoptiva — le Blue Quill, l'éphémère des eaux lentes",
+      en: "Paraleptophlebia adoptiva — the Blue Quill, mayfly of the slow water",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Blue Quill (Paraleptophlebia adoptiva) au Québec : une petite éphémère grise des eaux lentes, qui sort le mieux par temps gris et humide.",
+      en: "Identifying and fishing the Blue Quill (Paraleptophlebia adoptiva) in Québec: a small grey mayfly of slow water, at its best on grey, damp afternoons.",
+    },
+    intro: {
+      fr: "Elle passe souvent inaperçue à côté du Quill Gordon, dont elle partage presque le nom sans partager la famille. Le Blue Quill est une petite éphémère discrète des eaux lentes et des marges, qui attend justement les pires journées de printemps — froides, grises, humides — pour sortir en nombre.",
+      en: "It often goes unnoticed alongside the Quill Gordon, whose name it nearly shares without sharing its family. The Blue Quill is a small, quiet mayfly of slow water and margins, one that waits for the worst spring days — cold, grey, damp — to come off in real numbers.",
+    },
+    idMarks: [
+      {
+        fr: "Petite : taille 16-18, nettement plus fine que le Quill Gordon malgré la ressemblance du nom.",
+        en: "Small: size 16–18, distinctly finer than the Quill Gordon despite the similar name.",
+      },
+      {
+        fr: "Corps brun-gris à ardoise, trois queues — contrairement à l'Epeorus, qui n'en a que deux.",
+        en: "Grey-brown to slate body, three tails — unlike Epeorus, which carries only two.",
+      },
+      {
+        fr: "Nymphe fine et cylindrique, du type « fouisseuse-rampante », trouvée parmi les débris organiques des courants modérés à lents.",
+        en: "A slim, cylindrical \"crawler\" nymph, found among organic debris in moderate to slow current.",
+      },
+      {
+        fr: "Sort en nombre surtout par ciel couvert et air humide — les belles journées ensoleillées produisent une éclosion beaucoup plus discrète.",
+        en: "Comes off in numbers mostly under grey skies and damp air — a bright sunny day produces a far thinner hatch.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Black Quill (Leptophlebia cupida), de la même famille (Leptophlebiidae) et actif à la même période, mais nettement plus gros (12-14) et plus foncé. Les deux noms de « Quill » portent à confusion alors qu'ils n'ont rien à voir avec le Quill Gordon, un Heptageniidae d'une tout autre famille.",
+      en: "The Black Quill (Leptophlebia cupida), from the same family (Leptophlebiidae) and active at the same time, but clearly larger (12–14) and darker. Both \"Quill\" names invite confusion even though neither is related to the Quill Gordon, a Heptageniidae from an entirely different family.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nymphe de litière, pas de courant vif", en: "A nymph of leaf litter, not fast current" },
+        body: {
+          fr: "Contrairement à la nymphe aplatie et « agrippante » du Quill Gordon, celle du Blue Quill est fine, cylindrique et bâtie pour ramper plutôt que pour résister au courant. Elle vit parmi les débris organiques, les feuilles mortes accumulées et la végétation submergée des eaux modérées à lentes — un habitat presque à l'opposé du radier à fond dur.\n\nÇa veut dire chercher l'éclosion dans les élargissements calmes, les fosses à courant modéré et les bordures végétalisées plutôt que dans les rapides. Deux éphémères actives à la même date, dans la même rivière, mais rarement au même endroit.",
+          en: "Unlike the Quill Gordon's flattened, clinging nymph, the Blue Quill's is slim, cylindrical, and built for crawling rather than resisting current. It lives among organic debris, accumulated dead leaves and submerged vegetation in moderate-to-slow water — nearly the opposite habitat from a hard-bottomed riffle.\n\nThat means looking for the hatch in calm widenings, moderate-current pools and vegetated margins rather than riffles. Two mayflies active on the same date, on the same river, but rarely in the same spot.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi le mauvais temps aide", en: "Why bad weather helps" },
+        body: {
+          fr: "Une petite éphémère à corps mince perd de l'eau très vite une fois à l'air libre, et le risque de dessèchement pendant le séchage des ailes est réel par temps chaud et sec. Un ciel couvert et un air humide ralentissent cette perte et allongent la fenêtre pendant laquelle l'insecte peut sécher ses ailes en sécurité — ce qui se traduit, à l'échelle de toute la population, par une éclosion plus synchronisée et plus dense.\n\nEn pratique : gardez un œil sur le ciel plus que sur l'horloge. Une après-midi grise et humide de fin avril produit souvent la meilleure sortie de Blue Quill de la saison, alors qu'une journée ensoleillée à la même date peut sembler presque vide.",
+          en: "A small, thin-bodied mayfly loses water very quickly once it's out in the open air, and the risk of drying out mid-wing-dry is real on a hot, dry day. An overcast sky and damp air slow that loss and stretch the window during which the insect can dry its wings safely — which, across the whole population, translates into a more synchronized, denser hatch.\n\nIn practice: watch the sky more than the clock. A grey, damp late-April afternoon often produces the season's best Blue Quill emergence, while a sunny day at the same date can look nearly empty.",
+        },
+      },
+      {
+        heading: { fr: "Une petite mouche pour une grosse rivière calme", en: "A small fly for a big, quiet river" },
+        body: {
+          fr: "Parce qu'elle vit dans l'eau lente, le Blue Quill se pêche souvent sur une pellicule presque immobile, où le moindre faux mouvement du bas de ligne se voit. Un bas de ligne fin (5X-6X) et une présentation posée avec soin comptent plus que le choix exact du patron à cette taille.\n\nRestez attentif aux petites bulles d'air et aux légers remous en surface plutôt qu'aux éclaboussures : une gobe sur un insecte de cette taille, dans une eau plate, est souvent discrète.",
+          en: "Because it lives in slow water, the Blue Quill is often fished over an almost still film, where the slightest tippet drag shows. Fine tippet (5X–6X) and a carefully placed presentation matter more than the exact pattern at this size.\n\nWatch for small air bubbles and faint surface dimples rather than splashy rises — a take on an insect this small, in flat water, is usually a quiet one.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la fenêtre d'éclosion, dans les eaux lentes et végétalisées.", en: "Throughout the hatch window, in slow, vegetated water." },
+        how: {
+          fr: "En dérive lente près du fond, parmi les débris — imitez le déplacement d'une nymphe qui rampe plutôt qu'une dérive rapide.",
+          en: "On a slow drift near bottom, among debris — imitate a crawling nymph rather than a fast drift.",
+        },
+        patternSlugs: ["pheasant-tail-nymph"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "L'après-midi, surtout par temps gris et humide.", en: "Afternoon, especially on grey, damp days." },
+        how: {
+          fr: "Une petite sèche grise, posée avec soin sur une eau plate, avec un bas de ligne fin.",
+          en: "A small grey dry, placed carefully on flat water, with fine tippet.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------- BLACK QUILL
+  {
+    hatchId: "black-quill",
+    metaTitle: {
+      fr: "Leptophlebia cupida — le Black Quill, l'éphémère des bordures",
+      en: "Leptophlebia cupida — the Black Quill, mayfly of the margins",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Black Quill (Leptophlebia cupida) au Québec : pourquoi cette éphémère sombre des eaux calmes se pêche dans les bordures plutôt qu'au centre du courant.",
+      en: "Identifying and fishing the Black Quill (Leptophlebia cupida) in Québec: why this dark mayfly of quiet water is fished at the margins rather than mid-current.",
+    },
+    intro: {
+      fr: "Elle sort presque toujours en même temps que le Hendrickson, ce qui lui a valu d'être largement ignorée — tout le monde regarde le courant principal pendant que le Black Quill émerge tranquillement dans les bordures et les baies calmes juste à côté.",
+      en: "It almost always comes off alongside the Hendrickson, which has earned it a reputation for being ignored — everyone watches the main current while the Black Quill quietly emerges in the backwaters and calm bays right beside it.",
+    },
+    idMarks: [
+      {
+        fr: "Corps sombre, presque noir-brunâtre, avec des ailes gris foncé fortement teintées — le nom n'exagère pas.",
+        en: "Dark, almost blackish-brown body, with heavily tinted dark-grey wings — the name isn't an exaggeration.",
+      },
+      {
+        fr: "Taille 12-14, sensiblement plus grosse que le Blue Quill malgré le nom similaire.",
+        en: "Size 12–14, noticeably bigger than the Blue Quill despite the similar name.",
+      },
+      {
+        fr: "Trois queues, corps cylindrique et mince — typique des Leptophlebiidae.",
+        en: "Three tails, slim cylindrical body — typical of the Leptophlebiidae.",
+      },
+      {
+        fr: "Nymphe trouvée dans les bordures et les eaux mortes, jamais dans le courant principal — elle rampe vers la rive avant d'éclore.",
+        en: "Nymph found in margins and dead water, never in the main current — it crawls shoreward before emerging.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Hendrickson, qui partage presque exactement sa fenêtre et sa taille, mais dont le corps reste brun-olive plutôt que noir-brunâtre et qui émerge dans le courant, pas dans les bordures. Le Blue Quill, plus petit (16-18) et plus pâle, de la même famille.",
+      en: "The Hendrickson, which shares almost exactly its window and size, but keeps an olive-brown body rather than blackish-brown and emerges in the current, not the margins. The Blue Quill, smaller (16–18) and paler, from the same family.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une migration vers la rive", en: "A migration toward shore" },
+        body: {
+          fr: "Le détail le plus utile sur cette éphémère n'est pas visuel, c'est comportemental : dans les jours précédant l'éclosion, les nymphes de Black Quill quittent progressivement les zones plus profondes pour se rassembler dans les eaux peu profondes et calmes en bordure — souvent dans quelques centimètres d'eau à peine.\n\nC'est pourquoi l'éclosion elle-même se voit rarement au centre du courant. Elle se passe dans les petites baies, le long des berges herbeuses et dans les remous calmes juste en aval des obstacles — des endroits que la plupart des pêcheurs traversent pour atteindre la veine principale.",
+          en: "The most useful thing about this mayfly isn't visual, it's behavioural: in the days before the hatch, Black Quill nymphs gradually leave deeper water and gather in shallow, calm water along the margins — often in just a few centimetres of water.\n\nThat's why the hatch itself is rarely seen mid-current. It happens in small bays, along grassy banks, and in the quiet eddies just below obstructions — exactly the spots most anglers wade through on their way to the main seam.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi tout le monde la manque", en: "Why everyone misses it" },
+        body: {
+          fr: "Le Hendrickson sort presque à la même date, à la même taille, dans la même rivière — et c'est une éclosion spectaculaire, concentrée sur une heure précise en plein courant. Un pêcheur qui voit des duns brun-olive dans la veine principale suppose naturellement qu'il s'agit tous de Hendricksons, et il n'a pas tort la plupart du temps.\n\nMais si vous regardez les bordures calmes pendant que tout le monde fixe le courant, vous trouverez souvent une population de Black Quill qui éclot sans compétition — et des truites qui s'en nourrissent sans avoir vu une seule mouche artificielle de la journée.",
+          en: "The Hendrickson comes off almost the same date, the same size, on the same river — and it's a spectacular hatch, concentrated in a precise one-hour window right in the current. An angler seeing olive-brown duns in the main seam naturally assumes they're all Hendricksons, and is right most of the time.\n\nBut look at the calm margins while everyone else stares at the current, and you'll often find a Black Quill population hatching with zero competition — and trout feeding on it having never seen a single artificial fly all day.",
+        },
+      },
+      {
+        heading: { fr: "Pêcher la bordure comme le courant principal", en: "Fishing the margin like the main event" },
+        body: {
+          fr: "Une baie calme ou une eau morte demande une approche différente d'un radier : pas de courant pour cacher une mauvaise dérive, donc une approche discrète et une présentation posée comptent double. Repérez les gobes légères près de la végétation avant de vous avancer — dans une eau aussi plate, une truite qui vous sent partira sans jamais monter.\n\nUne petite sèche sombre, posée en douceur le long de l'herbe ou d'une branche submergée, imite bien ce dun qui vient d'émerger à quelques centimètres de la rive.",
+          en: "A calm bay or dead water asks for a different approach than a riffle: no current to hide a bad drift, so a quiet approach and a soft presentation both count double. Spot the light rises near vegetation before wading in — in water this flat, a trout that senses you will simply never rise.\n\nA small dark dry, placed gently along grass or a submerged branch, imitates well a dun that just emerged a few inches off the bank.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Dans les jours précédant l'éclosion, en migration vers les bordures peu profondes.", en: "In the days before the hatch, migrating toward shallow margins." },
+        how: {
+          fr: "Près du fond, en eau peu profonde et calme, tout contre la rive.",
+          en: "Near bottom, in shallow calm water, right against the bank.",
+        },
+        patternSlugs: ["bead-head-hares-ear"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En après-midi, en même temps que le Hendrickson mais dans les bordures.", en: "Afternoon, alongside the Hendrickson but in the margins." },
+        how: {
+          fr: "Une petite sèche sombre, posée en douceur près de la végétation submergée.",
+          en: "A small dark dry, placed gently near submerged vegetation.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // --------------------------------------------------------------- GREY FOX
+  {
+    hatchId: "grey-fox",
+    metaTitle: {
+      fr: "Maccaffertium fuscum — le Grey Fox, le March Brown du soir",
+      en: "Maccaffertium fuscum — the Grey Fox, the March Brown's evening half",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Grey Fox (Maccaffertium fuscum) au Québec : pourquoi ce proche parent du March Brown attend le soir pour éclore, et comment les deux se partagent la même rivière sans jamais vraiment se croiser.",
+      en: "Identifying and fishing the Grey Fox (Maccaffertium fuscum) in Québec: why this close relative of the March Brown waits until evening to hatch, and how the two share the same river without ever really overlapping.",
+    },
+    intro: {
+      fr: "Les taxonomistes la considèrent souvent comme une simple forme du March Brown, et génétiquement, la frontière entre les deux est effectivement mince. Mais sur l'eau, ce sont deux insectes différents : plus pâle, plus petit, et surtout, décalé de plusieurs heures dans la journée.",
+      en: "Taxonomists often treat it as just a form of the March Brown, and genetically the line between the two really is thin. On the water, though, these are two different insects — paler, smaller, and above all, shifted hours later in the day.",
+    },
+    idMarks: [
+      {
+        fr: "Corps crème-tan pâle, nettement plus clair que le brun tacheté du March Brown.",
+        en: "Pale cream-tan body, noticeably lighter than the March Brown's mottled brown.",
+      },
+      {
+        fr: "Taille 12-14, un cran plus petite que le March Brown (10-12).",
+        en: "Size 12–14, a notch smaller than the March Brown (10–12).",
+      },
+      {
+        fr: "Ailes marbrées mais plus pâles, pattes crème.",
+        en: "Mottled wings, but paler, with cream legs.",
+      },
+      {
+        fr: "Sort en fin de journée et en soirée, jamais en pleine après-midi comme son cousin.",
+        en: "Comes off late in the day and into the evening, never in full afternoon like its cousin.",
+      },
+      {
+        fr: "Nymphe aplatie de type « clinger », presque identique à celle du March Brown, dans les mêmes radiers rapides.",
+        en: "A flattened \"clinger\" nymph, nearly identical to the March Brown's, in the same fast riffles.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le March Brown lui-même, dont il est génétiquement si proche que certains taxonomistes ne le traitent pas comme une espèce distincte — fiez-vous d'abord à l'heure de la journée, ensuite à la taille et à la couleur. Le Light Cahill, plus pâle encore et actif un peu plus tard dans l'été, dans les mêmes eaux du soir.",
+      en: "The March Brown itself, genetically close enough that some taxonomists don't treat it as a separate species at all — trust the time of day first, then size and colour. The Light Cahill, paler still and active a bit later in summer, in the same evening water.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une espèce, ou une heure de la journée", en: "One species, or one time of day" },
+        body: {
+          fr: "Le March Brown et le Grey Fox partagent la même rivière, le même type de fond et souvent le même genre — au point que la question de savoir s'il s'agit de deux espèces distinctes ou d'une seule avec deux formes reste ouverte chez les taxonomistes. Pour le pêcheur, la distinction la plus fiable n'est pas microscopique, elle est horaire : le March Brown sort en après-midi, le Grey Fox attend la fin de journée et la soirée.\n\nCe genre de partage du temps entre insectes très proches n'est pas un hasard. Deux populations qui exploitent la même ressource — les mêmes radiers, le même fond — réduisent la compétition directe en décalant simplement le moment où elles éclosent.",
+          en: "The March Brown and the Grey Fox share the same river, the same bottom type, and often the same genus — enough that whether they're two species or one with two forms remains an open taxonomic question. For an angler, the most reliable distinction isn't microscopic, it's the clock: the March Brown comes off in the afternoon, the Grey Fox waits for late day and evening.\n\nThis kind of time-sharing between closely related insects isn't accidental. Two populations exploiting the same resource — the same riffles, the same bottom — cut down on direct competition simply by shifting when they emerge.",
+        },
+      },
+      {
+        heading: { fr: "La même nymphe, la même eau rapide", en: "The same nymph, the same fast water" },
+        body: {
+          fr: "Sous l'eau, les deux insectes sont presque impossibles à distinguer : une nymphe aplatie, large, agrippée aux roches des radiers rapides et bien oxygénés. Ça veut dire qu'une seule nymphe bien choisie couvre les deux espèces sans qu'il soit nécessaire de deviner laquelle est active.\n\nC'est seulement une fois à la surface, comme adulte, que la différence de couleur et de taille devient utile — et à ce moment-là, l'heure de la journée vous a déjà dit laquelle des deux vous regardez.",
+          en: "Underwater, the two insects are almost impossible to tell apart: a broad, flattened nymph clinging to rock in fast, well-oxygenated riffles. That means one well-chosen nymph pattern covers both species without needing to guess which one is active.\n\nIt's only once it's on the surface, as an adult, that the colour and size difference becomes useful — and by then, the time of day has already told you which of the two you're looking at.",
+        },
+      },
+      {
+        heading: { fr: "La dernière heure avant la noirceur", en: "The last hour before dark" },
+        body: {
+          fr: "Le Grey Fox prend le relais exactement quand l'activité du March Brown ralentit, souvent entre 18 h et la noirceur. C'est une fenêtre courte mais fiable, qui coïncide avec la baisse de lumière plutôt qu'avec une heure fixe — elle avance ou recule légèrement selon la saison et la couverture nuageuse.\n\nComme il sort en même temps que d'autres éphémères de soirée sur certaines rivières, une sèche crème-tan de taille 12-14 reste un choix sûr même quand l'identification précise devient difficile dans la lumière tombante.",
+          en: "The Grey Fox picks up right as March Brown activity fades, usually somewhere between 6 p.m. and dark. It's a short but reliable window, tied to falling light rather than a fixed hour — it shifts slightly earlier or later depending on the season and cloud cover.\n\nSince it can overlap with other evening mayflies on some rivers, a cream-tan size 12–14 dry stays a safe bet even when precise identification gets hard in fading light.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la journée, dans les radiers rapides — indistincte de celle du March Brown.", en: "All day, in fast riffles — indistinguishable from the March Brown's." },
+        how: {
+          fr: "Près du fond, dans le courant soutenu, en dérive naturelle.",
+          en: "Near bottom, in steady current, on a natural drift.",
+        },
+        patternSlugs: ["march-brown"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "Fin de journée et soirée, quand le March Brown ralentit.", en: "Late day and evening, as the March Brown activity fades." },
+        how: {
+          fr: "Une sèche crème-tan, taille 12-14, en dérive morte dans la lumière tombante.",
+          en: "A cream-tan dry, size 12–14, dead-drifted in fading light.",
+        },
+        patternSlugs: ["light-cahill"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
