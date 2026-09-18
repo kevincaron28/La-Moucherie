@@ -2123,6 +2123,338 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ----------------------------------------------------------- MAHOGANY DUN
+  {
+    hatchId: "mahogany-dun",
+    metaTitle: {
+      fr: "Paraleptophlebia mollis — le Mahogany Dun, deux fenêtres, une seule remarquée",
+      en: "Paraleptophlebia mollis — the Mahogany Dun, two windows, only one noticed",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Mahogany Dun (Paraleptophlebia mollis) au Québec : le cousin acajou du Blue Quill, et sa deuxième génération de septembre que presque personne ne remarque.",
+      en: "Identifying and fishing the Mahogany Dun (Paraleptophlebia mollis) in Québec: the Blue Quill's mahogany-coloured cousin, and its September brood that almost nobody notices.",
+    },
+    intro: {
+      fr: "Elle sort deux fois par année, discrètement les deux fois — une petite éphémère acajou des eaux lentes, cousine du Blue Quill, dont la deuxième génération de fin d'été passe presque toujours inaperçue derrière les fourmis et les sauterelles.",
+      en: "It comes off twice a year, quietly both times — a small mahogany mayfly of slow water, a cousin of the Blue Quill, whose late-summer second brood almost always goes unnoticed behind the ants and grasshoppers.",
+    },
+    idMarks: [
+      {
+        fr: "Corps acajou-brun rougeâtre, taille 16-18 — même genre que le Blue Quill (Paraleptophlebia), mais teinte plus chaude.",
+        en: "Reddish mahogany-brown body, size 16–18 — same genus as the Blue Quill (Paraleptophlebia), but a warmer tone.",
+      },
+      {
+        fr: "Trois queues, nymphe fine du type rampant, dans les eaux lentes et la litière de feuilles.",
+        en: "Three tails, a slim crawler-type nymph, in slow water and leaf litter.",
+      },
+      {
+        fr: "Deux générations distinctes : une en juin, une seconde discrète de la fin août à la mi-septembre.",
+        en: "Two distinct broods: one in June, a quiet second one from late August to mid-September.",
+      },
+      {
+        fr: "La deuxième vague passe souvent complètement inaperçue, noyée dans l'attention portée aux terrestres de fin d'été.",
+        en: "The second wave usually goes completely unnoticed, lost in the attention paid to late-summer terrestrials.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Blue Quill, même genre et taille comparable, mais grisâtre plutôt qu'acajou et actif seulement au printemps. La petite Blue-Winged Olive, plus verte, active toute la saison.",
+      en: "The Blue Quill, same genus and comparable size, but grey rather than mahogany and active only in spring. The small Blue-Winged Olive, greener, active all season.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le cousin acajou du Blue Quill", en: "The Blue Quill's mahogany cousin" },
+        body: {
+          fr: "Le Mahogany Dun partage le genre Paraleptophlebia avec le Blue Quill : même silhouette fine, même nymphe rampante des eaux lentes et de la litière de feuilles, même sensibilité au temps gris. La différence la plus fiable reste la couleur — un brun-acajou chaud plutôt que le gris-bleu du Blue Quill — et la saison, puisque le Mahogany Dun s'étire bien après que le Blue Quill ait terminé sa seule génération du printemps.\n\nComme pour son cousin, cherchez-le dans les eaux modérées à lentes plutôt que dans le courant vif.",
+          en: "The Mahogany Dun shares the genus Paraleptophlebia with the Blue Quill: same slim silhouette, same crawling nymph of slow water and leaf litter, same sensitivity to grey weather. The most reliable difference is colour — a warm mahogany-brown rather than the Blue Quill's grey-blue — and season, since the Mahogany Dun stretches well past when the Blue Quill has finished its single spring generation.\n\nAs with its cousin, look for it in moderate-to-slow water rather than fast current.",
+        },
+      },
+      {
+        heading: { fr: "Deux générations, une seule qu'on remarque", en: "Two broods, only one anyone notices" },
+        body: {
+          fr: "La première génération sort en juin, en même temps que plusieurs autres éphémères plus voyantes, et passe déjà relativement inaperçue. La seconde, de la fin août à la mi-septembre, l'est encore davantage : à cette période, l'attention des pêcheurs se tourne vers les fourmis, les sauterelles et les criquets plutôt que vers une petite éphémère discrète.\n\nC'est pourtant une occasion réelle. Une rivière qui semble n'offrir que des terrestres en septembre peut très bien avoir une éclosion de Mahogany Dun en cours, simplement ignorée.",
+          en: "The first brood comes off in June, alongside several flashier mayflies, and already goes relatively unnoticed. The second, from late August to mid-September, goes even more so: by then, angler attention has shifted to ants, hoppers and crickets rather than a quiet little mayfly.\n\nIt's a real opportunity all the same. A river that seems to offer nothing but terrestrials in September may well have a Mahogany Dun hatch running, simply overlooked.",
+        },
+      },
+      {
+        heading: { fr: "Une petite mouche discrète, deux fois par année", en: "A quiet small fly, twice a year" },
+        body: {
+          fr: "La pêche elle-même ne change pas beaucoup entre les deux générations : une petite sèche acajou, présentée avec soin sur une eau lente, avec un bas de ligne fin. La vraie clé est de savoir que la deuxième fenêtre existe et de garder l'œil ouvert en septembre plutôt que de supposer que la saison des éphémères est terminée.\n\nUne poignée de mouches dans la boîte suffit — ce n'est jamais une éclosion qui demande un arsenal, seulement de l'attention.",
+          en: "The fishing itself doesn't change much between the two broods: a small mahogany dry, presented carefully over slow water, with fine tippet. The real key is knowing the second window exists and keeping an eye out in September instead of assuming mayfly season is over.\n\nA handful of flies in the box is enough — this was never a hatch that demands an arsenal, only attention.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Avant chacune des deux fenêtres, dans l'eau lente.", en: "Ahead of each of the two windows, in slow water." },
+        how: {
+          fr: "En dérive lente près du fond, parmi les débris.",
+          en: "On a slow drift near bottom, among debris.",
+        },
+        patternSlugs: ["pheasant-tail-nymph"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En juin, puis de nouveau de la fin août à la mi-septembre.", en: "In June, then again from late August to mid-September." },
+        how: {
+          fr: "Une petite sèche acajou, posée avec soin sur une eau lente.",
+          en: "A small mahogany dry, placed carefully over slow water.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------- CALLIBAETIS
+  {
+    hatchId: "callibaetis",
+    metaTitle: {
+      fr: "Callibaetis spp. — la seule éphémère de lac de ce chapitre",
+      en: "Callibaetis spp. — the only lake mayfly in this chapter",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Callibaetis au Québec : la seule éphémère qui vit uniquement en lac, pourquoi les insectes rapetissent l'été, et comment pêcher une truite qui croise plutôt qu'elle ne tient.",
+      en: "Identifying and fishing Callibaetis in Québec: the only mayfly that lives exclusively in lakes, why the bugs shrink through summer, and how to fish a trout that cruises instead of holding.",
+    },
+    intro: {
+      fr: "Toutes les autres éphémères de ce guide dépendent du courant d'une façon ou d'une autre. Le Callibaetis fait exception : il vit uniquement dans les lacs et les étangs, où ni la nymphe ni la truite qui s'en nourrit ne se comportent tout à fait comme en rivière.",
+      en: "Every other mayfly in this guide depends on current in one way or another. Callibaetis is the exception: it lives only in lakes and ponds, where neither the nymph nor the trout feeding on it behaves quite the way it would in a river.",
+    },
+    idMarks: [
+      {
+        fr: "Corps brun-olive à gris, taille 14-16 en début d'été, plus petite (jusqu'à 18) en fin de saison.",
+        en: "Olive-brown to grey body, size 14–16 early summer, smaller (down to 18) later in the season.",
+      },
+      {
+        fr: "Nymphe nageuse agile, avec des marques sombres caractéristiques sur l'abdomen, dans la végétation submergée des lacs et étangs.",
+        en: "An agile swimming nymph, with characteristic dark abdominal markings, in the submerged vegetation of lakes and ponds.",
+      },
+      {
+        fr: "Seule éphémère de ce chapitre qui vit exclusivement en eau stagnante — jamais en rivière.",
+        en: "The only mayfly in this chapter that lives exclusively in still water — never in a river.",
+      },
+      {
+        fr: "Plusieurs générations qui se succèdent tout l'été, chacune plus petite que la précédente.",
+        en: "Several broods through the summer, each one smaller than the last.",
+      },
+    ],
+    confusedWith: {
+      fr: "La Blue-Winged Olive en rivière, de couleur similaire, mais le Callibaetis ne se trouve tout simplement jamais en courant — l'habitat seul règle la question.",
+      en: "The river Blue-Winged Olive, similar in colour, but Callibaetis simply never turns up in moving water — habitat alone settles the question.",
+    },
+    sections: [
+      {
+        heading: { fr: "La seule éphémère de lac de ce chapitre", en: "The only lake mayfly in this chapter" },
+        body: {
+          fr: "Toutes les autres éphémères de ce guide vivent en rivière, portées et nourries par le courant. Le Callibaetis fait bande à part : il passe tout son cycle en eau stagnante, dans les lacs et les étangs, où sa nymphe doit nager activement pour trouver sa nourriture plutôt que de la laisser venir à elle.\n\nÇa change la façon de la pêcher du tout au tout. Sans courant pour guider une dérive, une nymphe de Callibaetis se présente en la ramenant par petites tirées, imitant une nage active plutôt qu'une dérive passive.",
+          en: "Every other mayfly in this guide lives in a river, carried and fed by current. Callibaetis stands apart: it spends its whole life cycle in still water, in lakes and ponds, where its nymph has to swim actively to find food rather than letting the current deliver it.\n\nThat changes how it's fished entirely. With no current to guide a drift, a Callibaetis nymph gets fished on a retrieve, in short strips that imitate active swimming rather than a passive drift.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi les insectes rapetissent l'été", en: "Why the bugs get smaller through summer" },
+        body: {
+          fr: "Le Callibaetis produit plusieurs générations qui se succèdent de la fin mai à septembre, et chaque nouvelle génération éclôt un peu plus petite que la précédente. Ce n'est pas un hasard : une eau plus chaude accélère le développement larvaire, ce qui laisse moins de temps à chaque génération pour accumuler de la masse avant l'émergence.\n\nEn pratique, ça veut dire ajuster la taille de mouche au fil de l'été — un 14 en juin devient un 16 en juillet, et parfois un 18 d'ici septembre, sur le même plan d'eau.",
+          en: "Callibaetis produces several successive broods from late May into September, and each new generation hatches a little smaller than the last. That's no accident: warmer water speeds up larval development, leaving each generation less time to put on mass before emerging.\n\nIn practice that means sizing down as the summer goes on — a 14 in June becomes a 16 in July, and sometimes an 18 by September, on the very same water.",
+        },
+      },
+      {
+        heading: { fr: "Pêcher une truite qui croise plutôt qu'elle ne tient", en: "Fishing a trout that cruises instead of holding" },
+        body: {
+          fr: "En rivière, une truite tient un poste et attend que la nourriture dérive vers elle. En lac, elle croise activement à la recherche de nourriture — ce qui veut dire repérer le poisson avant de présenter la mouche, plutôt que de couvrir simplement l'eau.\n\nUne sèche posée devant la trajectoire prévue d'une truite qui croise, ou une nymphe animée près de la végétation submergée, fonctionne mieux qu'une dérive statique dans un endroit choisi au hasard.",
+          en: "In a river, a trout holds a lie and waits for food to drift to it. In a lake, it cruises actively looking for food — which means spotting the fish before presenting the fly, rather than simply covering water.\n\nA dry placed ahead of a cruising trout's expected path, or a nymph twitched near submerged weed, works better than a static drift fished in a spot picked at random.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Tout l'été, dans la végétation submergée des lacs.", en: "All summer, in the submerged vegetation of lakes." },
+        how: {
+          fr: "En petites tirées près de la végétation, pour imiter une nage active.",
+          en: "In short strips near vegetation, to imitate active swimming.",
+        },
+        patternSlugs: ["bead-head-hares-ear"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "Le matin, de la fin mai à septembre.", en: "Morning, late May through September." },
+        how: {
+          fr: "Une petite sèche posée devant une truite qui croise, en ajustant la taille au fil de l'été.",
+          en: "A small dry placed ahead of a cruising trout, sizing down as the summer goes on.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------ LITTLE BLACK CADDIS
+  {
+    hatchId: "little-black-caddis",
+    metaTitle: {
+      fr: "Chimarra aterrima — le Little Black Caddis, le filet en doigt de gant",
+      en: "Chimarra aterrima — the Little Black Caddis, the finger-net weaver",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Little Black Caddis (Chimarra aterrima) au Québec : une larve minuscule qui tisse un filet en doigt de gant dans les rapides les plus propres, et pourquoi on la confond souvent avec un moucheron.",
+      en: "Identifying and fishing the Little Black Caddis (Chimarra aterrima) in Québec: a tiny larva that spins a finger-shaped net in the cleanest riffles, and why it's so often mistaken for a midge.",
+    },
+    intro: {
+      fr: "À cette taille et dans un essaim au-dessus d'un rapide, le premier réflexe est de crier « moucheron ». Le Little Black Caddis est pourtant bien un trichoptère, minuscule et tout noir, dont la larve tisse un filet en forme de doigt de gant dans l'eau la plus vive et la plus propre de la rivière.",
+      en: "At this size, swarming over a riffle, the first instinct is to call it a midge. The Little Black Caddis is a genuine caddisfly all the same, tiny and jet black, whose larva spins a finger-shaped net in the fastest, cleanest water on the river.",
+    },
+    idMarks: [
+      {
+        fr: "Minuscule, taille 18-20, corps et ailes entièrement noirs.",
+        en: "Tiny, size 18–20, entirely black body and wings.",
+      },
+      {
+        fr: "Ailes tenues en toit au repos — le trait qui la distingue d'un moucheron à ce format.",
+        en: "Wings held tent-like at rest — the trait that separates it from a midge at this size.",
+      },
+      {
+        fr: "Antennes longues et filiformes, contrairement aux antennes courtes d'un chironome.",
+        en: "Long, thread-like antennae, unlike a chironomid's short ones.",
+      },
+      {
+        fr: "Larve filandière qui tisse un tube de soie en doigt de gant, fixé dans les rapides les plus rapides et les plus propres.",
+        en: "A net-spinning larva that spins a finger-like silk tube, anchored in the fastest, cleanest rapids.",
+      },
+      {
+        fr: "Vole en essaims denses au-dessus de l'eau vive, souvent confondue de loin avec un nuage de moucherons.",
+        en: "Flies in dense swarms over fast water, often mistaken from a distance for a cloud of midges.",
+      },
+    ],
+    confusedWith: {
+      fr: "Un chironome de bonne taille, à cause du format minuscule et des essaims — regardez les ailes en toit et les longues antennes pour trancher. Le Spotted Sedge, même ordre mais beaucoup plus gros et de couleur tan.",
+      en: "A larger chironomid, thanks to the tiny size and the swarming — check for tented wings and long antennae to settle it. The Spotted Sedge, same order but much bigger and tan-coloured.",
+    },
+    sections: [
+      {
+        heading: { fr: "Un filet en doigt de gant", en: "A finger-shaped net" },
+        body: {
+          fr: "La larve du Little Black Caddis tisse un tube de soie fine, fermé à une extrémité et ouvert à l'autre face au courant — un peu comme un doigt de gant fixé à une roche. L'eau qui traverse le tube y dépose des particules organiques que la larve récolte régulièrement.\n\nCe type de filet exige une eau exceptionnellement propre et rapide pour bien fonctionner, ce qui confine la larve aux rapides les plus vifs et les mieux oxygénés — souvent le tronçon le plus turbulent d'une rivière, là où peu d'autres insectes filandiers s'installent.",
+          en: "The Little Black Caddis larva spins a fine silk tube, closed at one end and open to the current at the other — something like a glove finger anchored to a rock. Water passing through deposits organic particles that the larva harvests regularly.\n\nThat kind of net needs exceptionally clean, fast water to work well, which confines the larva to the swiftest, best-oxygenated riffles — often the most turbulent stretch of a river, where few other net-spinning insects bother to settle.",
+        },
+      },
+      {
+        heading: { fr: "Minuscule, donc facilement mal identifiée", en: "Tiny, so it's easy to misidentify" },
+        body: {
+          fr: "À cette taille, la première impression est presque toujours « moucheron » plutôt que « trichoptère » — et c'est une erreur facile à faire de loin, surtout en essaim dense au-dessus d'un rapide. Deux détails règlent la question rapidement : les ailes, tenues bien droites comme un toit chez le trichoptère plutôt qu'à plat comme chez le chironome, et les antennes, longues et filiformes plutôt que courtes.\n\nÇa vaut la peine de vérifier, parce que la nymphe qui imite chacun des deux insectes n'a rien à voir.",
+          en: "At this size, the first impression is almost always \"midge\" rather than \"caddis\" — an easy mistake from a distance, especially in a dense swarm over a riffle. Two details settle it fast: the wings, held tent-like on the caddis rather than flat as on a chironomid, and the antennae, long and thread-like rather than short.\n\nIt's worth checking, because the imitation for each insect looks nothing like the other.",
+        },
+      },
+      {
+        heading: { fr: "Pêcher une eau que peu d'autres insectes tolèrent", en: "Fishing water few other insects can handle" },
+        body: {
+          fr: "Parce que la larve exige une eau exceptionnellement rapide et propre, sa présence dans un secteur donné est un bon signe de la qualité de cette eau. Une petite nymphe ou pupe noire, pêchée près du fond dans les rapides les plus vifs, couvre bien cette espèce même hors éclosion.\n\nEn surface, une minuscule sèche noire, presque invisible à l'œil dans le courant blanc d'un rapide, reste malgré tout repérable par la truite — fiez-vous à la zone plutôt qu'à ce que vous voyez réellement flotter.",
+          en: "Because the larva demands exceptionally fast, clean water, its presence in a given stretch is a good sign of that water's quality. A small black nymph or pupa, fished near bottom in the fastest riffles, covers this species well even outside a hatch.\n\nOn the surface, a tiny black dry, nearly invisible to the eye in a riffle's white water, still gets spotted by trout — trust the zone rather than what you can actually see floating.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Pupe", en: "Pupa" },
+        when: { fr: "En fin d'avant-midi et en après-midi, dans les rapides.", en: "Late morning and afternoon, in riffles." },
+        how: {
+          fr: "Une petite nymphe ou pupe noire, près du fond dans le courant le plus vif.",
+          en: "A small black nymph or pupa, near bottom in the fastest current.",
+        },
+        patternSlugs: ["black-caddis"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "En après-midi, en essaims au-dessus de l'eau vive.", en: "Afternoon, in swarms over fast water." },
+        how: {
+          fr: "Une minuscule sèche noire, dérivée dans le courant blanc.",
+          en: "A tiny black dry, drifted through the white water.",
+        },
+        patternSlugs: ["griffiths-gnat"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------- GREEN ROCK WORM
+  {
+    hatchId: "green-rock-worm",
+    metaTitle: {
+      fr: "Rhyacophila spp. — le Green Rock Worm, la larve qui ne construit rien",
+      en: "Rhyacophila spp. — the Green Rock Worm, the larva that builds nothing",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Green Rock Worm (Rhyacophila spp.) au Québec : la seule larve de trichoptère prédatrice et sans abri de ce guide, et pourquoi elle reste une des meilleures nymphes hors éclosion.",
+      en: "Identifying and fishing the Green Rock Worm (Rhyacophila spp.) in Québec: the only shelterless, predatory caddis larva in this guide, and why it stays one of the best nymphs between hatches.",
+    },
+    intro: {
+      fr: "Toutes les autres larves de trichoptère de ce guide construisent quelque chose — un fourreau, un filet, une retraite. Le Green Rock Worm ne construit rien du tout : elle chasse à découvert sur les roches, et c'est justement ce qui en fait une des nymphes les plus fiables de toute l'année.",
+      en: "Every other caddis larva in this guide builds something — a case, a net, a retreat. The Green Rock Worm builds nothing at all: it hunts out in the open on bare rock, and that's exactly what makes it one of the most reliable nymphs of the whole year.",
+    },
+    idMarks: [
+      {
+        fr: "Larve verte vif à olive, sans fourreau ni retraite d'aucune sorte — nue sur la roche.",
+        en: "Bright green to olive larva, with no case or shelter of any kind — bare on the rock.",
+      },
+      {
+        fr: "Corps arqué et robuste, pattes bien développées pour se déplacer activement plutôt que rester fixe.",
+        en: "A robust, arched body, with well-developed legs for actively moving rather than staying put.",
+      },
+      {
+        fr: "Présente toute l'année, dans presque tous les types de courant — pas liée à une seule éclosion précise.",
+        en: "Present year-round, in almost every type of current — not tied to one specific hatch.",
+      },
+      {
+        fr: "Larve prédatrice, contrairement à la plupart des autres trichoptères qui filtrent ou broutent.",
+        en: "A predatory larva, unlike most other caddisflies, which filter-feed or graze.",
+      },
+    ],
+    confusedWith: {
+      fr: "Une larve de Little Black Caddis délogée de son tube, mais celle-ci est bien plus petite et jamais aussi verte. Ne pas confondre avec une larve de trichoptère porte-fourreau — le Green Rock Worm n'en construit jamais.",
+      en: "A dislodged Little Black Caddis larva, but that one is much smaller and never as green. Don't confuse it with a case-building caddis larva — the Green Rock Worm never builds one at all.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une chasseuse, pas une filtreuse", en: "A hunter, not a filter-feeder" },
+        body: {
+          fr: "Contrairement au Spotted Sedge, qui tisse un filet, ou au Grannom, qui transporte un fourreau, la larve du genre Rhyacophila ne construit rien du tout. Elle se déplace librement sur les roches et chasse activement d'autres petits invertébrés — un comportement de prédateur, rare chez les trichoptères, qui en fait presque un petit équivalent aquatique d'une chenille chasseuse.\n\nCette absence totale d'abri la rend particulièrement vulnérable au courant : au moindre coup d'eau, elle se fait déloger et emporter dans la dérive, bien plus souvent qu'une larve protégée dans son fourreau ou son filet.",
+          en: "Unlike the Spotted Sedge, which spins a net, or the Grannom, which carries a case, the genus Rhyacophila's larva builds nothing at all. It moves freely over the rocks and actively hunts other small invertebrates — predatory behaviour that's rare among caddisflies, making it almost a small aquatic equivalent of a hunting caterpillar.\n\nThat total lack of shelter leaves it especially exposed to current: the smallest surge of water dislodges it and sweeps it into the drift, far more often than a larva protected inside a case or a net.",
+        },
+      },
+      {
+        heading: { fr: "Toujours dans la dérive, jamais dans une éclosion précise", en: "Always in the drift, never tied to one hatch" },
+        body: {
+          fr: "Parce qu'elle n'a pas de retraite fixe, cette larve se retrouve régulièrement emportée dans le courant toute l'année, sans lien avec une émergence synchronisée précise. Ça en fait une nymphe fiable douze mois par année plutôt qu'une imitation à sortir pour une fenêtre de deux semaines.\n\nOn la trouve dans à peu près tous les types de courant — rapides, radiers, veines modérées — ce qui en fait un choix polyvalent quand rien de spécifique ne semble éclore.",
+          en: "Because it has no fixed retreat, this larva regularly ends up swept into the current year-round, with no tie to a specific synchronized emergence. That makes it a reliable nymph twelve months a year rather than a pattern you pull out for a two-week window.\n\nIt turns up in almost every kind of current — rapids, riffles, moderate seams — which makes it a versatile choice when nothing specific seems to be hatching.",
+        },
+      },
+      {
+        heading: { fr: "Une des meilleures nymphes hors éclosion", en: "One of the best nymphs between hatches" },
+        body: {
+          fr: "Quand rien n'éclot visiblement et que la truite se nourrit malgré tout sous la surface, une nymphe verte de type Green Rock Worm couvre une bonne partie de ce qui dérive réellement — puisque cette larve se retrouve dans le courant en continu plutôt qu'en réponse à un signal précis.\n\nPêchez-la près du fond, dans les mêmes veines de courant soutenu où elle vit, en dérive naturelle sans animation particulière.",
+          en: "When nothing is visibly hatching and trout are still feeding below the surface, a green Rock Worm–style nymph covers a good share of what's actually drifting — since this larva ends up in the current continuously rather than in response to one specific trigger.\n\nFish it near bottom, in the same steady-current seams it lives in, on a natural drift with no particular animation.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Larve", en: "Larva" },
+        when: { fr: "Toute l'année, dans presque tous les types de courant.", en: "Year-round, in nearly every kind of current." },
+        how: {
+          fr: "Près du fond, en dérive naturelle, sans animation.",
+          en: "Near bottom, on a natural drift, with no animation.",
+        },
+        patternSlugs: ["green-rock-worm"],
+      },
+      {
+        label: { fr: "Pupe", en: "Pupa" },
+        when: { fr: "Du printemps à l'été, en fin de journée.", en: "Spring through summer, late in the day." },
+        how: {
+          fr: "En dérive montante vers la surface.",
+          en: "On a rising drift toward the surface.",
+        },
+        patternSlugs: ["caddis-pupa"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
