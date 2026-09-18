@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
+import { placeholderForCategory } from "@/lib/localize";
 
 /**
  * Rebuilds a cart from an abandoned order. The recovery token is the only
@@ -74,7 +75,7 @@ export async function GET(request: Request) {
         sku: v.sku,
         category: v.product.category as string,
         unitPriceCents: v.priceCents ?? v.product.basePriceCents,
-        image: v.product.images[0] ?? "/products/placeholder-fly.svg",
+        image: v.product.images[0] ?? placeholderForCategory(v.product.category),
         quantity: Math.min(i.quantity, v.stock),
       };
     });

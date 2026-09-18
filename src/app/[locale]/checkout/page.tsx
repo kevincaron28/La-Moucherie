@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { CheckoutClient } from "@/components/CheckoutClient";
+import { placeholderForCategory } from "@/lib/localize";
 import type { Locale } from "@/i18n/routing";
 
 export default async function CheckoutPage({
@@ -46,7 +47,7 @@ export default async function CheckoutPage({
           nameFr: p.nameFr,
           nameEn: p.nameEn,
           category: p.category as string,
-          image: p.images[0] ?? "/products/placeholder-fly.svg",
+          image: p.images[0] ?? placeholderForCategory(p.category),
           variantId: p.variants[0].id,
           variantNameFr: p.variants[0].nameFr,
           variantNameEn: p.variants[0].nameEn,

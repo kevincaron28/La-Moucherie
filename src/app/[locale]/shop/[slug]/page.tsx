@@ -7,7 +7,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { AnglerSpecs } from "@/components/AnglerSpecs";
 import { ProductCard } from "@/components/ProductCard";
 import { getReviewEligibility } from "@/lib/review-eligibility";
-import { pick } from "@/lib/localize";
+import { pick, placeholderForCategory } from "@/lib/localize";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 
@@ -140,7 +140,10 @@ export default async function ProductPage({
     "@type": "Product",
     name: locale === "fr" ? product.nameFr : product.nameEn,
     description: locale === "fr" ? product.descriptionFr : product.descriptionEn,
-    image: product.images.length > 0 ? product.images : [`${siteUrl}/products/placeholder-fly.svg`],
+    image:
+      product.images.length > 0
+        ? product.images
+        : [`${siteUrl}${placeholderForCategory(product.category)}`],
     brand: {
       "@type": "Brand",
       name: "La Moucherie",

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/lib/cart-context";
-import { pick } from "@/lib/localize";
+import { pick, placeholderForCategory } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import { LETTER_RATE_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
 import { StarRating } from "@/components/StarRating";
@@ -39,7 +39,7 @@ export function ProductDetail({
   const priceCents = variant?.priceCents ?? product.basePriceCents;
   const inStock = (variant?.stock ?? 0) > 0;
   const maxAvailable = variant ? Math.max(1, Math.min(variant.stock, 99)) : 1;
-  const image = product.images[0] ?? "/products/placeholder-fly.svg";
+  const image = product.images[0] ?? placeholderForCategory(product.category);
 
   function handleSelectVariant(id: string) {
     setVariantId(id);

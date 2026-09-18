@@ -2,7 +2,7 @@ import type { Product, ProductVariant } from "@prisma/client";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { pick } from "@/lib/localize";
+import { pick, placeholderForCategory } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import { StarRating } from "@/components/StarRating";
 import type { Locale } from "@/i18n/routing";
@@ -33,7 +33,7 @@ export function ProductCard({ product }: { product: ProductWithVariants }) {
     >
       <div className="relative aspect-square overflow-hidden bg-cream">
         <Image
-          src={product.images[0] ?? "/products/placeholder-fly.svg"}
+          src={product.images[0] ?? placeholderForCategory(product.category)}
           alt={pick(product.nameFr, product.nameEn, locale)}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"

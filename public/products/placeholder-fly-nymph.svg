@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="v" cx="50%" cy="44%" r="62%">
+      <stop offset="0%" stop-color="#e4d8ba" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#e4d8ba" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" fill="#faf6ec"/>
+  <circle cx="100" cy="90" r="95" fill="url(#v)"/>
+  <rect x="6" y="6" width="188" height="188" rx="6" fill="none" stroke="#2a3524" stroke-width="1.5" stroke-dasharray="1 6" stroke-linecap="round" opacity="0.22"/>
+
+  <ellipse cx="100" cy="166" rx="36" ry="5.5" fill="#2a3524" opacity="0.08"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- hook, riding a touch lower with no head-room needed for wings -->
+    <g stroke="#2a3524" stroke-width="2.3">
+      <path d="M100 78V123C100 143 90 155 76 153C64 151 60 141 66 133"/>
+    </g>
+
+    <!-- short tail fibers -->
+    <g stroke="#2a3524" stroke-width="1.5" opacity="0.7">
+      <path d="M67 134L48 128M66 137L47 138"/>
+    </g>
+
+    <!-- rib, wound tight down the abdomen -->
+    <g stroke="#8a3d0f" stroke-width="1.6" opacity="0.6">
+      <path d="M92 93h14M92 101h14M92 109h14M92 117h14"/>
+    </g>
+
+    <!-- legs, swept back from the thorax -->
+    <g stroke="#8a3d0f" stroke-width="1.5" opacity="0.85">
+      <path d="M93 84L78 92M93 88L80 98M107 84L122 92M107 88L120 98"/>
+    </g>
+
+    <!-- bead head -->
+    <circle cx="100" cy="70" r="9" fill="#c9953a"/>
+    <circle cx="97" cy="67" r="2.2" fill="#e4d8ba" opacity="0.8"/>
+  </g>
+</svg>
