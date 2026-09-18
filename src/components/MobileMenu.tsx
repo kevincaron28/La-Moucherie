@@ -7,8 +7,8 @@ import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { CATEGORY_ORDER } from "@/lib/localize";
 import { SPECIES, SPECIES_FAMILIES, SPECIES_FAMILY, SPECIES_SLUGS } from "@/lib/angling";
-import { INSECT_ARTICLES } from "@/lib/insect-articles";
-import { HATCHES } from "@/lib/hatches";
+import { ARTICLE_IDS } from "@/lib/insect-articles";
+import { HATCHES, HATCH_GROUPS, HATCH_GROUP_KEY } from "@/lib/hatches";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -58,6 +58,7 @@ export function MobileMenu({ locale }: { locale: string }) {
   const t = useTranslations("Nav");
   const tCategories = useTranslations("Categories");
   const tAngling = useTranslations("Angling");
+  const tHatches = useTranslations("Hatches");
   const { status } = useSession();
   const [open, setOpen] = useState(false);
 
@@ -188,13 +189,28 @@ export function MobileMenu({ locale }: { locale: string }) {
                 <Item onNavigate={close} href="/hatches" accent>
                   {t("hatchChart")}
                 </Item>
-                {INSECT_ARTICLES.map((a) => {
-                  const hatch = HATCHES.find((h) => h.id === a.hatchId);
-                  if (!hatch) return null;
+                {/* Grouped by insect order (mayfly/caddis/...) rather than a
+                    flat list — worth doing now that articles actually span
+                    more than one group; a single-group list would have been
+                    a pointless extra layer of menu. */}
+                {HATCH_GROUPS.map((group) => {
+                  const inGroup = HATCHES.filter(
+                    (h) => h.group === group && ARTICLE_IDS.has(h.id)
+                  );
+                  if (inGroup.length === 0) return null;
                   return (
-                    <Item key={a.hatchId} onNavigate={close} href={`/hatches/${a.hatchId}`}>
-                      {locale === "fr" ? hatch.nameFr : hatch.nameEn}
-                    </Item>
+                    <li key={group}>
+                      <p className="text-[11px] font-medium uppercase tracking-wide text-ink/40">
+                        {tHatches(HATCH_GROUP_KEY[group])}
+                      </p>
+                      <ul className="mt-2 space-y-3">
+                        {inGroup.map((hatch) => (
+                          <Item key={hatch.id} onNavigate={close} href={`/hatches/${hatch.id}`}>
+                            {locale === "fr" ? hatch.nameFr : hatch.nameEn}
+                          </Item>
+                        ))}
+                      </ul>
+                    </li>
                   );
                 })}
                 <Item onNavigate={close} href="/faq">{t("faq")}</Item>

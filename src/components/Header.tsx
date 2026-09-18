@@ -11,8 +11,8 @@ import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SearchBox } from "./SearchBox";
 import { MobileMenu } from "./MobileMenu";
-import { INSECT_ARTICLES } from "@/lib/insect-articles";
-import { HATCHES } from "@/lib/hatches";
+import { ARTICLE_IDS } from "@/lib/insect-articles";
+import { HATCHES, HATCH_GROUPS, HATCH_GROUP_KEY } from "@/lib/hatches";
 
 export function Header() {
   const t = useTranslations("Nav");
@@ -291,6 +291,7 @@ function DropdownButton({
 /** The educational content — the reason a stranger lands on this site at all. */
 function LearnMenu() {
   const t = useTranslations("Nav");
+  const tHatches = useTranslations("Hatches");
   const locale = useLocale();
   const { open, setOpen, ref } = useDropdown();
 
@@ -308,26 +309,34 @@ function LearnMenu() {
           </Link>
           <p className="mt-1 text-xs text-ink/55">{t("hatchChartHint")}</p>
 
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">
-            {t("insectGuides")}
-          </p>
-          <ul className="mt-2.5 space-y-2 text-sm">
-            {INSECT_ARTICLES.map((a) => {
-              const hatch = HATCHES.find((h) => h.id === a.hatchId);
-              if (!hatch) return null;
-              return (
-                <li key={a.hatchId}>
-                  <Link
-                    href={`/hatches/${a.hatchId}`}
-                    onClick={() => setOpen(false)}
-                    className="text-forest hover:text-rust"
-                  >
-                    {locale === "fr" ? hatch.nameFr : hatch.nameEn}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          {/* Grouped by insect order rather than one flat list — worth doing
+              now that the guides actually span more than one group. */}
+          {HATCH_GROUPS.map((group) => {
+            const inGroup = HATCHES.filter(
+              (h) => h.group === group && ARTICLE_IDS.has(h.id)
+            );
+            if (inGroup.length === 0) return null;
+            return (
+              <div key={group} className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+                  {tHatches(HATCH_GROUP_KEY[group])}
+                </p>
+                <ul className="mt-2.5 space-y-2 text-sm">
+                  {inGroup.map((hatch) => (
+                    <li key={hatch.id}>
+                      <Link
+                        href={`/hatches/${hatch.id}`}
+                        onClick={() => setOpen(false)}
+                        className="text-forest hover:text-rust"
+                      >
+                        {locale === "fr" ? hatch.nameFr : hatch.nameEn}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
 
           <div className="mt-4 border-t border-forest/10 pt-3">
             <Link

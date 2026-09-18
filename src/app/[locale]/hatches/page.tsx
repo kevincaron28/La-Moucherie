@@ -6,6 +6,7 @@ import { pick } from "@/lib/localize";
 import {
   HATCHES,
   HATCH_GROUPS,
+  HATCH_GROUP_KEY,
   dayRefFromDate,
   isActiveOn,
   isPeakingOn,
@@ -13,7 +14,6 @@ import {
   yearFraction,
   type DayRef,
   type Hatch,
-  type HatchGroup,
 } from "@/lib/hatches";
 import { ARTICLE_IDS } from "@/lib/insect-articles";
 import type { Locale } from "@/i18n/routing";
@@ -31,14 +31,6 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Hatches" });
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
-
-const GROUP_KEY: Record<HatchGroup, string> = {
-  MAYFLY: "groupMayfly",
-  CADDIS: "groupCaddis",
-  STONEFLY: "groupStonefly",
-  MIDGE: "groupMidge",
-  TERRESTRIAL: "groupTerrestrial",
-};
 
 const TIME_KEY: Record<Hatch["timeOfDay"], string> = {
   MORNING: "timeMorning",
@@ -213,7 +205,7 @@ export default async function HatchesPage({
           return (
             <section key={group} id={group.toLowerCase()}>
               <h2 className="font-display text-xl font-semibold text-forest">
-                {t(GROUP_KEY[group])}
+                {t(HATCH_GROUP_KEY[group])}
               </h2>
 
               <div className="mt-4 hidden sm:grid sm:grid-cols-[13rem_1fr] sm:gap-4">

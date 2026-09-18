@@ -791,6 +791,350 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ----------------------------------------------------------------- SULPHUR
+  {
+    hatchId: "sulphur",
+    metaTitle: {
+      fr: "Ephemerella invaria — le Sulphur, la grande éclosion de soirée de juin",
+      en: "Ephemerella invaria — the Sulphur, June's big evening hatch",
+    },
+    metaDescription: {
+      fr: "Le Sulphur (Ephemerella invaria) au Québec : pourquoi tant de duns restent pris dans leur mue, et pourquoi l'émergente compte plus que la sèche classique.",
+      en: "The Sulphur (Ephemerella invaria) in Québec: why so many duns get stuck half out of their shuck, and why the emerger outfishes the classic dry.",
+    },
+    intro: {
+      fr: "C'est la grande éclosion de soirée de juin, celle qui fait sortir tout le monde sur la rivière entre 19 h et la noirceur. Mais une bonne partie des insectes qui comptent le plus ne flottent jamais vraiment : ils restent coincés à moitié dans leur ancienne peau, et c'est exactement ce détail qui décide quelle mouche fonctionne.",
+      en: "This is June's big evening hatch, the one that brings everyone out between 7 p.m. and dark. But a large share of the insects that matter most never really float free — they stay half-stuck in their old nymphal skin, and that single detail decides which fly actually works.",
+    },
+    idMarks: [
+      {
+        fr: "Taille 14 à 16, corps jaune pâle à jaune-olive — la couleur « sulphur » classique.",
+        en: "Size 14–16, a pale yellow to yellow-olive body — the classic \"sulphur\" colour.",
+      },
+      {
+        fr: "Ailes gris pâle, trois queues.",
+        en: "Pale grey wings, three tails.",
+      },
+      {
+        fr: "Émerge de façon fiable en soirée, généralement entre 19 h et 21 h.",
+        en: "Emerges reliably in the evening, generally between 7 and 9 p.m.",
+      },
+      {
+        fr: "Nymphe de type « rampante » : robuste sans être aplatie, elle vit dans les herbiers et le gravier des portions à courant modéré et fertile.",
+        en: "A \"crawler\"-type nymph: sturdy but not flattened, living among weeds and gravel in moderate, fertile current.",
+      },
+      {
+        fr: "Une grande partie des duns ne se dégagent jamais complètement de leur exuvie et dérivent à moitié pris dedans.",
+        en: "A large share of duns never fully clear their nymphal shuck and drift half-trapped inside it.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Pale Evening Dun (Ephemerella dorothea), du même genre : plus petit (16-18 contre 14-16) et il ne sort que dans les vingt dernières minutes de clarté, alors que le Sulphur commence dès 19 h et dure plus longtemps.",
+      en: "The Pale Evening Dun (Ephemerella dorothea), from the same genus: smaller (16–18 versus 14–16) and it only comes off in the last twenty minutes of daylight, while the Sulphur starts around 7 p.m. and runs longer.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nymphe rampante, pas une nageuse ni une fouisseuse", en: "A crawler, not a swimmer or a burrower" },
+        body: {
+          fr: "La nymphe du Sulphur n'a ni le corps aplati d'un insecte de rapide ni le terrier d'un insecte de vase : elle rampe parmi les herbiers aquatiques et le gravier fin, dans des portions à courant modéré et bien fertilisées. C'est un profil intermédiaire, ce qui explique pourquoi on la trouve sur une gamme de types d'eau plus large que la plupart des éphémères de ce chapitre.\n\nCherchez-la dans les longs radiers peu profonds à végétation aquatique, plutôt que dans les rapides les plus rapides ou les fosses les plus lentes.",
+          en: "The Sulphur nymph has neither the flattened body of a fast-water insect nor the burrow of a silt-dweller: it crawls among aquatic weeds and fine gravel, in moderate, fertile current. That's an in-between profile, which is why it turns up across a wider range of water types than most of the mayflies in this chapter.\n\nLook for it in long, shallow runs with aquatic vegetation, rather than the fastest riffles or the slowest pools.",
+        },
+      },
+      {
+        heading: { fr: "Coincé dans l'exuvie", en: "Stuck in the shuck" },
+        body: {
+          fr: "C'est le détail qui change tout. Chez le Sulphur, une proportion inhabituellement élevée de duns n'arrive pas à se dégager complètement de leur peau de nymphe au moment de l'émergence. L'insecte reste pris par l'abdomen, à moitié sorti, et dérive ainsi — incapable de voler, incapable de couler.\n\nPour une truite, c'est une proie immobilisée et sans défense pendant beaucoup plus longtemps qu'un dun normal. Résultat : dans une vraie éclosion de Sulphur, une émergente montée avec une exuvie traînante attrape souvent plus de poissons qu'une sèche classique bien tenue sur l'eau, même quand les duns adultes sont visibles partout.",
+          en: "This is the detail that changes everything. In the Sulphur, an unusually high share of duns fail to fully clear their nymphal skin at emergence. The insect stays caught by the abdomen, half out, and drifts like that — unable to fly, unable to sink.\n\nTo a trout, that's a helpless, trapped meal available for far longer than a clean dun ever is. The result: in a real Sulphur hatch, an emerger tied with a trailing shuck often out-fishes a perfectly good, high-floating dry, even while adult duns are visible everywhere on the water.",
+        },
+      },
+      {
+        heading: { fr: "Le compte à rebours de la lumière", en: "Racing the light" },
+        body: {
+          fr: "L'éclosion démarre vers 19 h et s'intensifie à mesure que la lumière baisse, pour culminer souvent dans la dernière demi-heure avant la noirceur — exactement le moment où il devient difficile de voir sa mouche. Préparez votre bas de ligne, vos mouches et vos nœuds avant que ça commence : il n'y a pas de temps à perdre une fois que les truites se mettent à monter en série.",
+          en: "The hatch starts around 7 p.m. and builds as the light drops, often peaking in the last half hour before dark — exactly when it gets hard to see your fly. Rig your leader, flies and knots before it starts; there is no time to spare once trout begin rising steadily.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la journée, dans les herbiers et le gravier.", en: "All day, among weeds and gravel." },
+        how: {
+          fr: "Une nymphe rampante en dérive morte près du fond, dans les portions fertiles à courant modéré.",
+          en: "A crawler nymph dead-drifted near bottom, in fertile, moderate current.",
+        },
+        patternSlugs: ["pheasant-tail-nymph"],
+      },
+      {
+        label: { fr: "Émergente (exuvie traînante)", en: "Emerger (trailing shuck)" },
+        when: { fr: "Dès le début de l'éclosion, vers 19 h.", en: "From the start of the hatch, around 7 p.m." },
+        how: {
+          fr: "Dans la pellicule, immobile ou en dérive très lente. C'est souvent la mouche la plus payante de toute l'éclosion.",
+          en: "In the film, motionless or on a very slow drift. This is often the single most productive fly of the whole hatch.",
+        },
+        patternSlugs: ["sulphur-dun", "partridge-orange"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------- SPOTTED SEDGE
+  {
+    hatchId: "spotted-sedge",
+    metaTitle: {
+      fr: "Hydropsyche — le Spotted Sedge, le cheval de trait de l'été",
+      en: "Hydropsyche — the Spotted Sedge, summer's workhorse",
+    },
+    metaDescription: {
+      fr: "Le Spotted Sedge (Hydropsyche) au Québec : la larve filandière qui ne construit pas de fourreau, et pourquoi un caddis tan 14 fonctionne presque tous les soirs de juin à septembre.",
+      en: "The Spotted Sedge (Hydropsyche) in Québec: the net-spinning larva that builds no portable case, and why a tan 14 caddis works almost every evening from June to September.",
+    },
+    intro: {
+      fr: "Si une seule mouche devait rester dans la boîte de l'été, ce serait celle-ci. Présente presque tous les soirs de juin à septembre, cette larve ne construit ni terrier ni fourreau qu'elle transporte : elle tisse un filet fixé aux roches et attend que le courant lui apporte à manger.",
+      en: "If only one fly had to stay in the summer box, it would be this one. On the water almost every evening from June to September, this larva builds neither a burrow nor a portable case: it spins a fixed net anchored to the rocks and waits for the current to deliver its meal.",
+    },
+    idMarks: [
+      {
+        fr: "Corps et ailes brun tacheté à tan, taille 14 à 16 — le « caddis tan » classique.",
+        en: "Tan to mottled-brown body and wings, size 14–16 — the classic \"tan caddis.\"",
+      },
+      {
+        fr: "Longues antennes filiformes, comme tous les trichoptères.",
+        en: "Long, thread-like antennae, like all caddisflies.",
+      },
+      {
+        fr: "Présent presque tous les soirs de juin à septembre, plutôt que sur une fenêtre étroite comme la plupart des éclosions.",
+        en: "On the water almost every evening from June to September, rather than in a narrow window like most hatches.",
+      },
+      {
+        fr: "La larve ne transporte pas de fourreau : elle tisse une retraite de soie fixe et un filet de capture tendu dans le courant.",
+        en: "The larva carries no case: it spins a fixed silk retreat and a capture net stretched across the current.",
+      },
+      {
+        fr: "On la trouve accrochée directement aux roches et aux débris ligneux submergés, dans les portions à courant soutenu.",
+        en: "Found clinging directly to rock and submerged woody debris, in stretches with steady current.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Little Sister Sedge (Cheumatopsyche spp.), du même genre de trichoptères filandiers et souvent mêlé au Spotted Sedge sur la même eau — mais nettement plus petit (16-18 contre 14-16). Quand les truites refusent votre 14, descendez d'abord en taille avant de changer de patron.",
+      en: "The Little Sister Sedge (Cheumatopsyche spp.), a closely related net-spinning caddis often mixed in on the same water — but clearly smaller (16–18 versus 14–16). When trout refuse your 14, drop the size before you change the pattern.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une larve filandière", en: "A net-spinning larva" },
+        body: {
+          fr: "Contrairement au Grannom, qui transporte un fourreau carré, ou à l'October Caddis, qui en construit un d'écorce, la larve du Spotted Sedge reste au même endroit : elle fixe une retraite de soie à une roche et tisse devant l'entrée un filet qui capture les particules organiques emportées par le courant.\n\nÇa dicte l'habitat très précisément : il faut un courant continu et bien oxygéné pour que le filet fonctionne, donc cherchez-la accrochée aux roches et aux débris ligneux dans les radiers et les veines de courant soutenu — jamais dans l'eau stagnante.",
+          en: "Unlike the Grannom, which carries a square case, or the October Caddis, which builds one from bark, the Spotted Sedge larva stays put: it anchors a silk retreat to a rock and spins a net across the entrance that filters organic particles out of the passing current.\n\nThat dictates the habitat precisely: the net needs continuous, well-oxygenated flow to work, so look for it clinging to rock and woody debris in riffles and steady current seams — never in still water.",
+        },
+      },
+      {
+        heading: { fr: "Le cheval de trait de l'été", en: "Summer's workhorse" },
+        body: {
+          fr: "La plupart des éclosions de ce chapitre durent deux à six semaines. Le Spotted Sedge, lui, reste actif plus de quatre mois parce que la population n'émerge pas en une seule cohorte synchronisée : plusieurs générations qui se chevauchent maintiennent des insectes disponibles chaque soir tout l'été.\n\nEn pratique, ça veut dire qu'on n'a jamais vraiment besoin de deviner si « c'est le bon soir » : un caddis tan 14 se justifie n'importe quel soir d'été, ce qui en fait le choix par défaut le plus fiable de toute la saison.",
+          en: "Most hatches in this chapter run two to six weeks. The Spotted Sedge stays active for more than four months because the population doesn't emerge as one synchronized cohort — several overlapping generations keep insects available on the water every evening all summer.\n\nIn practice that means you never really have to guess whether \"tonight is the night\": a tan 14 caddis is justified on any summer evening, which makes it the most reliable default choice of the whole season.",
+        },
+      },
+      {
+        heading: { fr: "Deux tailles, une rivière", en: "Two sizes, one river" },
+        body: {
+          fr: "Le Little Sister Sedge partage presque exactement le même habitat et le même horaire, mais dans un format réduit. Sur une même veine, il n'est pas rare de voir les deux mêlés — ce qui explique pourquoi une truite qui refuse un 14 répété prend souvent la même mouche dès qu'elle descend d'un ou deux crans, sans qu'il soit nécessaire de changer de patron du tout.",
+          en: "The Little Sister Sedge shares almost exactly the same habitat and schedule, just at a smaller scale. On the same seam it's not unusual to see both mixed together — which is why a trout refusing a repeated 14 will often take the very same pattern once it drops a size or two, with no need to change the fly itself.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Pupe", en: "Pupa" },
+        when: { fr: "En fin de journée, avant l'envol des adultes.", en: "Late in the day, ahead of the adult flights." },
+        how: {
+          fr: "En dérive montante vers la surface, ou juste sous la pellicule.",
+          en: "On a rising drift toward the surface, or just under the film.",
+        },
+        patternSlugs: ["caddis-pupa"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Le soir, de juin à septembre.", en: "Evening, June through September." },
+        how: {
+          fr: "Une sèche tan en dérive morte, avec un léger remous en fin de dérive pour imiter l'insecte qui décolle.",
+          en: "A tan dry dead-drifted, with a light twitch at the end of the drift to imitate the insect lifting off.",
+        },
+        patternSlugs: ["elk-wing-caddis"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------ GOLDEN STONE
+  {
+    hatchId: "golden-stone",
+    metaTitle: {
+      fr: "Acroneuria — le Golden Stone, la nymphe qui ne nage jamais",
+      en: "Acroneuria — the Golden Stone, the nymph that never swims",
+    },
+    metaDescription: {
+      fr: "Le Golden Stone (Acroneuria) au Québec : pourquoi la nymphe vit deux ou trois ans sans jamais nager, pourquoi l'adulte n'émerge jamais sur l'eau, et comment pêcher ce qu'on ne voit jamais éclore.",
+      en: "The Golden Stone (Acroneuria) in Québec: why the nymph lives two or three years without ever swimming, why the adult never emerges on the water, and how to fish a hatch you never actually see happen.",
+    },
+    intro: {
+      fr: "C'est notre premier plécoptère de ce chapitre, et il fonctionne selon des règles complètement différentes des éphémères et des trichoptères vus jusqu'ici. Sa nymphe vit deux ou trois ans agrippée aux roches sans jamais nager, et son adulte n'émerge jamais sur l'eau — ce qui veut dire qu'on ne voit littéralement jamais cette « éclosion » se produire.",
+      en: "This is the first stonefly in this chapter, and it runs on completely different rules from every mayfly and caddis covered so far. Its nymph lives two or three years clinging to rock without ever swimming, and its adult never emerges on the water — which means this \"hatch\" is one you will literally never watch happen.",
+    },
+    idMarks: [
+      {
+        fr: "Gros : taille 6 à 10, une des plus grosses sèches de l'année.",
+        en: "Large: size 6–10, one of the biggest dries of the year.",
+      },
+      {
+        fr: "Corps doré à ambré, ailes tachetées repliées bien à plat sur le dos — pas en toit comme un trichoptère.",
+        en: "Golden to amber body, mottled wings folded flat against the back — not tent-like as on a caddis.",
+      },
+      {
+        fr: "Deux queues, antennes courtes — l'inverse du trichoptère, qui a de longues antennes et pas de queues visibles.",
+        en: "Two tails, short antennae — the opposite of a caddis, which has long antennae and no visible tails.",
+      },
+      {
+        fr: "Nymphe robuste et aplatie, avec des touffes de branchies près des pattes — construite pour s'agripper au fond des rapides les plus froids et les mieux oxygénés.",
+        en: "A sturdy, flattened nymph with gill tufts near the legs — built to grip the bottom of the coldest, most oxygenated riffles.",
+      },
+      {
+        fr: "L'adulte sort en rampant complètement hors de l'eau, sur une roche ou une branche, avant de fendre sa peau de nymphe — il n'y a jamais de dun flottant.",
+        en: "The adult emerges by crawling entirely out of the water, onto a rock or a branch, before splitting its nymphal skin — there is never a floating dun.",
+      },
+    ],
+    confusedWith: {
+      fr: "L'October Caddis, à cause de sa taille et de ses teintes orangées, mais ses ailes tenues en toit et ses longues antennes le trahissent aussitôt. Le Yellow Sally (Isoperla spp.), un autre plécoptère présent à la même période, est nettement plus petit (14-16) et jaune vif plutôt que doré.",
+      en: "The October Caddis, thanks to its size and orange tones, but its tented wings and long antennae give it away immediately. The Yellow Sally (Isoperla spp.), another stonefly present at the same time, is clearly smaller (14–16) and bright yellow rather than golden.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nymphe qui ne nage jamais", en: "A nymph that never swims" },
+        body: {
+          fr: "Contrairement à une nymphe d'éphémère, qui peut nager ou dériver vers la surface, la nymphe de plécoptère se déplace uniquement en rampant. Elle vit agrippée sous les roches des rapides les plus froids et les mieux oxygénés, se nourrissant d'algues, de débris et de petits invertébrés selon son stade.\n\nCette exigence en oxygène en fait un des meilleurs indicateurs de la santé d'une rivière : là où on trouve des plécoptères en abondance, l'eau est propre. Le corollaire est aussi vrai — leur absence sur un secteur autrefois fréquenté vaut la peine d'être notée.",
+          en: "Unlike a mayfly nymph, which can swim or drift to the surface, a stonefly nymph moves only by crawling. It lives clinging under rock in the coldest, most oxygenated riffles, feeding on algae, detritus and small invertebrates depending on its stage.\n\nThat oxygen requirement makes it one of the better indicators of a river's health: where stoneflies are abundant, the water is clean. The reverse is worth noting too — their disappearance from a stretch that once held them is a real signal.",
+        },
+      },
+      {
+        heading: { fr: "Deux ou trois ans, puis une nuit", en: "Two or three years, then one night" },
+        body: {
+          fr: "La plupart des insectes de ce chapitre vivent moins d'un an sous l'eau. Le Golden Stone en prend deux ou trois, passant par de nombreuses mues avant d'être prêt. Puis, une nuit d'été, la nymphe quitte l'eau pour de bon — elle rampe hors du courant, sur une roche exposée ou dans la végétation riveraine, et c'est là, à l'air libre, qu'elle fend sa peau et devient adulte.\n\nIl n'y a donc jamais de subimago flottante à observer, et l'émergence elle-même se produit presque toujours hors de la vue, la nuit, loin de l'eau. Ce qu'on pêche n'est jamais l'éclosion — c'est ce qui vient après.",
+          en: "Most insects in this chapter live under a year in the water. The Golden Stone takes two or three, passing through many molts before it's ready. Then, on a summer night, the nymph leaves the water for good — it crawls out of the current onto an exposed rock or into streamside vegetation, and there, in open air, splits its skin and becomes an adult.\n\nSo there is never a floating dun to watch for, and the emergence itself almost always happens out of sight, at night, away from the water. What actually gets fished is never the hatch — it's what comes after.",
+        },
+      },
+      {
+        heading: { fr: "L'imago qui revient pondre", en: "The adult, coming back to lay" },
+        body: {
+          fr: "Puisqu'il n'y a rien à intercepter à l'émergence, toute l'occasion de pêche vient de l'adulte qui revient sur l'eau plus tard — une femelle qui pond, ou un insecte maladroit tombé des broussailles riveraines. Une grosse sèche touffue et flottante, animée d'un petit remous, imite bien mieux un adulte en difficulté qu'une dérive parfaitement morte ne le ferait.\n\nLes meilleures fenêtres sont la nuit et les heures de faible luminosité, près des berges broussailleuses où les adultes se rassemblent le jour.",
+          en: "Since there's nothing to intercept at emergence, the entire fishing opportunity comes from the adult returning to the water later — an egg-laying female, or a clumsy adult that fell in from streamside brush. A big, bushy, buoyant dry given a small twitch imitates a struggling adult far better than a perfectly dead drift ever would.\n\nThe best windows are night and low light, close to the brushy banks where adults gather during the day.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute l'année — elle est toujours dans le substrat.", en: "Year-round — it's always in the substrate." },
+        how: {
+          fr: "Une grosse nymphe robuste en dérive morte près du fond, dans les rapides les plus froids. Utile douze mois par année.",
+          en: "A large, sturdy nymph dead-drifted near bottom in the coldest riffles. Useful twelve months a year.",
+        },
+        patternSlugs: ["montana-stone"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "La nuit et en faible luminosité, près des berges broussailleuses.", en: "Night and low light, near brushy banks." },
+        how: {
+          fr: "Une grosse sèche touffue, animée d'un petit remous, dérivée serré contre la végétation riveraine.",
+          en: "A big, bushy dry, given a small twitch, drifted tight against streamside vegetation.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+    ],
+  },
+
+  // --------------------------------------------------------------- CHIRONOMIDS
+  {
+    hatchId: "chironomids",
+    metaTitle: {
+      fr: "Chironomidae — le seul insecte qui tient toute l'année",
+      en: "Chironomidae — the only insect that lasts all year",
+    },
+    metaDescription: {
+      fr: "Les chironomes (moucherons) au Québec : pourquoi ils survivent là où rien d'autre ne le peut, pourquoi la pupe suspendue verticalement décide tout, et comment pêcher un insecte minuscule avec précision.",
+      en: "Chironomids (midges) in Québec: why they survive where nothing else can, why the vertically hanging pupa decides everything, and how to fish a tiny insect with real precision.",
+    },
+    intro: {
+      fr: "C'est le seul insecte de ce chapitre disponible à l'année, y compris en plein cœur de l'hiver sous la glace. En mars et en novembre, quand rien d'autre n'a encore commencé ou n'est déjà plus là, c'est ça ou rien — et les truites s'en nourrissent avec un sérieux qu'on ne leur voit pas ailleurs.",
+      en: "This is the only insect in this chapter available year-round, including in the dead of winter under the ice. In March and November, when nothing else has started yet or is already finished, it's this or nothing — and trout feed on it with a seriousness you don't see anywhere else.",
+    },
+    idMarks: [
+      {
+        fr: "Minuscule : taille 18 à 24, parmi les plus petits insectes de tout le chapitre.",
+        en: "Tiny: size 18–24, among the smallest insects in this whole chapter.",
+      },
+      {
+        fr: "Plan corporel de mouche vraie : seulement deux ailes, aucune queue — contrairement à tous les autres insectes vus jusqu'ici.",
+        en: "A true-fly body plan: only two wings, no tails at all — unlike every other insect covered so far.",
+      },
+      {
+        fr: "La larve (souvent appelée « ver de vase ») vit dans la vase, parfois teintée de rouge par une hémoglobine qui lui permet de survivre en eau pauvre en oxygène.",
+        en: "The larva (often called a \"bloodworm\") lives in mud, sometimes tinted red by a hemoglobin that lets it survive in low-oxygen water.",
+      },
+      {
+        fr: "La pupe reste suspendue à la verticale, juste sous la pellicule de surface, souvent de longues minutes avant que l'adulte ne s'en dégage.",
+        en: "The pupa hangs vertically, just under the surface film, often for long minutes before the adult breaks free.",
+      },
+      {
+        fr: "Les adultes forment des nuées d'accouplement denses juste au-dessus de l'eau, surtout les jours calmes et doux des saisons intermédiaires.",
+        en: "Adults form dense mating swarms just above the water, especially on calm, mild days in the shoulder seasons.",
+      },
+    ],
+    confusedWith: {
+      fr: "L'imago du Trico, tout aussi minuscule et aussi souvent en nuée, mais qui garde deux queues bien visibles alors que le chironome n'en a aucune. Une pupe de trichoptère est beaucoup plus grosse et porte quatre ailes en toit plutôt que deux ailes plates.",
+      en: "The Trico spinner, just as tiny and just as often swarming, but it keeps two clearly visible tails while a chironomid has none at all. A caddis pupa is much larger and carries four tent-like wings rather than two flat ones.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le seul insecte qui tient tout l'hiver", en: "The only insect that lasts all winter" },
+        body: {
+          fr: "La larve de chironome vit dans la vase et le limon des portions calmes, et chez plusieurs espèces, elle produit une hémoglobine qui lui permet d'extraire de l'oxygène même là où presque rien d'autre ne survit — c'est ce qui lui donne sa teinte rougeâtre de « ver de vase ». Cette tolérance est la raison pour laquelle le chironome reste actif toute l'année, alors que la majorité des insectes de ce chapitre disparaissent complètement une bonne partie de l'année.\n\nLes deux fenêtres de pointe (mi-mars à mi-mai, puis octobre à la mi-novembre) ne sont pas un hasard : ce sont exactement les moments où les truites n'ont rien d'autre à manger, et où le chironome fait toute la différence entre un poisson nourri et un poisson qui ne l'est pas.",
+          en: "The chironomid larva lives in the mud and silt of calm stretches, and in several species it produces a hemoglobin that lets it pull oxygen from water where almost nothing else can survive — that's what gives it its reddish \"bloodworm\" colour. That tolerance is the whole reason it stays active year-round, while most of the insects in this chapter vanish entirely for a good part of the year.\n\nThe two peak windows (mid-March to mid-May, then October to mid-November) are no accident: those are exactly the stretches when trout have nothing else to eat, and when a chironomid makes the entire difference between a fed fish and an unfed one.",
+        },
+      },
+      {
+        heading: { fr: "La suspension verticale", en: "The vertical hang" },
+        body: {
+          fr: "Voici le détail qui gouverne toute la pêche au chironome. La pupe nage vers la surface, puis se suspend à la verticale, la tête juste sous la pellicule, parfois de longues minutes avant que l'adulte ne s'en dégage. Elle ne dérive pas, elle ne nage pas activement — elle reste là, immobile, mi-dedans mi-dehors.\n\nC'est exactement ce qui en fait une proie à faible risque et haut rendement pour une truite : immobile, prévisible, disponible longtemps. Une mouche fixe, présentée verticale et immobile dans la pellicule, imite bien mieux ce comportement qu'une dérive à la mode éphémère — et c'est souvent pour cette raison précise que des patrons « parfaits » à l'œil échouent devant des chironomes actifs.",
+          en: "Here is the detail that governs all chironomid fishing. The pupa swims toward the surface, then hangs vertically, head just under the film, sometimes for long minutes before the adult breaks free. It doesn't drift, it doesn't swim actively — it just sits there, motionless, half in and half out.\n\nThat is exactly what makes it a low-risk, high-value meal for a trout: still, predictable, available for a long stretch. A fly fished static and vertical in the film imitates that behaviour far better than a mayfly-style drift — and that specific mismatch is often why an otherwise \"perfect\" pattern fails in front of active chironomids.",
+        },
+      },
+      {
+        heading: { fr: "Minuscule, donc précis", en: "Tiny, so it's about precision" },
+        body: {
+          fr: "À taille 18-24, la présentation et la silhouette exacte comptent énormément — le même principe que pour le Trico, mais sur douze mois plutôt que trois. Un bas de ligne fin (6X, parfois 7X) et une pause complète pendant la présentation font souvent plus de différence que le choix précis du patron.\n\nComme le chironome éclot quelque part sur l'eau à peu près tous les jours de l'année, ça vaut la peine d'en garder toujours dans la boîte — pas seulement pour les mois creux, mais pour n'importe quelle journée calme où rien d'autre ne semble se passer.",
+          en: "At size 18–24, presentation and exact silhouette matter enormously — the same principle as with the Trico, just stretched across twelve months instead of three. Fine tippet (6X, sometimes 7X) and a genuine pause in the presentation often matter more than the precise pattern chosen.\n\nSince a chironomid hatch is happening somewhere on the water almost every day of the year, it's worth always carrying a few — not just for the lean months, but for any quiet day when nothing else seems to be happening.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Pupe", en: "Pupa" },
+        when: { fr: "Toute l'année, avec des pointes en mars-mai et en octobre-novembre.", en: "Year-round, with peaks in March–May and October–November." },
+        how: {
+          fr: "Fixe et verticale dans la pellicule, ou sur une dérive lente. Ne l'animez pas — c'est justement son immobilité qui la rend efficace.",
+          en: "Static and vertical in the film, or on a slow drift. Don't animate it — its stillness is exactly what makes it work.",
+        },
+        patternSlugs: ["zebra-midge"],
+      },
+      {
+        label: { fr: "Adulte (amas)", en: "Adult (cluster)" },
+        when: { fr: "Les jours calmes et doux, au-dessus de l'eau.", en: "Calm, mild days, just above the water." },
+        how: {
+          fr: "Un amas de plusieurs adultes plutôt qu'un seul insecte — à cette taille, une imitation isolée est souvent trop discrète pour être vue ou trop délicate à monter.",
+          en: "A cluster of several adults rather than a single insect — at this size, a lone imitation is often too faint to see or too fiddly to tie effectively.",
+        },
+        patternSlugs: ["griffiths-gnat"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {

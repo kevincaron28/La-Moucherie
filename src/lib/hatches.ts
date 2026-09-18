@@ -47,6 +47,17 @@ export const HATCH_GROUPS: HatchGroup[] = [
   "TERRESTRIAL",
 ];
 
+/** `Hatches` namespace message keys for each group label — shared by the
+ * chart itself and anywhere else insects get grouped (mobile drawer, desktop
+ * Learn menu), so the label never drifts between them. */
+export const HATCH_GROUP_KEY: Record<HatchGroup, string> = {
+  MAYFLY: "groupMayfly",
+  CADDIS: "groupCaddis",
+  STONEFLY: "groupStonefly",
+  MIDGE: "groupMidge",
+  TERRESTRIAL: "groupTerrestrial",
+};
+
 // Cumulative days before each month in a non-leap reference year. Leap day is
 // ignored on purpose: a one-day shift is meaningless next to the two-week swing
 // a cold spring produces, and ignoring it keeps every bar stable year to year.
