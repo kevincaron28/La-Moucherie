@@ -2783,6 +2783,498 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // -------------------------------------------------------------- YELLOW SALLY
+  {
+    hatchId: "yellow-sally",
+    metaTitle: {
+      fr: "Isoperla spp. — le Yellow Sally, le plécoptère qui touche vraiment l'eau",
+      en: "Isoperla spp. — the Yellow Sally, the stonefly that actually touches the water",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Yellow Sally (Isoperla spp.) au Québec : pourquoi la femelle skitte activement sur l'eau pour pondre, contrairement à la plupart des autres plécoptères de ce guide.",
+      en: "Identifying and fishing the Yellow Sally (Isoperla spp.) in Québec: why the female actively skitters across the water to lay, unlike most other stoneflies in this guide.",
+    },
+    intro: {
+      fr: "Les autres plécoptères de ce chapitre passent le plus clair de leur vie d'adulte loin de l'eau. Le Yellow Sally fait exception : petit et jaune vif, il revient courir activement sur la surface — ce qui en fait le seul de la famille qu'on regarde vraiment se poser.",
+      en: "This chapter's other stoneflies spend most of their adult lives well away from the water. The Yellow Sally is the exception: small and bright yellow, it comes back to actively skitter across the surface — making it the only one in the family you actually watch land.",
+    },
+    idMarks: [
+      {
+        fr: "Petite, taille 14-16, jaune vif uniforme — la plus voyante de nos plécoptères.",
+        en: "Small, size 14–16, uniform bright yellow — the showiest of our stoneflies.",
+      },
+      {
+        fr: "Ailes repliées à plat, deux queues courtes — traits communs à tous les plécoptères de ce guide.",
+        en: "Wings folded flat, two short tails — traits shared with every stonefly in this guide.",
+      },
+      {
+        fr: "La femelle revient activement courir (skitter) sur l'eau pour pondre, plutôt que de simplement s'y poser.",
+        en: "The female actively skitters across the water to lay eggs, rather than simply settling onto it.",
+      },
+      {
+        fr: "Nymphe dans les radiers rapides et propres, comme la plupart des plécoptères.",
+        en: "Nymph in fast, clean riffles, like most stoneflies.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Golden Stone, aussi doré-jaune mais nettement plus gros (6-10 contre 14-16) et dont l'adulte ne touche presque jamais l'eau. Le Little Black Caddis, mal identifié de loin, mais noir et non jaune une fois de près.",
+      en: "The Golden Stone, also golden-yellow but clearly bigger (6–10 versus 14–16) and whose adult almost never touches the water. The Little Black Caddis, mistaken from a distance, but black, not yellow, up close.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le plécoptère qui touche vraiment l'eau", en: "The stonefly that actually touches the water" },
+        body: {
+          fr: "Le Golden Stone et le grand plécoptère noir, vus plus tôt dans ce chapitre, émergent hors de l'eau et n'y reviennent que brièvement pour pondre — leur adulte passe le plus clair de son temps loin de la rivière. Le Yellow Sally fait les choses différemment : la femelle revient activement courir sur la surface pour disperser ses œufs, plutôt que de simplement effleurer l'eau une seconde avant de repartir.\n\nC'est un comportement d'adulte nettement plus actif et plus visible que celui de ses cousins plus gros, et c'est justement ce qui rend le Yellow Sally si repérable en soirée d'été.",
+          en: "The Golden Stone and the Giant Black Stone, covered earlier in this chapter, emerge out of the water and only return briefly to lay — their adults spend most of their time well away from the river. The Yellow Sally does things differently: the female actively skitters across the surface to disperse her eggs, rather than just brushing the water for a second before leaving.\n\nThat's a far more active, visible adult behaviour than its bigger cousins', and it's exactly what makes the Yellow Sally so easy to spot on a summer evening.",
+        },
+      },
+      {
+        heading: { fr: "Une présentation qui bouge", en: "A presentation that moves" },
+        body: {
+          fr: "Parce que l'insecte réel se déplace activement sur l'eau plutôt que de dériver passivement, une sèche parfaitement immobile en dérive morte sous-représente ce qui se passe vraiment. Une petite saccade, un mouvement bref qui fait légèrement onduler la mouche, imite bien mieux le comportement naturel — et prend souvent plus de poisson qu'une dérive parfaite.\n\nC'est une des rares situations dans ce guide où bouger délibérément la mouche est un avantage plutôt qu'une erreur à corriger.",
+          en: "Because the real insect actively moves across the water rather than drifting passively, a perfectly still dry on a dead drift underrepresents what's actually happening. A small twitch, a brief motion that ripples the fly slightly, imitates the natural behaviour far better — and often takes more fish than a flawless drift.\n\nIt's one of the rare situations in this guide where deliberately moving the fly is an advantage rather than a mistake to correct.",
+        },
+      },
+      {
+        heading: { fr: "Jaune vif, facile à suivre", en: "Bright yellow, easy to track" },
+        body: {
+          fr: "Sa couleur jaune vif uniforme en fait un des plécoptères les plus faciles à repérer sur l'eau, même à distance — un avantage réel en fin de journée quand la lumière baisse. Cherchez-le dans les mêmes radiers rapides que les autres plécoptères de ce chapitre, en soirée de juin et juillet.\n\nUne petite sèche jaune vif, animée d'une légère saccade, couvre bien cette éclosion sans qu'il soit nécessaire de complexifier davantage la présentation.",
+          en: "Its uniform bright-yellow colour makes it one of the easiest stoneflies to track on the water, even at a distance — a real advantage late in the day as light fades. Look for it in the same fast riffles as this chapter's other stoneflies, on June and July evenings.\n\nA small bright-yellow dry, given a light twitch, covers this hatch well without needing to complicate the presentation any further.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la belle saison, dans les radiers rapides.", en: "Throughout the open season, in fast riffles." },
+        how: {
+          fr: "Près du fond, en dérive naturelle.",
+          en: "Near bottom, on a natural drift.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "En soirée, de juin à la fin juillet.", en: "Evening, June through late July." },
+        how: {
+          fr: "Une sèche jaune vif, animée d'une légère saccade plutôt qu'en dérive morte.",
+          en: "A bright-yellow dry, given a light twitch rather than a dead drift.",
+        },
+        patternSlugs: ["elk-wing-caddis"],
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- CRANE FLY
+  {
+    hatchId: "crane-fly",
+    metaTitle: {
+      fr: "Tipulidae — la tipule, une vraie mouche et non un plécoptère",
+      en: "Tipulidae — the crane fly, a true fly, not a stonefly",
+    },
+    metaDescription: {
+      fr: "Identification et pêche de la tipule au Québec : pourquoi ce grand insecte à pattes longues est une vraie mouche (Diptera) plutôt qu'un plécoptère, et pourquoi sa larve fonctionne toute l'année.",
+      en: "Identifying and fishing the crane fly in Québec: why this long-legged insect is a true fly (Diptera) rather than a stonefly, and why its larva works year-round.",
+    },
+    intro: {
+      fr: "On la prend souvent pour un moustique géant ou un plécoptère égaré, mais la tipule appartient à une famille complètement différente — celle des vraies mouches. Ses longues pattes qui rebondissent sur l'eau en soirée d'été cachent une larve tolérante qui, elle, fonctionne toute l'année.",
+      en: "It often gets mistaken for a giant mosquito or a stray stonefly, but the crane fly belongs to a completely different family — the true flies. Its long legs bouncing on the water on summer evenings hide a tolerant larva that, unlike the adult, works year-round.",
+    },
+    idMarks: [
+      {
+        fr: "Très longues pattes fragiles, corps mince, taille 12-16 selon l'espèce.",
+        en: "Very long, fragile legs, slim body, size 12–16 depending on species.",
+      },
+      {
+        fr: "Une seule paire d'ailes fonctionnelles — les mouches vraies, dont fait partie la tipule, portent de minuscules balanciers (haltères) à la place de la seconde paire.",
+        en: "Only one functional pair of wings — true flies, which the crane fly belongs to, carry tiny balancing organs (halteres) in place of the second pair.",
+      },
+      {
+        fr: "Rebondit et dabble sur l'eau en soirée plutôt que de simplement s'y poser, un vol saccadé et instable.",
+        en: "Bounces and dabbles on the water in the evening rather than simply landing, in an unsteady, jerky flight.",
+      },
+      {
+        fr: "Larve molle et cylindrique (« ver de cuir »), qui roule au fond parmi les débris organiques toute l'année.",
+        en: "A soft, cylindrical larva (a \"leatherjacket\"), tumbling along the bottom among organic debris year-round.",
+      },
+    ],
+    confusedWith: {
+      fr: "Un gros moustique, à cause des longues pattes — mais la tipule ne pique pas et n'a aucun intérêt pour le sang. Un plécoptère par la taille, mais les ailes et le vol instable la trahissent aussitôt.",
+      en: "A giant mosquito, because of the long legs — but the crane fly doesn't bite and has zero interest in blood. A stonefly by size, but the wings and unsteady flight give it away immediately.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une vraie mouche, pas un plécoptère ni un moucheron", en: "A true fly, not a stonefly or a midge" },
+        body: {
+          fr: "Malgré l'allure, la tipule appartient à l'ordre des Diptera, les mouches vraies — la même grande famille que la mouche domestique et le moustique, plutôt qu'aux éphémères, trichoptères ou plécoptères vus jusqu'ici. Le trait qui confirme l'appartenance : à la place d'une deuxième paire d'ailes, elle porte deux minuscules balanciers (haltères), des organes qui l'aident à stabiliser son vol plutôt qu'à voler.\n\nC'est un rappel utile que « grand insecte à pattes longues sur l'eau » ne veut pas dire plécoptère par défaut — la classification exacte change complètement la biologie et, parfois, la façon de la pêcher.",
+          en: "Despite the look, the crane fly belongs to the order Diptera, the true flies — the same broad family as the housefly and the mosquito, rather than the mayflies, caddis or stoneflies covered so far. The trait that confirms it: instead of a second pair of wings, it carries two tiny balancing organs (halteres), which help stabilize flight rather than power it.\n\nIt's a useful reminder that \"big long-legged insect on the water\" doesn't automatically mean stonefly — the exact classification changes the biology completely, and sometimes the way it's fished.",
+        },
+      },
+      {
+        heading: { fr: "Une larve tolérante, disponible toute l'année", en: "A tolerant larva, available year-round" },
+        body: {
+          fr: "Contrairement aux plécoptères de ce chapitre, limités aux rapides les plus propres et les mieux oxygénés, la larve de tipule — un « ver de cuir » mou et cylindrique — tolère une bien plus large gamme d'habitats : fond vaseux, gravier, débris organiques, courant lent comme rapide. Elle se nourrit de matière en décomposition plutôt que de proies vivantes ou d'algues.\n\nCette tolérance en fait une ressource alimentaire disponible presque partout dans une rivière, toute l'année — une nymphe lestée qui imite la larve reste donc un choix raisonnable même loin de toute éclosion visible.",
+          en: "Unlike this chapter's stoneflies, confined to the cleanest, best-oxygenated riffles, the crane fly larva — a soft, cylindrical \"leatherjacket\" — tolerates a much wider range of habitats: silty bottom, gravel, organic debris, slow current or fast. It feeds on decaying matter rather than live prey or algae.\n\nThat tolerance makes it a food source available almost anywhere in a river, year-round — a weighted nymph imitating the larva stays a reasonable choice even far from any visible hatch.",
+        },
+      },
+      {
+        heading: { fr: "Le rebond qui trahit l'adulte", en: "The bounce that gives the adult away" },
+        body: {
+          fr: "L'adulte a un vol instable et saccadé, et rebondit littéralement sur la pellicule d'eau plutôt que de s'y poser proprement — un comportement facile à reconnaître une fois qu'on l'a vu. C'est ce contact répété et bref avec la surface, en soirée d'été, qui déclenche l'intérêt de la truite plus que l'insecte lui-même au repos.\n\nUne sèche présentée avec de petites saccades répétées, plutôt qu'en dérive morte, imite mieux ce comportement particulier.",
+          en: "The adult flies unsteadily and jerkily, literally bouncing off the water's film rather than landing cleanly on it — easy to recognize once you've seen it. It's that repeated, brief contact with the surface, on a summer evening, that draws trout interest more than the insect at rest.\n\nA dry fished with small repeated twitches, rather than a dead drift, imitates that particular behaviour better.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Larve", en: "Larva" },
+        when: { fr: "Toute l'année, dans presque tous les types de fond.", en: "Year-round, in nearly every kind of bottom." },
+        how: {
+          fr: "Une nymphe lestée près du fond, en dérive naturelle.",
+          en: "A weighted nymph near bottom, on a natural drift.",
+        },
+        patternSlugs: ["bead-head-hares-ear"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "En soirée, de juin à septembre.", en: "Evening, June through September." },
+        how: {
+          fr: "Une sèche à longues pattes, animée de petites saccades répétées.",
+          en: "A long-legged dry, given small repeated twitches.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------------------- ANTS
+  {
+    hatchId: "ants",
+    metaTitle: {
+      fr: "Formicidae — les fourmis, le secours le plus sous-estimé de l'été",
+      en: "Formicidae — ants, summer's most underrated fallback",
+    },
+    metaDescription: {
+      fr: "Identification et pêche des fourmis ailées au Québec : pourquoi le vol nuptial synchronisé après la pluie ou par temps humide d'août produit parfois la meilleure pêche de tout l'été.",
+      en: "Identifying and fishing flying ants in Québec: why the synchronized nuptial flight after rain or on humid August days sometimes produces the best fishing of the whole summer.",
+    },
+    intro: {
+      fr: "Ce n'est jamais l'insecte le plus voyant dans la boîte à mouches, et c'est justement pour ça qu'elle fonctionne. Après une pluie d'été ou par une journée chaude et humide d'août, la truite abandonne parfois tout le reste pour se nourrir presque exclusivement de fourmis.",
+      en: "It's never the flashiest insect in the fly box, and that's exactly why it works. After a summer rain or on a hot, humid August day, trout will sometimes abandon everything else to feed almost exclusively on ants.",
+    },
+    idMarks: [
+      {
+        fr: "Silhouette en deux segments distincts (thorax et abdomen reliés par un pédicule étroit), pattes coudées, taille 14-20 selon l'espèce.",
+        en: "A two-segment silhouette (thorax and abdomen joined by a narrow waist), bent legs, size 14–20 depending on species.",
+      },
+      {
+        fr: "La forme ailée (alate) porte deux paires d'ailes membraneuses, plus grandes que le corps.",
+        en: "The winged form (alate) carries two pairs of membranous wings, longer than the body.",
+      },
+      {
+        fr: "Coule bas dans la pellicule plutôt que de flotter haut — une silhouette presque submergée.",
+        en: "Sits low in the film rather than riding high — an almost-submerged silhouette.",
+      },
+      {
+        fr: "Apparaît en masse lors de vols nuptiaux synchronisés, souvent juste après une pluie ou par temps chaud et humide d'août.",
+        en: "Shows up en masse during synchronized nuptial flights, often right after rain or on hot, humid August days.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le coléoptère, aussi terrestre et présent en été, mais avec un corps ovale d'une seule pièce plutôt que la silhouette en deux segments distincts de la fourmi.",
+      en: "The beetle, also terrestrial and present in summer, but with a one-piece oval body rather than the ant's distinct two-segment silhouette.",
+    },
+    sections: [
+      {
+        heading: { fr: "Un vol nuptial synchronisé sur toute une région", en: "A nuptial flight synchronized across a whole region" },
+        body: {
+          fr: "Les fourmis ailées (alates) ne s'envolent pas au hasard : des colonies entières, souvent sur un vaste territoire, déclenchent leur vol nuptial le même jour, en réponse à des conditions précises d'humidité et de température — typiquement chaud, humide, et souvent juste après une pluie. C'est ce qui explique pourquoi une « journée à fourmis » touche parfois plusieurs rivières en même temps plutôt qu'un seul secteur isolé.\n\nCette synchronisation produit une disponibilité massive et brève : des milliers d'insectes sur l'eau en une seule journée, puis plus rien pendant des semaines.",
+          en: "Winged ants (alates) don't take flight at random: entire colonies, often across a wide area, trigger their nuptial flight on the same day, in response to precise humidity and temperature conditions — typically warm, humid, and often right after rain. That's why a \"flying ant day\" sometimes hits several rivers at once rather than one isolated stretch.\n\nThat synchronization produces massive, brief availability: thousands of insects on the water in a single day, then nothing for weeks.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi la truite la préfère parfois à tout le reste", en: "Why trout sometimes prefer it to everything else" },
+        body: {
+          fr: "Une fois à l'eau, une fourmi ne s'en sort presque jamais — contrairement à un éphémère qui peut parfois redécoller, elle reste prise dans la pellicule sans espoir de fuite. C'est une proie à risque nul et à rendement garanti, ce qui en fait un choix particulièrement sûr pour une truite qui évalue chaque bouchée en fonction de l'effort à fournir.\n\nAprès une pluie ou un coup de vent qui en délogent plusieurs depuis la végétation riveraine, ne soyez pas surpris qu'une truite ignore une éphémère bien visible pour prendre une fourmi presque invisible juste à côté.",
+          en: "Once in the water, an ant almost never gets out — unlike a mayfly, which can sometimes take back off, it stays trapped in the film with no hope of escape. That's a zero-risk, guaranteed-payoff meal, which makes it a particularly safe choice for a trout weighing each bite against the effort of taking it.\n\nAfter a rain or a gust of wind knocks several off streamside vegetation, don't be surprised if a trout ignores a clearly visible mayfly to take an almost-invisible ant right beside it.",
+        },
+      },
+      {
+        heading: { fr: "Basse dans l'eau, presque invisible", en: "Low in the water, nearly invisible" },
+        body: {
+          fr: "Une fourmi flotte mal : son corps étroit et son exosquelette peu poilu la font couler bas dans la pellicule plutôt que de reposer dessus comme une éphémère bien velue. Ça la rend difficile à voir pour le pêcheur, mais pas pour la truite, qui la repère très bien depuis en dessous.\n\nUn patron monté avec peu de flottabilité délibérée, qui s'enfonce légèrement dans la pellicule plutôt que de flotter haut, imite mieux ce comportement — et une touche discrète sur une mouche à peine visible est souvent le signe qu'elle a fonctionné exactement comme prévu.",
+          en: "An ant floats poorly: its narrow body and sparsely haired exoskeleton make it sit low in the film rather than resting on top of it the way a well-haired mayfly does. That makes it hard for an angler to see, but not for a trout, which spots it easily from below.\n\nA pattern tied with deliberately modest buoyancy, sitting slightly into the film rather than riding high, imitates that better — and a quiet take on a fly you can barely see is often the sign it worked exactly as intended.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Fourmi isolée", en: "Solitary ant" },
+        when: { fr: "N'importe quand l'été, après une pluie ou un coup de vent.", en: "Any time in summer, after rain or a gust of wind." },
+        how: {
+          fr: "Une petite sèche basse dans la pellicule, près de la végétation riveraine.",
+          en: "A small dry sitting low in the film, near streamside vegetation.",
+        },
+        patternSlugs: ["foam-ant"],
+      },
+      {
+        label: { fr: "Vol nuptial", en: "Nuptial flight" },
+        when: { fr: "Les journées chaudes et humides d'août, souvent après une pluie.", en: "Hot, humid August days, often after rain." },
+        how: {
+          fr: "N'importe où sur l'eau — la truite se nourrit sans discrimination de poste pendant un vol massif.",
+          en: "Anywhere on the water — trout feed without regard to lie during a mass flight.",
+        },
+        patternSlugs: ["foam-ant", "parachute-adams"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------------- BEETLES
+  {
+    hatchId: "beetles",
+    metaTitle: {
+      fr: "Coleoptera — les coléoptères, une présence discrète et constante",
+      en: "Coleoptera — beetles, a quiet, steady presence",
+    },
+    metaDescription: {
+      fr: "Identification et pêche des coléoptères terrestres au Québec : pourquoi cet ordre d'insectes le plus diversifié au monde tombe dans la rivière toute l'été sans jamais suivre un horaire précis.",
+      en: "Identifying and fishing terrestrial beetles in Québec: why the world's most diverse insect order falls into the river all summer without ever following a set schedule.",
+    },
+    intro: {
+      fr: "Contrairement à la fourmi et son vol nuptial concentré, le coléoptère n'a pas de grande journée à surveiller. Il tombe simplement, un peu chaque jour, le long des berges boisées — une présence discrète mais constante qui mérite sa place dans la boîte tout l'été.",
+      en: "Unlike the ant and its concentrated nuptial flight, the beetle has no big day to watch for. It simply falls in, a little each day, along wooded banks — a quiet but steady presence that earns its spot in the box all summer.",
+    },
+    idMarks: [
+      {
+        fr: "Corps ovale, dur et compact, recouvert d'élytres (ailes antérieures durcies) qui forment une carapace lisse.",
+        en: "An oval, hard, compact body, covered by elytra (hardened forewings) that form a smooth shell.",
+      },
+      {
+        fr: "Taille très variable, 12-18 selon l'espèce — pas une silhouette unique comme chez la fourmi.",
+        en: "Highly variable size, 12–18 depending on species — not one single silhouette the way an ant has.",
+      },
+      {
+        fr: "Flotte comme un petit objet dur et brillant plutôt que comme un insecte texturé — une différence visible même à distance.",
+        en: "Floats like a small hard, shiny object rather than a textured insect — a visible difference even at a distance.",
+      },
+      {
+        fr: "Tombe à l'eau au hasard depuis la végétation riveraine, sans vol nuptial synchronisé comme la fourmi.",
+        en: "Falls into the water at random from streamside vegetation, with no synchronized nuptial flight like the ant.",
+      },
+    ],
+    confusedWith: {
+      fr: "La fourmi, autre terrestre commun de l'été, mais d'un seul tenant plutôt qu'en deux segments distincts, et sans le vol nuptial en masse.",
+      en: "The ant, another common summer terrestrial, but one solid piece rather than two distinct segments, and without the mass nuptial flight.",
+    },
+    sections: [
+      {
+        heading: { fr: "L'ordre d'insectes le plus vaste au monde", en: "The largest insect order in the world" },
+        body: {
+          fr: "Les coléoptères forment le plus grand groupe d'espèces animales décrites sur Terre — plus du quart de toutes les espèces animales connues sont des coléoptères. Cette diversité énorme se reflète directement dans ce qui tombe dans nos rivières l'été : contrairement à la fourmi, silhouette relativement uniforme, un « coléoptère » peut être n'importe quoi entre un minuscule charançon et un gros scarabée, avec autant de tailles et de couleurs.\n\nÇa veut dire qu'il n'y a pas un seul « bon patron de coléoptère » — la taille et la teinte varient selon la végétation riveraine et la région.",
+          en: "Beetles make up the largest group of described animal species on Earth — more than a quarter of all known animal species are beetles. That enormous diversity shows up directly in what falls into our rivers each summer: unlike the ant, a fairly uniform silhouette, a \"beetle\" can be anything from a tiny weevil to a large scarab, with just as much range in size and colour.\n\nThat means there's no single \"right beetle pattern\" — size and shade shift with the streamside vegetation and the region.",
+        },
+      },
+      {
+        heading: { fr: "Une carapace qui flotte différemment", en: "A shell that floats differently" },
+        body: {
+          fr: "Les élytres — ces ailes antérieures durcies qui recouvrent le dos du coléoptère — lui donnent une surface lisse et brillante, très différente de la texture duveteuse d'une éphémère ou d'un trichoptère. Sur l'eau, ça se traduit par un petit reflet distinct, presque comme un point dur plutôt qu'un insecte texturé.\n\nUn corps en mousse ou en cellulaire, brillant et lisse, imite mieux cette surface qu'un montage en poils ou en plumes — c'est une des rares mouches terrestres où la texture du matériau compte presque autant que la silhouette.",
+          en: "The elytra — those hardened forewings covering a beetle's back — give it a smooth, shiny surface, very different from the downy texture of a mayfly or caddis. On the water, that shows up as a small, distinct glint, almost like a hard dot rather than a textured insect.\n\nA smooth, shiny foam or closed-cell body imitates that surface better than a hair- or feather-tied one — one of the rare terrestrial flies where material texture matters nearly as much as silhouette.",
+        },
+      },
+      {
+        heading: { fr: "Constante plutôt que synchronisée", en: "Steady rather than synchronized" },
+        body: {
+          fr: "Contrairement à la fourmi et son vol nuptial concentré sur une ou deux journées, le coléoptère tombe à l'eau de façon plus aléatoire et continue tout l'été — un vent, une branche qui bouge, un faux pas sur une feuille suffisent. Il n'y a pas de « journée à coléoptères » à surveiller, seulement une présence discrète et constante le long des berges boisées.\n\nPêchez-le serré contre la végétation en tout temps l'été plutôt que d'attendre un signal précis, et fiez-vous au mouvement du poisson plus qu'à ce que vous voyez réellement flotter — il coule bas et se voit mal.",
+          en: "Unlike the ant with its nuptial flight concentrated on one or two days, a beetle falls into the water more randomly and continuously all summer — a gust of wind, a shifting branch, a misstep on a leaf is enough. There's no \"beetle day\" to watch for, just a quiet, steady presence along wooded banks.\n\nFish it tight to vegetation any time in summer rather than waiting for a specific trigger, and trust the fish's movement more than what you can actually see floating — it sits low and is hard to spot.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Petit coléoptère", en: "Small beetle" },
+        when: { fr: "Tout l'été, sous les branches basses.", en: "All summer, under low branches." },
+        how: {
+          fr: "Un petit corps brillant, dérivé serré contre la rive.",
+          en: "A small shiny body, drifted tight to the bank.",
+        },
+        patternSlugs: ["foam-beetle"],
+      },
+      {
+        label: { fr: "Gros coléoptère", en: "Large beetle" },
+        when: { fr: "Tout l'été, surtout en fin de journée.", en: "All summer, especially late in the day." },
+        how: {
+          fr: "Un plus gros corps en mousse, laissé immobile près de la végétation.",
+          en: "A bigger foam body, left still near vegetation.",
+        },
+        patternSlugs: ["foam-beetle"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------------- HOPPERS
+  {
+    hatchId: "hoppers",
+    metaTitle: {
+      fr: "Acrididae — les sauterelles, l'écrasement d'août",
+      en: "Acrididae — grasshoppers, August's crash landing",
+    },
+    metaDescription: {
+      fr: "Identification et pêche de la sauterelle au Québec : pourquoi les après-midis chauds et venteux d'août produisent le plus de sauterelles à l'eau, et pourquoi un plouf franc bat une pose délicate.",
+      en: "Identifying and fishing grasshoppers in Québec: why hot, windy August afternoons put the most grasshoppers in the water, and why a hard splat beats a delicate presentation.",
+    },
+    intro: {
+      fr: "Rien dans ce guide ne récompense autant une présentation bruyante. La sauterelle s'écrase dans l'eau plutôt que de s'y poser, et par un après-midi chaud et venteux d'août, le long des champs qui bordent la rivière, c'est exactement ce que la truite guette.",
+      en: "Nothing in this guide rewards a noisy presentation quite like this one. A grasshopper crashes into the water rather than landing on it, and on a hot, windy August afternoon along the fields bordering the river, that's exactly what a trout is watching for.",
+    },
+    idMarks: [
+      {
+        fr: "Grosse silhouette robuste, taille 8-14 selon l'espèce et l'âge, pattes arrière massives et repliées.",
+        en: "A big, sturdy silhouette, size 8–14 depending on species and age, with massive folded hind legs.",
+      },
+      {
+        fr: "Couleur variable, du vert au brun-jaune selon l'habitat et la saison.",
+        en: "Variable colour, green to yellow-brown depending on habitat and season.",
+      },
+      {
+        fr: "Vole en bonds puissants et parfois erratiques plutôt qu'en vol soutenu — facilement dévié par un coup de vent.",
+        en: "Flies in powerful, sometimes erratic bounds rather than sustained flight — easily blown off course by a gust of wind.",
+      },
+      {
+        fr: "Présente dans les champs et prairies qui bordent la rivière, jamais loin de la végétation ouverte.",
+        en: "Found in fields and meadows bordering the river, never far from open vegetation.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le criquet, actif plus tard en saison et de silhouette plus fine et sombre, généralement plus petit. La distinction précise importe moins que la présentation — les deux se pêchent essentiellement de la même façon.",
+      en: "The cricket, active later in the season and slimmer, darker, generally smaller. The exact distinction matters less than the presentation — both fish essentially the same way.",
+    },
+    sections: [
+      {
+        heading: { fr: "Un vol puissant, mais mal contrôlé", en: "A powerful flight, badly controlled" },
+        body: {
+          fr: "La sauterelle est une excellente sauteuse et une voleuse capable, mais son vol reste erratique — de longs bonds propulsés plutôt qu'un vol soutenu et dirigé. Par une journée chaude et venteuse d'août, quand les sauterelles sont particulièrement actives dans les champs qui bordent la rivière, un coup de vent suffit à en dévier plusieurs directement dans l'eau.\n\nC'est cette combinaison — beaucoup d'insectes en vol, plus un vent qui les pousse hors trajectoire — qui rend les après-midis chauds et venteux d'août particulièrement productifs, bien plus qu'un jour calme où les sauterelles restent tranquillement au sol.",
+          en: "A grasshopper is an excellent jumper and a capable flier, but its flight stays erratic — long propelled bounds rather than steady, directed flight. On a hot, windy August day, when grasshoppers are especially active in the fields bordering the river, one gust is enough to knock several straight into the water.\n\nThat combination — plenty of insects airborne, plus wind pushing them off course — is what makes hot, windy August afternoons especially productive, far more than a calm day when grasshoppers mostly stay put on the ground.",
+        },
+      },
+      {
+        heading: { fr: "Un écrasement, pas un atterrissage", en: "A crash landing, not a touchdown" },
+        body: {
+          fr: "Contrairement à un insecte léger qui se pose délicatement, une sauterelle tombe dans l'eau lourdement et sans contrôle — un véritable écrasement plutôt qu'un atterrissage. Une truite qui reconnaît ce bruit d'impact précis se déplace parfois sur une bonne distance pour intercepter ce qu'elle sait être un gros repas.\n\nC'est pourquoi un plouf franc contre la berge, plutôt qu'une pose délicate, imite mieux ce qui se passe réellement — et déclenche souvent une réaction plus vive de la part du poisson.",
+          en: "Unlike a light insect settling gently, a grasshopper hits the water heavily and out of control — a genuine crash rather than a landing. A trout that recognizes that specific impact sound will sometimes move a real distance to intercept what it knows is a big meal.\n\nThat's why a hard splat against the bank, rather than a delicate presentation, imitates what's actually happening better — and often triggers a sharper reaction from the fish.",
+        },
+      },
+      {
+        heading: { fr: "Toujours près du champ, jamais loin de la rive", en: "Always near the field, never far from the bank" },
+        body: {
+          fr: "La sauterelle ne s'aventure jamais loin de la végétation ouverte où elle vit, ce qui veut dire que les meilleures occasions se trouvent systématiquement le long des berges bordées de champs ou de prairies plutôt que dans le centre du courant. Repérez d'abord l'habitat terrestre — un champ, une prairie de fauche, un talus herbeux — avant de choisir où lancer.\n\nAoût et septembre, dans la chaleur de l'après-midi, restent la fenêtre la plus fiable.",
+          en: "A grasshopper never strays far from the open vegetation it lives in, which means the best opportunities consistently sit along banks bordered by fields or meadows rather than mid-current. Spot the terrestrial habitat first — a field, a hayfield, a grassy bank — before choosing where to cast.\n\nAugust and September, in the afternoon heat, stay the most reliable window.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Petite sauterelle", en: "Small grasshopper" },
+        when: { fr: "En début de saison (juillet-août), près des herbes courtes.", en: "Early in the season (July–August), near short grass." },
+        how: {
+          fr: "Un patron plus petit, posé avec un plouf modéré.",
+          en: "A smaller pattern, cast with a moderate splat.",
+        },
+        patternSlugs: ["foam-hopper"],
+      },
+      {
+        label: { fr: "Grosse sauterelle", en: "Large grasshopper" },
+        when: { fr: "Fin août à septembre, par grand vent.", en: "Late August through September, on windy days." },
+        how: {
+          fr: "Un gros patron, posé avec un plouf franc contre la rive.",
+          en: "A bigger pattern, cast with a hard splat against the bank.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- CRICKETS
+  {
+    hatchId: "crickets",
+    metaTitle: {
+      fr: "Gryllidae — les grillons, la dernière relève de l'été",
+      en: "Gryllidae — crickets, summer's last handoff",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du grillon au Québec : pourquoi cet insecte des berges boisées prend le relais de la sauterelle en fin de saison, sur les petits cours d'eau plutôt que les grandes rivières.",
+      en: "Identifying and fishing crickets in Québec: why this insect of wooded banks takes over from the grasshopper late in the season, on small streams rather than big rivers.",
+    },
+    intro: {
+      fr: "La sauterelle appartient aux champs ouverts ; le grillon, lui, appartient au bois. C'est le dernier terrestre de la saison, une silhouette noire et basse qui prend le relais quand les nuits commencent à rafraîchir.",
+      en: "The grasshopper belongs to open fields; the cricket belongs to the woods. It's the season's last terrestrial, a low black silhouette that takes over as nights start to cool.",
+    },
+    idMarks: [
+      {
+        fr: "Corps noir à brun foncé, plus trapu et plus sombre qu'une sauterelle, taille 10-14.",
+        en: "Black to dark brown body, stockier and darker than a grasshopper, size 10–14.",
+      },
+      {
+        fr: "Antennes très longues, souvent plus longues que le corps lui-même — contrairement aux antennes courtes de la sauterelle.",
+        en: "Very long antennae, often longer than the body itself — unlike a grasshopper's short antennae.",
+      },
+      {
+        fr: "Associé aux berges boisées et ombragées plutôt qu'aux champs ouverts que préfère la sauterelle.",
+        en: "Associated with wooded, shaded banks rather than the open fields a grasshopper prefers.",
+      },
+      {
+        fr: "Silhouette basse et sombre sur l'eau, presque plate contre la pellicule.",
+        en: "A low, dark silhouette on the water, sitting nearly flat against the film.",
+      },
+    ],
+    confusedWith: {
+      fr: "La sauterelle, terrestre estivale la plus proche, mais plus pâle, plus fine et associée aux champs ouverts plutôt qu'aux berges boisées. Les longues antennes du grillon règlent la question en un coup d'œil.",
+      en: "The grasshopper, the closest summer terrestrial, but paler, slimmer and tied to open fields rather than wooded banks. The cricket's long antennae settle it at a glance.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le bois plutôt que le champ", en: "The woods, not the field" },
+        body: {
+          fr: "Là où la sauterelle vit dans les champs ouverts et les prairies de fauche, le grillon préfère les berges boisées, la litière de feuilles et la végétation dense et ombragée. Les deux insectes tombent à l'eau de la même façon — un faux pas, un coup de vent — mais rarement au même endroit sur une rivière donnée.\n\nÇa veut dire chercher le grillon sur les petits cours d'eau encaissés et boisés plutôt que sur les grandes rivières à berges dégagées où la sauterelle domine.",
+          en: "Where the grasshopper lives in open fields and hayfields, the cricket prefers wooded banks, leaf litter and dense, shaded vegetation. Both insects fall into the water the same way — a misstep, a gust of wind — but rarely in the same spot on a given river.\n\nThat means looking for crickets on small, wooded, closed-in streams rather than the big open-bank rivers where grasshoppers dominate.",
+        },
+      },
+      {
+        heading: { fr: "Une silhouette sombre plutôt qu'un plouf", en: "A dark shape rather than a splat" },
+        body: {
+          fr: "Contrairement à la sauterelle, dont l'écrasement bruyant fait une grande partie du travail, le grillon se distingue surtout par sa silhouette : noire, basse, presque plate contre la pellicule. Sur une eau ombragée sous le couvert forestier, ce contraste sombre se détecte facilement, autant par le pêcheur que par la truite.\n\nUne présentation plus discrète qu'avec une sauterelle reste efficace — inutile de forcer le plouf quand la couleur fait déjà tout le travail.",
+          en: "Unlike the grasshopper, whose noisy crash does much of the work, the cricket stands out mainly by silhouette: black, low, sitting nearly flat against the film. In shaded water under forest cover, that dark contrast is easy to spot, for angler and trout alike.\n\nA quieter presentation than a grasshopper's still works well — no need to force the splat when the colour is already doing the job.",
+        },
+      },
+      {
+        heading: { fr: "La dernière relève de la saison des terrestres", en: "The season's last terrestrial handoff" },
+        body: {
+          fr: "Le grillon prend le relais de la sauterelle en fin de saison, quand les nuits rafraîchissent et que l'activité de la sauterelle commence à ralentir. C'est souvent la dernière mouche terrestre qui vaut la peine d'être essayée avant que le calendrier ne bascule vers les derniers insectes aquatiques de l'automne, comme la deuxième génération de l'Isonychia.\n\nGardez-en une poignée dans la boîte jusqu'à la mi-octobre, particulièrement sur les petits cours d'eau boisés.",
+          en: "The cricket takes over from the grasshopper late in the season, as nights cool and grasshopper activity starts winding down. It's often the last terrestrial worth trying before the calendar shifts to autumn's final aquatic insects, like Isonychia's second brood.\n\nKeep a few in the box through mid-October, especially on small wooded streams.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Grillon (jour)", en: "Cricket (day)" },
+        when: { fr: "L'après-midi, sur les petits cours d'eau boisés.", en: "Afternoon, on small wooded streams." },
+        how: {
+          fr: "Une silhouette noire et basse, dérivée près des berges ombragées.",
+          en: "A low black silhouette, drifted near shaded banks.",
+        },
+        patternSlugs: ["foam-beetle"],
+      },
+      {
+        label: { fr: "Grillon (soir)", en: "Cricket (evening)" },
+        when: { fr: "En soirée, quand l'activité augmente avec la fraîcheur.", en: "Evening, as activity picks up with the cooling air." },
+        how: {
+          fr: "Un patron un peu plus gros, avec une légère saccade près de la végétation.",
+          en: "A slightly bigger pattern, given a light twitch near vegetation.",
+        },
+        patternSlugs: ["foam-hopper"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
