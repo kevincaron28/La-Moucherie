@@ -173,11 +173,31 @@ model HatchReport {
   /// Filed by the shop rather than a visitor. Auto-approved, and labelled as
   /// such on the page rather than passed off as a stranger's report.
   fromShop  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  /// Upvotes from other anglers. No leaderboard reads this -- it only feeds
+  /// the reporter's reputation title, wherever their name shows up.
+  upvoteCount Int               @default(0)
+  votes       HatchReportVote[]
+  createdAt   DateTime          @default(now())
 
   @@index([approved, observedOn])
   @@index([hatchId, observedOn])
   @@index([userId])
+}
+
+/// One upvote, one signed-in account, one report -- @@unique is the whole
+/// enforcement, same shape as ReviewVote but keyed to an account instead of
+/// an IP hash, since a vote here is meant to mean something (it feeds
+/// someone's reputation), not just gauge "was this useful".
+model HatchReportVote {
+  id            String      @id @default(cuid())
+  hatchReport   HatchReport @relation(fields: [hatchReportId], references: [id], onDelete: Cascade)
+  hatchReportId String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  createdAt     DateTime    @default(now())
+
+  @@unique([hatchReportId, userId])
+  @@index([hatchReportId])
 }
 
 enum OrderStatus {
@@ -356,10 +376,20 @@ model User {
   shippingProvince   String?
   shippingPostalCode String?
   shippingCountry    String?
+  /// A fish avatar, not a photo upload -- no image pipeline needed, and it
+  /// says something about the angler either way.
+  favoriteSpecies    FishSpecies?
+  /// Cached sum of upvotes across this account's own hatch reports and
+  /// catches, kept in step with the vote count columns below rather than
+  /// aggregated on every read -- this renders next to a lot of rows.
+  /// Established, not ranked: there's no leaderboard, just a title.
+  reputation         Int                      @default(0)
   orders             Order[]
   reviews            Review[]
   hatchReports       HatchReport[]
   catches            CatchPhoto[]
+  hatchReportVotes   HatchReportVote[]
+  catchVotes         CatchVote[]
   resetTokens        PasswordResetToken[]
   verificationTokens EmailVerificationToken[]
   createdAt          DateTime                 @default(now())
@@ -581,8 +611,25 @@ model CatchPhoto {
   user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId       String?
   approved     Boolean       @default(false)
+  /// Same reputation-feeding upvotes as HatchReport.upvoteCount.
+  upvoteCount  Int           @default(0)
+  votes        CatchVote[]
   createdAt    DateTime      @default(now())
 
   @@index([approved, createdAt])
   @@index([userId])
+}
+
+/// CatchPhoto's half of the vote pair -- see HatchReportVote for the
+/// reasoning (account-keyed, not IP-keyed, because it feeds reputation).
+model CatchVote {
+  id        String     @id @default(cuid())
+  catch     CatchPhoto @relation(fields: [catchId], references: [id], onDelete: Cascade)
+  catchId   String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime   @default(now())
+
+  @@unique([catchId, userId])
+  @@index([catchId])
 }

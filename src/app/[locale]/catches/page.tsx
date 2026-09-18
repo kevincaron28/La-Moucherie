@@ -1,9 +1,13 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import { chipClass } from "@/lib/chip";
+import { reputationTitle } from "@/lib/reputation";
+import { FishAvatar } from "@/components/FishAvatar";
+import { VoteButton } from "@/components/VoteButton";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -32,6 +36,8 @@ export default async function CatchesPage({
   const t = await getTranslations("Catches");
   const tAngling = await getTranslations("Angling");
 
+  const session = await auth();
+
   // Only what's been approved by hand — this page is social proof, so a photo
   // appears because it was chosen, not because it was uploaded.
   const catches = await prisma.catchPhoto.findMany({
@@ -41,8 +47,28 @@ export default async function CatchesPage({
     include: {
       water: { select: { slug: true, nameFr: true, nameEn: true } },
       product: { select: { slug: true, nameFr: true, nameEn: true } },
+      user: { select: { favoriteSpecies: true, reputation: true } },
     },
   });
+
+  // Same reasoning as /reports: know what this visitor already voted for, so
+  // the button opens in the right state instead of a reload inviting a 409.
+  const votedCatchIds = session?.user
+    ? new Set(
+        (
+          await prisma.catchVote.findMany({
+            where: { userId: session.user.id, catchId: { in: catches.map((c) => c.id) } },
+            select: { catchId: true },
+          })
+        ).map((v) => v.catchId)
+      )
+    : new Set<string>();
+
+  function voteDisabledReason(catchUserId: string | null): string | undefined {
+    if (!session?.user) return t("signInToVote");
+    if (catchUserId === session.user.id) return t("voteOwnContent");
+    return undefined;
+  }
 
   const tiktok = process.env.NEXT_PUBLIC_TIKTOK_URL;
   const instagram = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
@@ -116,8 +142,24 @@ export default async function CatchesPage({
               />
               <div className="p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                  <p className="font-display font-semibold text-forest">
+                  <p className="flex items-center gap-2 font-display font-semibold text-forest">
+                    {c.user && (
+                      <FishAvatar
+                        species={c.user.favoriteSpecies}
+                        size="sm"
+                        title={
+                          c.user.favoriteSpecies
+                            ? tAngling(`species.${c.user.favoriteSpecies}`)
+                            : undefined
+                        }
+                      />
+                    )}
                     {c.anglerName || t("anonymousAngler")}
+                    {c.user && (
+                      <span className="font-sans text-xs font-normal text-ink/35">
+                        · {reputationTitle(c.user.reputation, locale)}
+                      </span>
+                    )}
                   </p>
                   <p className="text-xs text-ink/50">{dateFormatter.format(c.createdAt)}</p>
                 </div>
@@ -163,6 +205,16 @@ export default async function CatchesPage({
                     )}
                   </div>
                 )}
+
+                <div className="mt-3">
+                  <VoteButton
+                    endpoint={`/api/catches/${c.id}/vote`}
+                    initialCount={c.upvoteCount}
+                    initialVoted={votedCatchIds.has(c.id)}
+                    disabledReason={voteDisabledReason(c.userId)}
+                    label={t("upvoteAria")}
+                  />
+                </div>
               </div>
             </li>
           ))}

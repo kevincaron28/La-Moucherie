@@ -67,6 +67,9 @@
     "myAccount": "My account",
     "welcomeBack": "Hi, {name}",
     "signOut": "Sign out",
+    "myAvatar": "My avatar",
+    "myAvatarHint": "Pick your favorite fish — it shows up next to your name on everything you post.",
+    "noAvatar": "No favorite picked yet",
     "orderHistory": "Order history",
     "noOrders": "You don't have any orders yet.",
     "shopCta": "Browse the shop",
@@ -608,7 +611,10 @@
     "thanksBody": "We'll take a look and post it if it's a good fit.",
     "errorGeneric": "Something went wrong. Please try again.",
     "errorRate": "That's a few catches in a short time. Try again in a bit.",
-    "unsupportedUrl": "We couldn't get an image from that link. Make sure it's a public post or reel."
+    "unsupportedUrl": "We couldn't get an image from that link. Make sure it's a public post or reel.",
+    "upvoteAria": "Upvote this catch",
+    "signInToVote": "Sign in to vote",
+    "voteOwnContent": "You can't vote for your own catch"
   },
   "HatchReport": {
     "title": "File a hatch report",
@@ -668,7 +674,10 @@
     "submitCta": "File a report",
     "unknownWater": "Unnamed water",
     "byline": "Reported by {name}",
-    "bylineShop": "From our own bench"
+    "bylineShop": "From our own bench",
+    "upvoteAria": "Upvote this report",
+    "signInToVote": "Sign in to vote",
+    "voteOwnContent": "You can't vote for your own report"
   },
   "Construction": {
     "label": "Site under construction.",

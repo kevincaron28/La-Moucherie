@@ -7,9 +7,12 @@ import { AccountDetailsForms } from "@/components/AccountDetailsForms";
 import { VerifyEmailBanner } from "@/components/VerifyEmailBanner";
 import { AccountSection } from "@/components/AccountSection";
 import { SignOutButton } from "@/components/SignOutButton";
+import { AvatarPicker } from "@/components/AvatarPicker";
+import { FishAvatar } from "@/components/FishAvatar";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
 import { HATCHES } from "@/lib/hatches";
+import { reputationTitle } from "@/lib/reputation";
 import type { Locale } from "@/i18n/routing";
 import type { OrderStatus } from "@prisma/client";
 
@@ -88,11 +91,17 @@ export default async function AccountPage({
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-display text-3xl font-semibold text-forest">
-            {t("myAccount")}
-          </h1>
-          <p className="mt-1 text-ink/70">{t("welcomeBack", { name: user.name })}</p>
+        <div className="flex items-center gap-4">
+          <FishAvatar species={user.favoriteSpecies} size="lg" />
+          <div>
+            <h1 className="font-display text-3xl font-semibold text-forest">
+              {t("myAccount")}
+            </h1>
+            <p className="mt-1 text-ink/70">{t("welcomeBack", { name: user.name })}</p>
+            <p className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-rust">
+              {reputationTitle(user.reputation, locale)}
+            </p>
+          </div>
         </div>
         <SignOutButton />
       </div>
@@ -100,6 +109,10 @@ export default async function AccountPage({
       {!user.emailVerified && <VerifyEmailBanner email={user.email} />}
 
       <div className="mt-8 space-y-3">
+      <AccountSection title={t("myAvatar")} hint={t("myAvatarHint")} defaultOpen>
+        <AvatarPicker initial={user.favoriteSpecies} />
+      </AccountSection>
+
       <AccountSection
         title={t("orderHistory")}
         count={orders.length}

@@ -67,6 +67,9 @@
     "myAccount": "Mon compte",
     "welcomeBack": "Bonjour, {name}",
     "signOut": "Se déconnecter",
+    "myAvatar": "Mon avatar",
+    "myAvatarHint": "Choisissez votre poisson préféré — il apparaîtra à côté de votre nom sur tout ce que vous publiez.",
+    "noAvatar": "Aucun préféré choisi pour l'instant",
     "orderHistory": "Historique des commandes",
     "noOrders": "Vous n'avez pas encore de commande.",
     "shopCta": "Voir la boutique",
@@ -608,7 +611,10 @@
     "thanksBody": "On y jette un œil et on la publie si elle convient.",
     "errorGeneric": "Une erreur est survenue. Veuillez réessayer.",
     "errorRate": "Ça fait plusieurs prises en peu de temps. Réessayez bientôt.",
-    "unsupportedUrl": "Impossible d'obtenir une image de ce lien. Assurez-vous qu'il s'agit d'une publication ou d'un reel public."
+    "unsupportedUrl": "Impossible d'obtenir une image de ce lien. Assurez-vous qu'il s'agit d'une publication ou d'un reel public.",
+    "upvoteAria": "Voter pour cette prise",
+    "signInToVote": "Connectez-vous pour voter",
+    "voteOwnContent": "Vous ne pouvez pas voter pour votre propre prise"
   },
   "HatchReport": {
     "title": "Envoyer un rapport d'éclosion",
@@ -668,7 +674,10 @@
     "submitCta": "Envoyer un rapport",
     "unknownWater": "Plan d'eau non nommé",
     "byline": "Rapporté par {name}",
-    "bylineShop": "De notre propre étau"
+    "bylineShop": "De notre propre étau",
+    "upvoteAria": "Voter pour ce rapport",
+    "signInToVote": "Connectez-vous pour voter",
+    "voteOwnContent": "Vous ne pouvez pas voter pour votre propre rapport"
   },
   "Construction": {
     "label": "Site en construction.",

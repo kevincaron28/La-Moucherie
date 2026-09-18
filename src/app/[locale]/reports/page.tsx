@@ -1,11 +1,15 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import { HATCHES } from "@/lib/hatches";
 import { chipClass } from "@/lib/chip";
 import { formatDualTemp } from "@/lib/temperature";
+import { reputationTitle } from "@/lib/reputation";
+import { FishAvatar } from "@/components/FishAvatar";
+import { VoteButton } from "@/components/VoteButton";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -40,6 +44,8 @@ export default async function ReportsPage({
   const tHatch = await getTranslations("HatchReport");
   const tAngling = await getTranslations("Angling");
 
+  const session = await auth();
+
   const hatchReports = await prisma.hatchReport.findMany({
     where: { approved: true },
     orderBy: { observedOn: "desc" },
@@ -59,10 +65,35 @@ export default async function ReportsPage({
       note: true,
       fromShop: true,
       waterOther: true,
+      userId: true,
+      upvoteCount: true,
+      user: { select: { favoriteSpecies: true, reputation: true } },
       water: { select: { nameFr: true, nameEn: true } },
       product: { select: { slug: true, nameFr: true, nameEn: true } },
     },
   });
+
+  // Which of these this visitor has already voted for, so the button opens
+  // in the right state instead of letting a reload invite a 409.
+  const votedReportIds = session?.user
+    ? new Set(
+        (
+          await prisma.hatchReportVote.findMany({
+            where: {
+              userId: session.user.id,
+              hatchReportId: { in: hatchReports.map((r) => r.id) },
+            },
+            select: { hatchReportId: true },
+          })
+        ).map((v) => v.hatchReportId)
+      )
+    : new Set<string>();
+
+  function voteDisabledReason(reportUserId: string | null): string | undefined {
+    if (!session?.user) return tHatch("signInToVote");
+    if (reportUserId === session.user.id) return tHatch("voteOwnContent");
+    return undefined;
+  }
 
   const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
@@ -161,9 +192,37 @@ export default async function ReportsPage({
 
                 {r.note && <p className="mt-3 text-sm text-ink/75">{r.note}</p>}
 
-                <p className="mt-3 text-xs text-ink/50">
-                  {r.fromShop ? tHatch("bylineShop") : tHatch("byline", { name: r.anglerName })}
-                </p>
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                  <p className="flex items-center gap-2 text-xs text-ink/50">
+                    {r.user && (
+                      <FishAvatar
+                        species={r.user.favoriteSpecies}
+                        size="sm"
+                        title={
+                          r.user.favoriteSpecies
+                            ? tAngling(`species.${r.user.favoriteSpecies}`)
+                            : undefined
+                        }
+                      />
+                    )}
+                    <span>
+                      {r.fromShop ? tHatch("bylineShop") : tHatch("byline", { name: r.anglerName })}
+                      {r.user && (
+                        <span className="text-ink/35">
+                          {" · "}
+                          {reputationTitle(r.user.reputation, locale)}
+                        </span>
+                      )}
+                    </span>
+                  </p>
+                  <VoteButton
+                    endpoint={`/api/hatch-reports/${r.id}/vote`}
+                    initialCount={r.upvoteCount}
+                    initialVoted={votedReportIds.has(r.id)}
+                    disabledReason={voteDisabledReason(r.userId)}
+                    label={tHatch("upvoteAria")}
+                  />
+                </div>
               </li>
             );
           })}
