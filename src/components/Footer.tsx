@@ -111,6 +111,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/catches/submit" className="hover:text-cream">
+                  {t("submitCatch")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/hatches" className="hover:text-cream">
                   {t("hatches")}
                 </Link>

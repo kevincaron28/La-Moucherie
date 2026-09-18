@@ -12,6 +12,10 @@ type Props = {
   locale: Locale;
   waters: WaterOption[];
   products: ProductOption[];
+  /** Signed-in reporter, fetched server-side. When set, the form skips
+   * asking for a name/email — the API derives both from the session — and
+   * files the report against the account. */
+  user: { name: string; email: string } | null;
   /** Copy is passed in so the whole form stays one client component. */
   t: Record<string, string>;
 };
@@ -65,7 +69,7 @@ function Choice({
   );
 }
 
-export function HatchReportForm({ locale, waters, products, t }: Props) {
+export function HatchReportForm({ locale, waters, products, user, t }: Props) {
   const today = new Date().toISOString().slice(0, 10);
 
   const [anglerName, setAnglerName] = useState("");
@@ -123,13 +127,18 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
     setError("");
 
     const payload: Record<string, unknown> = {
-      anglerName,
-      email,
       locale,
       observedOn,
       newsletterOptIn: optIn,
       website,
     };
+    // Signed-in identity comes from the session on the server, not from
+    // anything typed here -- the fields below don't even render when `user`
+    // is set.
+    if (!user) {
+      payload.anglerName = anglerName;
+      payload.email = email;
+    }
     if (waterId && waterId !== OTHER) payload.waterId = waterId;
     if (waterId === OTHER && waterOther.trim()) payload.waterOther = waterOther.trim();
     if (hatchId) payload.hatchId = hatchId;
@@ -415,37 +424,43 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
 
       {/* Who. */}
       <div className="space-y-4 border-t border-forest/10 pt-6">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="name" className={LABEL}>
-              {t.name} *
-            </label>
-            <input
-              id="name"
-              type="text"
-              value={anglerName}
-              onChange={(e) => setAnglerName(e.target.value)}
-              required
-              maxLength={120}
-              className={`mt-2 ${FIELD}`}
-            />
+        {user ? (
+          <p className="text-sm text-ink/70">
+            {t.filingAs.replace("{name}", user.name)}
+          </p>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="name" className={LABEL}>
+                {t.name} *
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={anglerName}
+                onChange={(e) => setAnglerName(e.target.value)}
+                required
+                maxLength={120}
+                className={`mt-2 ${FIELD}`}
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className={LABEL}>
+                {t.email} *
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                maxLength={200}
+                className={`mt-2 ${FIELD}`}
+              />
+              <p className="mt-1 text-xs text-ink/50">{t.emailNote}</p>
+            </div>
           </div>
-          <div>
-            <label htmlFor="email" className={LABEL}>
-              {t.email} *
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              maxLength={200}
-              className={`mt-2 ${FIELD}`}
-            />
-            <p className="mt-1 text-xs text-ink/50">{t.emailNote}</p>
-          </div>
-        </div>
+        )}
 
         {/* CASL: separate, unticked, and about marketing only — filing a report
             is never itself consent to be emailed. */}

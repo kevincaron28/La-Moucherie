@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { HatchReportForm } from "@/components/HatchReportForm";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
@@ -55,6 +56,7 @@ const FORM_KEYS = [
   "name",
   "email",
   "emailNote",
+  "filingAs",
   "optIn",
   "submit",
   "sending",
@@ -92,6 +94,14 @@ export default async function SubmitReportPage({
   const t = await getTranslations("HatchReport");
   const tAngling = await getTranslations("Angling");
 
+  const session = await auth();
+  const user = session?.user
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true, email: true },
+      })
+    : null;
+
   const [waters, products] = await Promise.all([
     prisma.fishingWater.findMany({
       orderBy: [{ featured: "desc" }, { nameFr: "asc" }],
@@ -122,6 +132,7 @@ export default async function SubmitReportPage({
       <div className="mt-10">
         <HatchReportForm
           locale={locale}
+          user={user}
           waters={waters.map((w) => ({
             id: w.id,
             name: pick(w.nameFr, w.nameEn, locale),

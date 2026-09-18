@@ -138,16 +138,18 @@ export default async function ReportsPage({
                   <div className="mt-2 flex flex-wrap gap-2">
                     {r.waterLevel && (
                       <span className={chipClass("outline")}>
-                        {tHatch(`waterLevel${r.waterLevel}`)}
+                        {tHatch("waterLevel")}: {tHatch(`waterLevel${r.waterLevel}`)}
                       </span>
                     )}
                     {r.waterClarity && (
                       <span className={chipClass("outline")}>
-                        {tHatch(`waterClarity${r.waterClarity}`)}
+                        {tHatch("waterClarity")}: {tHatch(`waterClarity${r.waterClarity}`)}
                       </span>
                     )}
                     {r.sky && (
-                      <span className={chipClass("outline")}>{tHatch(`sky${r.sky}`)}</span>
+                      <span className={chipClass("outline")}>
+                        {tHatch("sky")}: {tHatch(`sky${r.sky}`)}
+                      </span>
                     )}
                     {r.waterTempC != null && (
                       <span className={chipClass("outline")}>

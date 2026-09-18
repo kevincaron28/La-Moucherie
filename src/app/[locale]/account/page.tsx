@@ -9,6 +9,7 @@ import { AccountSection } from "@/components/AccountSection";
 import { SignOutButton } from "@/components/SignOutButton";
 import { pick } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import { HATCHES } from "@/lib/hatches";
 import type { Locale } from "@/i18n/routing";
 import type { OrderStatus } from "@prisma/client";
 
@@ -42,16 +43,41 @@ export default async function AccountPage({
     return;
   }
 
-  const orders = await prisma.order.findMany({
-    where: {
-      userId: user.id,
-      status: { notIn: ["CANCELLED", "FAILED"] },
-    },
-    include: {
-      items: { include: { product: { select: { slug: true } } } },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const [orders, hatchReports, catches] = await Promise.all([
+    prisma.order.findMany({
+      where: {
+        userId: user.id,
+        status: { notIn: ["CANCELLED", "FAILED"] },
+      },
+      include: {
+        items: { include: { product: { select: { slug: true } } } },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.hatchReport.findMany({
+      where: { userId: user.id },
+      orderBy: { observedOn: "desc" },
+      select: {
+        id: true,
+        observedOn: true,
+        approved: true,
+        hatchId: true,
+        waterOther: true,
+        water: { select: { nameFr: true, nameEn: true } },
+      },
+    }),
+    prisma.catchPhoto.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        imageUrl: true,
+        approved: true,
+        createdAt: true,
+        species: true,
+      },
+    }),
+  ]);
 
   const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
@@ -137,6 +163,87 @@ export default async function AccountPage({
                     {formatPrice(order.amountTotalCents, locale, order.currency)}
                   </p>
                   <p className="text-xs text-ink/50">{t(STATUS_KEYS[order.status])}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </AccountSection>
+
+      <AccountSection title={t("myHatchReports")} hint={t("myHatchReportsHint")} count={hatchReports.length}>
+        {hatchReports.length === 0 ? (
+          <div className="mt-4 rounded-2xl border border-forest/10 bg-cream/50 p-6 text-center">
+            <p className="text-ink/60">{t("noHatchReports")}</p>
+            <Link
+              href="/reports/submit"
+              className="mt-4 inline-block rounded-full bg-rust px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-rust-dark"
+            >
+              {t("fileReportCta")}
+            </Link>
+          </div>
+        ) : (
+          <ul className="mt-4 divide-y divide-forest/10 border-y border-forest/10">
+            {hatchReports.map((r) => {
+              const hatch = HATCHES.find((h) => h.id === r.hatchId);
+              const where =
+                (r.water && pick(r.water.nameFr, r.water.nameEn, locale)) ||
+                r.waterOther ||
+                null;
+              return (
+                <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 py-4">
+                  <div>
+                    <p className="text-sm font-medium text-forest">
+                      {where}
+                      {hatch && ` · ${pick(hatch.nameFr, hatch.nameEn, locale)}`}
+                    </p>
+                    <p className="text-xs text-ink/50">{dateFormatter.format(r.observedOn)}</p>
+                  </div>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      r.approved ? "bg-forest/10 text-forest" : "bg-rust/10 text-rust"
+                    }`}
+                  >
+                    {r.approved ? t("reportPublished") : t("reportPending")}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </AccountSection>
+
+      <AccountSection title={t("myCatches")} hint={t("myCatchesHint")} count={catches.length}>
+        {catches.length === 0 ? (
+          <div className="mt-4 rounded-2xl border border-forest/10 bg-cream/50 p-6 text-center">
+            <p className="text-ink/60">{t("noCatches")}</p>
+            <Link
+              href="/catches/submit"
+              className="mt-4 inline-block rounded-full bg-rust px-6 py-2.5 text-sm font-semibold text-cream transition hover:bg-rust-dark"
+            >
+              {t("submitCatchCta")}
+            </Link>
+          </div>
+        ) : (
+          <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+            {catches.map((c) => (
+              <li key={c.id} className="overflow-hidden rounded-2xl border border-forest/10">
+                {/* Curated URLs, not uploads -- same reasoning as /catches. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={c.imageUrl}
+                  alt=""
+                  className="aspect-square w-full bg-cream object-cover"
+                  loading="lazy"
+                />
+                <div className="p-3">
+                  <p className="text-xs text-ink/50">{dateFormatter.format(c.createdAt)}</p>
+                  <span
+                    className={`mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      c.approved ? "bg-forest/10 text-forest" : "bg-rust/10 text-rust"
+                    }`}
+                  >
+                    {c.approved ? t("catchPublished") : t("catchPending")}
+                  </span>
                 </div>
               </li>
             ))}

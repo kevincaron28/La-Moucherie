@@ -381,6 +381,7 @@ function OnWaterMenu() {
     { href: "/reports", label: t("reports") },
     { href: "/reports/submit", label: t("submitReport") },
     { href: "/catches", label: t("catches") },
+    { href: "/catches/submit", label: t("submitCatch") },
     { href: "/shop/water", label: t("waters") },
   ];
 

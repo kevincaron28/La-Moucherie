@@ -2,13 +2,16 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { sendHatchReportNotification } from "@/lib/email";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
 import { HATCHES } from "@/lib/hatches";
 
 const schema = z.object({
-  anglerName: z.string().trim().min(1).max(120),
-  email: z.string().trim().email().max(200),
+  // Required only for an anonymous submission -- a signed-in reporter's name
+  // and email come from their account instead, never from the client.
+  anglerName: z.string().trim().min(1).max(120).optional(),
+  email: z.string().trim().email().max(200).optional(),
   locale: z.enum(["fr", "en"]),
 
   waterId: z.string().trim().min(1).max(60).optional(),
@@ -63,6 +66,24 @@ export async function POST(request: Request) {
   // against a different shape.
   if (d.website) return NextResponse.json({ ok: true });
 
+  // Signed in: identity comes from the account, never from the client, same
+  // as the reviews route. Anonymous: the form's own name/email fields carry
+  // the weight, so they're required here even though the schema allows a
+  // signed-in submission to omit them.
+  const session = await auth();
+  let user: { id: string; name: string; email: string } | null = null;
+  if (session?.user) {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, name: true, email: true },
+    });
+    if (!user) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
+  } else if (!d.anglerName || !d.email) {
+    return NextResponse.json({ error: "identity_required" }, { status: 400 });
+  }
+
   // A report has to say WHERE, or it's noise. Everything else can be blank.
   if (!d.waterId && !d.waterOther) {
     return NextResponse.json({ error: "water_required" }, { status: 400 });
@@ -111,13 +132,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "unknown_product" }, { status: 400 });
   }
 
-  const email = d.email.toLowerCase();
+  const anglerName = user ? user.name : d.anglerName!;
+  const email = (user ? user.email : d.email!).toLowerCase();
 
   const report = await prisma.hatchReport.create({
     data: {
-      anglerName: d.anglerName,
+      anglerName,
       email,
       locale: d.locale,
+      userId: user?.id ?? null,
       waterId: water?.id ?? null,
       waterOther: water ? null : (d.waterOther ?? null),
       observedOn,
@@ -172,7 +195,7 @@ export async function POST(request: Request) {
 
   await sendHatchReportNotification({
     id: report.id,
-    anglerName: d.anglerName,
+    anglerName,
     water: d.waterOther ?? null,
     waterId: water?.id ?? null,
     hatchId: hatch?.id ?? null,

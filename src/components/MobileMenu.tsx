@@ -255,6 +255,7 @@ export function MobileMenu({ locale }: { locale: string }) {
                 <Item onNavigate={close} href="/reports">{t("reports")}</Item>
                 <Item onNavigate={close} href="/reports/submit">{t("submitReport")}</Item>
                 <Item onNavigate={close} href="/catches">{t("catches")}</Item>
+                <Item onNavigate={close} href="/catches/submit">{t("submitCatch")}</Item>
                 <Item onNavigate={close} href="/shop/water">{t("waters")}</Item>
               </Section>
 

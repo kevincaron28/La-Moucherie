@@ -91,6 +91,9 @@ type AdminCatch = {
   conditionsFr: string | null;
   conditionsEn: string | null;
   approved: boolean;
+  /** The submitting account's name, when this came in through
+   * /catches/submit rather than being posted by the shop. */
+  submittedByName: string | null;
   water: WaterRef | null;
   product: WaterRef | null;
 };
@@ -659,9 +662,13 @@ export function AdminDashboardClient({
                 {(r.waterLevel || r.waterClarity || r.sky || r.waterTempC != null) && (
                   <p className="mt-1 text-xs text-ink/45">
                     {[
-                      r.waterLevel ? tHatch(`waterLevel${r.waterLevel}`) : null,
-                      r.waterClarity ? tHatch(`waterClarity${r.waterClarity}`) : null,
-                      r.sky ? tHatch(`sky${r.sky}`) : null,
+                      r.waterLevel
+                        ? `${tHatch("waterLevel")}: ${tHatch(`waterLevel${r.waterLevel}`)}`
+                        : null,
+                      r.waterClarity
+                        ? `${tHatch("waterClarity")}: ${tHatch(`waterClarity${r.waterClarity}`)}`
+                        : null,
+                      r.sky ? `${tHatch("sky")}: ${tHatch(`sky${r.sky}`)}` : null,
                       r.waterTempC != null ? formatDualTemp(r.waterTempC) : null,
                     ]
                       .filter(Boolean)
@@ -1121,6 +1128,13 @@ export function AdminDashboardClient({
                           ? "En attente"
                           : "Pending"}
                     </span>
+                    {c.submittedByName && (
+                      <span className={chipClass("outline")}>
+                        {locale === "fr"
+                          ? `Soumis par ${c.submittedByName}`
+                          : `Submitted by ${c.submittedByName}`}
+                      </span>
+                    )}
                   </div>
                   <p className="mt-1.5 text-xs text-ink/60">
                     {[

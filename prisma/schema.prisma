@@ -161,6 +161,13 @@ model HatchReport {
 
   note String?
 
+  /// Set when the reporter was signed in, so the form can skip re-asking for
+  /// name and email and the account page can list "my reports". Nullable:
+  /// filing a report has never required an account, and a deleted account
+  /// shouldn't take its reports down with it.
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
   /// Nothing renders until it is approved by hand, same as CatchPhoto.
   approved  Boolean  @default(false)
   /// Filed by the shop rather than a visitor. Auto-approved, and labelled as
@@ -170,6 +177,7 @@ model HatchReport {
 
   @@index([approved, observedOn])
   @@index([hatchId, observedOn])
+  @@index([userId])
 }
 
 enum OrderStatus {
@@ -350,6 +358,8 @@ model User {
   shippingCountry    String?
   orders             Order[]
   reviews            Review[]
+  hatchReports       HatchReport[]
+  catches            CatchPhoto[]
   resetTokens        PasswordResetToken[]
   verificationTokens EmailVerificationToken[]
   createdAt          DateTime                 @default(now())
@@ -565,8 +575,14 @@ model CatchPhoto {
   sizeLabel    String?
   conditionsFr String?
   conditionsEn String?
+  /// Set for a community submission (via /catches/submit); null for one the
+  /// shop posted itself. Nullable so a deleted account doesn't pull its
+  /// catches down with it — same reasoning as HatchReport.userId.
+  user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId       String?
   approved     Boolean       @default(false)
   createdAt    DateTime      @default(now())
 
   @@index([approved, createdAt])
+  @@index([userId])
 }

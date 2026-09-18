@@ -60,7 +60,7 @@ export default async function CatchesPage({
       <p className="mt-3 max-w-2xl text-ink/70">{t("intro")}</p>
       <p className="mt-2 max-w-2xl text-sm text-ink/60">
         {t("submitHint")}{" "}
-        <Link href="/contact" className="text-rust underline underline-offset-2">
+        <Link href="/catches/submit" className="text-rust underline underline-offset-2">
           {t("submitCta")}
         </Link>
         {instagram && (

@@ -76,6 +76,7 @@ export default async function AdminPage({
       include: {
         water: { select: { slug: true, nameFr: true, nameEn: true } },
         product: { select: { slug: true, nameFr: true, nameEn: true } },
+        user: { select: { name: true } },
       },
       take: 30,
     }),
@@ -197,6 +198,7 @@ export default async function AdminPage({
           conditionsFr: c.conditionsFr,
           conditionsEn: c.conditionsEn,
           approved: c.approved,
+          submittedByName: c.user?.name ?? null,
           water: c.water,
           product: c.product,
         }))}
