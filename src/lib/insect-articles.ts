@@ -1795,6 +1795,334 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ----------------------------------------------------------- LIGHT CAHILL
+  {
+    hatchId: "light-cahill",
+    metaTitle: {
+      fr: "Stenacron interpunctatum — le Light Cahill, la mouche crème de juillet",
+      en: "Stenacron interpunctatum — the Light Cahill, July's cream mayfly",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Light Cahill (Stenacron interpunctatum) au Québec : pourquoi cette éphémère crème reste la valeur sûre des soirées calmes de juillet, et pourquoi elle dure des semaines plutôt que quelques jours.",
+      en: "Identifying and fishing the Light Cahill (Stenacron interpunctatum) in Québec: why this cream mayfly stays the safe bet on quiet July evenings, and why it lasts for weeks rather than a few days.",
+    },
+    intro: {
+      fr: "Juin donne son lot de grosses éclosions spectaculaires, puis la rivière se calme brusquement. Le Light Cahill prend le relais exactement à ce moment-là — une éphémère crème et discrète qui tient bon tout juillet, quand la plupart des autres insectes de la saison ont déjà fini.",
+      en: "June delivers its share of big, spectacular hatches, then the river goes abruptly quiet. The Light Cahill picks up right at that moment — a quiet cream mayfly that holds on through all of July, once most of the season's other insects have already finished.",
+    },
+    idMarks: [
+      {
+        fr: "Corps crème à jaune très pâle, ailes crème, taille 12-14.",
+        en: "Cream to very pale yellow body, cream wings, size 12–14.",
+      },
+      {
+        fr: "Nymphe aplatie de type « clinger », dans le même genre de radiers que le March Brown et le Grey Fox, mais un genre différent (Stenacron).",
+        en: "A flattened \"clinger\" nymph, in the same kind of riffles as the March Brown and Grey Fox, but a different genus (Stenacron).",
+      },
+      {
+        fr: "Sort en soirée, souvent la seule éclosion visible sur une rivière calme de milieu d'été.",
+        en: "Comes off in the evening, often the only visible hatch on a quiet midsummer river.",
+      },
+      {
+        fr: "Plusieurs générations qui se chevauchent, ce qui l'étire sur des semaines plutôt que sur une fenêtre courte.",
+        en: "Several overlapping broods, stretching it across weeks rather than a short window.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Grey Fox et le Pale Evening Dun, deux autres éphémères pâles de soirée, mais actives plus tôt dans l'année (mai-juin). Passé la fin juin, une éphémère crème en soirée est presque toujours un Light Cahill.",
+      en: "The Grey Fox and the Pale Evening Dun, two other pale evening mayflies, but active earlier in the year (May–June). Past late June, a cream evening mayfly is almost always a Light Cahill.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le calme après les grosses éclosions", en: "The quiet after the big hatches" },
+        body: {
+          fr: "Le Hendrickson, le Sulphur, le Green Drake : les grosses éclosions de mai et juin marquent le calendrier, mais elles finissent toutes avant la fin juin. Il en résulte une période de creux réel en tout début juillet, où une rivière peut sembler presque vide d'insectes même si elle regorgeait de duns trois semaines plus tôt.\n\nLe Light Cahill comble précisément ce vide. Ce n'est pas l'éclosion la plus spectaculaire de l'année, mais c'est celle qui garde les truites intéressées par la surface pendant que le reste du calendrier reste silencieux.",
+          en: "The Hendrickson, the Sulphur, the Green Drake — May and June's big hatches mark the calendar, but they all wrap up before the end of June. That leaves a real lull in early July, when a river can look almost empty of insects even though it was thick with duns three weeks earlier.\n\nThe Light Cahill fills that gap precisely. It isn't the year's most spectacular hatch, but it's the one that keeps trout interested in the surface while the rest of the calendar stays quiet.",
+        },
+      },
+      {
+        heading: { fr: "Plusieurs générations qui se chevauchent", en: "Several overlapping broods" },
+        body: {
+          fr: "La plupart de nos éphémères produisent une seule génération synchronisée par année, ce qui explique pourquoi leurs éclosions durent typiquement deux à trois semaines. Le Light Cahill fait exception avec plusieurs générations qui se chevauchent dans le temps — un mécanisme plus commun chez les trichoptères comme le Spotted Sedge que chez les éphémères.\n\nEn pratique, ça veut dire une présence étirée sur cinq à six semaines plutôt qu'une fenêtre courte et intense — moins spectaculaire un soir donné, mais beaucoup plus fiable sur l'ensemble de juillet.",
+          en: "Most of our mayflies produce a single synchronized generation a year, which is why their hatches typically run two to three weeks. The Light Cahill is an exception, with several broods overlapping in time — a mechanism more common in caddisflies like the Spotted Sedge than in mayflies.\n\nIn practice that means a presence stretched across five or six weeks rather than one short, intense window — less spectacular on any given evening, but far more reliable across the whole of July.",
+        },
+      },
+      {
+        heading: { fr: "Jusqu'à la pleine noirceur", en: "Right into full dark" },
+        body: {
+          fr: "Sa couleur crème reste visible dans une lumière où un insecte plus foncé disparaîtrait complètement, ce qui permet de suivre l'éclosion — et de continuer à pêcher — bien après que la plupart des autres mouches de soirée soient devenues invisibles. L'eau plus fraîche en soirée de juillet rend aussi les truites plus actives que pendant la chaleur de l'après-midi.\n\nRestez sur l'eau au-delà de votre heure habituelle d'arrêt : le Light Cahill se pêche souvent aussi bien, sinon mieux, dans les dernières minutes avant la noirceur complète.",
+          en: "Its cream colour stays visible in light where a darker insect would vanish entirely, which lets you track the hatch — and keep fishing — well after most other evening flies have gone invisible. Cooler evening water in July also makes trout more active than they were through the afternoon heat.\n\nStay on the water past your usual stopping time — the Light Cahill often fishes just as well, if not better, in the last few minutes before full dark.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la journée, dans les radiers — même habitat que le March Brown.", en: "All day, in riffles — the same habitat as the March Brown." },
+        how: {
+          fr: "Près du fond, en dérive naturelle dans le courant soutenu.",
+          en: "Near bottom, on a natural drift in steady current.",
+        },
+        patternSlugs: ["partridge-orange"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En soirée, de fin juin à la mi-août.", en: "Evening, late June through mid-August." },
+        how: {
+          fr: "Une sèche crème en dérive morte, efficace jusqu'à la pleine noirceur.",
+          en: "A cream dry dead-drifted, effective right into full dark.",
+        },
+        patternSlugs: ["light-cahill"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------------- DRUNELLA
+  {
+    hatchId: "drunella",
+    metaTitle: {
+      fr: "Drunella cornuta — la grande olive qui sort le matin",
+      en: "Drunella cornuta — the large olive that comes off in the morning",
+    },
+    metaDescription: {
+      fr: "Identification et pêche de Drunella cornuta au Québec : pourquoi cette grosse éphémère olive n'a rien à voir avec la Blue-Winged Olive malgré la couleur, et pourquoi elle sort le matin plutôt qu'en soirée.",
+      en: "Identifying and fishing Drunella cornuta in Québec: why this big olive mayfly has nothing to do with the Blue-Winged Olive despite the colour, and why it hatches in the morning rather than the evening.",
+    },
+    intro: {
+      fr: "On l'appelle souvent « grosse BWO » par habitude, mais Drunella cornuta n'est même pas de la même famille que la Baetis. C'est une éphémère nettement plus grosse, qui émerge le matin plutôt qu'en soirée, sur une fenêtre de trois semaines à peine — la bonne surprise de la mi-juin, quand l'eau commence tout juste à baisser.",
+      en: "It often gets called a \"big BWO\" out of habit, but Drunella cornuta isn't even in the same family as the Baetis. It's a distinctly bigger mayfly, emerging in the morning rather than the evening, in a window barely three weeks long — the welcome surprise of mid-June, just as the water starts to drop.",
+    },
+    idMarks: [
+      {
+        fr: "Nettement plus grosse qu'un Baetis typique, taille 14-16 contre 16 à 22 pour la Blue-Winged Olive.",
+        en: "Distinctly bigger than a typical Baetis, size 14–16 versus 16–22 for the Blue-Winged Olive.",
+      },
+      {
+        fr: "Petites protubérances (cornes) visibles sur le thorax de la nymphe — d'où le nom cornuta.",
+        en: "Small horn-like tubercles visible on the nymph's thorax — hence the name cornuta.",
+      },
+      {
+        fr: "Corps olive foncé à brun-olive, plus sombre qu'un Baetis.",
+        en: "Dark olive to olive-brown body, darker than a Baetis.",
+      },
+      {
+        fr: "Émerge le matin plutôt qu'en soirée, sur une fenêtre étroite de trois semaines en juin-juillet.",
+        en: "Emerges in the morning rather than evening, in a narrow three-week window in June–July.",
+      },
+    ],
+    confusedWith: {
+      fr: "La Blue-Winged Olive (Baetis spp.), avec qui on la confond par simple habitude de tout appeler « olive » — mais la Baetis est nettement plus petite, active toute la saison, et sort n'importe quand plutôt qu'exclusivement le matin.",
+      en: "The Blue-Winged Olive (Baetis spp.), which gets lumped in out of sheer habit of calling anything olive-coloured a \"BWO\" — but the Baetis is distinctly smaller, active all season, and comes off any time of day rather than mornings only.",
+    },
+    sections: [
+      {
+        heading: { fr: "Pas juste une grosse Baetis", en: "Not just a big Baetis" },
+        body: {
+          fr: "Les pêcheurs regroupent souvent toute éphémère de teinte olive sous le nom générique de BWO, mais Drunella cornuta n'appartient même pas à la même famille que la Baetis : elle fait partie des Ephemerellidae, la même famille que le Sulphur et le Pale Evening Dun, plutôt que des Baetidae. La nymphe porte de petites protubérances cornues sur le thorax, un trait distinctif des Ephemerellidae qu'on ne trouve pas chez la Baetis.\n\nLa confusion vient surtout de la couleur et du fait que les deux éclosions peuvent se chevaucher en juin — mais la taille à elle seule (14-16 contre 16-22) devrait suffire à trancher avant même de sortir la loupe.",
+          en: "Anglers often lump any olive-toned mayfly under the generic \"BWO,\" but Drunella cornuta isn't even in the same family as the Baetis — it belongs to the Ephemerellidae, the same family as the Sulphur and the Pale Evening Dun, rather than the Baetidae. The nymph carries small horned tubercles on its thorax, a distinguishing trait of the Ephemerellidae not found on Baetis.\n\nThe mix-up mostly comes down to colour and the fact that the two hatches can overlap in June — but size alone (14–16 versus 16–22) should settle it before you ever reach for a hand lens.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi le matin, en plein été", en: "Why morning, in the heart of summer" },
+        body: {
+          fr: "La plupart de nos grosses éphémères d'été sortent en soirée, quand la lumière baisse. Drunella cornuta fait l'inverse : elle émerge le matin, généralement entre la mi-juin et le début juillet, juste au moment où l'eau commence à se réchauffer sérieusement.\n\nÉmerger tôt le matin, avant que l'eau n'atteigne son maximum de température quotidien, garde la nymphe et le dun naissant dans une fenêtre où l'oxygène dissous reste plus élevé — un avantage réel pour un insecte qui vit dans une eau qui se réchauffe rapidement à cette période de l'année.",
+          en: "Most of our big summer mayflies come off in the evening, as light fades. Drunella cornuta does the opposite: it emerges in the morning, generally mid-June into early July, right as the water starts warming up seriously.\n\nEmerging early in the day, before water hits its daily temperature peak, keeps the nymph and newly emerged dun in a window where dissolved oxygen stays higher — a real advantage for an insect living in water that warms quickly at this time of year.",
+        },
+      },
+      {
+        heading: { fr: "Une fenêtre courte à ne pas manquer", en: "A short window not to miss" },
+        body: {
+          fr: "Trois semaines, le matin seulement : c'est une fenêtre bien plus étroite que celle de la Baetis, qui s'étend sur presque toute la saison. Si vous pêchez une rivière que vous connaissez bien en juin et que vous remarquez une grosse olive inhabituelle en avant-midi, il y a de bonnes chances que ce soit celle-ci plutôt qu'une Baetis attardée.\n\nParce que la fenêtre est courte et matinale, c'est une éclosion facile à manquer complètement si l'habitude est de pêcher plutôt en soirée l'été — vaut la peine de sortir tôt au moins une fois pendant ces trois semaines.",
+          en: "Three weeks, mornings only: a far narrower window than the Baetis, which runs across nearly the whole season. If you fish a river you know well in June and spot an unusually large olive in mid-morning, there's a good chance it's this one rather than a late-running Baetis.\n\nBecause the window is short and morning-only, it's an easy hatch to miss entirely if your summer habit is fishing evenings instead — worth getting out early at least once during those three weeks.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Le matin, dans les courants modérés à rapides, à l'approche de l'éclosion.", en: "Morning, in moderate-to-fast current, as the hatch approaches." },
+        how: {
+          fr: "Près du fond, en dérive naturelle.",
+          en: "Near bottom, on a natural drift.",
+        },
+        patternSlugs: ["pheasant-tail-nymph"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "Le matin, de la mi-juin au début juillet.", en: "Morning, mid-June into early July." },
+        how: {
+          fr: "Une sèche olive foncé, plus grosse qu'un patron habituel de BWO, en dérive morte.",
+          en: "A dark olive dry, bigger than a usual BWO pattern, dead-drifted.",
+        },
+        patternSlugs: ["blue-winged-olive"],
+      },
+    ],
+  },
+
+  // ----------------------------------------------------------- GOLDEN DRAKE
+  {
+    hatchId: "golden-drake",
+    metaTitle: {
+      fr: "Anthopotamus distinctus — le Golden Drake, rare mais fiable",
+      en: "Anthopotamus distinctus — the Golden Drake, scarce but reliable",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Golden Drake (Anthopotamus distinctus) au Québec : pourquoi cette grosse éphémère jamais abondante reste souvent le seul vrai repas d'une truite en eau basse d'août.",
+      en: "Identifying and fishing the Golden Drake (Anthopotamus distinctus) in Québec: why this never-abundant big mayfly is often the only real meal a trout gets in low August water.",
+    },
+    intro: {
+      fr: "Elle n'éclot jamais en vague, seulement au compte-gouttes, un insecte à la fois. Mais le Golden Drake reste présent tout le mois d'août, en soirée — et dans une rivière basse et réchauffée où presque plus rien d'autre n'éclot, quelques gros insectes valent parfois mieux qu'une vague de petits.",
+      en: "It never hatches in a wave, only a trickle, one insect at a time. But the Golden Drake stays present all through August evenings — and on a low, warm river where almost nothing else is hatching, a handful of big insects sometimes beats a wave of small ones.",
+    },
+    idMarks: [
+      {
+        fr: "Grosse éphémère jaune doré, taille 10-12.",
+        en: "Large golden-yellow mayfly, size 10–12.",
+      },
+      {
+        fr: "Jamais abondante — quelques insectes espacés plutôt qu'une vague.",
+        en: "Never abundant — a scattered few insects rather than a wave.",
+      },
+      {
+        fr: "Nymphe semi-fouisseuse, dans le gravier grossier et les débris des rivières plus grandes.",
+        en: "A semi-burrowing nymph, in coarse gravel and debris of bigger rivers.",
+      },
+      {
+        fr: "Présente tout le mois d'août en soirée, sans grosse pointe précise.",
+        en: "Around all through August evenings, without one sharp peak.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Golden Stone (Acroneuria spp.), un plécoptère du même « doré » de nom mais d'une classe d'insecte entièrement différente — ailes repliées à plat, deux queues courtes plutôt que trois longues. Le Light Cahill, plus pâle et plus commun à la même période.",
+      en: "The Golden Stone (Acroneuria spp.), a stonefly sharing only the \"golden\" name but an entirely different insect order — wings folded flat, two short tails rather than three long ones. The Light Cahill, paler and far more common at the same time.",
+    },
+    sections: [
+      {
+        heading: { fr: "Rare, mais fiable", en: "Scarce, but reliable" },
+        body: {
+          fr: "Le Golden Drake ne produit jamais une éclosion dense : on parle de quelques insectes par soirée, jamais d'une vague. Mais contrairement à une éclosion ponctuelle qui dure deux semaines, celle-ci reste présente, en petite quantité, pendant tout le mois d'août — un insecte fiable plutôt qu'un insecte spectaculaire.\n\nCette présence discrète et continue, plutôt qu'une pointe marquée, en fait un pari sûr n'importe quel soir d'août sans qu'il soit nécessaire de deviner le bon moment.",
+          en: "The Golden Drake never produces a dense hatch — a handful of bugs a night, never a wave. But unlike a sharp hatch that lasts two weeks, this one stays present, in small numbers, right through August — a reliable insect rather than a spectacular one.\n\nThat quiet, steady presence rather than one marked peak makes it a safe bet on any August evening without needing to guess the right moment.",
+        },
+      },
+      {
+        heading: { fr: "Le seul gros repas en eau basse", en: "The only big meal in low water" },
+        body: {
+          fr: "Août amène presque toujours des niveaux d'eau bas et une rivière qui se réchauffe, ce qui concentre les truites dans les fosses les plus profondes et réduit sérieusement la nourriture disponible. Dans ce contexte, un insecte de cette taille — même en petit nombre — devient disproportionnellement important : c'est souvent le seul repas assez gros pour justifier l'effort d'une truite qui économise son énergie en eau basse et chaude.\n\nC'est pourquoi une sèche de taille 10-12 peut prendre du poisson en plein mois d'août même quand rien d'autre ne semble se passer à la surface.",
+          en: "August almost always brings low water and a warming river, which concentrates trout in the deepest pools and seriously cuts the food available. In that context, an insect this size — even in small numbers — becomes disproportionately important: it's often the only meal big enough to justify the effort for a trout conserving energy in low, warm water.\n\nThat's why a size 10–12 dry can take fish in the middle of August even when nothing else seems to be happening on the surface.",
+        },
+      },
+      {
+        heading: { fr: "Deux « dorés », deux insectes", en: "Two \"goldens,\" two different bugs" },
+        body: {
+          fr: "Le nom « Golden » se retrouve chez deux insectes complètement différents sur nos rivières : cette éphémère et le Golden Stone, un plécoptère. Les deux sont dorés, présents en été, et de taille comparable — ce qui prête à confusion chez qui ne regarde que la couleur.\n\nLa différence se voit au premier coup d'œil sur les ailes : repliées bien à plat sur le dos chez le plécoptère, tenues droites comme de petites voiles chez l'éphémère. Comptez aussi les queues — deux courtes contre trois longues — si le doute persiste.",
+          en: "The name \"Golden\" attaches to two completely different insects on our rivers: this mayfly and the Golden Stone, a stonefly. Both are golden, both around in summer, both roughly the same size — which invites confusion from anyone going by colour alone.\n\nThe wings settle it at a glance: folded flat against the back on the stonefly, held upright like small sails on the mayfly. Count tails too — two short versus three long — if any doubt remains.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Tout l'été, dans le gravier grossier des rivières plus grandes.", en: "All summer, in the coarse gravel of bigger rivers." },
+        how: {
+          fr: "Près du fond, en dérive naturelle dans le courant modéré.",
+          en: "Near bottom, on a natural drift in moderate current.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En soirée, tout le mois d'août.", en: "Evening, all through August." },
+        how: {
+          fr: "Une grosse sèche dorée, en dérive morte — souvent le seul insecte assez gros pour intéresser une truite en eau basse.",
+          en: "A big golden dry, dead-drifted — often the only insect big enough to interest a trout in low water.",
+        },
+        patternSlugs: ["light-cahill"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------ SLATE DRAKE
+  {
+    hatchId: "slate-drake",
+    metaTitle: {
+      fr: "Isonychia bicolor — le Slate Drake, la nageuse d'eau vive",
+      en: "Isonychia bicolor — the Slate Drake, the fast-water swimmer",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Slate Drake (Isonychia bicolor) au Québec : une nymphe nageuse musclée d'eau vive, deux générations par année, et pourquoi la noyée en dérive tendue fonctionne si bien.",
+      en: "Identifying and fishing the Slate Drake (Isonychia bicolor) in Québec: a muscular fast-water swimming nymph, two broods a year, and why a tight-swing wet fly works so well.",
+    },
+    intro: {
+      fr: "Elle partage le comportement d'émergence du Grey Drake — ramper hors de l'eau plutôt que d'éclore en surface — mais dans un monde complètement différent : le courant vif plutôt que la baie calme. Deux générations par année en font aussi une des rares grosses mouches encore actives à l'automne.",
+      en: "It shares the Grey Drake's emergence habit — crawling out of the water rather than hatching at the surface — but in a completely different world: fast current rather than a calm bay. Two broods a year also make it one of the few big flies still active come fall.",
+    },
+    idMarks: [
+      {
+        fr: "Corps gris ardoise à brun-rouge, avec une fine bande pâle caractéristique sous le thorax.",
+        en: "Slate-grey to reddish-brown body, with a distinctive pale stripe under the thorax.",
+      },
+      {
+        fr: "Nageuse rapide et musclée, taille 10-12, trois longues queues.",
+        en: "A fast, muscular swimmer, size 10–12, three long tails.",
+      },
+      {
+        fr: "Nymphe trouvée dans le courant vif, agrippée aux roches entre les efforts de nage — jamais en eau morte.",
+        en: "Nymph found in fast current, clinging to rock between bursts of swimming — never in dead water.",
+      },
+      {
+        fr: "Rampe hors de l'eau sur les roches exposées pour éclore, comme le Grey Drake mais en eau vive plutôt que calme.",
+        en: "Crawls out onto exposed rock to emerge, like the Grey Drake but in fast water rather than calm.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Grey Drake (Siphlonurus spp.), qui partage le même comportement d'émergence hors de l'eau et une couleur similaire, mais qui vit en eau calme et lente plutôt que dans le courant vif. Vérifiez le type d'eau avant la couleur.",
+      en: "The Grey Drake (Siphlonurus spp.), which shares the same out-of-water emergence behaviour and a similar colour, but lives in slow, calm water rather than fast current. Check the water type before the colour.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nageuse d'eau vive", en: "A fast-water swimmer" },
+        body: {
+          fr: "Contrairement au Grey Drake, une nageuse de baies et d'eaux calmes, l'Isonychia vit dans le courant vif — elle alterne entre s'agripper aux roches et de courtes poussées de nage puissante pour se maintenir en place. C'est une des rares nymphes d'éphémère capable de tenir sa position dans un courant que la plupart des autres espèces ne pourraient pas affronter directement.\n\nCherchez-la dans les veines de courant soutenu et les radiers profonds, jamais dans l'eau morte où vit sa cousine du même genre de comportement.",
+          en: "Unlike the Grey Drake, a swimmer of bays and calm water, Isonychia lives in fast current — alternating between clinging to rock and short bursts of powerful swimming to hold position. It's one of the few mayfly nymphs able to hold its ground in current most other species couldn't face head-on.\n\nLook for it in steady-current seams and deep riffles, never in the dead water where its behavioural cousin lives.",
+        },
+      },
+      {
+        heading: { fr: "Même sortie à terre, en eau vive", en: "The same out-of-water exit, in fast water" },
+        body: {
+          fr: "Comme le Grey Drake, la nymphe d'Isonychia rampe hors de l'eau pour éclore plutôt que de le faire en surface — mais elle le fait sur les roches exposées des rapides plutôt que sur la végétation des bordures calmes. C'est le même comportement, adapté à un habitat complètement différent.\n\nÇa veut dire que, comme pour le Grey Drake, l'émergence elle-même se voit rarement — mais contrairement à lui, la nymphe d'Isonychia se pêche très bien pendant sa migration vers la rive, en dérive tendue près du fond dans le courant vif.",
+          en: "Like the Grey Drake, the Isonychia nymph crawls out of the water to emerge rather than doing so at the surface — but it does so on exposed rock in the riffles rather than on calm-water vegetation. Same behaviour, adapted to a completely different habitat.\n\nThat means, as with the Grey Drake, the emergence itself is rarely seen — but unlike it, the Isonychia nymph fishes very well during its migration toward shore, on a tight drift near bottom in fast current.",
+        },
+      },
+      {
+        heading: { fr: "Deux générations, deux saisons", en: "Two broods, two seasons" },
+        body: {
+          fr: "L'Isonychia produit deux générations par année : une au début de l'été, une seconde qui s'étale d'août à octobre et qui porte la toute fin de la saison de pêche à la mouche sèche. Cette deuxième génération est particulièrement précieuse — par une journée fraîche d'automne où presque plus rien n'éclot, c'est souvent la seule grosse mouche encore active.\n\nUne noyée montée en dérive tendue, laissée balancer en fin de dérive, imite bien la nymphe qui nage activement vers la rive avant d'éclore — et ça fonctionne particulièrement bien pendant cette poussée finale de fin de saison.",
+          en: "Isonychia runs two broods a year: one in early summer, a second that stretches from August into October and carries the very tail end of the dry-fly season. That second brood is especially valuable — on a cool fall day when almost nothing else is hatching, it's often the only big fly still active.\n\nA wet fly fished on a tight drift, left to swing at the end of the presentation, imitates well a nymph actively swimming toward shore before it emerges — and it works especially well during that late-season final push.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe / émergente", en: "Nymph / emerger" },
+        when: { fr: "Toute la saison, en migration vers la rive avant l'éclosion.", en: "All season, migrating toward shore ahead of the hatch." },
+        how: {
+          fr: "En dérive tendue près du fond, avec un léger balancement en fin de dérive qui imite la nage.",
+          en: "On a tight drift near bottom, with a light swing at the end that imitates the swim.",
+        },
+        patternSlugs: ["partridge-orange"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En après-midi l'été, et jusqu'en octobre pour la deuxième génération.", en: "Afternoon in summer, and into October for the second brood." },
+        how: {
+          fr: "Une sèche grise dérivée dans les veines de courant soutenu.",
+          en: "A grey dry drifted through steady-current seams.",
+        },
+        patternSlugs: ["slate-drake"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
