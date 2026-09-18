@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { StarRating } from "@/components/StarRating";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { chipClass } from "@/lib/chip";
 import { instagramImageUrl } from "@/lib/instagram";
+import { formatDualTemp } from "@/lib/temperature";
+import { HATCHES } from "@/lib/hatches";
 
 type PendingReview = {
   id: string;
@@ -101,6 +104,11 @@ type AdminHatchReport = {
   hatchId: string | null;
   hookSize: number | null;
   intensity: string | null;
+  species: string | null;
+  waterLevel: string | null;
+  waterClarity: string | null;
+  sky: string | null;
+  waterTempC: number | null;
   note: string | null;
   approved: boolean;
   fromShop: boolean;
@@ -188,6 +196,8 @@ export function AdminDashboardClient({
   activeProducts: ProductOption[];
   locale: string;
 }) {
+  const tHatch = useTranslations("HatchReport");
+  const tAngling = useTranslations("Angling");
   const [reviews, setReviews] = useState<PendingReview[]>(initialReviews);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
@@ -607,7 +617,14 @@ export function AdminDashboardClient({
           </p>
         ) : (
           <ul className="mt-4 space-y-3">
-            {hatchReports.map((r) => (
+            {hatchReports.map((r) => {
+              const hatch = HATCHES.find((h) => h.id === r.hatchId);
+              const hatchName = hatch
+                ? locale === "fr"
+                  ? hatch.nameFr
+                  : hatch.nameEn
+                : null;
+              return (
               <li
                 key={r.id}
                 className={`rounded-xl border p-4 ${
@@ -629,14 +646,28 @@ export function AdminDashboardClient({
 
                 <p className="mt-1 text-xs text-ink/60">
                   {[
-                    r.hatchId,
+                    hatchName,
                     r.hookSize ? `#${r.hookSize}` : null,
-                    r.intensity,
+                    r.intensity ? tHatch(`intensity${r.intensity}`) : null,
+                    r.species ? tAngling(`species.${r.species}`) : null,
                     r.productName,
                   ]
                     .filter(Boolean)
                     .join(" · ") || (locale === "fr" ? "Aucun détail" : "No details")}
                 </p>
+
+                {(r.waterLevel || r.waterClarity || r.sky || r.waterTempC != null) && (
+                  <p className="mt-1 text-xs text-ink/45">
+                    {[
+                      r.waterLevel ? tHatch(`waterLevel${r.waterLevel}`) : null,
+                      r.waterClarity ? tHatch(`waterClarity${r.waterClarity}`) : null,
+                      r.sky ? tHatch(`sky${r.sky}`) : null,
+                      r.waterTempC != null ? formatDualTemp(r.waterTempC) : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                )}
 
                 {r.note && <p className="mt-2 text-sm text-ink/80">{r.note}</p>}
 
@@ -673,7 +704,8 @@ export function AdminDashboardClient({
                   </button>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </details>

@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import { HATCHES } from "@/lib/hatches";
 import { chipClass } from "@/lib/chip";
+import { formatDualTemp } from "@/lib/temperature";
 import type { Locale } from "@/i18n/routing";
 
 // No dynamic segment here, so this route would otherwise be fully static-
@@ -37,6 +38,7 @@ export default async function ReportsPage({
   setRequestLocale(locale);
   const t = await getTranslations("Reports");
   const tHatch = await getTranslations("HatchReport");
+  const tAngling = await getTranslations("Angling");
 
   const hatchReports = await prisma.hatchReport.findMany({
     where: { approved: true },
@@ -49,6 +51,11 @@ export default async function ReportsPage({
       hatchId: true,
       hookSize: true,
       intensity: true,
+      species: true,
+      waterLevel: true,
+      waterClarity: true,
+      sky: true,
+      waterTempC: true,
       note: true,
       fromShop: true,
       waterOther: true,
@@ -99,7 +106,7 @@ export default async function ReportsPage({
                   <p className="text-xs text-ink/50">{dateFormatter.format(r.observedOn)}</p>
                 </div>
 
-                {(hatch || r.intensity || r.product) && (
+                {(hatch || r.intensity || r.species || r.product) && (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {hatch && (
                       <span className={chipClass("solid")}>
@@ -112,10 +119,40 @@ export default async function ReportsPage({
                         {tHatch(`intensity${r.intensity}`)}
                       </span>
                     )}
+                    {r.species && (
+                      <span className={chipClass("solid")}>
+                        {tAngling(`species.${r.species}`)}
+                      </span>
+                    )}
                     {r.product && (
                       <Link href={`/shop/${r.product.slug}`} className={chipClass("accent")}>
                         {pick(r.product.nameFr, r.product.nameEn, locale)}
                       </Link>
+                    )}
+                  </div>
+                )}
+
+                {/* Conditions logged with the report — separate row since
+                    they describe the day, not the catch. */}
+                {(r.waterLevel || r.waterClarity || r.sky || r.waterTempC != null) && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {r.waterLevel && (
+                      <span className={chipClass("outline")}>
+                        {tHatch(`waterLevel${r.waterLevel}`)}
+                      </span>
+                    )}
+                    {r.waterClarity && (
+                      <span className={chipClass("outline")}>
+                        {tHatch(`waterClarity${r.waterClarity}`)}
+                      </span>
+                    )}
+                    {r.sky && (
+                      <span className={chipClass("outline")}>{tHatch(`sky${r.sky}`)}</span>
+                    )}
+                    {r.waterTempC != null && (
+                      <span className={chipClass("outline")}>
+                        {formatDualTemp(r.waterTempC)}
+                      </span>
                     )}
                   </div>
                 )}

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { HATCHES, HATCH_GROUPS, sizeLabel } from "@/lib/hatches";
+import { celsiusToFahrenheit, fahrenheitToCelsius } from "@/lib/temperature";
 import type { Locale } from "@/i18n/routing";
 
 type WaterOption = { id: string; name: string };
@@ -79,7 +80,11 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
   const [waterLevel, setWaterLevel] = useState("");
   const [waterClarity, setWaterClarity] = useState("");
   const [sky, setSky] = useState("");
-  const [waterTempC, setWaterTempC] = useState("");
+  // Kept in whichever unit the angler is currently entering it in, and
+  // converted to Celsius only at submit time -- so switching units mid-entry
+  // doesn't require guessing at a shared internal representation.
+  const [waterTemp, setWaterTemp] = useState("");
+  const [tempUnit, setTempUnit] = useState<"C" | "F">("C");
   const [productId, setProductId] = useState("");
   const [note, setNote] = useState("");
   const [optIn, setOptIn] = useState(false);
@@ -89,6 +94,18 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
   const [error, setError] = useState("");
 
   const hatch = useMemo(() => HATCHES.find((h) => h.id === hatchId), [hatchId]);
+
+  // Re-expresses whatever's already typed in the new unit, so toggling
+  // doesn't blank the field or leave a stale number behind.
+  function switchTempUnit(next: "C" | "F") {
+    if (next === tempUnit) return;
+    const n = Number(waterTemp);
+    if (waterTemp.trim() !== "" && !Number.isNaN(n)) {
+      const converted = tempUnit === "C" ? celsiusToFahrenheit(n) : fahrenheitToCelsius(n);
+      setWaterTemp(String(Math.round(converted * 10) / 10));
+    }
+    setTempUnit(next);
+  }
 
   // Hook sizes and suggested flies both come from the chosen insect, so the
   // two hardest questions on the form answer themselves once it's picked.
@@ -122,7 +139,13 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
     if (waterLevel) payload.waterLevel = waterLevel;
     if (waterClarity) payload.waterClarity = waterClarity;
     if (sky) payload.sky = sky;
-    if (waterTempC) payload.waterTempC = Number(waterTempC);
+    if (waterTemp.trim()) {
+      const n = Number(waterTemp);
+      if (!Number.isNaN(n)) {
+        const celsius = tempUnit === "F" ? fahrenheitToCelsius(n) : n;
+        payload.waterTempC = Math.round(celsius * 10) / 10;
+      }
+    }
     if (productId) payload.productId = productId;
     if (note.trim()) payload.note = note.trim();
 
@@ -303,18 +326,37 @@ export function HatchReportForm({ locale, waters, products, t }: Props) {
           <label htmlFor="temp" className={LABEL}>
             {t.waterTemp}
           </label>
-          <input
-            id="temp"
-            type="number"
-            inputMode="decimal"
-            step="0.5"
-            min={-2}
-            max={35}
-            value={waterTempC}
-            onChange={(e) => setWaterTempC(e.target.value)}
-            placeholder="14"
-            className={`mt-2 ${FIELD} max-w-28`}
-          />
+          <div className="mt-2 flex items-center gap-3">
+            <input
+              id="temp"
+              type="number"
+              inputMode="decimal"
+              step={tempUnit === "C" ? 0.5 : 1}
+              min={tempUnit === "C" ? -2 : 28}
+              max={tempUnit === "C" ? 35 : 95}
+              value={waterTemp}
+              onChange={(e) => setWaterTemp(e.target.value)}
+              placeholder={tempUnit === "C" ? "14" : "57"}
+              className={`${FIELD} max-w-28`}
+            />
+            <div className="flex rounded-lg border border-forest/20 text-xs font-semibold">
+              {(["C", "F"] as const).map((u) => (
+                <button
+                  key={u}
+                  type="button"
+                  aria-pressed={tempUnit === u}
+                  onClick={() => switchTempUnit(u)}
+                  className={`px-2.5 py-2 transition first:rounded-l-lg last:rounded-r-lg ${
+                    tempUnit === u
+                      ? "bg-forest text-cream"
+                      : "bg-white text-forest hover:bg-forest/5"
+                  }`}
+                >
+                  °{u}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
