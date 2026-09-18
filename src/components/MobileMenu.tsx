@@ -10,14 +10,47 @@ import { SPECIES, SPECIES_FAMILIES, SPECIES_FAMILY, SPECIES_SLUGS } from "@/lib/
 import { ARTICLE_IDS } from "@/lib/insect-articles";
 import { HATCHES, HATCH_GROUPS, HATCH_GROUP_KEY } from "@/lib/hatches";
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+/**
+ * A native <details>/<summary> accordion rather than useState per section —
+ * free keyboard and screen-reader behaviour, and no re-render wiring. With
+ * Learn alone now holding a dozen insect links (headed toward 38) on top of
+ * Shop's own categories and Species' nine, having every section permanently
+ * expanded meant scrolling past all of them just to reach "About". Only Shop
+ * opens by default; everything else is one tap away instead of a long scroll.
+ */
+function Section({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
   return (
-    <div className="border-t border-forest/10 px-5 py-4 first:border-t-0">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/45">
-        {title}
-      </p>
+    <details
+      className="group border-t border-forest/10 px-5 py-4 first:border-t-0"
+      open={defaultOpen}
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between marker:hidden [&::-webkit-details-marker]:hidden">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/45">
+          {title}
+        </span>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-3.5 w-3.5 shrink-0 text-ink/40 transition-transform group-open:rotate-180"
+          aria-hidden
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </summary>
       <ul className="mt-3 space-y-3">{children}</ul>
-    </div>
+    </details>
   );
 }
 
@@ -148,7 +181,7 @@ export function MobileMenu({ locale }: { locale: string }) {
             <div className="flex-1 overflow-y-auto overscroll-contain pb-8">
               {/* Shop first: it is a shop. The educational sections sit
                   directly under it rather than below the fold. */}
-              <Section title={t("shop")}>
+              <Section title={t("shop")} defaultOpen>
                 <Item onNavigate={close} href="/shop/finder" accent>
                   {t("flyFinder")}
                 </Item>

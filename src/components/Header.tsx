@@ -299,7 +299,13 @@ function LearnMenu() {
     <div ref={ref} className="relative">
       <DropdownButton label={t("learn")} open={open} onClick={() => setOpen((o) => !o)} />
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-2 w-72 rounded-xl border border-forest/15 bg-parchment p-5 shadow-lg">
+        // max-h + scroll rather than nested collapsible groups: a dozen
+        // insect links across four groups (headed toward 38) can already run
+        // taller than a short laptop window, and a second layer of expand/
+        // collapse inside a dropdown that's already click-to-open is more
+        // friction than it's worth — scrolling is the standard pattern for a
+        // long menu like this one.
+        <div className="absolute left-0 top-full z-50 mt-2 max-h-[75vh] w-72 overflow-y-auto rounded-xl border border-forest/15 bg-parchment p-5 shadow-lg">
           <Link
             href="/hatches"
             onClick={() => setOpen(false)}
