@@ -126,6 +126,7 @@ export default async function HatchesPage({
 
   const peakingNow = HATCHES.filter((h) => isPeakingOn(h, today));
   const activeNow = HATCHES.filter((h) => isActiveOn(h, today) && !isPeakingOn(h, today));
+  const groupsWithRows = HATCH_GROUPS.filter((g) => HATCHES.some((h) => h.group === g));
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
@@ -191,15 +192,40 @@ export default async function HatchesPage({
         </span>
       </div>
 
+      <nav className="mt-6 flex flex-wrap gap-x-4 gap-y-1.5 border-b border-forest/10 pb-6 text-xs font-medium text-ink/50">
+        {groupsWithRows.map((group) => (
+          <a
+            key={group}
+            href={`#${group.toLowerCase()}`}
+            className="underline-offset-2 hover:text-rust hover:underline"
+          >
+            {t(HATCH_GROUP_KEY[group])}
+          </a>
+        ))}
+      </nav>
+
       <div className="mt-10 space-y-12">
-        {HATCH_GROUPS.map((group) => {
+        {groupsWithRows.map((group) => {
           const rows = HATCHES.filter((h) => h.group === group);
-          if (rows.length === 0) return null;
           return (
-            <section key={group} id={group.toLowerCase()}>
-              <h2 className="font-display text-xl font-semibold text-forest">
-                {t(HATCH_GROUP_KEY[group])}
-              </h2>
+            <details key={group} id={group.toLowerCase()} className="group" open>
+              <summary className="flex cursor-pointer list-none items-center gap-2 marker:hidden [&::-webkit-details-marker]:hidden">
+                <h2 className="font-display text-xl font-semibold text-forest">
+                  {t(HATCH_GROUP_KEY[group])}
+                </h2>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180"
+                  aria-hidden
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </summary>
 
               <div className="mt-4 hidden sm:grid sm:grid-cols-[13rem_1fr] sm:gap-4">
                 <div />
@@ -286,7 +312,7 @@ export default async function HatchesPage({
                   );
                 })}
               </div>
-            </section>
+            </details>
           );
         })}
       </div>
