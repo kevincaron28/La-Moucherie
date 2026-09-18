@@ -5,6 +5,7 @@ import { StarRating } from "@/components/StarRating";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { chipClass } from "@/lib/chip";
+import { instagramImageUrl } from "@/lib/instagram";
 
 type PendingReview = {
   id: string;
@@ -396,6 +397,8 @@ export function AdminDashboardClient({
   const [catchForm, setCatchForm] = useState(emptyCatchForm);
   const [addingCatch, setAddingCatch] = useState(false);
   const [catchBusyId, setCatchBusyId] = useState<string | null>(null);
+  const catchPreviewUrl =
+    catchForm.imageUrl || instagramImageUrl(catchForm.instagramUrl) || "";
 
   async function handleAddCatch(e: React.FormEvent) {
     e.preventDefault();
@@ -406,6 +409,7 @@ export function AdminDashboardClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...catchForm,
+          imageUrl: catchForm.imageUrl || undefined,
           instagramUrl: catchForm.instagramUrl || undefined,
           captionFr: catchForm.captionFr || undefined,
           captionEn: catchForm.captionEn || undefined,
@@ -1442,44 +1446,36 @@ export function AdminDashboardClient({
                 className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
               />
             </div>
-            <div>
+            <div className="sm:col-span-2">
               <label className="text-xs font-medium text-ink/60">
-                {locale === "fr" ? "URL de la photo" : "Photo URL"}
-              </label>
-              <input
-                type="text"
-                required
-                value={catchForm.imageUrl}
-                onChange={(e) => setCatchForm((f) => ({ ...f, imageUrl: e.target.value }))}
-                placeholder="/catches/example.jpg"
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
-              />
-              {/* A quick visual check before it goes live — the fastest way
-                  to catch a bad copy-paste from Instagram's own image URL. */}
-              {catchForm.imageUrl && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={catchForm.imageUrl}
-                  alt=""
-                  className="mt-2 h-20 w-20 rounded-lg border border-forest/15 bg-cream object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                  onLoad={(e) => {
-                    e.currentTarget.style.display = "";
-                  }}
-                />
-              )}
-            </div>
-            <div>
-              <label className="text-xs font-medium text-ink/60">
-                {locale === "fr" ? "Lien Instagram (optionnel)" : "Instagram link (optional)"}
+                {locale === "fr" ? "Lien Instagram" : "Instagram link"}
               </label>
               <input
                 type="text"
                 value={catchForm.instagramUrl}
                 onChange={(e) => setCatchForm((f) => ({ ...f, instagramUrl: e.target.value }))}
                 placeholder="https://www.instagram.com/p/…"
+                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+              />
+              <p className="mt-1 text-xs text-ink/50">
+                {locale === "fr"
+                  ? "Ça suffit à soi seul — la photo est tirée automatiquement de la publication."
+                  : "This is enough on its own — the photo is pulled automatically from the post."}
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-ink/60">
+                {locale === "fr"
+                  ? "URL de la photo (optionnel — si ce n'est pas Instagram, ou si le lien ci-dessus ne fonctionne pas)"
+                  : "Photo URL (optional — if it's not from Instagram, or the link above doesn't work)"}
+              </label>
+              <input
+                type="text"
+                value={catchForm.imageUrl}
+                onChange={(e) => setCatchForm((f) => ({ ...f, imageUrl: e.target.value }))}
+                placeholder="/catches/example.jpg"
                 className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
               />
             </div>
@@ -1496,6 +1492,28 @@ export function AdminDashboardClient({
               />
             </div>
           </div>
+          {/* One live preview covering whichever field resolves to an image —
+              the fastest way to catch a bad paste or a post the automatic
+              derivation doesn't work for, before it ever goes live. */}
+          {catchPreviewUrl && (
+            <div>
+              <p className="text-xs font-medium text-ink/60">
+                {locale === "fr" ? "Aperçu" : "Preview"}
+              </p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={catchPreviewUrl}
+                alt=""
+                className="mt-1 h-20 w-20 rounded-lg border border-forest/15 bg-cream object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+                onLoad={(e) => {
+                  e.currentTarget.style.display = "";
+                }}
+              />
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className="text-xs font-medium text-ink/60">

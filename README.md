@@ -414,14 +414,23 @@ that's gone, because an auto-embed can't tell a good photo from a bad one, and
 having both a curated grid and an uncurated feed on the same page undercut the
 "every photo here was picked by hand" framing.
 
-The replacement is the "Add a catch" form on `/admin`: paste the image URL
-(right-click → copy image address on the Instagram post, or host the file
-yourself) and, optionally, the post's own URL — the card then links back to it
-as "View the post" / "Via Instagram". A thumbnail preview shows next to the
-Photo URL field so a bad paste is obvious before it's saved. Tick "approve
-immediately" to publish right away, or leave it off to review later; either
-way the daily workflow is: check the hashtag, paste a URL, done — no
-`db:studio` required.
+The replacement is the "Add a catch" form on `/admin`: paste the Instagram
+post URL and nothing else is required — `src/lib/instagram.ts` pulls the
+shortcode out of it and derives `instagram.com/p/{code}/media/?size=l`, an
+unofficial but long-standing endpoint that redirects straight to that post's
+own image, no API key needed. The card also links back to the original post
+as "View the post" / "Via Instagram". A live preview shows before saving so a
+bad paste (or a post that endpoint doesn't work for — private accounts,
+carousels, reels) is obvious immediately; the "Photo URL" field stays as a
+manual fallback for exactly that case, or for a photo that never came from
+Instagram at all. Tick "approve immediately" to publish right away, or leave
+it off to review later; either way the daily workflow is: check the hashtag,
+paste one link, done — no `db:studio` required.
+
+That derivation isn't a documented Instagram contract, so it can stop working
+without notice. If it ever does, the fallback field is the escape hatch —
+find a working image URL by hand the way the form used to require for every
+photo.
 
 ## Assortments
 
