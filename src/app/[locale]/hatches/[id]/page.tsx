@@ -8,6 +8,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { HATCHES, sizeLabel, type Hatch } from "@/lib/hatches";
 import { INSECT_ARTICLES, articleFor, say } from "@/lib/insect-articles";
 import { chipClass } from "@/lib/chip";
+import { InsectIcon } from "@/components/InsectIcon";
 
 // These are the pages meant to be found in search, so they're prerendered for
 // both locales rather than waiting on a first request to exist.
@@ -93,10 +94,15 @@ export default async function InsectPage({
         &larr; {t("backToChart")}
       </Link>
 
-      <h1 className="mt-4 font-display text-3xl font-semibold text-forest sm:text-4xl">
-        {name}
-      </h1>
-      <p className="mt-1 text-lg italic text-ink/50">{hatch.scientific}</p>
+      <div className="mt-4 flex items-center gap-3">
+        <InsectIcon hatchId={hatch.id} size="lg" title={name} />
+        <div>
+          <h1 className="font-display text-3xl font-semibold text-forest sm:text-4xl">
+            {name}
+          </h1>
+          <p className="mt-1 text-lg italic text-ink/50">{hatch.scientific}</p>
+        </div>
+      </div>
 
       <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 rounded-2xl border border-forest/15 bg-cream/40 p-5 text-sm sm:grid-cols-4">
         <div>

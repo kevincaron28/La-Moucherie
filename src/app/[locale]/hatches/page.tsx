@@ -17,6 +17,7 @@ import {
 } from "@/lib/hatches";
 import { articleFor, say } from "@/lib/insect-articles";
 import { chipClass } from "@/lib/chip";
+import { InsectIcon } from "@/components/InsectIcon";
 import type { Locale } from "@/i18n/routing";
 
 // The chart marks today's date and leads with what's on the water right now, so
@@ -247,29 +248,38 @@ export default async function HatchesPage({
                         peaking ? "bg-rust/5" : ""
                       }`}
                     >
-                      <div>
-                        <h3 className="font-display font-semibold text-forest">
-                          {article ? (
-                            <Link
-                              href={`/hatches/${h.id}`}
-                              className="underline decoration-forest/25 underline-offset-4 transition hover:text-rust hover:decoration-rust"
-                            >
-                              {pick(h.nameFr, h.nameEn, locale)}
-                            </Link>
-                          ) : (
-                            pick(h.nameFr, h.nameEn, locale)
-                          )}
-                        </h3>
-                        <p className="text-xs italic text-ink/50">{h.scientific}</p>
-                        <p className="mt-1 text-xs font-medium text-ink/60">
-                          {sizeLabel(h.sizes)} · {t(TIME_KEY[h.timeOfDay])}
-                        </p>
-                        {article && (
-                          <p className="mt-1.5 flex gap-1.5 text-xs text-ink/55">
-                            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-rust" aria-hidden />
-                            <span>{say(article.idMarks[0], locale)}</span>
+                      <div className="flex gap-3">
+                        <InsectIcon
+                          hatchId={h.id}
+                          title={pick(h.nameFr, h.nameEn, locale)}
+                        />
+                        <div>
+                          <h3 className="font-display font-semibold text-forest">
+                            {article ? (
+                              <Link
+                                href={`/hatches/${h.id}`}
+                                className="underline decoration-forest/25 underline-offset-4 transition hover:text-rust hover:decoration-rust"
+                              >
+                                {pick(h.nameFr, h.nameEn, locale)}
+                              </Link>
+                            ) : (
+                              pick(h.nameFr, h.nameEn, locale)
+                            )}
+                          </h3>
+                          <p className="text-xs italic text-ink/50">{h.scientific}</p>
+                          <p className="mt-1 text-xs font-medium text-ink/60">
+                            {sizeLabel(h.sizes)} · {t(TIME_KEY[h.timeOfDay])}
                           </p>
-                        )}
+                          {article && (
+                            <p className="mt-1.5 flex gap-1.5 text-xs text-ink/55">
+                              <span
+                                className="mt-1 h-1 w-1 shrink-0 rounded-full bg-rust"
+                                aria-hidden
+                              />
+                              <span>{say(article.idMarks[0], locale)}</span>
+                            </p>
+                          )}
+                        </div>
                       </div>
 
                       <div>
