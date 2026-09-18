@@ -560,11 +560,7 @@
   },
   "Reports": {
     "title": "What's working",
-    "intro": "Short notes on water conditions and the patterns catching fish right now, river by river.",
-    "empty": "The first report is coming soon.",
-    "conditions": "Conditions",
-    "whatsWorking": "Flies working now",
-    "backToReports": "All reports"
+    "intro": "Real field reports from anglers on the water — what's hatching, what's working, and how conditions are running right now. File your own in a minute."
   },
   "Catches": {
     "title": "The La Moucherie community",

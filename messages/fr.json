@@ -560,11 +560,7 @@
   },
   "Reports": {
     "title": "Ce qui travaille",
-    "intro": "Des notes courtes sur l'état de l'eau et les patrons qui prennent du poisson en ce moment, rivière par rivière.",
-    "empty": "Le premier rapport arrive bientôt.",
-    "conditions": "Conditions",
-    "whatsWorking": "Les mouches du moment",
-    "backToReports": "Tous les rapports"
+    "intro": "De vrais rapports de pêcheurs sur l'eau — ce qui éclot, ce qui prend, et l'état des conditions en ce moment. Envoyez le vôtre en une minute."
   },
   "Catches": {
     "title": "La communauté La Moucherie",

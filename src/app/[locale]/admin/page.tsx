@@ -23,10 +23,8 @@ export default async function AdminPage({
     noVariantProducts,
     recentOrders,
     subscriberCount,
-    recentReports,
     recentCampaigns,
     plannedFlies,
-    allReports,
     allCatches,
     hatchReports,
     waters,
@@ -62,31 +60,12 @@ export default async function AdminPage({
       take: 15,
     }),
     prisma.newsletterSubscriber.count({ where: { unsubscribedAt: null } }),
-    prisma.fishingReport.findMany({
-      where: { published: true },
-      orderBy: { publishedAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        titleFr: true,
-        titleEn: true,
-        bodyFr: true,
-        bodyEn: true,
-        conditionsFr: true,
-        conditionsEn: true,
-      },
-    }),
     prisma.newsletterCampaign.findMany({
       orderBy: { sentAt: "desc" },
       take: 5,
     }),
     prisma.plannedFly.findMany({
       orderBy: [{ category: "asc" }, { createdAt: "asc" }],
-    }),
-    prisma.fishingReport.findMany({
-      orderBy: { createdAt: "desc" },
-      include: { water: { select: { slug: true, nameFr: true, nameEn: true } } },
-      take: 30,
     }),
     prisma.catchPhoto.findMany({
       orderBy: { createdAt: "desc" },
@@ -160,7 +139,6 @@ export default async function AdminPage({
           itemCount: o.items.reduce((sum, i) => sum + i.quantity, 0),
         }))}
         subscriberCount={subscriberCount}
-        recentReports={recentReports}
         recentCampaigns={recentCampaigns.map((c) => ({
           id: c.id,
           subjectFr: c.subjectFr,
@@ -175,17 +153,6 @@ export default async function AdminPage({
           category: p.category,
           species: p.species,
           notes: p.notes,
-        }))}
-        allReports={allReports.map((r) => ({
-          id: r.id,
-          titleFr: r.titleFr,
-          titleEn: r.titleEn,
-          bodyFr: r.bodyFr,
-          bodyEn: r.bodyEn,
-          conditionsFr: r.conditionsFr,
-          conditionsEn: r.conditionsEn,
-          published: r.published,
-          water: r.water,
         }))}
         hatchReports={hatchReports.map((r) => ({
           id: r.id,

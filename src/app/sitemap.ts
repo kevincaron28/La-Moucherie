@@ -100,29 +100,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Published Fishing Reports
-  const reports = await prisma.fishingReport.findMany({
-    where: { published: true },
-    select: { slug: true, updatedAt: true },
-  });
-  const reportEntries: MetadataRoute.Sitemap = [];
-  for (const r of reports) {
-    for (const locale of routing.locales) {
-      reportEntries.push({
-        url: `${baseUrl}/${locale}/reports/${r.slug}`,
-        lastModified: r.updatedAt,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-    }
-  }
-
   return [
     ...staticEntries,
     ...productEntries,
     ...speciesEntries,
     ...insectEntries,
     ...waterEntries,
-    ...reportEntries,
   ];
 }

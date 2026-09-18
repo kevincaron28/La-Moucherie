@@ -701,24 +701,6 @@ const waters = [
   },
 ];
 
-// One example report so the page isn't empty at launch, and so the shape is
-// obvious when you write the next one in db:studio. Unpublished by default:
-// publish it once you've checked the conditions against the real river.
-const sampleReport = {
-  slug: "jacques-cartier-septembre",
-  titleFr: "Jacques-Cartier — fin septembre",
-  titleEn: "Jacques-Cartier — late September",
-  conditionsFr: "Eau claire et basse, 11 °C. Ciel couvert, peu de vent.",
-  conditionsEn: "Clear, low water at 11 °C. Overcast, light wind.",
-  bodyFr:
-    "L'eau est basse et limpide : descendez d'une taille et allongez vos bas de ligne. Les truites se tiennent dans les veines rapides plutôt qu'au fond des fosses.\n\nLes nymphes travaillent tôt, puis les trichoptères sortent en fin de journée. Approchez lentement — par cette eau, elles vous voient venir de loin.",
-  bodyEn:
-    "The water is low and clear: drop a size and lengthen your leaders. Trout are holding in the faster seams rather than the depths of the pools.\n\nNymphs work early, then caddis come off late in the day. Approach slowly — in this water they see you coming.",
-  waterSlug: "riviere-jacques-cartier",
-  productSlugs: ["bead-head-hares-ear", "elk-wing-caddis", "montana-stone"],
-  published: false,
-};
-
 async function main() {
   // Waters first: products reference them by slug when they're linked.
   for (const w of waters) {
@@ -772,21 +754,6 @@ async function main() {
     await prisma.plannedFly.createMany({ data: plannedFlies });
     console.log(`Seeded ${plannedFlies.length} planned flies.`);
   }
-
-  // Reports and catches are curated by hand afterwards; this just makes sure
-  // one well-formed example exists to edit rather than a blank table.
-  const { waterSlug, productSlugs, ...reportData } = sampleReport;
-  const water = await prisma.fishingWater.findUnique({ where: { slug: waterSlug } });
-  await prisma.fishingReport.upsert({
-    where: { slug: sampleReport.slug },
-    update: {},
-    create: {
-      ...reportData,
-      waterId: water?.id,
-      products: { connect: productSlugs.map((slug) => ({ slug })) },
-    },
-  });
-  console.log("Seeded 1 example fishing report (unpublished).");
 
   // Demo reviews were removed deliberately: seeding invented customer
   // testimonials onto a live storefront is deceptive advertising. Reviews now

@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
+import { HATCHES } from "@/lib/hatches";
+import { chipClass } from "@/lib/chip";
 import type { Locale } from "@/i18n/routing";
 
 export async function generateStaticParams() {
@@ -36,6 +38,12 @@ export default async function WaterPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("WaterPage");
+  const tHatch = await getTranslations("HatchReport");
+  const dateFormatter = new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const water = await prisma.fishingWater.findUnique({
     where: { slug },
@@ -48,10 +56,13 @@ export default async function WaterPage({
         },
         orderBy: [{ featured: "desc" }],
       },
-      reports: {
-        where: { published: true },
-        orderBy: { publishedAt: "desc" },
+      // Angler field reports are the only "what's working" content now —
+      // no separate shop-written report type.
+      hatchReports: {
+        where: { approved: true },
+        orderBy: { observedOn: "desc" },
         take: 3,
+        include: { product: { select: { slug: true, nameFr: true, nameEn: true } } },
       },
     },
   });
@@ -92,22 +103,56 @@ export default async function WaterPage({
         </div>
       )}
 
-      {water.reports.length > 0 && (
+      {water.hatchReports.length > 0 && (
         <section className="mt-14 border-t border-forest/10 pt-8">
-          <h2 className="font-display text-xl font-semibold text-forest">
-            {t("recentReports")}
-          </h2>
-          <ul className="mt-4 space-y-2">
-            {water.reports.map((r) => (
-              <li key={r.id}>
-                <Link
-                  href={`/reports/${r.slug}`}
-                  className="text-ink/75 underline decoration-forest/25 underline-offset-2 hover:text-forest hover:decoration-forest"
-                >
-                  {pick(r.titleFr, r.titleEn, locale)}
-                </Link>
-              </li>
-            ))}
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <h2 className="font-display text-xl font-semibold text-forest">
+              {t("recentReports")}
+            </h2>
+            <Link
+              href="/reports"
+              className="text-sm font-medium text-rust underline underline-offset-2 hover:text-rust-dark"
+            >
+              {tHatch("submitCta")}
+            </Link>
+          </div>
+          <ul className="mt-4 space-y-4">
+            {water.hatchReports.map((r) => {
+              const hatch = HATCHES.find((h) => h.id === r.hatchId);
+              return (
+                <li key={r.id} className="rounded-2xl border border-forest/10 bg-cream/40 p-5">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <p className="font-display font-semibold text-forest">
+                      {r.fromShop ? tHatch("bylineShop") : tHatch("byline", { name: r.anglerName })}
+                    </p>
+                    <p className="text-xs text-ink/50">{dateFormatter.format(r.observedOn)}</p>
+                  </div>
+
+                  {(hatch || r.intensity || r.product) && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {hatch && (
+                        <span className={chipClass("solid")}>
+                          {pick(hatch.nameFr, hatch.nameEn, locale)}
+                          {r.hookSize ? ` #${r.hookSize}` : ""}
+                        </span>
+                      )}
+                      {r.intensity && (
+                        <span className={chipClass("outline")}>
+                          {tHatch(`intensity${r.intensity}`)}
+                        </span>
+                      )}
+                      {r.product && (
+                        <Link href={`/shop/${r.product.slug}`} className={chipClass("accent")}>
+                          {pick(r.product.nameFr, r.product.nameEn, locale)}
+                        </Link>
+                      )}
+                    </div>
+                  )}
+
+                  {r.note && <p className="mt-3 text-sm text-ink/75">{r.note}</p>}
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}

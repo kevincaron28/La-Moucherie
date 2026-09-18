@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
+import { HATCHES } from "@/lib/hatches";
 import { LETTER_RATE_CENTS } from "@/lib/shipping";
 import { formatPrice } from "@/lib/format";
 import type { Locale } from "@/i18n/routing";
@@ -36,10 +37,18 @@ export default async function HomePage({
     take: 4,
   });
 
-  const latestReport = await prisma.fishingReport.findFirst({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-    select: { slug: true, titleFr: true, titleEn: true, conditionsFr: true, conditionsEn: true },
+  // Sourced from the same angler field reports as /reports — there is no
+  // separate shop-written "what's working" post any more, so the teaser
+  // shows whichever real report came in most recently, from anyone.
+  const latestReport = await prisma.hatchReport.findFirst({
+    where: { approved: true },
+    orderBy: { observedOn: "desc" },
+    select: {
+      hatchId: true,
+      note: true,
+      waterOther: true,
+      water: { select: { nameFr: true, nameEn: true } },
+    },
   });
 
   const recentCatches = await prisma.catchPhoto.findMany({
@@ -238,11 +247,21 @@ export default async function HomePage({
           {latestReport ? (
             <>
               <h2 className="mt-3 font-display text-2xl font-semibold text-forest">
-                {pick(latestReport.titleFr, latestReport.titleEn, locale)}
+                {[
+                  latestReport.water
+                    ? pick(latestReport.water.nameFr, latestReport.water.nameEn, locale)
+                    : latestReport.waterOther,
+                  (() => {
+                    const hatch = HATCHES.find((h) => h.id === latestReport.hatchId);
+                    return hatch ? pick(hatch.nameFr, hatch.nameEn, locale) : null;
+                  })(),
+                ]
+                  .filter(Boolean)
+                  .join(" — ")}
               </h2>
-              <p className="mt-2 max-w-xl text-ink/70">
-                {pick(latestReport.conditionsFr, latestReport.conditionsEn, locale)}
-              </p>
+              {latestReport.note && (
+                <p className="mt-2 max-w-xl text-ink/70">{latestReport.note}</p>
+              )}
             </>
           ) : (
             <h2 className="mt-3 max-w-xl font-display text-2xl font-semibold text-forest">

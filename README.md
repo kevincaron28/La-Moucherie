@@ -148,7 +148,9 @@ throughout (`titleFr`/`titleEn`, `bodyFr`/`bodyEn`…) because the shop writes b
 languages; a visitor writes one, and making those fields nullable to accommodate that
 would rot the editorial reports sharing the table. Keeping them apart also keeps this data
 *structured* rather than prose, which is what will let it be aggregated later ("Hendrickson
-reported on four rivers in ten days") instead of only read.
+reported on four rivers in ten days") instead of only read. (`FishingReport` itself has
+since been retired from the app entirely — see "Field reports and catches" below — but
+the reasoning for keeping the two apart is still why `HatchReport` looks the way it does.)
 
 The form is almost entirely selectors, because the data already existed: waters come from
 `FishingWater`, the insect list from the 38 entries in `hatches.ts`, and **hook size is
@@ -163,8 +165,11 @@ Three things that matter when changing it:
 - **`waterOther` is the escape hatch.** Most of Québec isn't in `FishingWater`; without it
   the form dead-ends for anyone fishing an unnamed river. It's also the only free-text
   field, so it carries the moderation weight.
-- **`fromShop` lets the shop seed the section** through the same model, auto-approved and
-  labelled as ours rather than passed off as a stranger's.
+- **`fromShop` exists but is not wired to anything yet.** The field and its "from our own
+  bench" byline are ready for a report the shop itself files, but nothing currently sets it
+  — Kevin's own reports go in through `/reports/submit` exactly like an angler's, and wait
+  for the same manual approval. `fromShop` can still be flipped by hand in `db:studio` if a
+  specific report is worth badging that way, but that's a manual choice, not a separate path.
 
 Nothing publishes without approval (`approved` defaults false, same as `CatchPhoto`), the
 endpoint is rate-limited and honeypotted, and the owner gets an email per submission —
@@ -398,13 +403,25 @@ that elides before a vowel, so `Angling.speciesDefinite` holds the full form
 ("l'omble de fontaine", not "le omble de fontaine") and the page templates
 interpolate that rather than the bare name.
 
-## Fishing reports and catches
+## Field reports and catches
 
-`/reports` is short seasonal notes on what's working where — the reason to come
-back weekly rather than once. Reports are unpublished by default; write one in
-`npm run db:studio` and flip `published` when the conditions have been checked
-against the real river. Linking products to a report turns it into a shoppable
-page.
+`/reports` used to be two things stacked on one page: a short editorial "what's
+working" note the shop wrote by hand through its own admin section, and the angler
+`HatchReport` list underneath. The editorial half is gone — the `AdminDashboardClient`
+section that composed and published a `FishingReport`, its two API routes
+(`/api/admin/reports*`), and the `/reports/[slug]` detail page have all been removed.
+There is now exactly one report type and one way to file one: `/reports/submit`, used by
+anglers and by Kevin alike. His own reports get no special path — they sit in the same
+`approved: false` queue as anyone's, reviewed from the "Angler hatch reports" section
+of `/admin` the same way. `/reports` itself, the homepage "What's working" teaser, and
+the "recent reports" block on each `/shop/water/[slug]` page now all read from that same
+`HatchReport` data.
+
+The `FishingReport` Prisma model is still in `schema.prisma` and its table still exists in
+the database — nothing was dropped, since that's a destructive, one-way action and this
+change didn't call for it. It's simply unreferenced by the app from here on. If it's ever
+worth reclaiming that table, that's a deliberate migration to run on purpose, not a leftover
+to clean up by accident.
 
 `/catches` is customer catch photos, approved by hand. There's no upload
 pipeline on purpose: approval is the whole point, and curating a handful of
@@ -661,8 +678,7 @@ every future campaign email, not just once right after issue) baked into a link 
 `/newsletter/unsubscribe`.
 
 Sending is admin-only: the "Newsletter" section of `/admin` composes a subject + HTML
-body per locale (optionally prefilled from a published fishing report), and
-`POST /api/admin/newsletter/send` batches the send through Resend
+body per locale, and `POST /api/admin/newsletter/send` batches the send through Resend
 (`sendNewsletterCampaign` in `src/lib/email.ts`, chunked at 100 recipients per Resend's
 batch-API limit), appending each recipient's own unsubscribe link. Every send is logged
 to `NewsletterCampaign` so the dashboard shows history and a send can't happen twice by
