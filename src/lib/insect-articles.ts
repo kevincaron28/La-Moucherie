@@ -2455,6 +2455,334 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ------------------------------------------------------ LITTLE SISTER SEDGE
+  {
+    hatchId: "little-sister-sedge",
+    metaTitle: {
+      fr: "Cheumatopsyche spp. — le Little Sister Sedge, le format de secours",
+      en: "Cheumatopsyche spp. — the Little Sister Sedge, the fallback size",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Little Sister Sedge (Cheumatopsyche spp.) au Québec : le proche parent du Spotted Sedge, et pourquoi descendre d'une taille règle souvent le problème sans changer de patron.",
+      en: "Identifying and fishing the Little Sister Sedge (Cheumatopsyche spp.) in Québec: the Spotted Sedge's close relative, and why dropping a size solves the problem more often than changing the pattern.",
+    },
+    intro: {
+      fr: "Elle partage presque tout avec le Spotted Sedge — la famille, le comportement, l'horaire de soirée — sauf la taille. Sur une eau où les deux se mêlent, c'est souvent ce détail-là, plus que le patron lui-même, qui décide si une truite mord ou refuse.",
+      en: "It shares almost everything with the Spotted Sedge — the family, the behaviour, the evening schedule — except size. On water where the two mix, that detail, more than the pattern itself, often decides whether a trout eats or refuses.",
+    },
+    idMarks: [
+      {
+        fr: "Corps brun-tan tacheté, ailes en toit — quasi identique au Spotted Sedge, mais taille 16-18.",
+        en: "Mottled tan-brown body, tented wings — nearly identical to the Spotted Sedge, but size 16–18.",
+      },
+      {
+        fr: "Même famille filandière (Hydropsychidae) que le Spotted Sedge, mais un genre distinct (Cheumatopsyche).",
+        en: "Same net-spinning family (Hydropsychidae) as the Spotted Sedge, but a distinct genus (Cheumatopsyche).",
+      },
+      {
+        fr: "Larve qui tisse aussi un filet fixe, dans des veines légèrement plus douces que celles du Spotted Sedge.",
+        en: "Also spins a fixed net, in seams a touch gentler than the Spotted Sedge prefers.",
+      },
+      {
+        fr: "Actif en soirée de juin à septembre, presque toujours mêlé à son plus gros cousin sur la même eau.",
+        en: "Active evenings June through September, almost always mixed in with its bigger cousin on the same water.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Spotted Sedge (Hydropsyche spp.), presque identique en forme et en couleur mais nettement plus gros (14-16 contre 16-18) — les deux partagent si souvent la même eau qu'il vaut la peine de vérifier la taille avant de conclure à une seule espèce.",
+      en: "The Spotted Sedge (Hydropsyche spp.), nearly identical in shape and colour but clearly bigger (14–16 versus 16–18) — the two share the same water so often it's worth checking size before assuming there's only one species present.",
+    },
+    sections: [
+      {
+        heading: { fr: "Deux genres, une seule famille", en: "Two genera, one family" },
+        body: {
+          fr: "Cheumatopsyche et Hydropsyche (le Spotted Sedge) appartiennent tous deux à la famille des Hydropsychidae, le grand groupe des trichoptères filandiers — mais ce sont deux genres distincts, pas simplement une grande et une petite version du même insecte. Les deux tissent un filet fixe pour capturer les particules du courant, avec la même stratégie générale, mais dans des veines légèrement différentes : le Little Sister Sedge tolère un courant un peu plus doux et un fond un peu plus fin que son cousin.\n\nC'est une distinction subtile sur l'eau, mais utile pour comprendre pourquoi les deux se trouvent souvent côte à côte sans jamais occuper exactement le même centimètre carré de rivière.",
+          en: "Cheumatopsyche and Hydropsyche (the Spotted Sedge) both belong to the Hydropsychidae, the big family of net-spinning caddis — but they're two distinct genera, not simply a big and small version of the same insect. Both spin a fixed net to capture particles from the current, using the same general strategy, but in slightly different seams: the Little Sister Sedge tolerates a touch gentler current and a slightly finer bottom than its cousin.\n\nIt's a subtle distinction on the water, but a useful one for understanding why the two so often turn up side by side without ever occupying exactly the same square foot of river.",
+        },
+      },
+      {
+        heading: { fr: "Le format de secours", en: "The fallback size" },
+        body: {
+          fr: "Sur une eau où les deux espèces se mêlent, une truite qui refuse un caddis tan 14 à répétition prend souvent la toute même mouche une fois qu'elle descend d'un ou deux crans — pas parce que le patron était mauvais, mais parce qu'elle avait basculé son attention sur le format du Little Sister Sedge sans qu'on s'en aperçoive.\n\nC'est une des rares situations où changer la taille règle le problème plus souvent que changer complètement de patron.",
+          en: "On water where both species mix, a trout refusing a repeated tan 14 caddis will often take the exact same fly once it drops a size or two — not because the pattern was wrong, but because its attention had quietly shifted to the Little Sister Sedge's size without anyone noticing.\n\nIt's one of the rare situations where changing size solves the problem more often than changing the pattern entirely.",
+        },
+      },
+      {
+        heading: { fr: "Presque toujours en renfort, rarement seule", en: "Almost always backup, rarely alone" },
+        body: {
+          fr: "Le Little Sister Sedge se pêche rarement comme une éclosion à part entière : elle vient plutôt renforcer la présence globale de caddis du soir, aux côtés du Spotted Sedge, sur la même période de juin à septembre. Gardez simplement les deux tailles dans la même case de boîte à mouches plutôt que d'essayer de deviner à l'avance laquelle des deux sera active un soir donné.",
+          en: "Little Sister Sedge rarely fishes as a standalone hatch — it mostly reinforces the overall evening caddis presence alongside the Spotted Sedge, over the same June-to-September stretch. Just keep both sizes in the same fly box compartment rather than trying to guess in advance which of the two will be active on a given evening.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Pupe", en: "Pupa" },
+        when: { fr: "En fin de journée, avant l'envol des adultes.", en: "Late in the day, ahead of the adult flights." },
+        how: {
+          fr: "En dérive montante vers la surface, ou juste sous la pellicule.",
+          en: "On a rising drift toward the surface, or just under the film.",
+        },
+        patternSlugs: ["caddis-pupa"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Le soir, de juin à septembre.", en: "Evening, June through September." },
+        how: {
+          fr: "Une sèche tan, un cran plus petite que pour le Spotted Sedge, en dérive morte.",
+          en: "A tan dry, a size smaller than for the Spotted Sedge, dead-drifted.",
+        },
+        patternSlugs: ["elk-wing-caddis"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------- WINTER BLACK STONE
+  {
+    hatchId: "winter-black-stone",
+    metaTitle: {
+      fr: "Allocapnia spp. — le plécoptère qui marche sur la neige",
+      en: "Allocapnia spp. — the stonefly that walks on snow",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du plécoptère noir d'hiver (Allocapnia spp.) au Québec : comment un insecte aquatique reste actif près du point de congélation, en plein cœur de février.",
+      en: "Identifying and fishing the Winter Black Stone (Allocapnia spp.) in Québec: how an aquatic insect stays active near freezing, right in the middle of February.",
+    },
+    intro: {
+      fr: "Oui, il y a bel et bien une éclosion en février. Par un après-midi de redoux, cherchez de petits insectes noirs qui marchent sur la neige en bordure de rivière — la truite, elle, les connaît déjà.",
+      en: "Yes, there really is a hatch in February. On a mild afternoon, look for small black insects walking across the snow along the riverbank — trout already know them well.",
+    },
+    idMarks: [
+      {
+        fr: "Minuscule, taille 16-18, corps entièrement noir.",
+        en: "Tiny, size 16–18, entirely black body.",
+      },
+      {
+        fr: "Ailes courtes, souvent réduites — plusieurs individus, surtout les femelles, sont presque incapables de voler.",
+        en: "Short, often reduced wings — many individuals, especially females, are nearly flightless.",
+      },
+      {
+        fr: "Actif seulement par temps doux en plein hiver, marchant sur la neige et la glace en bordure de rivière.",
+        en: "Active only in mild winter weather, walking on snow and ice along the riverbank.",
+      },
+      {
+        fr: "Nymphe qui tolère une eau proche du point de congélation, contrairement à presque tous les autres insectes aquatiques.",
+        en: "A nymph that tolerates water near freezing, unlike almost every other aquatic insect.",
+      },
+    ],
+    confusedWith: {
+      fr: "Rien d'autre n'est actif à cette période — la vraie question n'est pas de le confondre avec un autre insecte, mais de croire qu'aucun insecte n'est actif du tout en février.",
+      en: "Nothing else is active at this time of year — the real risk isn't confusing it with another insect, it's assuming no insect is active at all in February.",
+    },
+    sections: [
+      {
+        heading: { fr: "Un insecte bâti pour le froid", en: "An insect built for the cold" },
+        body: {
+          fr: "La plupart des insectes aquatiques cessent toute activité de surface bien avant que l'eau n'approche du point de congélation. Les plécoptères d'hiver comme l'Allocapnia font exception : certaines espèces produisent des composés semblables à un antigel qui protègent leurs tissus contre le froid extrême, ce qui leur permet de rester actifs — et même d'émerger — à des températures qui immobiliseraient à peu près tout le reste de la faune aquatique.\n\nC'est une adaptation rare, et c'est elle qui explique pourquoi on peut littéralement voir des insectes marcher sur la neige en plein cœur de l'hiver québécois.",
+          en: "Most aquatic insects shut down all surface activity long before water gets close to freezing. Winter stoneflies like Allocapnia are the exception: some species produce antifreeze-like compounds that protect their tissues from extreme cold, letting them stay active — and even emerge — at temperatures that would immobilize almost everything else in the water.\n\nIt's a rare adaptation, and it's the reason you can literally watch insects walking on snow in the dead of a Québec winter.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi elle marche plutôt qu'elle ne vole", en: "Why it walks instead of flies" },
+        body: {
+          fr: "Le vol exige des muscles chauds pour fonctionner efficacement, une contrainte sérieuse quand l'air ambiant frôle le point de congélation. Plusieurs plécoptères d'hiver, surtout les femelles, ont des ailes réduites et se déplacent presque exclusivement en marchant — sur la glace, la neige et les roches en bordure, plutôt qu'en volant d'un endroit à l'autre.\n\nC'est ce comportement, précisément, qui les rend visibles : cherchez de petits points noirs qui se déplacent sur la neige propre près de l'eau, un jour de redoux.",
+          en: "Flight needs warm muscles to work efficiently, a real constraint when the air is hovering around freezing. Several winter stoneflies, especially females, have reduced wings and get around almost entirely on foot — over ice, snow and streamside rock, rather than flying from place to place.\n\nThat exact behaviour is what makes them visible: look for small black dots moving across clean snow near the water on a mild day.",
+        },
+      },
+      {
+        heading: { fr: "Ou rien, ou la seule mouche qui compte", en: "Either nothing, or the only fly that matters" },
+        body: {
+          fr: "En février, la truite n'a essentiellement rien d'autre à manger en surface — ce qui veut dire que sur les rares journées douces où l'Allocapnia devient active, elle représente une part disproportionnée de tout ce qui se présente à elle. Une petite mouche noire, montée en surface ou juste sous la pellicule, mérite d'être essayée n'importe quel après-midi doux de la mi-hiver, même quand tout semble mort.\n\nCe n'est jamais une éclosion spectaculaire, mais c'est parfois la seule qui compte vraiment à cette période de l'année.",
+          en: "In February, trout have essentially nothing else to eat on the surface — which means that on the rare mild days when Allocapnia gets active, it accounts for a disproportionate share of everything on offer. A small black fly, fished on top or just under the film, is worth trying on any mild mid-winter afternoon, even when everything looks dead.\n\nIt's never a spectacular hatch, but sometimes it's the only one that actually matters at that time of year.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la saison froide, dans le substrat.", en: "All through the cold season, in the substrate." },
+        how: {
+          fr: "Une petite nymphe noire près du fond, en dérive lente.",
+          en: "A small black nymph near bottom, on a slow drift.",
+        },
+        patternSlugs: ["zebra-midge"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Les après-midis doux de janvier à avril.", en: "Mild afternoons, January through April." },
+        how: {
+          fr: "Une minuscule mouche noire, en surface ou juste sous la pellicule.",
+          en: "A tiny black fly, on top or just under the film.",
+        },
+        patternSlugs: ["black-caddis"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------- EARLY BROWN STONE
+  {
+    hatchId: "early-brown-stone",
+    metaTitle: {
+      fr: "Taeniopteryx spp. — l'Early Brown Stone, la vraie première surface du printemps",
+      en: "Taeniopteryx spp. — the Early Brown Stone, spring's real first surface bite",
+    },
+    metaDescription: {
+      fr: "Identification et pêche de l'Early Brown Stone (Taeniopteryx spp.) au Québec : souvent le tout premier insecte que la truite mange en surface au printemps, avant même le Quill Gordon.",
+      en: "Identifying and fishing the Early Brown Stone (Taeniopteryx spp.) in Québec: often the very first insect trout take off the surface in spring, ahead of even the Quill Gordon.",
+    },
+    intro: {
+      fr: "Le Quill Gordon a la réputation d'ouvrir la saison de la sèche, mais ce plécoptère discret arrive habituellement en premier — souvent avant même que l'eau n'atteigne la température qui déclenche l'éclosion du Quill Gordon.",
+      en: "The Quill Gordon gets the credit for opening dry-fly season, but this quiet stonefly usually shows up first — often before the water even reaches the temperature that triggers the Quill Gordon hatch.",
+    },
+    idMarks: [
+      {
+        fr: "Taille 14-16, corps brun terne, ailes brun-gris repliées à plat.",
+        en: "Size 14–16, dull brown body, grey-brown wings folded flat.",
+      },
+      {
+        fr: "Nymphe robuste dans le gravier, tolérante au froid mais un peu moins extrême que les vrais plécoptères d'hiver.",
+        en: "A sturdy gravel nymph, cold-tolerant but a notch less extreme than true winter stoneflies.",
+      },
+      {
+        fr: "Actif toute la journée plutôt qu'à une heure précise, dès que l'air est doux.",
+        en: "Active all day rather than at one set hour, as soon as the air turns mild.",
+      },
+      {
+        fr: "Souvent le tout premier insecte que la truite prend en surface au printemps — avant même le Quill Gordon.",
+        en: "Often the very first insect trout take off the surface in spring — even before the Quill Gordon.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Quill Gordon, qui suit de près mais reste plus gris et concentré en après-midi plutôt que toute la journée. Le plécoptère noir d'hiver, plus petit et actif encore plus tôt, en plein cœur de l'hiver.",
+      en: "The Quill Gordon, which follows close behind but stays greyer and concentrated in the afternoon rather than all day. The winter black stone, smaller and active even earlier, in the dead of winter.",
+    },
+    sections: [
+      {
+        heading: { fr: "La vraie première surface du printemps", en: "Spring's real first surface bite" },
+        body: {
+          fr: "Le Quill Gordon a la réputation d'ouvrir la saison de la sèche, mais l'Early Brown Stone arrive habituellement en premier, souvent avant même que l'eau n'atteigne les 10 °C qui déclenchent l'éclosion du Quill Gordon. C'est le vrai signal que la truite recommence à surveiller la surface après l'hiver — pas encore une éclosion abondante, mais la toute première fenêtre réelle.\n\nSurveillez les jours de redoux dès la fin mars plutôt que d'attendre la mi-avril traditionnellement associée au début de la saison.",
+          en: "The Quill Gordon gets the credit for opening dry-fly season, but the Early Brown Stone usually shows up first, often before the water even hits the 10°C that triggers the Quill Gordon hatch. It's the real signal that trout have started watching the surface again after winter — not yet a heavy hatch, but the very first genuine window.\n\nWatch for mild days starting in late March rather than waiting for the mid-April date traditionally tied to the season's start.",
+        },
+      },
+      {
+        heading: { fr: "Tolérante au froid, mais pas extrême", en: "Cold-tolerant, but not extreme" },
+        body: {
+          fr: "Comme le plécoptère noir d'hiver, l'Early Brown Stone supporte une eau froide bien avant que la plupart des autres insectes ne redeviennent actifs — mais elle attend tout de même un redoux, contrairement à l'Allocapnia qui peut sortir en plein cœur de février. Sa nymphe, robuste et logée dans le gravier, passe l'hiver sans problème et n'attend qu'un signal de température pour se mettre en mouvement.\n\nC'est une tolérance au froid réelle, simplement un peu moins extrême que celle de son cousin qui marche sur la neige.",
+          en: "Like the winter black stone, the Early Brown Stone handles cold water well before most other insects come back to life — but it still waits for a mild spell, unlike Allocapnia, which can come off in the dead of February. Its nymph, sturdy and tucked into the gravel, rides out the winter without trouble and just needs a temperature cue to get moving.\n\nThat's a real cold tolerance, just a notch less extreme than its snow-walking cousin's.",
+        },
+      },
+      {
+        heading: { fr: "Toute la journée, pas juste l'après-midi", en: "All day, not just the afternoon" },
+        body: {
+          fr: "Contrairement au Quill Gordon, concentré en après-midi une fois que l'eau a eu le temps de se réchauffer, l'Early Brown Stone reste actif toute la journée dès que l'air est doux. Le début du printemps n'a pas encore l'écart de température marqué entre le matin et l'après-midi qu'on observe plus tard en saison, ce qui explique pourquoi cet insecte n'a pas besoin d'attendre un moment précis.\n\nÇa veut dire qu'une journée douce de fin mars ou début avril mérite d'être pêchée du matin au soir, pas seulement pendant une fenêtre étroite.",
+          en: "Unlike the Quill Gordon, concentrated in the afternoon once the water has had time to warm, the Early Brown Stone stays active all day as soon as the air turns mild. Early spring doesn't yet have the sharp morning-to-afternoon temperature swing seen later in the season, which is why this insect doesn't need to wait for one specific moment.\n\nThat means a mild late-March or early-April day is worth fishing morning through evening, not just during one narrow window.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Tout l'hiver et le début du printemps, dans le gravier.", en: "All winter and early spring, in the gravel." },
+        how: {
+          fr: "Près du fond, en dérive naturelle dès qu'un redoux s'installe.",
+          en: "Near bottom, on a natural drift as soon as a mild spell sets in.",
+        },
+        patternSlugs: ["montana-stone"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Toute la journée, par temps doux de fin mars à la mi-avril.", en: "All day, mild weather from late March to mid-April." },
+        how: {
+          fr: "Une petite sèche brune, dérivée toute la journée plutôt qu'à une heure précise.",
+          en: "A small brown dry, fished all day rather than at one set hour.",
+        },
+        patternSlugs: ["black-caddis"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------- GIANT BLACK STONE
+  {
+    hatchId: "giant-black-stone",
+    metaTitle: {
+      fr: "Pteronarcys dorsata — le plus gros insecte de la rivière",
+      en: "Pteronarcys dorsata — the biggest bug in the river",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du grand plécoptère noir (Pteronarcys dorsata) au Québec : trois ans sous l'eau, une seule nuit d'émergence, et pourquoi la nymphe se pêche toute l'année.",
+      en: "Identifying and fishing the Giant Black Stone (Pteronarcys dorsata) in Québec: three years underwater, one night of emergence, and why the nymph fishes year-round.",
+    },
+    intro: {
+      fr: "Rien d'autre dans nos rivières n'approche sa taille. Le Pteronarcys dorsata passe jusqu'à trois ans sous l'eau avant de devenir, pour une poignée de nuits seulement, le plus gros repas qu'une truite puisse trouver en surface de toute l'année.",
+      en: "Nothing else in our rivers comes close to its size. Pteronarcys dorsata spends up to three years underwater before becoming, for a handful of nights only, the biggest meal a trout can find on the surface all year.",
+    },
+    idMarks: [
+      {
+        fr: "Le plus gros insecte de nos rivières : nymphe et adulte peuvent dépasser 5 cm, hameçon 4 à 8 en 3XL.",
+        en: "The biggest insect in our rivers: nymph and adult can top 5 cm, a size 4–8 hook in 3XL.",
+      },
+      {
+        fr: "Corps noir-brunâtre trapu, ailes repliées à plat sur le dos.",
+        en: "A stocky blackish-brown body, wings folded flat against the back.",
+      },
+      {
+        fr: "Nymphe massive et robuste, agrippée sous les grosses roches des rapides — vit jusqu'à trois ans avant d'émerger.",
+        en: "A massive, sturdy nymph clinging under large rocks in riffles — lives up to three years before emerging.",
+      },
+      {
+        fr: "L'adulte rampe hors de l'eau la nuit pour éclore, comme la plupart des plécoptères — l'émergence elle-même ne se voit presque jamais.",
+        en: "The adult crawls out at night to emerge, like most stoneflies — the emergence itself is almost never seen.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Golden Stone, comportement général similaire mais nettement plus petit et doré plutôt que noir. À cette taille, rien d'autre sur nos rivières ne s'en approche vraiment.",
+      en: "The Golden Stone, similar overall behaviour but clearly smaller and golden rather than black. At this size, nothing else on our rivers really comes close.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le plus gros insecte de la rivière", en: "The biggest bug in the river" },
+        body: {
+          fr: "Rien d'autre dans ce guide n'approche la taille du Pteronarcys dorsata — nymphe et adulte peuvent dépasser 5 cm, ce qui correspond à un hameçon 4 ou 6 en 3XL. Pour une truite, un insecte de cette taille représente un repas d'un tout autre ordre de grandeur qu'une éphémère ou un petit trichoptère : le rapport énergie gagnée sur énergie dépensée pour l'attraper est nettement plus favorable.\n\nC'est pourquoi une grosse truite, normalement sélective et économe de ses efforts, va parfois rompre sa routine pour un seul de ces insectes.",
+          en: "Nothing else in this guide comes close to Pteronarcys dorsata's size — nymph and adult can top 5 cm, which is a size 4 or 6 hook in 3XL. For a trout, an insect this size is a meal in a whole different order of magnitude from a mayfly or a small caddis: the energy gained versus energy spent catching it tilts sharply in the fish's favour.\n\nThat's why a big trout, normally selective and careful with its effort, will sometimes break routine for just one of these bugs.",
+        },
+      },
+      {
+        heading: { fr: "Trois ans sous l'eau, avant une seule nuit", en: "Three years underwater, then one night" },
+        body: {
+          fr: "La nymphe de Pteronarcys dorsata passe jusqu'à trois ans dans la rivière avant d'être prête à émerger — un des cycles de vie les plus longs de toute la faune aquatique de nos rivières. Ça veut dire qu'à n'importe quel moment de l'année, il y a toujours des nymphes de tous âges présentes sous les roches, ce qui en fait une ressource alimentaire fiable douze mois par année plutôt qu'une population qui apparaît et disparaît selon la saison.\n\nComme pour le Golden Stone, l'adulte rampe hors de l'eau la nuit pour se transformer — l'émergence elle-même reste pratiquement invisible, et ce qui se pêche vraiment, c'est la nymphe, presque toute l'année.",
+          en: "The Pteronarcys dorsata nymph spends up to three years in the river before it's ready to emerge — one of the longest life cycles of any aquatic insect in our rivers. That means at any point in the year, nymphs of every age are present under the rocks, making it a reliable food source twelve months a year rather than a population that comes and goes with the season.\n\nAs with the Golden Stone, the adult crawls out of the water at night to transform — the emergence itself stays essentially unseen, and what actually gets fished is the nymph, almost year-round.",
+        },
+      },
+      {
+        heading: { fr: "Une nymphe pour l'année, une sèche pour de rares soirs", en: "A year-round nymph, a rare-night dry" },
+        body: {
+          fr: "Parce que la population est toujours présente sous une forme ou une autre, une grosse nymphe noire pêchée près du fond, dans les mêmes rapides à grosses roches, reste productive n'importe quel mois. L'adulte, lui, ne mérite une sèche que sur les quelques soirées de fin mai à juin où l'émergence bat réellement son plein — et même là, la meilleure fenêtre reste la nuit ou juste avant.\n\nGardez une grosse nymphe noire dans la boîte à l'année longue ; réservez la sèche géante pour les rares soirs où vous savez que ça se passe.",
+          en: "Because the population is always present in some form, a big black nymph fished near bottom, in the same boulder-strewn riffles, stays productive any month of the year. The adult only earns a dry on the handful of late-May-to-June evenings when the emergence is genuinely in full swing — and even then, the best window stays night or just before it.\n\nKeep a big black nymph in the box year-round; save the giant dry for the rare evenings you know it's actually happening.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute l'année, sous les grosses roches des rapides.", en: "Year-round, under the large rocks of riffles." },
+        how: {
+          fr: "Une grosse nymphe noire, près du fond, en dérive naturelle.",
+          en: "A big black nymph, near bottom, on a natural drift.",
+        },
+        patternSlugs: ["montana-stone"],
+      },
+      {
+        label: { fr: "Adulte", en: "Adult" },
+        when: { fr: "Quelques soirées seulement, de fin mai à juin, la nuit.", en: "Only a handful of evenings, late May into June, at night." },
+        how: {
+          fr: "Une grosse sèche noire touffue, dérivée serré contre la végétation riveraine.",
+          en: "A big bushy black dry, drifted tight against streamside vegetation.",
+        },
+        patternSlugs: ["stimulator"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
