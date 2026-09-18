@@ -1467,6 +1467,334 @@ export const INSECT_ARTICLES: InsectArticle[] = [
       },
     ],
   },
+
+  // ------------------------------------------------------- PALE EVENING DUN
+  {
+    hatchId: "pale-evening-dun",
+    metaTitle: {
+      fr: "Ephemerella dorothea — le Pale Evening Dun, les vingt dernières minutes",
+      en: "Ephemerella dorothea — the Pale Evening Dun, the last twenty minutes",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Pale Evening Dun (Ephemerella dorothea) au Québec : le petit cousin du Sulphur qui attend la toute dernière lumière du jour pour éclore.",
+      en: "Identifying and fishing the Pale Evening Dun (Ephemerella dorothea) in Québec: the Sulphur's small cousin, waiting for the very last light of the day to hatch.",
+    },
+    intro: {
+      fr: "Le Sulphur a déjà fini de monter quand celle-ci commence. Le Pale Evening Dun est son petit cousin, plus pâle et plus fin, qui attend délibérément les vingt dernières minutes de lumière avant de sortir — une fenêtre si courte qu'il faut être prêt avant de ne plus rien voir.",
+      en: "The Sulphur has already finished its rise by the time this one starts. The Pale Evening Dun is its smaller, paler cousin, one that deliberately waits for the last twenty minutes of light before coming off — a window so short you need to be ready before you can no longer see.",
+    },
+    idMarks: [
+      {
+        fr: "Petite : taille 16-18, sensiblement plus fine que le Sulphur (14-16).",
+        en: "Small: size 16–18, distinctly finer than the Sulphur (14–16).",
+      },
+      {
+        fr: "Corps jaune très pâle, presque crème, plus délavé que le jaune-soufre franc du Sulphur.",
+        en: "Very pale yellow body, almost cream, washed out compared to the Sulphur's true sulphur-yellow.",
+      },
+      {
+        fr: "Même genre Ephemerella que le Sulphur — même silhouette générale, en plus petit et plus pâle.",
+        en: "Same genus, Ephemerella, as the Sulphur — same general silhouette, just smaller and paler.",
+      },
+      {
+        fr: "Sort exactement à la brunante, souvent dans les vingt dernières minutes de clarté utilisable.",
+        en: "Comes off right at dusk, often in the last twenty minutes of usable light.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Sulphur lui-même, dont il partage le genre — la taille et l'heure tranchent : le Sulphur commence vers 19 h en gros insectes, le Pale Evening Dun attend la toute fin du jour en format réduit. La petite Blue-Winged Olive, active toute la saison, reste plus verte que jaune.",
+      en: "The Sulphur itself, which shares its genus — size and timing settle it: the Sulphur starts around 7 p.m. in a bigger size, the Pale Evening Dun waits for the very end of the day in a smaller one. The small Blue-Winged Olive, active all season, stays greener than yellow.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le petit cousin du Sulphur", en: "The Sulphur's small cousin" },
+        body: {
+          fr: "Ephemerella dorothea et Ephemerella invaria (le Sulphur) partagent le même genre, la même silhouette générale et presque la même rivière — mais la première sort systématiquement plus tard et plus petite que la seconde. Sur une soirée de juin, il n'est pas rare de voir le Sulphur finir sa montée pendant que le Pale Evening Dun commence tout juste la sienne.\n\nCe décalage n'est pas dû au hasard : deux espèces très proches, qui exploitent le même type d'eau, réduisent leur compétition directe en émergeant à des moments légèrement différents de la même fenêtre de soirée.",
+          en: "Ephemerella dorothea and Ephemerella invaria (the Sulphur) share a genus, a general silhouette, and nearly the same river — but the first one consistently comes off later and smaller than the second. On a June evening it's not unusual to watch the Sulphur's rise wind down just as the Pale Evening Dun's is getting started.\n\nThat gap isn't accidental: two closely related species exploiting the same kind of water cut down on direct competition by emerging at slightly different points in the same evening window.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi la toute dernière lumière", en: "Why the very last light" },
+        body: {
+          fr: "Émerger à la brunante plutôt qu'en pleine lumière du jour réduit la pression des prédateurs visuels — oiseaux insectivores, surtout — sans exiger l'attente jusqu'à la pleine noirceur comme le fait l'Hexagenia. C'est une fenêtre de compromis : assez sombre pour être plus sûre, encore assez claire pour qu'un insecte de cette taille arrive à s'orienter.\n\nLe problème, c'est que cette fenêtre dure à peine vingt minutes, et qu'elle se referme vite une fois entamée.",
+          en: "Emerging at dusk rather than in full daylight cuts pressure from visual predators — insect-eating birds especially — without requiring the wait until full dark the way Hexagenia does. It's a compromise window: dark enough to be safer, still light enough for an insect this size to find its way.\n\nThe catch is that window barely lasts twenty minutes, and it closes fast once it opens.",
+        },
+      },
+      {
+        heading: { fr: "Se préparer avant de ne plus voir", en: "Rig up before you can't see" },
+        body: {
+          fr: "Avec une fenêtre aussi courte, il n'y a pas de temps pour changer de bas de ligne ou fouiller la boîte à mouches une fois l'éclosion commencée. Montez votre pointe fine, choisissez votre mouche et repérez votre poste pendant qu'il fait encore clair — puis attendez.\n\nUne fois la brunante installée, fiez-vous davantage au bruit de la gobe et à la position connue de votre mouche qu'à ce que vous pouvez réellement voir flotter sur l'eau.",
+          en: "With a window that short, there's no time to change tippet or dig through the fly box once the hatch actually starts. Rig your fine tippet, pick your fly, and read your lie while it's still light — then wait.\n\nOnce dusk sets in, trust the sound of the rise and where you know your fly to be more than what you can actually see riding the water.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe / émergente", en: "Nymph / emerger" },
+        when: { fr: "En fin d'après-midi, dans les courants modérés.", en: "Late afternoon, in moderate current." },
+        how: {
+          fr: "Près du fond puis en dérive montante à l'approche de la brunante.",
+          en: "Near bottom, then on a rising drift as dusk approaches.",
+        },
+        patternSlugs: ["partridge-orange"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "Les vingt dernières minutes de lumière utilisable.", en: "The last twenty minutes of usable light." },
+        how: {
+          fr: "Une petite sèche pâle, montée et repérée avant que la lumière ne manque tout à fait.",
+          en: "A small pale dry, rigged and spotted before the light gives out entirely.",
+        },
+        patternSlugs: ["sulphur-dun"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------ BROWN DRAKE
+  {
+    hatchId: "brown-drake",
+    metaTitle: {
+      fr: "Ephemera simulans — le Brown Drake, l'explosion juste avant la noirceur",
+      en: "Ephemera simulans — the Brown Drake, the explosion right before dark",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Brown Drake (Ephemera simulans) au Québec : le cousin fouisseur du Green Drake, sur fond de sable, dans une éclosion brève et explosive.",
+      en: "Identifying and fishing the Brown Drake (Ephemera simulans) in Québec: the Green Drake's burrowing cousin, over sand bottom, in a brief, explosive hatch.",
+    },
+    intro: {
+      fr: "Le Green Drake a sa réputation. Son cousin plus foncé, lui, passe presque inaperçu — parce que toute son éclosion tient dans une poignée de minutes explosives juste avant la noirceur, sur des fonds de sable que la plupart des pêcheurs ne remarquent même pas.",
+      en: "The Green Drake gets the reputation. Its darker cousin goes almost unnoticed — because its entire hatch fits into a handful of explosive minutes right before dark, over sand bottoms most anglers never even clock.",
+    },
+    idMarks: [
+      {
+        fr: "Grosse éphémère, taille 10-12, corps brun-tan nettement plus foncé que le Green Drake.",
+        en: "A big mayfly, size 10–12, brown-tan body noticeably darker than the Green Drake.",
+      },
+      {
+        fr: "Trois queues, ailes marbrées crème-tan.",
+        en: "Three tails, cream-tan mottled wings.",
+      },
+      {
+        fr: "Nymphe fouisseuse avec défenses et branchies plumeuses, comme l'Hexagenia — mais dans le sable et le gravier fin plutôt que la vase profonde.",
+        en: "A burrowing nymph with tusks and feathery gills, like Hexagenia — but in sand and fine gravel rather than deep silt.",
+      },
+      {
+        fr: "Éclot en une explosion brève juste avant la noirceur, et c'est terminé presque aussitôt commencé.",
+        en: "Hatches in one short burst right before dark, and it's over almost as soon as it starts.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Green Drake (Ephemera guttulata), même famille et même genre, mais plus pâle, plus verdâtre et généralement un peu plus grosse, sur du gravier plutôt que du sable. Les deux éclosions se chevauchent en juin sur certaines rivières.",
+      en: "The Green Drake (Ephemera guttulata), same family and genus, but paler, greener and generally a touch bigger, over gravel rather than sand. The two hatches overlap in June on some rivers.",
+    },
+    sections: [
+      {
+        heading: { fr: "Le genre fouisseur, version sable", en: "The burrowing genus, sand edition" },
+        body: {
+          fr: "Le Brown Drake appartient au même genre Ephemera que le Green Drake et l'Hexagenia : une nymphe fouisseuse, munie de défenses pour creuser et de branchies plumeuses pour faire circuler l'eau dans son terrier. Mais là où l'Hexagenia exige une vase profonde et le Green Drake un gravier fin, le Brown Drake se contente de sable et de gravier très fin — un habitat un peu plus tolérant, qu'on trouve dans des veines légèrement plus rapides que celles de ses cousins.\n\nCherchez-le dans les élargissements à fond sablonneux, souvent juste en aval d'un radier plutôt que dans les fosses profondes et lentes typiques de l'Hexagenia.",
+          en: "The Brown Drake shares the genus Ephemera with the Green Drake and Hexagenia: a burrowing nymph, equipped with digging tusks and feathery gills to circulate water through its burrow. But where Hexagenia needs deep silt and the Green Drake needs fine gravel, the Brown Drake settles for sand and very fine gravel — a slightly more tolerant habitat, found in seams a touch faster than its cousins prefer.\n\nLook for it in sandy-bottomed widenings, often just downstream of a riffle rather than in the deep, slow pools typical of Hexagenia water.",
+        },
+      },
+      {
+        heading: { fr: "Une éclosion explosive et brève", en: "A short, explosive hatch" },
+        body: {
+          fr: "Contrairement à un caddis qui trickle toute la soirée, le genre Ephemera émerge en masse et de façon fortement synchronisée : des milliers de nymphes quittent leur terrier presque au même moment, souvent dans les dix à vingt minutes précédant la noirceur.\n\nCette synchronisation dilue le risque pour chaque insecte individuel — trop de proies en même temps pour que les prédateurs en profitent toutes — mais elle laisse au pêcheur une fenêtre extrêmement courte. Ratez ces vingt minutes et l'éclosion du soir est terminée, pas seulement ralentie.",
+          en: "Unlike a caddis that trickles off all evening, the genus Ephemera emerges in a mass, tightly synchronized burst: thousands of nymphs leave their burrows almost at once, often in the ten to twenty minutes before dark.\n\nThat synchrony dilutes the risk for any one insect — too much prey at once for predators to make a dent — but it leaves an angler an extremely short window. Miss those twenty minutes and the evening's hatch isn't just slower, it's over.",
+        },
+      },
+      {
+        heading: { fr: "Le cousin qui arrive un peu plus tard", en: "The cousin that shows up a bit later" },
+        body: {
+          fr: "Sur une rivière où les deux se chevauchent, le Green Drake a tendance à sortir un peu plus tôt en soirée que le Brown Drake, qui attend que la lumière soit vraiment basse. La couleur et le fond aident à trancher : plus pâle et sur gravier, c'est probablement le Green Drake ; plus foncé et sur sable, plus tard dans la soirée, c'est le Brown Drake.\n\nDans la pratique, la distinction compte moins que d'être sur l'eau et prêt au bon moment — les deux se pêchent essentiellement de la même façon.",
+          en: "On a river where both overlap, the Green Drake tends to come off a bit earlier in the evening than the Brown Drake, which waits until light is genuinely low. Colour and bottom type help sort them out: paler and over gravel, it's probably the Green Drake; darker and over sand, later in the evening, it's the Brown Drake.\n\nIn practice the distinction matters less than being on the water and ready at the right moment — the two fish almost identically.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Dans l'heure précédant la noirceur, sur fond de sable et de gravier fin.", en: "In the hour before dark, over sand and fine gravel." },
+        how: {
+          fr: "Près du fond, en remontée lente à l'approche de l'explosion d'éclosion.",
+          en: "Near bottom, on a slow lift as the emergence burst approaches.",
+        },
+        patternSlugs: ["march-brown"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "Une fenêtre brève, juste avant la noirceur.", en: "A short window, right before dark." },
+        how: {
+          fr: "Une grosse sèche brun-tan, prête avant que l'explosion ne commence — il n'y aura pas de temps pour improviser.",
+          en: "A big brown-tan dry, ready before the burst begins — there won't be time to improvise once it starts.",
+        },
+        patternSlugs: ["green-drake"],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------------- GREY DRAKE
+  {
+    hatchId: "grey-drake",
+    metaTitle: {
+      fr: "Siphlonurus spp. — le Grey Drake, l'éclosion qu'on ne voit jamais",
+      en: "Siphlonurus spp. — the Grey Drake, the hatch you never actually see",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Grey Drake (Siphlonurus spp.) au Québec : une nymphe nageuse qui sort de l'eau pour éclore, et pourquoi c'est la retombée des imagos, pas l'éclosion, qui compte.",
+      en: "Identifying and fishing the Grey Drake (Siphlonurus spp.) in Québec: a swimming nymph that crawls ashore to hatch, and why the spinner fall, not the hatch, is what actually matters.",
+    },
+    intro: {
+      fr: "C'est une éphémère dont vous ne verrez presque jamais l'éclosion, peu importe le temps passé au bord de l'eau. La nymphe du Grey Drake rampe sur la rive pour se transformer, loin de l'eau et de vos yeux — toute l'occasion de pêche vient plus tard, quand les imagos reviennent pondre.",
+      en: "This is a mayfly whose hatch you will almost never see, no matter how much time you spend streamside. The Grey Drake nymph crawls out on the bank to transform, well away from the water and your eyes — the entire fishing opportunity comes later, when the spinners return to lay.",
+    },
+    idMarks: [
+      {
+        fr: "Grosse éphémère grise, taille 10-12, corps et ailes teintés de gris uniforme.",
+        en: "A large grey mayfly, size 10–12, body and wings in a uniform grey cast.",
+      },
+      {
+        fr: "Longues queues, corps effilé — construite pour nager, pas pour s'agripper.",
+        en: "Long tails, a slim tapered body — built for swimming, not clinging.",
+      },
+      {
+        fr: "Nymphe nageuse agile, dans les eaux lentes, les baies et les bordures herbeuses des lacs — jamais dans le courant vif.",
+        en: "An agile swimming nymph, in slow water, bays and grassy lake margins — never in fast current.",
+      },
+      {
+        fr: "La nymphe quitte l'eau et rampe sur la végétation ou les roches de la rive pour éclore.",
+        en: "The nymph leaves the water and crawls out onto shoreline vegetation or rock to emerge.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Slate Drake (Isonychia bicolor), aussi gris et de taille similaire, mais un nageur d'eau vive plutôt que d'eau calme — les deux vivent dans des mondes différents malgré l'allure comparable. Assurez-vous d'abord du type d'eau avant de vous fier à la seule couleur.",
+      en: "The Slate Drake (Isonychia bicolor), also grey and similar in size, but a fast-water swimmer rather than a slow-water one — the two live in different worlds despite a comparable look. Check the type of water first, before trusting colour alone.",
+    },
+    sections: [
+      {
+        heading: { fr: "Une nageuse qui sort à terre", en: "A swimmer that leaves the water to emerge" },
+        body: {
+          fr: "La plupart des éphémères de ce chapitre émergent d'une façon ou d'une autre sur l'eau — à la surface, sous la pellicule, ou tout près. Le genre Siphlonurus fait exception : c'est une nageuse rapide et agile, capable de filer sur de bonnes distances dans l'eau libre, mais qui choisit néanmoins de ramper hors de l'eau, sur la végétation riveraine ou une roche exposée, pour y devenir subimago.\n\nCe comportement est plus proche de celui d'un plécoptère que de la plupart des éphémères — une bonne raison de ne jamais présumer qu'un insecte donné se comporte « comme une éphémère typique » sans vérifier.",
+          en: "Most mayflies in this chapter emerge on the water in one way or another — at the surface, under the film, or close to it. The genus Siphlonurus is the exception: a fast, agile swimmer capable of covering real distance in open water, yet one that still chooses to crawl out onto streamside vegetation or an exposed rock to become a dun.\n\nThat behaviour has more in common with a stonefly than with most mayflies — good reason never to assume any given insect acts \"like a typical mayfly\" without checking.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi on ne voit jamais l'éclosion", en: "Why you never see the hatch" },
+        body: {
+          fr: "Puisque la transformation se produit hors de l'eau, souvent dissimulée dans la végétation, il n'y a rien à intercepter au moment de l'émergence elle-même — pas de nymphe qui monte en surface, pas de dun qui sèche ses ailes sur la pellicule. Le pêcheur qui attend une « éclosion visible » sur cette espèce attendra pour rien.\n\nToute la logique de la pêche change en conséquence : ce n'est pas l'insecte en transformation qui compte, mais l'adulte déjà formé qui revient plus tard.",
+          en: "Since the transformation happens out of the water, often hidden in vegetation, there's nothing to intercept at the moment of emergence itself — no nymph rising to the film, no dun drying its wings on the surface. An angler waiting for a \"visible hatch\" on this species will wait for nothing.\n\nThe whole fishing logic shifts as a result: it isn't the insect mid-transformation that matters, it's the fully formed adult coming back later.",
+        },
+      },
+      {
+        heading: { fr: "La retombée, la vraie occasion", en: "The spinner fall, the real event" },
+        body: {
+          fr: "Les imagos reviennent au-dessus de l'eau en soirée pour l'accouplement et la ponte, et c'est cette retombée d'imagos morts ou mourants, étalés à plat sur l'eau, qui déclenche l'intérêt sérieux de la truite. Cherchez les remous calmes et les bordures — les mêmes endroits où la nageuse vivait — plutôt que le centre du courant.\n\nUne imitation de spinner étalée, présentée en dérive morte dans ces zones tranquilles, imite bien mieux ce qui se passe réellement qu'une sèche montée haut sur l'eau.",
+          en: "Adults return over the water in the evening to mate and lay, and it's that fall of dead and dying spinners, spread flat on the surface, that triggers serious trout interest. Look to calm eddies and margins — the same water the swimming nymph lived in — rather than mid-current.\n\nA spent-spinner pattern, dead-drifted through those quiet zones, imitates what's actually happening far better than a fly riding high on the water.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe", en: "Nymph" },
+        when: { fr: "Toute la saison, dans l'eau lente et végétalisée.", en: "All season, in slow, vegetated water." },
+        how: {
+          fr: "En dérive active, imitant une nageuse agile plutôt qu'une dérive passive.",
+          en: "On an active retrieve, imitating an agile swimmer rather than a passive drift.",
+        },
+        patternSlugs: ["slate-drake"],
+      },
+      {
+        label: { fr: "Retombée (spinner)", en: "Spinner fall" },
+        when: { fr: "En soirée, sur l'eau calme et les bordures.", en: "Evening, over calm water and margins." },
+        how: {
+          fr: "Une imitation étalée, en dérive morte dans les remous et les baies tranquilles.",
+          en: "A spent pattern, dead-drifted through eddies and quiet bays.",
+        },
+        patternSlugs: ["parachute-adams"],
+      },
+    ],
+  },
+
+  // -------------------------------------------------------------- PINK LADY
+  {
+    hatchId: "pink-lady",
+    metaTitle: {
+      fr: "Epeorus vitreus — le Pink Lady, la femelle qui trahit son genre",
+      en: "Epeorus vitreus — the Pink Lady, the female that gives away her genus",
+    },
+    metaDescription: {
+      fr: "Identification et pêche du Pink Lady (Epeorus vitreus) au Québec : pourquoi la femelle seule porte le rose qui donne son nom à l'espèce, et sa parenté avec le Quill Gordon.",
+      en: "Identifying and fishing the Pink Lady (Epeorus vitreus) in Québec: why only the female carries the pink wash that gives the species its name, and its kinship with the Quill Gordon.",
+    },
+    intro: {
+      fr: "Le mâle et la femelle de cette éphémère ne se ressemblent presque pas, et c'est la femelle — plus grosse, à l'abdomen rosé — qui a donné son nom à l'espèce. C'est aussi une proche cousine du Quill Gordon, du même genre Epeorus, avec le même secret : elle émerge déjà sous l'eau.",
+      en: "The male and female of this mayfly barely look alike, and it's the female — bigger, with a rose-washed abdomen — who gave the species its name. It's also a close cousin of the Quill Gordon, same genus Epeorus, carrying the same secret: it emerges already underwater.",
+    },
+    idMarks: [
+      {
+        fr: "La femelle porte un abdomen lavé de rose-saumon, unique parmi nos éphémères.",
+        en: "The female carries a salmon-pink washed abdomen, unique among our mayflies.",
+      },
+      {
+        fr: "Le mâle est beaucoup plus pâle, olive-tan, et pourrait presque passer pour une autre espèce si on ne connaît que la femelle.",
+        en: "The male is far paler, olive-tan, and could almost pass for a different species if you only know the female.",
+      },
+      {
+        fr: "Deux queues seulement — même genre Epeorus que le Quill Gordon.",
+        en: "Only two tails — same genus, Epeorus, as the Quill Gordon.",
+      },
+      {
+        fr: "Taille 14-16, dans l'eau vive et bien oxygénée, en soirée.",
+        en: "Size 14–16, in fast, well-oxygenated water, in the evening.",
+      },
+    ],
+    confusedWith: {
+      fr: "Le Sulphur, avec qui elle se mêle souvent sur la même eau de soirée — mais le Sulphur porte trois queues et jamais le lavis rosé. Le Quill Gordon, même genre, mais plus tôt en saison et sans la teinte rose.",
+      en: "The Sulphur, with which it often mixes on the same evening water — but the Sulphur carries three tails and never the pink wash. The Quill Gordon, same genus, but earlier in the season and without the pink cast.",
+    },
+    sections: [
+      {
+        heading: { fr: "Même genre, même truc sous l'eau", en: "Same genus, same underwater trick" },
+        body: {
+          fr: "Le Pink Lady partage le genre Epeorus avec le Quill Gordon, et donc le même mécanisme d'émergence : la nymphe fend sa mue sous l'eau plutôt qu'à la surface, et c'est déjà un dun ailé qui remonte. Comme pour son cousin de printemps, ça déplace le moment vulnérable de la pellicule vers la remontée — une nymphe ou une émergente pêchée en profondeur, avant que les duns n'apparaissent en surface, reste souvent le choix le plus productif.",
+          en: "The Pink Lady shares the genus Epeorus with the Quill Gordon, and with it the same emergence trick: the nymph splits its shuck underwater rather than at the surface, and what rises is already a winged dun. As with its spring cousin, that moves the vulnerable moment from the film to the rise — a nymph or emerger fished deep, before duns show up on top, often stays the most productive choice.",
+        },
+      },
+      {
+        heading: { fr: "Pourquoi la femelle seule est rose", en: "Why only the female is pink" },
+        body: {
+          fr: "Chez plusieurs espèces d'éphémères, le mâle et la femelle divergent en couleur et en taille — un vrai dimorphisme sexuel, pas une simple variation individuelle. Le mâle, dont le rôle principal est de former des essaims nuptiaux bien visibles pour attirer une partenaire, reste souvent plus pâle et plus effilé. La femelle, qui porte les œufs, est généralement plus grosse et plus colorée.\n\nChez le Pink Lady, cette différence est particulièrement frappante : le lavis rosé de l'abdomen féminin n'a pas d'équivalent chez le mâle, au point qu'un pêcheur qui ne connaît que l'un des deux sexes pourrait croire à deux espèces distinctes.",
+          en: "In several mayfly species, males and females diverge in colour and size — genuine sexual dimorphism, not just individual variation. The male, whose main job is forming a visible mating swarm to attract a partner, tends to stay paler and slimmer. The female, who carries the eggs, is usually bigger and more coloured.\n\nIn the Pink Lady that difference is especially striking: the female's pink abdominal wash has no real equivalent on the male, to the point that an angler who only knows one sex could mistake them for two different species.",
+        },
+      },
+      {
+        heading: { fr: "Mêlée aux sulphurs", en: "Mixed in with the sulphurs" },
+        body: {
+          fr: "Le Pink Lady partage son horaire de soirée et souvent sa rivière avec le Sulphur, ce qui rend l'identification en vol difficile dans la lumière tombante. Le nombre de queues (deux contre trois) tranche à coup sûr, mais demande un coup d'œil rapproché.\n\nEn pratique, cherchez le Pink Lady spécifiquement dans les veines les plus vives et les mieux oxygénées — son besoin en oxygène du genre Epeorus la limite à une eau plus rapide que ce que le Sulphur tolère facilement.",
+          en: "The Pink Lady shares its evening schedule, and often its river, with the Sulphur, which makes on-the-wing identification hard in fading light. Tail count (two versus three) settles it for certain, but takes a close look.\n\nIn practice, look for the Pink Lady specifically in the fastest, best-oxygenated seams — its genus Epeorus oxygen requirement keeps it in swifter water than the Sulphur comfortably tolerates.",
+        },
+      },
+    ],
+    stages: [
+      {
+        label: { fr: "Nymphe / émergente", en: "Nymph / emerger" },
+        when: { fr: "En fin d'après-midi, dans l'eau vive et oxygénée.", en: "Late afternoon, in fast, oxygenated water." },
+        how: {
+          fr: "En dérive montante près du fond, comme pour le Quill Gordon.",
+          en: "On a rising drift near bottom, same as the Quill Gordon.",
+        },
+        patternSlugs: ["light-cahill"],
+      },
+      {
+        label: { fr: "Dun", en: "Dun" },
+        when: { fr: "En soirée, souvent mêlée aux sulphurs.", en: "Evening, often mixed in with the sulphurs." },
+        how: {
+          fr: "Une sèche crème à rosée en dérive morte dans les veines les plus vives.",
+          en: "A cream-to-pink dry dead-drifted through the fastest seams.",
+        },
+        patternSlugs: ["sulphur-dun"],
+      },
+    ],
+  },
 ];
 
 export function articleFor(hatchId: string): InsectArticle | undefined {
