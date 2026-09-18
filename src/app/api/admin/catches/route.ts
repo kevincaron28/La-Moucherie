@@ -3,11 +3,15 @@ import { z } from "zod";
 import { FishSpecies } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
-import { instagramImageUrl } from "@/lib/instagram";
+import { instagramImageUrl, fetchInstagramInfo } from "@/lib/instagram";
 
 const schema = z
   .object({
-    anglerName: z.string().min(1).max(100),
+    // Optional: left blank, it's backfilled from the Instagram post below
+    // (or from the "anonymous angler" fallback the public pages already
+    // render for a null value), so a curated post never has to wait on
+    // someone typing a name by hand.
+    anglerName: z.string().max(100).optional(),
     // Neither is required on its own — an Instagram URL alone is enough,
     // since the image gets derived from it below. A manual Photo URL stays
     // available for anything not on Instagram, or if that derivation fails.
@@ -48,9 +52,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "no_image_derivable" }, { status: 400 });
   }
 
+  // Same backfill the "Fetch from Instagram" button in the admin form
+  // triggers by hand -- run it here too so a submission that skipped that
+  // button still gets a name and caption whenever the post itself has them.
+  let { anglerName, captionFr } = data;
+  const { captionEn } = data;
+  if (instagramUrl && (!anglerName || (!captionFr && !captionEn))) {
+    const info = await fetchInstagramInfo(instagramUrl);
+    anglerName = anglerName || info.username || undefined;
+    if (!captionFr && !captionEn && info.caption) {
+      captionFr = info.caption;
+    }
+  }
+
   const catchPhoto = await prisma.catchPhoto.create({
     data: {
       ...data,
+      anglerName,
+      captionFr,
+      captionEn,
       imageUrl: finalImageUrl,
       instagramUrl: instagramUrl || undefined,
       ...(waterId ? { water: { connect: { id: waterId } } } : {}),

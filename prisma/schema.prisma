@@ -552,7 +552,9 @@ model CatchPhoto {
   // embedding a live feed — the whole point of curating by hand from the
   // #LaMoucherie hashtag instead of trusting an auto-embed to pick well.
   instagramUrl String?
-  anglerName   String
+  // Optional: an admin can leave it blank and let the Instagram fetch (or a
+  // generic "anonymous angler" fallback on display) fill the gap.
+  anglerName   String?
   captionFr    String?
   captionEn    String?
   species      FishSpecies?

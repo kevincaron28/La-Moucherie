@@ -570,7 +570,8 @@
     "submitCta": "email",
     "empty": "No photos yet — be the first. Send us your catch.",
     "instagramHint": "Or tag us on",
-    "viaInstagram": "Via Instagram ↗"
+    "viaInstagram": "Via Instagram ↗",
+    "anonymousAngler": "A La Moucherie angler"
   },
   "HatchReport": {
     "title": "File a hatch report",

@@ -106,13 +106,19 @@ export default async function CatchesPage({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={c.imageUrl}
-                alt={pick(c.captionFr ?? "", c.captionEn ?? "", locale) || c.anglerName}
+                alt={
+                  pick(c.captionFr ?? "", c.captionEn ?? "", locale) ||
+                  c.anglerName ||
+                  t("anonymousAngler")
+                }
                 className="aspect-square w-full bg-cream object-cover"
                 loading="lazy"
               />
               <div className="p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                  <p className="font-display font-semibold text-forest">{c.anglerName}</p>
+                  <p className="font-display font-semibold text-forest">
+                    {c.anglerName || t("anonymousAngler")}
+                  </p>
                   <p className="text-xs text-ink/50">{dateFormatter.format(c.createdAt)}</p>
                 </div>
 

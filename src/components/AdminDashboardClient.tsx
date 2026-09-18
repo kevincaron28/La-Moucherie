@@ -78,7 +78,7 @@ type ProductOption = { id: string; slug: string; nameFr: string; nameEn: string 
 
 type AdminCatch = {
   id: string;
-  anglerName: string;
+  anglerName: string | null;
   imageUrl: string;
   instagramUrl: string | null;
   captionFr: string | null;
@@ -287,8 +287,39 @@ export function AdminDashboardClient({
   const [catchForm, setCatchForm] = useState(emptyCatchForm);
   const [addingCatch, setAddingCatch] = useState(false);
   const [catchBusyId, setCatchBusyId] = useState<string | null>(null);
+  const [fetchingInstagram, setFetchingInstagram] = useState(false);
+  const [instagramFetchError, setInstagramFetchError] = useState(false);
   const catchPreviewUrl =
     catchForm.imageUrl || instagramImageUrl(catchForm.instagramUrl) || "";
+
+  // Only fills fields the admin hasn't already typed into -- never overwrites
+  // an edit with whatever the post's own caption says. The same backfill
+  // runs server-side on submit too, so skipping this button isn't a trap.
+  async function handleFetchInstagramInfo() {
+    if (!catchForm.instagramUrl) return;
+    setFetchingInstagram(true);
+    setInstagramFetchError(false);
+    try {
+      const res = await fetch(
+        `/api/admin/instagram-info?url=${encodeURIComponent(catchForm.instagramUrl)}`
+      );
+      const info = res.ok ? await res.json() : { username: null, caption: null };
+      if (!info.username && !info.caption) {
+        setInstagramFetchError(true);
+        return;
+      }
+      setCatchForm((f) => ({
+        ...f,
+        anglerName: f.anglerName || info.username || f.anglerName,
+        captionFr: f.captionFr || info.caption || f.captionFr,
+        captionEn: f.captionEn || info.caption || f.captionEn,
+      }));
+    } catch {
+      setInstagramFetchError(true);
+    } finally {
+      setFetchingInstagram(false);
+    }
+  }
 
   async function handleAddCatch(e: React.FormEvent) {
     e.preventDefault();
@@ -1043,7 +1074,7 @@ export function AdminDashboardClient({
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-display font-semibold text-forest">
-                      {c.anglerName}
+                      {c.anglerName || (locale === "fr" ? "Pêcheur anonyme" : "Anonymous angler")}
                     </span>
                     <span
                       className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
@@ -1124,13 +1155,13 @@ export function AdminDashboardClient({
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className="text-xs font-medium text-ink/60">
-                {locale === "fr" ? "Nom du pêcheur" : "Angler name"}
+                {locale === "fr" ? "Nom du pêcheur (optionnel)" : "Angler name (optional)"}
               </label>
               <input
                 type="text"
-                required
                 value={catchForm.anglerName}
                 onChange={(e) => setCatchForm((f) => ({ ...f, anglerName: e.target.value }))}
+                placeholder={locale === "fr" ? "Tiré d'Instagram si vide" : "Pulled from Instagram if left blank"}
                 className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
               />
             </div>
@@ -1138,18 +1169,44 @@ export function AdminDashboardClient({
               <label className="text-xs font-medium text-ink/60">
                 {locale === "fr" ? "Lien Instagram" : "Instagram link"}
               </label>
-              <input
-                type="text"
-                value={catchForm.instagramUrl}
-                onChange={(e) => setCatchForm((f) => ({ ...f, instagramUrl: e.target.value }))}
-                placeholder="https://www.instagram.com/p/…"
-                className="mt-1 w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
-              />
+              <div className="mt-1 flex gap-2">
+                <input
+                  type="text"
+                  value={catchForm.instagramUrl}
+                  onChange={(e) => {
+                    setInstagramFetchError(false);
+                    setCatchForm((f) => ({ ...f, instagramUrl: e.target.value }));
+                  }}
+                  placeholder="https://www.instagram.com/p/…"
+                  className="w-full rounded-lg border border-forest/25 bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-halo"
+                />
+                <button
+                  type="button"
+                  disabled={!catchForm.instagramUrl || fetchingInstagram}
+                  onClick={handleFetchInstagramInfo}
+                  className="shrink-0 rounded-lg border border-forest/25 px-3 py-2 text-xs font-semibold text-forest transition hover:bg-forest/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {fetchingInstagram
+                    ? locale === "fr"
+                      ? "Récupération…"
+                      : "Fetching…"
+                    : locale === "fr"
+                      ? "Récupérer nom + légende"
+                      : "Fetch name + caption"}
+                </button>
+              </div>
               <p className="mt-1 text-xs text-ink/50">
                 {locale === "fr"
-                  ? "Ça suffit à soi seul — la photo est tirée automatiquement de la publication."
-                  : "This is enough on its own — the photo is pulled automatically from the post."}
+                  ? "Ça suffit à soi seul — la photo est tirée automatiquement de la publication. \"Récupérer\" tente aussi de remplir le nom et la légende ci-dessous, s'ils sont vides."
+                  : "This is enough on its own — the photo is pulled automatically from the post. \"Fetch\" also tries to fill in the name and caption below, if they're empty."}
               </p>
+              {instagramFetchError && (
+                <p className="mt-1 text-xs text-rust">
+                  {locale === "fr"
+                    ? "Rien trouvé sur cette publication — Instagram la bloque peut-être, ou elle n'a pas de légende. Remplissez à la main."
+                    : "Couldn't find anything on that post — Instagram may be blocking it, or it has no caption. Fill in by hand."}
+                </p>
+              )}
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">

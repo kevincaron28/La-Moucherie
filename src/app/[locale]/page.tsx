@@ -26,6 +26,7 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("Home");
   const tAngling = await getTranslations("Angling");
+  const tCatches = await getTranslations("Catches");
 
   const featured = await prisma.product.findMany({
     where: { active: true, featured: true },
@@ -301,12 +302,16 @@ export default async function HomePage({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={c.imageUrl}
-                  alt={pick(c.captionFr ?? "", c.captionEn ?? "", locale) || c.anglerName}
+                  alt={
+                    pick(c.captionFr ?? "", c.captionEn ?? "", locale) ||
+                    c.anglerName ||
+                    tCatches("anonymousAngler")
+                  }
                   className="aspect-square w-full object-cover"
                   loading="lazy"
                 />
                 <p className="p-3 font-display text-sm font-semibold text-forest">
-                  {c.anglerName}
+                  {c.anglerName || tCatches("anonymousAngler")}
                 </p>
               </div>
             ))}

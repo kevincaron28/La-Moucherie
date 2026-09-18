@@ -570,7 +570,8 @@
     "submitCta": "courriel",
     "empty": "Pas encore de photos — soyez le premier. Envoyez-nous votre prise.",
     "instagramHint": "Ou identifiez-nous sur",
-    "viaInstagram": "Via Instagram ↗"
+    "viaInstagram": "Via Instagram ↗",
+    "anonymousAngler": "Un pêcheur de La Moucherie"
   },
   "HatchReport": {
     "title": "Envoyer un rapport d'éclosion",
