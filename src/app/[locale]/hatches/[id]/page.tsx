@@ -7,6 +7,7 @@ import { pick } from "@/lib/localize";
 import { routing, type Locale } from "@/i18n/routing";
 import { HATCHES, sizeLabel, type Hatch } from "@/lib/hatches";
 import { INSECT_ARTICLES, articleFor, say } from "@/lib/insect-articles";
+import { chipClass } from "@/lib/chip";
 
 // These are the pages meant to be found in search, so they're prerendered for
 // both locales rather than waiting on a first request to exist.
@@ -198,7 +199,7 @@ export default async function InsectPage({
                       <Link
                         key={p.slug}
                         href={`/shop/${p.slug}`}
-                        className="rounded-full border border-forest/20 px-3 py-1 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
+                        className={chipClass("accent")}
                       >
                         {pick(p.nameFr, p.nameEn, locale)}
                       </Link>

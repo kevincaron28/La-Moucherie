@@ -15,7 +15,8 @@ import {
   type DayRef,
   type Hatch,
 } from "@/lib/hatches";
-import { ARTICLE_IDS } from "@/lib/insect-articles";
+import { articleFor, say } from "@/lib/insect-articles";
+import { chipClass } from "@/lib/chip";
 import type { Locale } from "@/i18n/routing";
 
 // The chart marks today's date and leads with what's on the water right now, so
@@ -150,11 +151,7 @@ export default async function HatchesPage({
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {peakingNow.map((h) => (
-                    <a
-                      key={h.id}
-                      href={`#${h.id}`}
-                      className="rounded-full bg-rust px-3 py-1.5 text-xs font-semibold text-cream transition hover:bg-rust-dark"
-                    >
+                    <a key={h.id} href={`#${h.id}`} className={chipClass("accent")}>
                       {pick(h.nameFr, h.nameEn, locale)} {sizeLabel(h.sizes)}
                     </a>
                   ))}
@@ -168,11 +165,7 @@ export default async function HatchesPage({
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {activeNow.map((h) => (
-                    <a
-                      key={h.id}
-                      href={`#${h.id}`}
-                      className="rounded-full border border-forest/25 px-3 py-1.5 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
-                    >
+                    <a key={h.id} href={`#${h.id}`} className={chipClass("outline")}>
                       {pick(h.nameFr, h.nameEn, locale)} {sizeLabel(h.sizes)}
                     </a>
                   ))}
@@ -219,6 +212,7 @@ export default async function HatchesPage({
                     .map((s) => bySlug.get(s))
                     .filter((p): p is NonNullable<typeof p> => Boolean(p));
                   const peaking = isPeakingOn(h, today);
+                  const article = articleFor(h.id);
                   return (
                     <article
                       key={h.id}
@@ -229,7 +223,7 @@ export default async function HatchesPage({
                     >
                       <div>
                         <h3 className="font-display font-semibold text-forest">
-                          {ARTICLE_IDS.has(h.id) ? (
+                          {article ? (
                             <Link
                               href={`/hatches/${h.id}`}
                               className="underline decoration-forest/25 underline-offset-4 transition hover:text-rust hover:decoration-rust"
@@ -244,6 +238,12 @@ export default async function HatchesPage({
                         <p className="mt-1 text-xs font-medium text-ink/60">
                           {sizeLabel(h.sizes)} · {t(TIME_KEY[h.timeOfDay])}
                         </p>
+                        {article && (
+                          <p className="mt-1.5 flex gap-1.5 text-xs text-ink/55">
+                            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-rust" aria-hidden />
+                            <span>{say(article.idMarks[0], locale)}</span>
+                          </p>
+                        )}
                       </div>
 
                       <div>
@@ -274,7 +274,7 @@ export default async function HatchesPage({
                               <Link
                                 key={p.slug}
                                 href={`/shop/${p.slug}`}
-                                className="rounded-full border border-forest/20 px-3 py-1 text-xs font-medium text-forest transition hover:border-forest/50 hover:bg-forest/5"
+                                className={chipClass("accent")}
                               >
                                 {pick(p.nameFr, p.nameEn, locale)}
                               </Link>
