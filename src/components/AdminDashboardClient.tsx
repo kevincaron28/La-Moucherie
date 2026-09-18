@@ -461,22 +461,25 @@ export function AdminDashboardClient({
       </p>
 
       {/* 1. Pending Reviews */}
-      <section id="reviews">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Avis en attente de modération" : "Pending Reviews"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Les avis approuvés apparaissent immédiatement sur la fiche produit."
-                : "Approved reviews appear publicly on the product page immediately."}
-            </p>
+      <details id="reviews" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-forest">
+                {locale === "fr" ? "Avis en attente de modération" : "Pending Reviews"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Les avis approuvés apparaissent immédiatement sur la fiche produit."
+                  : "Approved reviews appear publicly on the product page immediately."}
+              </p>
+            </div>
           </div>
           <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
             {reviews.length}
           </span>
-        </div>
+        </summary>
 
         {reviews.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
@@ -535,26 +538,37 @@ export function AdminDashboardClient({
             ))}
           </div>
         )}
-      </section>
+      </details>
 
       {/* 2. Angler hatch reports — moderation queue */}
-      <section id="hatch-reports" className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h3 className="font-display text-lg font-semibold text-forest">
-            {locale === "fr" ? "Rapports d'éclosion" : "Hatch reports"}
-          </h3>
-          {hatchReports.some((r) => !r.approved) && (
-            <span className="rounded-full bg-rust px-3 py-1 text-xs font-semibold text-cream">
-              {hatchReports.filter((r) => !r.approved).length}{" "}
-              {locale === "fr" ? "en attente" : "waiting"}
-            </span>
-          )}
-        </div>
-        <p className="mt-1 text-xs text-ink/55">
-          {locale === "fr"
-            ? "Rien n'apparaît sur /reports tant que ce n'est pas approuvé."
-            : "Nothing appears on /reports until it's approved."}
-        </p>
+      <details
+        id="hatch-reports"
+        className="group rounded-2xl border border-forest/15 bg-cream/30 p-6"
+        open
+      >
+        <summary className="cursor-pointer list-none marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div className="flex-1">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="font-display text-lg font-semibold text-forest">
+                  {locale === "fr" ? "Rapports d'éclosion" : "Hatch reports"}
+                </h3>
+                {hatchReports.some((r) => !r.approved) && (
+                  <span className="rounded-full bg-rust px-3 py-1 text-xs font-semibold text-cream">
+                    {hatchReports.filter((r) => !r.approved).length}{" "}
+                    {locale === "fr" ? "en attente" : "waiting"}
+                  </span>
+                )}
+              </div>
+              <p className="mt-1 text-xs text-ink/55">
+                {locale === "fr"
+                  ? "Rien n'apparaît sur /reports tant que ce n'est pas approuvé."
+                  : "Nothing appears on /reports until it's approved."}
+              </p>
+            </div>
+          </div>
+        </summary>
 
         {hatchReports.length === 0 ? (
           <p className="mt-4 text-sm text-ink/60">
@@ -631,7 +645,7 @@ export function AdminDashboardClient({
             ))}
           </ul>
         )}
-      </section>
+      </details>
 
       <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
         {locale === "fr" ? "Alertes de stock" : "Stock alerts"}
@@ -639,22 +653,25 @@ export function AdminDashboardClient({
 
       {/* 3. No Sizes Yet — more urgent than low stock: nothing to add to cart at all */}
       {noVariantProducts.length > 0 && (
-        <section id="no-sizes">
-          <div className="flex items-center justify-between border-b border-rust/30 pb-4">
-            <div>
-              <h2 className="font-display text-2xl font-semibold text-rust">
-                {locale === "fr" ? "Aucune taille en stock" : "No sizes in stock"}
-              </h2>
-              <p className="mt-1 text-sm text-ink/70">
-                {locale === "fr"
-                  ? "Ces patrons n'ont aucune variante (taille d'hameçon) — impossible de les commander tant qu'on n'en ajoute pas."
-                  : "These patterns have no variants (hook sizes) at all — nothing can be ordered until some are added back."}
-              </p>
+        <details id="no-sizes" className="group" open>
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-rust/30 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+            <div className="flex items-start gap-3">
+              <SectionChevron />
+              <div>
+                <h2 className="font-display text-2xl font-semibold text-rust">
+                  {locale === "fr" ? "Aucune taille en stock" : "No sizes in stock"}
+                </h2>
+                <p className="mt-1 text-sm text-ink/70">
+                  {locale === "fr"
+                    ? "Ces patrons n'ont aucune variante (taille d'hameçon) — impossible de les commander tant qu'on n'en ajoute pas."
+                    : "These patterns have no variants (hook sizes) at all — nothing can be ordered until some are added back."}
+                </p>
+              </div>
             </div>
             <span className="rounded-full bg-rust/15 px-3 py-1 font-mono text-xs font-semibold text-rust">
               {noVariantProducts.length}
             </span>
-          </div>
+          </summary>
           <ul className="mt-6 flex flex-wrap gap-2">
             {noVariantProducts.map((p) => (
               <li key={p.id}>
@@ -672,26 +689,29 @@ export function AdminDashboardClient({
               ? "Ajoutez des tailles via npm run db:studio (table ProductVariant) une fois l'inventaire confirmé."
               : "Add sizes via npm run db:studio (ProductVariant table) once real inventory is confirmed."}
           </p>
-        </section>
+        </details>
       )}
 
       {/* 4. Low Stock Alerts */}
-      <section id="low-stock">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Alertes stock faible (≤ 3)" : "Low Stock Alerts (≤ 3)"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Tailles d'hameçons à remonter à l'étau rapidement."
-                : "Hook sizes and flies that need bench time soon."}
-            </p>
+      <details id="low-stock" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-forest">
+                {locale === "fr" ? "Alertes stock faible (≤ 3)" : "Low Stock Alerts (≤ 3)"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Tailles d'hameçons à remonter à l'étau rapidement."
+                  : "Hook sizes and flies that need bench time soon."}
+              </p>
+            </div>
           </div>
           <span className="rounded-full bg-rust/10 px-3 py-1 font-mono text-xs font-semibold text-rust">
             {lowStockVariants.length}
           </span>
-        </div>
+        </summary>
 
         {lowStockVariants.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
@@ -733,29 +753,32 @@ export function AdminDashboardClient({
             </table>
           </div>
         )}
-      </section>
+      </details>
 
       <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
         {locale === "fr" ? "Catalogue et commandes" : "Catalog and orders"}
       </p>
 
       {/* 5. Planned Patterns — what to tie next, not a real product yet */}
-      <section id="planned">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Patrons à monter" : "Planned Patterns"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Une liste de montage, pas le catalogue — une fois monté, prix et photographié, créez le vrai produit et retirez-le d'ici."
-                : "A tying to-do list, not the catalog — once it's actually tied, priced and photographed, create the real product and clear it from here."}
-            </p>
+      <details id="planned" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-forest">
+                {locale === "fr" ? "Patrons à monter" : "Planned Patterns"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Une liste de montage, pas le catalogue — une fois monté, prix et photographié, créez le vrai produit et retirez-le d'ici."
+                  : "A tying to-do list, not the catalog — once it's actually tied, priced and photographed, create the real product and clear it from here."}
+              </p>
+            </div>
           </div>
           <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
             {plannedFlies.length}
           </span>
-        </div>
+        </summary>
 
         {plannedFlies.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
@@ -913,11 +936,12 @@ export function AdminDashboardClient({
                 : "Add to the list"}
           </button>
         </form>
-      </section>
+      </details>
 
       {/* 6. Recent Paid Orders & Bench Print Slips */}
-      <section id="orders">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
+      <details id="orders" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start gap-3 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <SectionChevron />
           <div>
             <h2 className="font-display text-2xl font-semibold text-forest">
               {locale === "fr" ? "Commandes récentes & Fiches d'étau" : "Recent Orders & Bench Slips"}
@@ -928,7 +952,7 @@ export function AdminDashboardClient({
                 : "Print bench tying checklists to fulfill your orders at the vise."}
             </p>
           </div>
-        </div>
+        </summary>
 
         {recentOrders.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
@@ -978,29 +1002,32 @@ export function AdminDashboardClient({
             </table>
           </div>
         )}
-      </section>
+      </details>
 
       <p className="font-mono text-xs font-semibold uppercase tracking-widest text-rust">
         {locale === "fr" ? "Contenu publié" : "Published content"}
       </p>
 
       {/* 7. Community Catches — real ones only, added by hand */}
-      <section id="catches">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Prises de la communauté" : "Community Catches"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Vos prises, celles d'amis ou de clients — jamais inventées. Approuvé = visible sur /catches."
-                : "Yours, a friend's, a customer's — never fabricated. Approved = live on /catches."}
-            </p>
+      <details id="catches" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-forest">
+                {locale === "fr" ? "Prises de la communauté" : "Community Catches"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Vos prises, celles d'amis ou de clients — jamais inventées. Approuvé = visible sur /catches."
+                  : "Yours, a friend's, a customer's — never fabricated. Approved = live on /catches."}
+              </p>
+            </div>
           </div>
           <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
             {catches.length}
           </span>
-        </div>
+        </summary>
 
         {catches.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
@@ -1288,25 +1315,28 @@ export function AdminDashboardClient({
                 : "Add the catch"}
           </button>
         </form>
-      </section>
+      </details>
 
       {/* 8. Newsletter */}
-      <section id="newsletter">
-        <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-          <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
-              {locale === "fr" ? "Infolettre" : "Newsletter"}
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              {locale === "fr"
-                ? "Rapports de pêche, nouveaux patrons ou promotions — envoyés à tous les abonnés actifs."
-                : "Fishing reports, new patterns, or sales — sent to every active subscriber."}
-            </p>
+      <details id="newsletter" className="group" open>
+        <summary className="flex cursor-pointer list-none items-start justify-between gap-4 border-b border-forest/15 pb-4 marker:hidden [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start gap-3">
+            <SectionChevron />
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-forest">
+                {locale === "fr" ? "Infolettre" : "Newsletter"}
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                {locale === "fr"
+                  ? "Rapports de pêche, nouveaux patrons ou promotions — envoyés à tous les abonnés actifs."
+                  : "Fishing reports, new patterns, or sales — sent to every active subscriber."}
+              </p>
+            </div>
           </div>
           <span className="rounded-full bg-forest/10 px-3 py-1 font-mono text-xs font-semibold text-forest">
             {subscriberCount} {locale === "fr" ? "abonnés" : "subscribers"}
           </span>
-        </div>
+        </summary>
 
         <form
           onSubmit={handleSendCampaign}
@@ -1400,13 +1430,20 @@ export function AdminDashboardClient({
             </ul>
           </div>
         )}
-      </section>
+      </details>
 
       {/* 9. Quick Operational Links */}
-      <section id="tools" className="rounded-2xl border border-forest/15 bg-cream/30 p-6">
-        <h3 className="font-display text-lg font-semibold text-forest">
-          {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}
-        </h3>
+      <details
+        id="tools"
+        className="group rounded-2xl border border-forest/15 bg-cream/30 p-6"
+        open
+      >
+        <summary className="flex cursor-pointer list-none items-center gap-3 marker:hidden [&::-webkit-details-marker]:hidden">
+          <SectionChevron align="center" />
+          <h3 className="font-display text-lg font-semibold text-forest">
+            {locale === "fr" ? "Diagnostics & Outils" : "Diagnostics & Tools"}
+          </h3>
+        </summary>
         <div className="mt-4 flex flex-wrap gap-4">
           <a
             href="/api/admin/canada-post-check"
@@ -1427,7 +1464,27 @@ export function AdminDashboardClient({
             &rarr;
           </a>
         </div>
-      </section>
+      </details>
     </div>
+  );
+}
+
+/** Rotates via the parent <details>'s `group` class when it's open. */
+function SectionChevron({ align = "start" }: { align?: "start" | "center" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180 ${
+        align === "start" ? "mt-1" : ""
+      }`}
+      aria-hidden
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
   );
 }
