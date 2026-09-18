@@ -227,6 +227,20 @@ function ShopMenu() {
             >
               {t("waters")} &rarr;
             </Link>
+            <Link
+              href="/shipping"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-forest hover:text-rust"
+            >
+              {t("shipping")} &rarr;
+            </Link>
+            <Link
+              href="/faq"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-forest hover:text-rust"
+            >
+              {t("faq")} &rarr;
+            </Link>
           </div>
         </div>
       )}
@@ -352,16 +366,6 @@ function LearnMenu() {
               </div>
             );
           })}
-
-          <div className="mt-4 border-t border-forest/10 pt-3">
-            <Link
-              href="/faq"
-              onClick={() => setOpen(false)}
-              className="text-sm font-medium text-forest hover:text-rust"
-            >
-              {t("faq")} &rarr;
-            </Link>
-          </div>
         </div>
       )}
     </div>

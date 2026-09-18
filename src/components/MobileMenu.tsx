@@ -192,6 +192,8 @@ export function MobileMenu({ locale }: { locale: string }) {
                     {tCategories(cat)}
                   </Item>
                 ))}
+                <Item onNavigate={close} href="/shipping">{t("shipping")}</Item>
+                <Item onNavigate={close} href="/faq">{t("faq")}</Item>
               </Section>
 
               <Section title={tAngling("speciesTitle")}>
@@ -247,7 +249,6 @@ export function MobileMenu({ locale }: { locale: string }) {
                     </li>
                   );
                 })}
-                <Item onNavigate={close} href="/faq">{t("faq")}</Item>
               </Section>
 
               <Section title={t("onTheWater")}>
@@ -260,7 +261,6 @@ export function MobileMenu({ locale }: { locale: string }) {
               <Section title={t("aboutSection")}>
                 <Item onNavigate={close} href="/about">{t("about")}</Item>
                 <Item onNavigate={close} href="/contact">{t("contact")}</Item>
-                <Item onNavigate={close} href="/shipping">{t("shipping")}</Item>
                 <Item onNavigate={close} href={status === "authenticated" ? "/account" : "/account/login"}>
                   {status === "authenticated" ? t("account") : t("signIn")}
                 </Item>
