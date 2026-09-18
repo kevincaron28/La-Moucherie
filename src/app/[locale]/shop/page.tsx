@@ -80,22 +80,54 @@ export default async function ShopPage({
   // category/season/water-type/species — just enough to count each filter
   // pill without a separate aggregate query per dimension. The catalog is
   // small enough (a few dozen rows) that doing this in JS is simpler than
-  // four GROUP BY queries, and counts are deliberately global (how many
-  // flies carry this tag at all) rather than scoped to the other filters
-  // currently active, which would shift confusingly as pills get combined.
+  // four GROUP BY queries.
+  //
+  // Each dimension's counts are scoped to whichever *other* filters are
+  // currently active (category counts respect season/water-type, etc.),
+  // so a pill's number always answers "if I also picked this, how many
+  // flies would that leave" rather than a fixed catalog-wide total. A
+  // pill excludes only its own dimension from that check, since its count
+  // is what picking it would change to, not what's already true.
   const allActiveProducts = await prisma.product.findMany({
     where: { active: true },
     select: { category: true, seasons: true, waterTypes: true, species: true },
   });
-  const totalCount = allActiveProducts.length;
+
+  function matchesOtherFilters(
+    p: (typeof allActiveProducts)[number],
+    exclude: "category" | "season" | "waterType" | "none"
+  ) {
+    if (exclude !== "category" && activeCategory && p.category !== activeCategory) return false;
+    if (exclude !== "season" && activeSeason && !p.seasons.includes(activeSeason)) return false;
+    if (exclude !== "waterType" && activeWaterType && !p.waterTypes.includes(activeWaterType))
+      return false;
+    return true;
+  }
+
+  const forCategoryCounts = allActiveProducts.filter((p) => matchesOtherFilters(p, "category"));
+  const forSeasonCounts = allActiveProducts.filter((p) => matchesOtherFilters(p, "season"));
+  const forWaterTypeCounts = allActiveProducts.filter((p) => matchesOtherFilters(p, "waterType"));
+  const forSpeciesCounts = allActiveProducts.filter((p) => matchesOtherFilters(p, "none"));
+
+  const categoryAllCount = forCategoryCounts.length;
+  const seasonAllCount = forSeasonCounts.length;
+  const waterTypeAllCount = forWaterTypeCounts.length;
+
   const categoryCounts: Partial<Record<ProductCategory, number>> = {};
+  for (const p of forCategoryCounts) categoryCounts[p.category] = (categoryCounts[p.category] ?? 0) + 1;
+
   const seasonCounts: Partial<Record<string, number>> = {};
-  const waterTypeCounts: Partial<Record<string, number>> = {};
-  const speciesCounts: Partial<Record<string, number>> = {};
-  for (const p of allActiveProducts) {
-    categoryCounts[p.category] = (categoryCounts[p.category] ?? 0) + 1;
+  for (const p of forSeasonCounts) {
     for (const s of p.seasons) seasonCounts[s] = (seasonCounts[s] ?? 0) + 1;
+  }
+
+  const waterTypeCounts: Partial<Record<string, number>> = {};
+  for (const p of forWaterTypeCounts) {
     for (const w of p.waterTypes) waterTypeCounts[w] = (waterTypeCounts[w] ?? 0) + 1;
+  }
+
+  const speciesCounts: Partial<Record<string, number>> = {};
+  for (const p of forSpeciesCounts) {
     for (const sp of p.species) speciesCounts[sp] = (speciesCounts[sp] ?? 0) + 1;
   }
 
@@ -182,7 +214,7 @@ export default async function ShopPage({
             href={categoryHref()}
             active={!activeCategory}
             label={tCategories("ALL")}
-            count={totalCount}
+            count={categoryAllCount}
           />
           {CATEGORY_ORDER.map((cat) => (
             <CategoryPill
@@ -213,7 +245,7 @@ export default async function ShopPage({
             href={buildHref({ season: undefined })}
             active={!activeSeason}
             label={t("all")}
-            count={totalCount}
+            count={seasonAllCount}
           />
           {SEASONS.map((s) => (
             <FilterPill
@@ -233,7 +265,7 @@ export default async function ShopPage({
             href={buildHref({ waterType: undefined })}
             active={!activeWaterType}
             label={t("all")}
-            count={totalCount}
+            count={waterTypeAllCount}
           />
           {WATER_TYPES.map((w) => (
             <FilterPill
