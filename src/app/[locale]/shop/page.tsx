@@ -76,6 +76,29 @@ export default async function ShopPage({
   }
   const uniqueMatchedSpecies = Array.from(new Set(matchedSpecies));
 
+  // A lightweight, unfiltered pass over every active product's own
+  // category/season/water-type/species — just enough to count each filter
+  // pill without a separate aggregate query per dimension. The catalog is
+  // small enough (a few dozen rows) that doing this in JS is simpler than
+  // four GROUP BY queries, and counts are deliberately global (how many
+  // flies carry this tag at all) rather than scoped to the other filters
+  // currently active, which would shift confusingly as pills get combined.
+  const allActiveProducts = await prisma.product.findMany({
+    where: { active: true },
+    select: { category: true, seasons: true, waterTypes: true, species: true },
+  });
+  const totalCount = allActiveProducts.length;
+  const categoryCounts: Partial<Record<ProductCategory, number>> = {};
+  const seasonCounts: Partial<Record<string, number>> = {};
+  const waterTypeCounts: Partial<Record<string, number>> = {};
+  const speciesCounts: Partial<Record<string, number>> = {};
+  for (const p of allActiveProducts) {
+    categoryCounts[p.category] = (categoryCounts[p.category] ?? 0) + 1;
+    for (const s of p.seasons) seasonCounts[s] = (seasonCounts[s] ?? 0) + 1;
+    for (const w of p.waterTypes) waterTypeCounts[w] = (waterTypeCounts[w] ?? 0) + 1;
+    for (const sp of p.species) speciesCounts[sp] = (speciesCounts[sp] ?? 0) + 1;
+  }
+
   const products = await prisma.product.findMany({
     where: {
       active: true,
@@ -159,6 +182,7 @@ export default async function ShopPage({
             href={categoryHref()}
             active={!activeCategory}
             label={tCategories("ALL")}
+            count={totalCount}
           />
           {CATEGORY_ORDER.map((cat) => (
             <CategoryPill
@@ -166,6 +190,7 @@ export default async function ShopPage({
               href={categoryHref(cat)}
               active={activeCategory === cat}
               label={tCategories(cat)}
+              count={categoryCounts[cat] ?? 0}
             />
           ))}
         </div>
@@ -188,6 +213,7 @@ export default async function ShopPage({
             href={buildHref({ season: undefined })}
             active={!activeSeason}
             label={t("all")}
+            count={totalCount}
           />
           {SEASONS.map((s) => (
             <FilterPill
@@ -195,6 +221,7 @@ export default async function ShopPage({
               href={buildHref({ season: activeSeason === s ? undefined : s })}
               active={activeSeason === s}
               label={tAngling(`seasons.${s}`)}
+              count={seasonCounts[s] ?? 0}
             />
           ))}
         </div>
@@ -206,6 +233,7 @@ export default async function ShopPage({
             href={buildHref({ waterType: undefined })}
             active={!activeWaterType}
             label={t("all")}
+            count={totalCount}
           />
           {WATER_TYPES.map((w) => (
             <FilterPill
@@ -213,6 +241,7 @@ export default async function ShopPage({
               href={buildHref({ waterType: activeWaterType === w ? undefined : w })}
               active={activeWaterType === w}
               label={tAngling(`waterTypes.${w}`)}
+              count={waterTypeCounts[w] ?? 0}
             />
           ))}
         </div>
@@ -228,7 +257,8 @@ export default async function ShopPage({
             href={`/shop/species/${SPECIES_SLUGS[sp]}`}
             className="text-sm text-ink/70 underline decoration-forest/20 underline-offset-2 transition hover:text-forest hover:decoration-forest"
           >
-            {tAngling(`species.${sp}`)}
+            {tAngling(`species.${sp}`)}{" "}
+            <span className="text-ink/45">({speciesCounts[sp] ?? 0})</span>
           </Link>
         ))}
       </div>
@@ -252,10 +282,12 @@ function FilterPill({
   href,
   active,
   label,
+  count,
 }: {
   href: string;
   active: boolean;
   label: string;
+  count?: number;
 }) {
   return (
     <Link
@@ -267,6 +299,7 @@ function FilterPill({
       }`}
     >
       {label}
+      {count !== undefined && <span className="opacity-70"> ({count})</span>}
     </Link>
   );
 }
@@ -275,10 +308,12 @@ function CategoryPill({
   href,
   active,
   label,
+  count,
 }: {
   href: string;
   active: boolean;
   label: string;
+  count?: number;
 }) {
   return (
     <Link
@@ -290,6 +325,7 @@ function CategoryPill({
       }`}
     >
       {label}
+      {count !== undefined && <span className="opacity-70"> ({count})</span>}
     </Link>
   );
 }

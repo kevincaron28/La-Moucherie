@@ -700,9 +700,9 @@ export function AdminDashboardClient({
               : "All inventory levels are healthy."}
           </div>
         ) : (
-          <div className="mt-6 overflow-hidden rounded-2xl border border-forest/15 bg-parchment">
+          <div className="mt-6 max-h-[32rem] overflow-y-auto rounded-2xl border border-forest/15 bg-parchment">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-forest/10 bg-cream/60 text-xs font-semibold text-forest">
+              <thead className="sticky top-0 border-b border-forest/10 bg-cream/95 text-xs font-semibold text-forest backdrop-blur">
                 <tr>
                   <th className="p-3">SKU</th>
                   <th className="p-3">Patron</th>

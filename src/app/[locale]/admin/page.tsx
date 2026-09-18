@@ -37,13 +37,17 @@ export default async function AdminPage({
       },
       orderBy: { createdAt: "desc" },
     }),
+    // No take limit: this is a work list, not a teaser. Capping it at 30 used
+    // to hide the fact that, pre-launch, every one of the ~100 active
+    // variants across every hook size sits at zero — a silently truncated
+    // "low stock" list is worse than no list at all for the person about to
+    // fill it in.
     prisma.productVariant.findMany({
       where: { stock: { lte: 3 }, product: { active: true } },
       include: {
         product: { select: { slug: true, nameFr: true, nameEn: true } },
       },
-      orderBy: { stock: "asc" },
-      take: 30,
+      orderBy: [{ product: { nameFr: "asc" } }, { stock: "asc" }],
     }),
     // Zero variants is a different, more urgent problem than low stock — a
     // product like this has nothing to add to cart at all, and the
