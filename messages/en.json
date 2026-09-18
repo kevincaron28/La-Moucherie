@@ -370,7 +370,7 @@
     "q5": "What hook sizes do you carry?",
     "a5": "It varies by pattern — each product page lists the exact sizes currently available.",
     "q6": "Can I return a fly?",
-    "a6": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have already been fished can't be returned.",
+    "a6": "We aren't accepting returns at the moment. If a fly didn't perform, write to us anyway — that's something we want to know about.",
     "q7": "Can I request a custom pattern?",
     "a7": "Yes — tell us what you're after through the contact page and we'll let you know if we can tie it.",
     "q8": "How should I store my flies?",
@@ -483,7 +483,7 @@
     "trackedBody": "Canada Post parcel with tracking from our bench to your door, and a delivery confirmation.",
     "freeNote": "Orders of {amount} or more ship free on our standard tracked option. Faster options (Xpresspost, Priority) are quoted live at checkout and still cost extra.",
     "returnsTitle": "Returns",
-    "returnsBody": "If a fly isn't right, write to us within 30 days and we'll replace it or refund it. Flies that have been fished can't be returned — but tell us anyway if one came apart, because that's something we want to know about.",
+    "returnsBody": "We aren't accepting returns or refunds at the moment. If a fly came apart or didn't perform, tell us anyway — that's something we want to know about.",
     "trackedZoneNote": "The parcel rate depends on where it's going; your exact cost appears at checkout once you pick your province."
   },
   "Angling": {

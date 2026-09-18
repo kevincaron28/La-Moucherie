@@ -109,10 +109,6 @@ export default async function AccountPage({
       {!user.emailVerified && <VerifyEmailBanner email={user.email} />}
 
       <div className="mt-8 space-y-3">
-      <AccountSection title={t("myAvatar")} hint={t("myAvatarHint")} defaultOpen>
-        <AvatarPicker initial={user.favoriteSpecies} />
-      </AccountSection>
-
       <AccountSection
         title={t("orderHistory")}
         count={orders.length}
@@ -265,7 +261,14 @@ export default async function AccountPage({
       </AccountSection>
 
       <AccountSection title={t("accountDetails")} hint={t("accountDetailsHint")}>
-        <div className="max-w-lg">
+        <div className="max-w-lg space-y-6">
+          <div>
+            <p className="text-sm font-medium text-forest">{t("myAvatar")}</p>
+            <p className="mt-1 text-xs text-ink/60">{t("myAvatarHint")}</p>
+            <div className="mt-3">
+              <AvatarPicker initial={user.favoriteSpecies} />
+            </div>
+          </div>
           <AccountDetailsForms initialName={user.name} initialEmail={user.email} />
         </div>
       </AccountSection>

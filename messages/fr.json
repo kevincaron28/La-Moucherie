@@ -370,7 +370,7 @@
     "q5": "Quelles tailles d'hameçon offrez-vous ?",
     "a5": "Ça varie selon le patron — chaque fiche produit indique les tailles réellement disponibles.",
     "q6": "Puis-je retourner une mouche ?",
-    "a6": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées.",
+    "a6": "Nous n'acceptons pas les retours pour le moment. Si une mouche s'est mal comportée à l'usage, écrivez-nous quand même — c'est le genre de chose que nous voulons savoir.",
     "q7": "Puis-je demander un patron sur mesure ?",
     "a7": "Oui — dites-nous ce que vous cherchez via la page contact, et nous vous dirons si on peut le monter.",
     "q8": "Comment dois-je entreposer mes mouches ?",
@@ -483,7 +483,7 @@
     "trackedBody": "Colis de Postes Canada suivi de notre étau jusqu'à votre porte, avec confirmation de livraison.",
     "freeNote": "Les commandes de {amount} et plus sont livrées gratuitement sur notre option standard avec suivi. Les options plus rapides (Xpresspost, Priority) sont cotées en direct au paiement et coûtent encore un supplément.",
     "returnsTitle": "Retours",
-    "returnsBody": "Si une mouche ne convient pas, écrivez-nous dans les 30 jours et nous la remplacerons ou la rembourserons. Les mouches déjà pêchées ne peuvent être retournées — mais dites-le-nous quand même si l'une d'elles s'est défaite, c'est le genre de chose que nous voulons savoir.",
+    "returnsBody": "Nous n'acceptons pas les retours ni les remboursements pour le moment. Si une mouche s'est mal comportée ou s'est défaite à l'usage, dites-le-nous quand même — c'est le genre de chose que nous voulons savoir.",
     "trackedZoneNote": "Le tarif du colis dépend de la destination; votre coût exact s'affiche au paiement une fois votre province choisie."
   },
   "Angling": {

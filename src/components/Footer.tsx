@@ -77,6 +77,11 @@ export function Footer() {
                   {t("waters")}
                 </Link>
               </li>
+              <li>
+                <Link href="/faq" className="hover:text-cream">
+                  {t("faq")}
+                </Link>
+              </li>
               {SPECIES.slice(0, 3).map((s) => (
                 <li key={s}>
                   <Link
@@ -159,11 +164,6 @@ export function Footer() {
               <li>
                 <Link href="/shipping" className="hover:text-cream">
                   {t("shipping")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-cream">
-                  {t("faq")}
                 </Link>
               </li>
               <li>
