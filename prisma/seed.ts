@@ -639,6 +639,94 @@ const plannedFlies: {
 // Named water. The sharpest form of the Québec position — and the strongest SEO
 // asset here, because nobody outside the province can credibly claim these.
 const waters = [
+  // The seven the bench actually fishes, then three destination rivers worth
+  // naming. Regions are the grouping the /shop/water index reads, so a region
+  // qualified with a sub-area ("Montérégie — Haute-Yamaska") still files under
+  // its region there.
+  {
+    slug: "fleuve-saint-laurent",
+    nameFr: "Fleuve Saint-Laurent",
+    nameEn: "St. Lawrence River",
+    regionFr: "Montérégie",
+    regionEn: "Montérégie",
+    descriptionFr:
+      "Le plus grand plan d'eau qu'on pêche, et le plus varié : achigan à petite et à grande bouche, brochet, doré et carpe, souvent à quelques minutes de la maison. Les herbiers et les battures des secteurs calmes se pêchent très bien à la mouche.",
+    descriptionEn:
+      "The biggest water we fish and the most varied: smallmouth and largemouth bass, pike, walleye and carp, often minutes from home. The weed beds and shallow flats of the slower stretches fish very well on a fly.",
+    featured: true,
+  },
+  {
+    slug: "riviere-richelieu",
+    nameFr: "Rivière Richelieu",
+    nameEn: "Richelieu River",
+    regionFr: "Montérégie",
+    regionEn: "Montérégie",
+    descriptionFr:
+      "Du lac Champlain jusqu'à Sorel, une grande rivière lente et riche. Achigan à petite bouche, brochet, doré et carpe ; les rapides de Chambly sont un secteur à part.",
+    descriptionEn:
+      "From Lake Champlain down to Sorel, a large, slow, fertile river. Smallmouth bass, pike, walleye and carp — and the Chambly rapids are their own kind of water.",
+    featured: true,
+  },
+  {
+    slug: "riviere-chateauguay",
+    nameFr: "Rivière Châteauguay",
+    nameEn: "Châteauguay River",
+    regionFr: "Montérégie",
+    regionEn: "Montérégie",
+    descriptionFr:
+      "Une rivière de la Montérégie qui prend sa source dans l'État de New York avant de se jeter dans le lac Saint-Louis. Eaux chaudes sur la majeure partie de son cours : achigan, brochet et doré.",
+    descriptionEn:
+      "A Montérégie river rising in New York State before emptying into Lac Saint-Louis. Warmwater along most of its length: bass, pike and walleye.",
+    featured: true,
+  },
+  {
+    slug: "riviere-yamaska-nord",
+    nameFr: "Rivière Yamaska Nord",
+    nameEn: "Yamaska Nord River",
+    regionFr: "Montérégie — Haute-Yamaska",
+    regionEn: "Montérégie — Haute-Yamaska",
+    descriptionFr:
+      "Plus petite et plus intime que les autres, elle traverse le secteur de Waterloo et de Granby. Les portions hautes gardent de l'eau fraîche et de la truite.",
+    descriptionEn:
+      "Smaller and more intimate than the others, running through the Waterloo and Granby area. The upper reaches hold cooler water and trout.",
+    featured: false,
+  },
+  {
+    slug: "riviere-du-nord",
+    nameFr: "Rivière du Nord",
+    nameEn: "Rivière du Nord",
+    regionFr: "Laurentides",
+    regionEn: "Laurentides",
+    descriptionFr:
+      "La rivière des Laurentides qui traverse Saint-Jérôme et Prévost avant de rejoindre l'Outaouais. Truite dans les secteurs frais, achigan plus bas.",
+    descriptionEn:
+      "The Laurentian river running through Saint-Jérôme and Prévost before joining the Ottawa. Trout in the cooler stretches, bass further down.",
+    featured: false,
+  },
+  {
+    slug: "riviere-rouge",
+    nameFr: "Rivière Rouge",
+    nameEn: "Rivière Rouge",
+    regionFr: "Laurentides",
+    regionEn: "Laurentides",
+    descriptionFr:
+      "Plus au nord et plus sauvage, connue pour ses rapides autant que pour sa pêche. Truite brune et mouchetée dans les secteurs frais, achigan et doré vers l'embouchure.",
+    descriptionEn:
+      "Further north and wilder, as well known for its whitewater as its fishing. Brown and brook trout in the cooler stretches, bass and walleye toward the mouth.",
+    featured: false,
+  },
+  {
+    slug: "riviere-nicolet",
+    nameFr: "Rivière Nicolet",
+    nameEn: "Nicolet River",
+    regionFr: "Centre-du-Québec",
+    regionEn: "Centre-du-Québec",
+    descriptionFr:
+      "Elle descend des Appalaches vers le lac Saint-Pierre. Les branches supérieures sont des eaux à truite ; le bas de la rivière se réchauffe et donne de l'achigan.",
+    descriptionEn:
+      "Draining the Appalachians toward Lac Saint-Pierre. The upper branches are trout water; the lower river warms and gives up bass.",
+    featured: false,
+  },
   {
     slug: "riviere-jacques-cartier",
     nameFr: "Rivière Jacques-Cartier",
@@ -649,7 +737,7 @@ const waters = [
       "Une rivière à fond rocheux, rapide et claire, réputée pour son omble de fontaine et le retour du saumon atlantique. L'eau est froide et bien oxygénée : les nymphes lourdes travaillent au printemps, les sèches prennent le relais à l'éclosion du soir en été.",
     descriptionEn:
       "A fast, clear freestone river known for brook trout and the return of Atlantic salmon. The water is cold and well oxygenated: heavy nymphs earn their keep in spring, dries take over for the evening hatch in summer.",
-    featured: true,
+    featured: false,
   },
   {
     slug: "riviere-sainte-anne",
@@ -661,7 +749,7 @@ const waters = [
       "Des fosses profondes séparées par des rapides courts — une rivière qui récompense le pêcheur qui couvre du terrain. Les éclosions de trichoptères de fin d'été y sont parmi les meilleures de la région.",
     descriptionEn:
       "Deep pools separated by short rapids — a river that rewards covering water. The late-summer caddis hatches here are among the best in the region.",
-    featured: true,
+    featured: false,
   },
   {
     slug: "riviere-matapedia",
@@ -673,31 +761,7 @@ const waters = [
       "L'une des grandes rivières à saumon du Québec, célèbre pour son eau limpide et ses longues fosses. Une eau qui demande des présentations soignées et des mouches montées solidement.",
     descriptionEn:
       "One of Québec's great salmon rivers, famous for gin-clear water and long holding pools. Water that asks for careful presentation and flies tied to hold up.",
-    featured: true,
-  },
-  {
-    slug: "riviere-richelieu",
-    nameFr: "Rivière Richelieu",
-    nameEn: "Richelieu River",
-    regionFr: "Montérégie",
-    regionEn: "Montérégie",
-    descriptionFr:
-      "Plus lente et plus chaude que les rivières à truite, le Richelieu est un terrain d'achigan et de brochet. Les streamers le long des herbiers, tôt le matin et à la brunante, y font la différence.",
-    descriptionEn:
-      "Slower and warmer than the trout rivers, the Richelieu is bass and pike water. Streamers along the weed beds, early and at dusk, are what make the difference.",
     featured: false,
-  },
-  {
-    slug: "fleuve-saint-laurent",
-    nameFr: "Fleuve Saint-Laurent",
-    nameEn: "St. Lawrence River",
-    regionFr: "Montréal et Montérégie",
-    regionEn: "Montréal and Montérégie",
-    descriptionFr:
-      "Une eau immense et variée : achigan à petite bouche dans les courants, brochet dans les baies, doré au fil des structures. Des mouches plus grosses et plus mobiles que sur nos rivières à truite.",
-    descriptionEn:
-      "Big, varied water: smallmouth in the current, pike in the bays, walleye along structure. Bigger, more mobile flies than our trout rivers ask for.",
-    featured: true,
   },
 ];
 

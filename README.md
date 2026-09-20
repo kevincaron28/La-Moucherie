@@ -198,19 +198,13 @@ things standing between this site and its first sale, and neither is code.
 2. **Photograph the catalogue.** 33 of 37 products have no photo. They now fall back to a
    per-category illustration rather than a blank square, which is a far better holding
    position than it was — but a real photo of a real fly is what sells a fly.
-3. **Build a small product editor into `/admin`.** Today the only way to change a price,
-   a description or a stock count is `npm run db:studio` — a raw database client. That is
-   also the direct cause of two of this audit's worst findings: 14 products existed only
-   in the database because adding them through Studio never wrote them back to the seed
-   file, and every stock count would have been wiped by the documented re-seed command.
-   An editor for name, description, price, stock, photos and the angler metadata would
-   remove the whole class of problem, and would let stock be set from a phone at the bench.
-4. **Turn on the "Tied with" list, pattern by pattern.** All 37 products have a recipe in
-   the database (204 material rows) and every one of them is hidden, because
-   `materialsPublic` defaults to false until someone has checked that fly's dressing
-   against how this bench actually ties it. That is the right default — but it means a
-   genuinely good section of every product page is currently invisible. Verifying a
-   pattern takes a minute and adds real depth where there is currently only a description.
+3. ~~Build a small product editor into `/admin`.~~ **Built** — see "The product editor"
+   below. Price, copy, photos, angler metadata and stock per hook size are all editable
+   from `/admin/products` now, so `db:studio` is no longer part of the daily job.
+4. ~~Turn on the "Tied with" list.~~ **Decided against, permanently.** The recipes exist
+   for the bench, not for the storefront: they tell the tyer what to buy or pull to fill
+   an order, and that is all they are for. `materialsPublic` stays false and the product
+   page keeps no "Tied with" section. Don't re-propose this.
 5. **Ask for a review after an order ships.** There are zero reviews on 37 products. The
    email pipeline, the review form, the moderation queue and a daily cron all already
    exist; what's missing is the one email that asks. Reviews are also the only content on
@@ -286,6 +280,23 @@ one that took a manual step). Going forward: prefer working directly against `ma
 short-lived branch merged back the same session) over long-lived per-feature branches,
 and treat any branch a background/worktree agent creates as disposable the moment its
 work lands on `main` — it should be deleted right after merging, not left around.
+
+**Operational note — a schema value must reach the running code BEFORE any row uses
+it. Learned the hard way 2026-09-20.** Adding `CARP` to the `FishSpecies` enum was done
+in the wrong order: the database got the new value and two products were set to
+`species: ['CARP']` while the deployment still serving traffic had a Prisma client
+generated before carp existed. Prisma validates enum values as it reads them back, so the
+first page to load a product threw `Value 'CARP' not found in enum 'FishSpecies'` and the
+homepage returned 500 — for about ten minutes, which is exactly when Google's inspection
+tool crawled it, producing a "URL is not available to Google / Server error (5xx)" in
+Search Console that looked far more alarming than it was. Nothing was wrong with the site
+by the time anyone looked.
+
+The order that avoids it, for any additive schema change: **migrate, deploy the code that
+knows about the new value, and only then write data that uses it.** The migration itself
+is safe to run early — it's adding the value to live rows that breaks the old client.
+If it happens anyway, the fix is just to deploy; then re-request indexing in Search
+Console, since Google caches the failure until it recrawls.
 
 **Operational note — expect a brief window after a migration where the pooled
 connection can 500 on the new column/table.** Confirmed 2026-09-17: a deploy applied a
@@ -412,6 +423,33 @@ separate, unticked checkbox, and a subscriber created that way records
 `consentSource = "hatch_report_form"` — Canadian anti-spam law requires being able to show
 *how* express consent was obtained, which a bare `subscribedAt` cannot answer.
 
+## The product editor (`/admin/products`)
+
+Every field on a product except its recipe, editable from the dashboard: names,
+descriptions, base price, for-sale and featured flags, photo paths, how-to-fish, tyer's
+tip, what it imitates, the angler metadata (species, seasons, water types, techniques),
+the named waters it's linked to, and — the reason the page exists — **stock, price and
+SKU per hook size**, including adding and removing sizes.
+
+It replaced `npm run db:studio` as the tool for this job, and that was the point. Studio
+is a raw database client: no validation, no idea which columns matter, and desktop-only.
+That is also how two of the audit's worst findings happened — 14 patterns existed only in
+the database because adding them through Studio never wrote them back to `seed.ts`, and
+every stock count sat at zero partly because setting them meant opening a database client.
+
+Three rules the API enforces (`PATCH /api/admin/products/[id]`), because the UI can't:
+
+- **A SKU is unique across the whole catalogue**, so a typo that collides with another
+  pattern's hook size is refused by name rather than surfacing as a raw Prisma error.
+- **A hook size that has already been ordered cannot be removed.** The order keeps its own
+  name and price snapshot, but the variant is what the fulfilment list counts from, so
+  deleting it would quietly break a past order. Refused, naming the SKU.
+- **A blank price override means "use the base price"** — stored as null, never zero. Zero
+  is a free fly.
+
+Materials are deliberately not editable here; they're a bench tool, edited as recipes.
+See below.
+
 ## Materials & the production run sheet (`/admin/production`)
 
 Each pattern has a recipe: `Material` rows (what's in the bin) joined to products
@@ -431,10 +469,13 @@ useless at the shop counter — that's the one material you order by size.
 
 **Recipes are seeded from the standard published dressing for each pattern** (see
 `prisma/fly-recipes.ts`), which is a starting point, not a record of how this bench
-actually ties. That's why `Product.materialsPublic` defaults to `false`: the "Tied with"
-list on a product page stays hidden until someone has read that fly's recipe and turned it
-on. Supplier notes and quantities are never public either way — that's sourcing, not
-merchandising. Re-seed with `npm run db:seed-materials` (idempotent; it upserts).
+actually ties. Re-seed with `npm run db:seed-materials` (idempotent; it upserts).
+
+**Recipes are not customer-facing, and that is a settled decision (2026-09-20).** They
+exist so the tyer knows what to buy or pull to fill an order — a bench tool, not a
+merchandising one. `materialsPublic` stays `false` on every product and no product page
+renders a "Tied with" section. The column and the flag are left in place because the run
+sheet reads the same rows, not because publishing is pending. Don't propose turning it on.
 
 ## The hatch chart (`/hatches`)
 
@@ -626,8 +667,18 @@ so they're reachable without landing on `/shop` first.
 
 Named water is the sharpest form of the Québec position and the strongest SEO
 asset here — no competitor outside the province can credibly claim the
-Jacques-Cartier or the Matapédia. Add waters in `prisma/seed.ts` and link
-patterns to them by slug.
+Jacques-Cartier or the Matapédia. Add waters in `prisma/seed.ts`, and link patterns to
+them from the product editor (`/admin/products` → Named waters).
+
+**`/shop/water` is grouped by region so it can keep growing.** Ten rivers in one
+alphabetical grid is fine; thirty is a wall. Regions holding a featured water lead — those
+are the ones actually fished from the bench — and every other region falls in
+alphabetically, so a new river slots into place without anyone reordering a list. A region
+written with a sub-area (`Montérégie — Haute-Yamaska`) still files under its region, so
+naming a precise corner of the province doesn't split it into a group of one.
+
+**A water with no patterns linked to it is worse than no page at all** — it publishes an
+empty shelf. Every water currently has flies against it; keep that true when adding one.
 
 **French is not a translation layer.** Species names carry a definite article
 that elides before a vowel, so `Angling.speciesDefinite` holds the full form

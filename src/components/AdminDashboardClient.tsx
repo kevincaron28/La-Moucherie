@@ -1567,6 +1567,16 @@ export function AdminDashboardClient({
               : "Production run sheet (to tie + materials)"}{" "}
             &rarr;
           </a>
+          <a
+            href={`/${locale}/admin/products`}
+            className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-parchment px-4 py-2 text-xs font-semibold text-forest shadow-sm transition hover:bg-forest/10"
+          >
+            🪶{" "}
+            {locale === "fr"
+              ? "Produits (prix, texte, stock par taille)"
+              : "Products (price, copy, stock per size)"}{" "}
+            &rarr;
+          </a>
         </div>
       </details>
     </div>

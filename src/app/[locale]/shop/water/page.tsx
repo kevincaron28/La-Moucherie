@@ -35,6 +35,30 @@ export default async function WatersIndexPage({
     orderBy: [{ featured: "desc" }, { nameFr: "asc" }],
   });
 
+  // Grouped by region rather than listed flat, because this page is meant to
+  // keep growing: thirty rivers in one alphabetical grid is a wall, the same
+  // thirty under their regions is a map. A region qualified with a sub-area
+  // ("Montérégie — Haute-Yamaska") groups under the region itself, so naming a
+  // precise corner of the province doesn't split it off on its own.
+  const groups = new Map<string, typeof waters>();
+  for (const w of waters) {
+    const key = pick(w.regionFr, w.regionEn, locale).split("—")[0].trim();
+    const existing = groups.get(key);
+    if (existing) existing.push(w);
+    else groups.set(key, [w]);
+  }
+
+  // The regions holding a featured water lead — those are the ones actually
+  // fished from the bench — and everything else falls in alphabetically, so a
+  // new river slots into place without anyone reordering a list.
+  const collator = new Intl.Collator(locale === "fr" ? "fr-CA" : "en-CA");
+  const regions = [...groups.entries()].sort(([aName, a], [bName, b]) => {
+    const aFeatured = a.some((w) => w.featured);
+    const bFeatured = b.some((w) => w.featured);
+    if (aFeatured !== bFeatured) return aFeatured ? -1 : 1;
+    return collator.compare(aName, bName);
+  });
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <Link href="/shop" className="text-sm font-medium text-forest/70 hover:text-rust">
@@ -49,26 +73,32 @@ export default async function WatersIndexPage({
       {waters.length === 0 ? (
         <p className="mt-10 text-ink/60">{t("indexEmpty")}</p>
       ) : (
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-          {waters.map((w) => (
-            <li key={w.slug}>
-              <Link
-                href={`/shop/water/${w.slug}`}
-                className="block rounded-xl border border-forest/15 bg-cream/40 p-5 transition hover:border-forest/40 hover:bg-cream/70"
-              >
-                <p className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-                  {pick(w.regionFr, w.regionEn, locale)}
-                </p>
-                <p className="mt-1 font-display text-lg font-semibold text-forest">
-                  {pick(w.nameFr, w.nameEn, locale)}
-                </p>
-                <p className="mt-2 line-clamp-2 text-sm text-ink/70">
-                  {pick(w.descriptionFr, w.descriptionEn, locale)}
-                </p>
-              </Link>
-            </li>
+        <div className="mt-10 space-y-10">
+          {regions.map(([region, inRegion]) => (
+            <section key={region}>
+              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+                {region}
+              </h2>
+              <ul className="mt-3 grid gap-4 sm:grid-cols-2">
+                {inRegion.map((w) => (
+                  <li key={w.slug}>
+                    <Link
+                      href={`/shop/water/${w.slug}`}
+                      className="block h-full rounded-xl border border-forest/15 bg-cream/40 p-5 transition hover:border-forest/40 hover:bg-cream/70"
+                    >
+                      <p className="font-display text-lg font-semibold text-forest">
+                        {pick(w.nameFr, w.nameEn, locale)}
+                      </p>
+                      <p className="mt-2 line-clamp-2 text-sm text-ink/70">
+                        {pick(w.descriptionFr, w.descriptionEn, locale)}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
