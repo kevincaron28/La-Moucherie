@@ -179,7 +179,12 @@
   "NotFound": {
     "title": "Page introuvable",
     "body": "Cette page n'existe pas ou a été déplacée.",
-    "cta": "Retour à la boutique"
+    "cta": "Retour à la boutique",
+    "elsewhere": "Ou essayez plutôt",
+    "linkShop": "La boutique",
+    "linkHatches": "Calendrier d'éclosions",
+    "linkWaters": "Nos eaux",
+    "linkContact": "Nous écrire"
   },
   "ErrorPage": {
     "title": "Une erreur est survenue",

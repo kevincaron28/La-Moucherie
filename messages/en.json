@@ -179,7 +179,12 @@
   "NotFound": {
     "title": "Page not found",
     "body": "This page doesn't exist or has moved.",
-    "cta": "Back to shop"
+    "cta": "Back to shop",
+    "elsewhere": "Or try one of these",
+    "linkShop": "The shop",
+    "linkHatches": "Hatch chart",
+    "linkWaters": "Our waters",
+    "linkContact": "Get in touch"
   },
   "ErrorPage": {
     "title": "Something went wrong",
