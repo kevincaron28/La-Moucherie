@@ -5,6 +5,10 @@ import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
 import type { Locale } from "@/i18n/routing";
 
+// Lists every named water from the database, so it must not be frozen at build
+// time — adding a river would otherwise need a deploy to show up.
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: {

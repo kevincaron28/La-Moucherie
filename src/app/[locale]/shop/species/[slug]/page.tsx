@@ -8,7 +8,11 @@ import { SPECIES, SPECIES_SLUGS, speciesFromSlug } from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
 
 // Prerendered for both locales: these are the pages meant to be found in
-// search, so they shouldn't wait on a first request to exist.
+// search, so they shouldn't wait on a first request to exist. Revalidated
+// hourly so the catalogue they list — a new pattern, a retired one, a change of
+// target species — doesn't stay frozen at whatever the last deploy saw.
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return SPECIES.map((s) => ({ slug: SPECIES_SLUGS[s] }));
 }

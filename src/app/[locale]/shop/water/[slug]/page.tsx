@@ -9,6 +9,12 @@ import { HATCHES } from "@/lib/hatches";
 import { chipClass } from "@/lib/chip";
 import type { Locale } from "@/i18n/routing";
 
+// Prerendered, because these pages exist to be found in search — but this page
+// also lists the hatch reports the owner approves in /admin, and a page frozen
+// at build time would never show one until the next deploy. An hour keeps the
+// static, indexable version and still lets approved content appear on its own.
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const waters = await prisma.fishingWater.findMany({ select: { slug: true } });
   return waters.map((w) => ({ slug: w.slug }));

@@ -181,6 +181,13 @@
     "body": "Cette page n'existe pas ou a été déplacée.",
     "cta": "Retour à la boutique"
   },
+  "ErrorPage": {
+    "title": "Une erreur est survenue",
+    "body": "Le site a rencontré un problème inattendu de notre côté. Réessayez dans un instant — si ça persiste, écrivez-nous.",
+    "retry": "Réessayer",
+    "home": "Retour à l'accueil",
+    "reference": "Référence :"
+  },
   "Shop": {
     "title": "La boutique",
     "subtitle": "Mouches artisanales montées à la main, prêtes à pêcher sur les rivières et lacs du Québec.",

@@ -16,12 +16,12 @@ completes** — this list, not chat history, is the record of where the audit go
 | 1 | Build health: typecheck, lint, production build, dependency/vulnerability check | ✅ done |
 | 2 | Data integrity: products, variants, stock, images, orphaned rows, slug references | ✅ done |
 | 3 | Fly sheets: every product complete (description, how-to-fish, tip, species/season/water, materials, sizes, SEO) | ✅ done |
-| 4 | Insect sheets: all 38 hatches complete (article, id marks, stages, icon, pattern links resolve) | ☐ not started |
-| 5 | Routes: every page renders, no 500s, metadata present on public pages | ☐ not started |
-| 6 | i18n: fr/en message parity, no missing or unused keys, no hardcoded strings | ☐ not started |
-| 7 | Robustness: null-safety, external API failure paths, webhook/cron idempotency, DB constraints | ☐ not started |
-| 8 | Security: auth gates, admin routes, input validation, rate limits, secret handling | ☐ not started |
-| 9 | SEO/performance: sitemap, robots, image sizing, caching directives | ☐ not started |
+| 4 | Insect sheets: all 38 hatches complete (article, id marks, stages, icon, pattern links resolve) | ✅ done |
+| 5 | Routes: every page renders, no 500s, metadata present on public pages | ✅ done |
+| 6 | i18n: fr/en message parity, no missing or unused keys, no hardcoded strings | ✅ done |
+| 7 | Robustness: null-safety, external API failure paths, webhook/cron idempotency, DB constraints | ✅ done |
+| 8 | Security: auth gates, admin routes, input validation, rate limits, secret handling | ✅ done |
+| 9 | SEO/performance: sitemap, robots, image sizing, caching directives | ✅ done |
 | 10 | Fix everything found, validate, deploy | ☐ not started |
 | 11 | Write up suggested improvements/upgrades | ☐ not started |
 
@@ -104,6 +104,69 @@ they never appeared on a species page despite leading the category list).
     same nine values, so adding one to the schema left three of them silently disagreeing —
     the API would have rejected a species its own form offered. They now all read the
     shared `SPECIES` const.
+
+*Step 4 — insect sheets.* **No problems.** All 38 hatches have an article, an icon and a
+full set of field marks, life stages and sections in both languages; every emergence
+window is a valid date range, every peak falls inside its own active window, and all 26
+pattern slugs the chart and the articles reference resolve to active products. This was
+verified by a new script rather than by reading, because these three files
+(`hatches.ts`, `insect-articles.ts`, `InsectIcon.tsx`) refer to each other by bare string
+id with nothing enforcing the other side exists — a typo doesn't crash anything, it just
+makes a link, an icon or a whole article quietly vanish from the page.
+
+11. **Nothing was checking any of that.** (fixed) Added `npm run check:content`
+    (`scripts/check-content.ts`): it cross-checks hatch ids against articles and icons,
+    validates every date window, and — whenever a database is reachable — confirms every
+    referenced pattern slug is still an active product. Run it after touching any of those
+    files, or after renaming a product slug.
+12. **40-odd search snippets are written past where Google truncates them** (reported, not
+    changed). 26 of the 38 articles have a meta description over 175 characters and six
+    have a title over 70, so the part that would make someone click is cut off. These
+    pages exist to be found, so it is worth a pass — but it is copywriting in two
+    languages, not a defect, and rewriting them mechanically would make them worse. `npm
+    run check:content` lists exactly which ones.
+
+*Steps 5-9 — routes, i18n, robustness, security, SEO.* 33 routes, 35 API handlers and 615
+message keys per locale. The French and English message files are exactly in step: same
+615 keys, nothing missing on either side, and no key referenced in code that doesn't
+exist. Every API route that should be gated is gated — admin routes behind `isAdmin()`,
+the cron sweep behind `CRON_SECRET`, the Stripe webhook behind a verified signature, and
+the newsletter unsubscribe correctly treating its own token as the credential. The Stripe
+webhook is properly idempotent: it re-reads the order inside a transaction and only draws
+stock down from `PENDING`, so a Stripe retry or a manual resend can't double-count.
+Five findings:
+
+13. **A page that threw showed Next's raw error screen.** (fixed) There was no `error.tsx`
+    anywhere and no `global-error.tsx` — so any uncaught render error on the live shop
+    rendered an unstyled stack-trace page. That isn't hypothetical: the pooler-settle
+    window documented further down this README produces exactly that, on a page that will
+    work again a minute later. Added a branded error page (with a retry button, both
+    locales, and the error digest so a report can be matched to a log line) plus a
+    dependency-free `global-error.tsx` for failures in the root layout itself.
+14. **`/shop/water/[slug]` was frozen at build time while showing admin-published
+    content.** (fixed) It has `generateStaticParams` and no revalidation, so it was
+    prerendered once per deploy — but it lists the hatch reports the owner approves in
+    `/admin`. An approved report would therefore never have appeared on the water page
+    until somebody happened to redeploy. This is the same failure `/`, `/catches` and
+    `/reports` were already fixed for; these pages were missed. Given as `revalidate =
+    3600` rather than `force-dynamic` so they stay static and indexable — the reason they
+    were prerendered in the first place. Same treatment for `/shop/species/[slug]`,
+    `/shop/water` and `/hatches/[id]`, which all read the catalogue.
+15. **Only product pages produced a link preview.** (fixed) `openGraph` existed on
+    `/shop/[slug]` and nowhere else, so a link to the hatch chart, an insect guide or the
+    home page — shared on Instagram, or in a message, which is most of how this shop gets
+    found — showed a bare URL with no title, description or image. Defaults now live on
+    the root layout and are inherited by every page, along with `metadataBase` (without
+    which relative image paths in page metadata resolve against localhost at build time).
+16. **The cron secret was compared with `===`.** (fixed) A string comparison returns early
+    on the first wrong byte, which is measurable; it now compares SHA-256 digests with
+    `timingSafeEqual`, so neither the contents nor the length of the secret leak.
+17. **`next/image` is used for product photos while `remotePatterns` is empty**
+    (reported, not changed). Local paths are all that the workflow produces today, so
+    nothing is broken — but a product image set to an `https://` URL through `db:studio`
+    would throw at render and take out the shop grid, the product page and the cart at
+    once. Worth either allow-listing a host or falling back to a plain `<img>` for
+    non-local sources before any image ever gets pasted in from elsewhere.
 
 ## Where things stand (updated 2026-09-17)
 

@@ -35,12 +35,37 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lamoucherie.ca";
+
   return {
+    // Without a metadataBase, every relative image path in a page's own
+    // metadata resolves against localhost at build time.
+    metadataBase: new URL(baseUrl),
     title: {
       default: t("title"),
       template: "%s — La Moucherie",
     },
     description: t("description"),
+    // Inherited by every page that doesn't set its own. Until this existed,
+    // only a product page produced a link preview — a link to the hatch chart
+    // or an insect guide shared on Instagram or in a message showed a bare URL,
+    // which is most of what this shop is discovered through.
+    openGraph: {
+      type: "website",
+      siteName: "La Moucherie",
+      locale: locale === "fr" ? "fr_CA" : "en_CA",
+      alternateLocale: locale === "fr" ? "en_CA" : "fr_CA",
+      title: t("title"),
+      description: t("description"),
+      url: `${baseUrl}/${locale}`,
+      images: [{ url: "/brand/logo-512.png", width: 512, height: 512 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: ["/brand/logo-512.png"],
+    },
   };
 }
 

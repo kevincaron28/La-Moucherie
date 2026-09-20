@@ -181,6 +181,13 @@
     "body": "This page doesn't exist or has moved.",
     "cta": "Back to shop"
   },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "body": "The site hit an unexpected problem on our end. Try again in a moment — if it keeps happening, get in touch.",
+    "retry": "Try again",
+    "home": "Back to home",
+    "reference": "Reference:"
+  },
   "Shop": {
     "title": "The Shop",
     "subtitle": "Hand-tied flies, ready to fish on Québec's rivers and lakes.",

@@ -11,7 +11,11 @@ import { chipClass } from "@/lib/chip";
 import { InsectIcon } from "@/components/InsectIcon";
 
 // These are the pages meant to be found in search, so they're prerendered for
-// both locales rather than waiting on a first request to exist.
+// both locales rather than waiting on a first request to exist. The prose is
+// static, but the pattern links are read from the catalogue, so revalidate
+// hourly rather than letting a renamed or retired product linger until a deploy.
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
     INSECT_ARTICLES.map((a) => ({ locale, id: a.hatchId }))

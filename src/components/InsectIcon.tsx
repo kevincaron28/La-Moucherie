@@ -44,7 +44,7 @@ const COLOR_CLASS: Record<string, string> = {
 
 // One entry per Hatch id in hatches.ts -- color and marks below are drawn
 // straight from that species' own idMarks in insect-articles.ts, not guessed.
-const INSECT_STYLE: Record<string, InsectStyle> = {
+export const INSECT_STYLE: Record<string, InsectStyle> = {
   // Mayflies
   "quill-gordon": { archetype: "MAYFLY", color: "halo", tails: 2 },
   "blue-quill": { archetype: "MAYFLY", color: "halo", tails: 3 },
