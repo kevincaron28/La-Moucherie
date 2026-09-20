@@ -22,8 +22,8 @@ completes** — this list, not chat history, is the record of where the audit go
 | 7 | Robustness: null-safety, external API failure paths, webhook/cron idempotency, DB constraints | ✅ done |
 | 8 | Security: auth gates, admin routes, input validation, rate limits, secret handling | ✅ done |
 | 9 | SEO/performance: sitemap, robots, image sizing, caching directives | ✅ done |
-| 10 | Fix everything found, validate, deploy | ☐ not started |
-| 11 | Write up suggested improvements/upgrades | ☐ not started |
+| 10 | Fix everything found, validate, deploy | ✅ done |
+| 11 | Write up suggested improvements/upgrades | ✅ done |
 
 **Findings log** — each entry is a real problem found, and what was done about it.
 
@@ -167,6 +167,69 @@ Five findings:
     would throw at render and take out the shop grid, the product page and the cart at
     once. Worth either allow-listing a host or falling back to a plain `<img>` for
     non-local sources before any image ever gets pasted in from elsewhere.
+
+*Step 10 — fix, validate, deploy.* Everything above marked (fixed) is live. Verified on
+lamoucherie.ca afterwards: the water pages now list flies (32 on the Rivière du Nord,
+previously zero), Open Graph and Twitter tags are being served on pages that had none, and
+`/fr/shop/species/carpe` exists and lists both carp patterns. One more bug turned up in
+that verification:
+
+18. **Every templated page title said "— La Moucherie" twice.** (fixed) The root layout
+    applies `template: "%s — La Moucherie"`, and five message keys already ended in it —
+    so the hatch chart, all ten species pages, the fly finder and all seven water pages
+    rendered as "… — La Moucherie — La Moucherie" in the browser tab and in search
+    results. The suffix is now in one place: the template.
+
+*Step 11 — suggestions.* Written up as "Suggested next moves" near the top of this file.
+
+## Suggested next moves (from the 2026-09-20 audit)
+
+Ordered by what actually moves the business, not by effort. The first two are the only
+things standing between this site and its first sale, and neither is code.
+
+1. **Set stock counts.** All 104 variants are at zero, so every one of the 37 products
+   reads "Out of Stock" and nothing on the site can be bought. Everything else here is
+   worth less than this one number being right.
+2. **Photograph the catalogue.** 33 of 37 products have no photo. They now fall back to a
+   per-category illustration rather than a blank square, which is a far better holding
+   position than it was — but a real photo of a real fly is what sells a fly.
+3. **Build a small product editor into `/admin`.** Today the only way to change a price,
+   a description or a stock count is `npm run db:studio` — a raw database client. That is
+   also the direct cause of two of this audit's worst findings: 14 products existed only
+   in the database because adding them through Studio never wrote them back to the seed
+   file, and every stock count would have been wiped by the documented re-seed command.
+   An editor for name, description, price, stock, photos and the angler metadata would
+   remove the whole class of problem, and would let stock be set from a phone at the bench.
+4. **Turn on the "Tied with" list, pattern by pattern.** All 37 products have a recipe in
+   the database (204 material rows) and every one of them is hidden, because
+   `materialsPublic` defaults to false until someone has checked that fly's dressing
+   against how this bench actually ties it. That is the right default — but it means a
+   genuinely good section of every product page is currently invisible. Verifying a
+   pattern takes a minute and adds real depth where there is currently only a description.
+5. **Ask for a review after an order ships.** There are zero reviews on 37 products. The
+   email pipeline, the review form, the moderation queue and a daily cron all already
+   exist; what's missing is the one email that asks. Reviews are also the only content on
+   the site that a search engine reads as independent.
+6. **Tighten the 40-odd over-long search snippets.** `npm run check:content` names them:
+   26 articles have a meta description past where Google truncates, six have a title past
+   it. These pages were written to be found; being cut off mid-sentence in the result is
+   the one thing that undoes that.
+7. **Give every page its language pair (`hreflang`).** Only `/shop/[slug]` tells Google
+   that its French and English versions are the same page. On a bilingual site that is how
+   the right language gets served to the right searcher — worth a shared helper applied
+   across the public `generateMetadata` functions.
+8. **Test the money paths.** There are no automated tests at all; `npm run check:content`
+   is the first check of any kind in the repo. The three places a bug costs real money are
+   the dozen-deal discount (`src/lib/discount.ts`), the shipping-zone resolution
+   (`src/lib/shipping.ts`) and the server-side re-pricing in `create-payment-intent`. Each
+   is pure logic and cheap to test.
+9. **Guard against a remote product image.** See finding 17 — one `https://` image URL
+   pasted into `db:studio` would take out the shop grid, the product page and the cart
+   together, because `next/image` is used with an empty `remotePatterns`.
+10. **Drop `FishingReport` when you're ready.** The model and its table still exist but
+    nothing in the app references them. It's harmless, but it's a trap for whoever next
+    reads the schema. That's a deliberate migration to run on purpose, not a cleanup to do
+    by accident.
 
 ## Where things stand (updated 2026-09-17)
 

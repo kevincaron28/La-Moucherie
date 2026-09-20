@@ -388,7 +388,7 @@
     "contactCta": "Get in touch"
   },
   "Hatches": {
-    "metaTitle": "Southern Québec Hatch Chart — La Moucherie",
+    "metaTitle": "Southern Québec Hatch Chart",
     "metaDescription": "A month-by-month hatch chart for southern Québec rivers: mayflies, caddis, stoneflies, midges and terrestrials, with emergence windows, hook sizes, time of day and the patterns that match each one.",
     "title": "Southern Québec hatch chart",
     "intro": "What emerges, when, and what to tie on. Built for the rivers we fish in the Laurentides, l'Estrie and the Montérégie — emergence windows, hook sizes, time of day, and the pattern that covers each hatch.",
@@ -553,7 +553,7 @@
   },
   "SpeciesPage": {
     "title": "Flies for {species}",
-    "metaTitle": "{species} flies from Québec — La Moucherie",
+    "metaTitle": "{species} flies from Québec",
     "metaDescription": "Hand-tied Québec flies for {species}. Patterns proven on our own rivers and lakes.",
     "intro": "Our patterns tied for {species} on Québec water. Every fly lists the season, water and technique it suits.",
     "empty": "No flies are tagged for this species yet. Write to us — we tie to order.",
@@ -561,7 +561,7 @@
     "otherSpecies": "Other species"
   },
   "FlyFinder": {
-    "metaTitle": "Fly Finder — La Moucherie",
+    "metaTitle": "Fly Finder",
     "metaDescription": "Tell us what you're fishing for and we'll show you the flies that fit.",
     "title": "Fly Finder",
     "intro": "Species, water, season — pick what applies and we'll show you what fits. Leave any of them blank to widen the search.",
@@ -573,13 +573,13 @@
     "relaxedNotice": "Nothing matched every filter, so here's everything tied for that species."
   },
   "WaterPage": {
-    "metaTitle": "Flies for the {water} — La Moucherie",
+    "metaTitle": "Flies for the {water}",
     "fliesFor": "Our flies for the {water}",
     "empty": "No flies are tagged for this water yet.",
     "recentReports": "Recent reports",
     "backToShop": "Back to the shop",
     "otherWaters": "Other waters",
-    "indexMetaTitle": "Québec waters — La Moucherie",
+    "indexMetaTitle": "Québec waters",
     "indexMetaDescription": "Flies matched to the rivers and lakes we actually fish, water by water.",
     "indexTitle": "Québec water, by name",
     "indexIntro": "Not a generic catalogue — flies picked for the rivers and lakes we fish ourselves. Find your water, see what works there.",

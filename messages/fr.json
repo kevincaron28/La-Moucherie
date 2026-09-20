@@ -388,7 +388,7 @@
     "contactCta": "Écrivez-nous"
   },
   "Hatches": {
-    "metaTitle": "Calendrier d'éclosions du sud du Québec — La Moucherie",
+    "metaTitle": "Calendrier d'éclosions du sud du Québec",
     "metaDescription": "Un calendrier d'éclosions mois par mois pour les rivières du sud du Québec : éphémères, trichoptères, plécoptères, chironomes et insectes terrestres, avec les fenêtres d'éclosion, les tailles d'hameçon, le moment de la journée et le patron qui va avec.",
     "title": "Calendrier d'éclosions du sud du Québec",
     "intro": "Ce qui éclot, quand, et quoi monter au bout. Bâti pour les rivières qu'on pêche dans les Laurentides, en Estrie et en Montérégie — fenêtres d'éclosion, tailles d'hameçon, moment de la journée, et le patron qui couvre chaque éclosion.",
@@ -553,7 +553,7 @@
   },
   "SpeciesPage": {
     "title": "Mouches pour {species}",
-    "metaTitle": "Mouches pour {species} au Québec — La Moucherie",
+    "metaTitle": "Mouches pour {species} au Québec",
     "metaDescription": "Mouches artisanales montées à la main au Québec pour la pêche de {species}. Patrons éprouvés sur nos rivières et nos lacs.",
     "intro": "Nos patrons montés pour {species}, sur les eaux du Québec. Chaque mouche indique la saison, le type d'eau et la technique qui lui conviennent.",
     "empty": "Aucune mouche n'est encore associée à cette espèce. Écrivez-nous — on monte sur demande.",
@@ -561,7 +561,7 @@
     "otherSpecies": "Autres espèces"
   },
   "FlyFinder": {
-    "metaTitle": "Trouve-mouche — La Moucherie",
+    "metaTitle": "Trouve-mouche",
     "metaDescription": "Dites-nous ce que vous pêchez et on vous montre les mouches qui conviennent.",
     "title": "Trouve-mouche",
     "intro": "Espèce, eau, saison — choisissez ce qui s'applique, on vous montre ce qui convient. Laissez un champ vide pour élargir la recherche.",
@@ -573,13 +573,13 @@
     "relaxedNotice": "Rien ne correspondait à tous les critères, voici donc tout ce qui est monté pour cette espèce."
   },
   "WaterPage": {
-    "metaTitle": "Mouches pour la {water} — La Moucherie",
+    "metaTitle": "Mouches pour la {water}",
     "fliesFor": "Nos mouches pour la {water}",
     "empty": "Aucune mouche n'est encore associée à cette eau.",
     "recentReports": "Derniers rapports",
     "backToShop": "Retour à la boutique",
     "otherWaters": "Autres eaux",
-    "indexMetaTitle": "Eaux du Québec — La Moucherie",
+    "indexMetaTitle": "Eaux du Québec",
     "indexMetaDescription": "Des mouches choisies pour les rivières et lacs qu'on pêche vraiment, plan d'eau par plan d'eau.",
     "indexTitle": "Les eaux du Québec, une à une",
     "indexIntro": "Pas un catalogue générique — des mouches choisies pour les rivières et lacs qu'on pêche nous-mêmes. Trouvez votre plan d'eau, voyez ce qui fonctionne.",
