@@ -477,3 +477,47 @@ export async function sendAbandonedCart(args: {
     html,
   });
 }
+
+export async function sendReviewRequest(args: {
+  to: string;
+  name: string;
+  locale: string;
+  orderId: string;
+  // One entry per distinct product in the order (not per line item) — a
+  // customer who bought three sizes of the same pattern gets asked once, not
+  // three times. Products since deleted or deactivated are filtered out by
+  // the caller, since a review link needs a live page to land on.
+  products: { slug: string; nameFr: string; nameEn: string }[];
+}) {
+  if (args.products.length === 0) return;
+
+  const fr = args.locale === "fr";
+  const localePrefix = fr ? "fr" : "en";
+  const links = args.products
+    .map((p) => {
+      const name = fr ? p.nameFr : p.nameEn;
+      const url = `${siteUrl()}/${localePrefix}/shop/${p.slug}#reviews`;
+      return `<li style="padding:4px 0"><a href="${url}" style="color:#ac4d15">${escapeHtml(name)}</a></li>`;
+    })
+    .join("");
+
+  const html = layout(
+    fr
+      ? `<p>Bonjour ${escapeHtml(args.name)},</p>
+         <p>Votre commande <strong>${args.orderId}</strong> devrait être arrivée depuis quelques jours. Comment ça pêche ?</p>
+         <p>Un mot de votre part aide les autres pêcheurs à choisir — deux minutes suffisent :</p>
+         <ul style="margin:12px 0;padding-left:18px">${links}</ul>
+         <p style="font-size:13px;color:#6b6357">Un problème avec votre commande plutôt qu'un avis à laisser ? Répondez à ce courriel, c'est moi qui monte les mouches.</p>`
+      : `<p>Hi ${escapeHtml(args.name)},</p>
+         <p>Your order <strong>${args.orderId}</strong> should have arrived by now. How's it fishing?</p>
+         <p>A word from you helps other anglers decide — it only takes a minute:</p>
+         <ul style="margin:12px 0;padding-left:18px">${links}</ul>
+         <p style="font-size:13px;color:#6b6357">Problem with your order instead of a review to leave? Just reply — I'm the one tying them.</p>`
+  );
+
+  await send({
+    to: args.to,
+    subject: fr ? "Comment pêchent vos mouches ?" : "How are your flies fishing?",
+    html,
+  });
+}

@@ -354,6 +354,14 @@ model Order {
   amountTotalCents      Int
   currency              String      @default("cad")
   status                OrderStatus @default(PENDING)
+  // Stamped by an operator from /admin, not inferred from a carrier webhook —
+  // there is no tracking integration for delivery confirmation, only the
+  // Canada Post rate quote used at checkout. This is "we shipped it," not
+  // "it arrived"; the review-request email adds its own delay on top for that.
+  fulfilledAt           DateTime?
+  // Set once, the first time the review-request cron sends for this order, so
+  // a customer is never asked twice for the same order.
+  reviewRequestSentAt   DateTime?
   locale                String      @default("fr")
   items                 OrderItem[]
   createdAt             DateTime    @default(now())

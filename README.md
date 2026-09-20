@@ -205,10 +205,9 @@ things standing between this site and its first sale, and neither is code.
    for the bench, not for the storefront: they tell the tyer what to buy or pull to fill
    an order, and that is all they are for. `materialsPublic` stays false and the product
    page keeps no "Tied with" section. Don't re-propose this.
-5. **Ask for a review after an order ships.** There are zero reviews on 37 products. The
-   email pipeline, the review form, the moderation queue and a daily cron all already
-   exist; what's missing is the one email that asks. Reviews are also the only content on
-   the site that a search engine reads as independent.
+5. ~~Ask for a review after an order ships.~~ **Built (2026-09-20)** — see "The daily
+   cron" below. Requires one manual step per order: clicking "Mark shipped" in `/admin`,
+   since there's no carrier webhook to trigger it automatically.
 6. **Tighten the 40-odd over-long search snippets.** `npm run check:content` names them:
    26 articles have a meta description past where Google truncates, six have a title past
    it. These pages were written to be found; being cut off mid-sentence in the result is
@@ -869,13 +868,23 @@ code before launch — the defaults are informed estimates, not quotes. Canada
 only for now: US parcels cost several times more and need a customs declaration
 per package.
 
-## Abandoned orders
+## The daily cron (`/api/cron/daily`)
 
-An order sits `PENDING` from the moment checkout starts until Stripe confirms
-payment, so every abandoned checkout leaves one behind. `/api/cron/abandoned`
-runs **once a day** from `vercel.json` (13:00 UTC) and does two things: emails a recovery link for
-orders past `RECOVERY_DELAY_MS` (4h) that haven't been nudged, and cancels those
-past `CLEANUP_DELAY_MS` (7 days).
+Everything on this site that fires on a schedule rather than in response to a
+request runs from this one handler — **because Vercel's Hobby plan allows at
+most one cron run per day**, and a more frequent schedule (or a second cron
+entry) is rejected outright: the deployment is never created, so a push
+appears to do nothing rather than failing visibly. It used to be named
+`/api/cron/abandoned`; that stopped being an honest name the moment a second,
+unrelated job moved in, so it was renamed rather than left to lie about what
+it does. Scheduled from `vercel.json` at 13:00 UTC. `CRON_SECRET` gates it;
+without that check anyone could trigger a mailing.
+
+**1. Abandoned orders.** An order sits `PENDING` from the moment checkout
+starts until Stripe confirms payment, so every abandoned checkout leaves one
+behind. The cron does two things: emails a recovery link for orders past
+`RECOVERY_DELAY_MS` (4h, from `src/lib/abandoned.ts`) that haven't been
+nudged, and cancels those past `CLEANUP_DELAY_MS` (7 days).
 
 Abandoned orders never held stock — inventory is only drawn down when payment
 succeeds — so cancelling one must not add stock back, and the sweep is hygiene
@@ -883,21 +892,32 @@ rather than inventory recovery. Cancel rather than delete, so the record of what
 was attempted survives.
 
 The nudge is stamped **before** sending: a send that throws would otherwise be
-retried every hour, and emailing someone repeatedly is worse than missing one.
+retried every day, and emailing someone repeatedly is worse than missing one.
 The recovery link carries a random `recoveryToken` rather than the order id, and
 `/api/cart/recover` rebuilds the basket from today's catalogue rather than the
 order snapshot — a retired or sold-out pattern shouldn't reappear in someone's
 cart, and the price should be the current one.
 
-**Vercel's Hobby plan allows at most one cron run per day**, and a more frequent
-schedule is rejected outright — the deployment is never created, so pushes appear
-to do nothing rather than failing visibly. Keep the schedule daily unless the
-plan changes. `RECOVERY_DELAY_MS` is therefore a floor rather than a cadence:
-it stops someone being emailed about a cart they left twenty minutes ago, and the
-nudge lands on the next daily run.
+`RECOVERY_DELAY_MS` is a floor rather than a cadence, since the sweep only runs
+once a day: it stops someone being emailed about a cart they left twenty
+minutes ago, and the nudge lands on the next daily run regardless.
 
-Set `CRON_SECRET` in the environment; the endpoint refuses anything without it,
-since otherwise anyone could trigger a mailing.
+**2. Review requests.** There's no delivery-confirmation webhook — the Canada
+Post integration only quotes a rate at checkout — so an operator marks an
+order `FULFILLED` by hand from `/admin` (the "Mark shipped" toggle next to
+each order; it can be undone the same way if clicked by mistake). That stamps
+`Order.fulfilledAt`. `REVIEW_REQUEST_DELAY_MS` (`src/lib/review-request.ts`,
+10 days) is a buffer on top of that guess, long enough that even untracked
+Lettermail has almost certainly arrived. Once past it, the cron emails one
+review request per order — one link per **distinct product** in the order,
+not per line item, so buying three sizes of one pattern gets one ask, not
+three — and stamps `reviewRequestSentAt` so it's never sent twice. A retired
+or deactivated product is skipped rather than linking to a dead page; if every
+item in an order was retired, no email goes out at all.
+
+Reviewing still requires an account (see "Reviews" below) — that's unchanged
+and deliberate. A guest order gets asked the same as anyone else; they just
+sign in (or register with the order's email) to actually leave one.
 
 ## Email verification
 

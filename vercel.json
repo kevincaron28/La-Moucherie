@@ -9,7 +9,7 @@
   },
   "crons": [
     {
-      "path": "/api/cron/abandoned",
+      "path": "/api/cron/daily",
       "schedule": "0 13 * * *"
     }
   ]

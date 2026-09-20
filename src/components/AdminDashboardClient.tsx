@@ -48,6 +48,7 @@ type RecentOrder = {
   status: string;
   shippingMethod: string;
   createdAt: string;
+  fulfilledAt: string | null;
   itemCount: number;
 };
 
@@ -177,7 +178,7 @@ export function AdminDashboardClient({
   pendingReviews: initialReviews,
   lowStockVariants,
   noVariantProducts,
-  recentOrders,
+  recentOrders: initialOrders,
   subscriberCount,
   recentCampaigns: initialCampaigns,
   plannedFlies: initialPlannedFlies,
@@ -292,6 +293,26 @@ export function AdminDashboardClient({
       }
     } finally {
       setTyingId(null);
+    }
+  }
+
+  const [orders, setOrders] = useState<RecentOrder[]>(initialOrders);
+  const [fulfillingId, setFulfillingId] = useState<string | null>(null);
+
+  async function handleToggleFulfilled(id: string) {
+    setFulfillingId(id);
+    try {
+      const res = await fetch(`/api/admin/orders/${id}/fulfill`, { method: "PATCH" });
+      if (res.ok) {
+        const data = await res.json();
+        setOrders((prev) =>
+          prev.map((o) =>
+            o.id === id ? { ...o, status: data.status, fulfilledAt: data.fulfilledAt } : o
+          )
+        );
+      }
+    } finally {
+      setFulfillingId(null);
     }
   }
 
@@ -1025,7 +1046,7 @@ export function AdminDashboardClient({
           </div>
         </summary>
 
-        {recentOrders.length === 0 ? (
+        {orders.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-forest/10 bg-cream/40 p-8 text-center text-ink/60">
             {locale === "fr" ? "Aucune commande pour le moment." : "No orders yet."}
           </div>
@@ -1040,10 +1061,11 @@ export function AdminDashboardClient({
                   <th className="p-3">Total</th>
                   <th className="p-3">Statut</th>
                   <th className="p-3 text-right">Fiche d&apos;étau</th>
+                  <th className="p-3 text-right">Expédition</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-forest/10">
-                {recentOrders.map((o) => (
+                {orders.map((o) => (
                   <tr key={o.id} className="hover:bg-cream/20">
                     <td className="p-3 font-mono text-xs text-forest">{o.id}</td>
                     <td className="p-3 font-medium text-ink/80">
@@ -1055,7 +1077,13 @@ export function AdminDashboardClient({
                       {formatPrice(o.amountTotalCents, locale, o.currency)}
                     </td>
                     <td className="p-3">
-                      <span className="rounded-full bg-forest/10 px-2 py-0.5 text-xs font-medium text-forest">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                          o.status === "FULFILLED"
+                            ? "bg-forest/10 text-forest"
+                            : "bg-gold/15 text-gold"
+                        }`}
+                      >
                         {o.status}
                       </span>
                     </td>
@@ -1066,6 +1094,29 @@ export function AdminDashboardClient({
                       >
                         📄 {locale === "fr" ? "Imprimer" : "Print"}
                       </Link>
+                    </td>
+                    <td className="p-3 text-right">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleFulfilled(o.id)}
+                        disabled={fulfillingId === o.id}
+                        className={`inline-block rounded-full border px-3 py-1 text-xs font-medium transition disabled:opacity-50 ${
+                          o.status === "FULFILLED"
+                            ? "border-forest/30 text-forest hover:bg-forest hover:text-cream"
+                            : "border-rust/40 text-rust hover:bg-rust hover:text-cream"
+                        }`}
+                        title={
+                          o.status === "FULFILLED" && o.fulfilledAt
+                            ? locale === "fr"
+                              ? `Expédiée le ${new Date(o.fulfilledAt).toLocaleDateString("fr-CA")}`
+                              : `Shipped ${new Date(o.fulfilledAt).toLocaleDateString("en-CA")}`
+                            : undefined
+                        }
+                      >
+                        {o.status === "FULFILLED"
+                          ? `✓ ${locale === "fr" ? "Expédiée" : "Shipped"}`
+                          : `📦 ${locale === "fr" ? "Marquer expédiée" : "Mark shipped"}`}
+                      </button>
                     </td>
                   </tr>
                 ))}

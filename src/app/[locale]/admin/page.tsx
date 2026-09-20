@@ -141,6 +141,7 @@ export default async function AdminPage({
           status: o.status,
           shippingMethod: o.shippingMethod,
           createdAt: o.createdAt.toISOString(),
+          fulfilledAt: o.fulfilledAt?.toISOString() ?? null,
           itemCount: o.items.reduce((sum, i) => sum + i.quantity, 0),
         }))}
         subscriberCount={subscriberCount}
