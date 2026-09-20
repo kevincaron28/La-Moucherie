@@ -40,12 +40,17 @@ sandbox, which has no database to collect page data from). Four findings:
    The script is a one-shot that has already served its purpose (its own closing line says
    "now remove PRELAUNCH_RESET from the environment"). Unwired from `build`; it is still
    runnable deliberately via `npm run db:prelaunch-reset`.
-2. **`vercel.json` had silently lost its branch-deploy guard.** (fixed) This README
-   documented `git.deploymentEnabled: {"*": false, "main": true}` as the thing stopping
-   branch pushes from running `prisma migrate deploy` + the seed against whatever database
-   the Preview environment points at. The key was not actually in the file — every push to
-   a side branch really was building and migrating, and every commit was building twice
-   (once as production from `main`, once as a preview). Restored.
+2. **`vercel.json` had silently lost its branch-deploy guard, and the documented form of
+   it never worked anyway.** (fixed) This README documented
+   `git.deploymentEnabled: {"*": false, "main": true}` as the thing stopping branch pushes
+   from running `prisma migrate deploy` + the seed against whatever database the Preview
+   environment points at. The key was not in the file at all — every push to a side branch
+   really was building and migrating, and every commit was building twice (once as
+   production from `main`, once as a preview). Restoring it was not enough: the preview
+   kept building, because `*` does not match a branch name containing a slash, and the
+   branch in use is `claude/fly-tying-shop-stripe-jlr7w6`. `"claude/*": false` added
+   alongside it. Worth knowing for any future branch: a nested branch name needs its own
+   pattern.
 3. **`npm audit`: 3 high, all one root cause** (`deepmerge-ts` stack exhaustion, reachable
    only through the `prisma` CLI's config loader). Not fixed on purpose: it is build-time
    tooling with no runtime request path, and npm's "fix" is a *downgrade* to `prisma@6.12`.
