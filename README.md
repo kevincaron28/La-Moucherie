@@ -5,6 +5,106 @@ Mouches artisanales du Québec — an independent, handmade fly-tying shop.
 A bilingual (French/English) e-commerce storefront built with Next.js, Prisma/PostgreSQL,
 and an embedded Stripe Elements checkout.
 
+## Full system audit (started 2026-09-20)
+
+A end-to-end audit of the whole site, tracked step by step here so it can be resumed
+if a session ends mid-way. **Update the status marks in this section as each step
+completes** — this list, not chat history, is the record of where the audit got to.
+
+| # | Step | Status |
+|---|------|--------|
+| 1 | Build health: typecheck, lint, production build, dependency/vulnerability check | ✅ done |
+| 2 | Data integrity: products, variants, stock, images, orphaned rows, slug references | ✅ done |
+| 3 | Fly sheets: every product complete (description, how-to-fish, tip, species/season/water, materials, sizes, SEO) | ✅ done |
+| 4 | Insect sheets: all 38 hatches complete (article, id marks, stages, icon, pattern links resolve) | ☐ not started |
+| 5 | Routes: every page renders, no 500s, metadata present on public pages | ☐ not started |
+| 6 | i18n: fr/en message parity, no missing or unused keys, no hardcoded strings | ☐ not started |
+| 7 | Robustness: null-safety, external API failure paths, webhook/cron idempotency, DB constraints | ☐ not started |
+| 8 | Security: auth gates, admin routes, input validation, rate limits, secret handling | ☐ not started |
+| 9 | SEO/performance: sitemap, robots, image sizing, caching directives | ☐ not started |
+| 10 | Fix everything found, validate, deploy | ☐ not started |
+| 11 | Write up suggested improvements/upgrades | ☐ not started |
+
+**Findings log** — each entry is a real problem found, and what was done about it.
+
+*Step 1 — build health.* `tsc --noEmit` and `eslint .` are both clean across the repo;
+the production build compiles and typechecks (it can only fail past that point in the dev
+sandbox, which has no database to collect page data from). Four findings:
+
+1. **`prisma/prelaunch-reset.ts` ran on every production build.** (fixed) The build script
+   was `prisma migrate deploy && deploy-seed && prelaunch-reset && next build`. That script
+   deletes **every order and every review** in the database; it no-ops only because it
+   checks `PRELAUNCH_RESET === "1"`, and that variable is currently unset in Vercel. So the
+   live shop was one stray environment variable away from having its entire order history
+   and all its reviews wiped on the next deploy — and again on every deploy after that.
+   The script is a one-shot that has already served its purpose (its own closing line says
+   "now remove PRELAUNCH_RESET from the environment"). Unwired from `build`; it is still
+   runnable deliberately via `npm run db:prelaunch-reset`.
+2. **`vercel.json` had silently lost its branch-deploy guard.** (fixed) This README
+   documented `git.deploymentEnabled: {"*": false, "main": true}` as the thing stopping
+   branch pushes from running `prisma migrate deploy` + the seed against whatever database
+   the Preview environment points at. The key was not actually in the file — every push to
+   a side branch really was building and migrating, and every commit was building twice
+   (once as production from `main`, once as a preview). Restored.
+3. **`npm audit`: 3 high, all one root cause** (`deepmerge-ts` stack exhaustion, reachable
+   only through the `prisma` CLI's config loader). Not fixed on purpose: it is build-time
+   tooling with no runtime request path, and npm's "fix" is a *downgrade* to `prisma@6.12`.
+   Revisit when upgrading to Prisma 7.
+4. **`DIRECT_URL` is still set in Vercel production but nothing reads it** — the schema
+   uses `DATABASE_URL_UNPOOLED`. Harmless, but it is exactly the kind of leftover that
+   makes a future debugging session chase the wrong variable. Safe for the owner to delete
+   in the Vercel dashboard.
+
+*Step 2 — data integrity.* 37 products, 104 variants, no duplicate slugs or SKUs, no
+negative stock, no zero-priced product, no product without a variant, no unused material,
+no order item missing its snapshot. Four findings:
+
+5. **`prisma/seed.ts` would have deleted 14 of the 37 live products.** (fixed) The file
+   describes itself as the catalog's source of truth and deleted anything not in its list
+   — but 14 patterns (Parachute Adams, Griffith's Gnat, March Brown, Light Cahill, Sulphur
+   Dun, Trico Spinner, Slate Drake, Green Drake, Hexagenia Dun, Stimulator, Blue-Winged
+   Olive, Black Caddis, Green Rock Worm, Partridge & Orange) had been added straight to the
+   database and were never written back into it. Running the seed command this README
+   itself documents would have destroyed them, their variants and their material links.
+   Deleting strays is now opt-in (`SEED_DELETE_STRAYS=1`) and the script prints exactly
+   what it would remove instead of doing it silently.
+6. **The seed also reset every stock count and orphaned past orders.** (fixed) Variants
+   were deleted and recreated on every run, which zeroed inventory and broke
+   `OrderItem.variantId` on completed orders. They are now matched on their SKU, which is
+   already unique: names and prices refresh, `stock` is only ever written when the variant
+   is first created.
+7. **All seven water pages had no flies on them.** (fixed) `/shop/water/<slug>` is
+   described here as the strongest SEO asset on the site, but the product-to-water join
+   table was completely empty — every one of those pages listed zero patterns. All 37
+   products are now linked to the waters they suit (trout patterns to the du Nord, Nicolet,
+   Rouge and Yamaska Nord; bass, pike and carp patterns to the St. Lawrence, Richelieu and
+   Châteauguay).
+8. **The seed's `waters` list no longer matches reality.** (documented, not changed) It
+   still seeds the Jacques-Cartier, Sainte-Anne and Matapédia — waters the owner replaced
+   with the seven Montérégie/Laurentides/Centre-du-Québec rivers actually fished. Waters
+   are upserted rather than deleted, so re-seeding would quietly re-add three rivers that
+   were removed on purpose. Left alone because it is the owner's call which waters belong.
+
+*Step 3 — fly sheets.* Every one of the 34 patterns now carries a full sheet. Before this
+pass, **20 of them had no "how to fish it" and no tyer's tip at all** — both sections
+simply did not render — and the six original patterns (Elk Wing Caddis, Bead Head Hare's
+Ear, Montana Stone, Lefty Deceiver, Egg Sucking Leech, Woolly Bugger Black) also had no
+season, no water type, no technique and nothing in "imitates", so their spec panel was
+close to empty. All of that is written and live, in both languages. The three curated
+boxes gained a how-to-fish note, a tip, techniques and target species (they had none, so
+they never appeared on a species page despite leading the category list).
+
+9. **The species vocabulary had no value for carp.** (fixed) Two patterns in the catalogue
+   are carp flies (Backstabber, Carp Crayfish) and two waters name carp in their own
+   description, but `FishSpecies` stopped at walleye — so those two flies could not declare
+   a target species at all. `CARP` added by migration (additive, nothing rewritten), with
+   its slug, family, avatar, both locales' labels and shop-search keywords.
+10. **The species list existed in four hand-kept copies.** (fixed) `src/lib/angling.ts`,
+    the hatch-report API's validator, the submit page and the report form each repeated the
+    same nine values, so adding one to the schema left three of them silently disagreeing —
+    the API would have rejected a species its own form offered. They now all read the
+    shared `SPECIES` const.
+
 ## Where things stand (updated 2026-09-17)
 
 **Live and working:** bilingual storefront and Stripe checkout; Canada Post live shipping

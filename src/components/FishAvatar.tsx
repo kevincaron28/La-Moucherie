@@ -16,6 +16,7 @@ const AVATAR_STYLE: Record<Species, string> = {
   LARGEMOUTH_BASS: "bg-rust-dark/15 text-rust-dark border-rust-dark/30",
   NORTHERN_PIKE: "bg-forest-dark/15 text-forest-dark border-forest-dark/30",
   WALLEYE: "bg-gold/15 text-gold border-gold/30",
+  CARP: "bg-cream-dark/40 text-rust-dark border-rust-dark/30",
 };
 
 // One short field mark per species, drawn at strokeWidth 1 inside the body
@@ -33,6 +34,8 @@ const MARKS: Record<Species, string> = {
   // The eye does the work for walleye (see below) -- a single pale gill mark
   // is enough here so the body isn't left bare.
   WALLEYE: "M17.3 9.2v3",
+  // Big overlapping scales are the whole read on a carp at a distance.
+  CARP: "M7 10.5a1.6 1.6 0 003 0M10 10.5a1.6 1.6 0 003 0M13 10.5a1.6 1.6 0 003 0M7 13.5a1.6 1.6 0 003 0M10 13.5a1.6 1.6 0 003 0M13 13.5a1.6 1.6 0 003 0",
 };
 
 const UNSET_STYLE = "bg-ink/5 text-ink/25 border-ink/10";

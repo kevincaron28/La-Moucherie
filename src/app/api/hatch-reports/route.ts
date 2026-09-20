@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { sendHatchReportNotification } from "@/lib/email";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rate-limit";
 import { HATCHES } from "@/lib/hatches";
+import { SPECIES } from "@/lib/angling";
 
 const schema = z.object({
   // Required only for an anonymous submission -- a signed-in reporter's name
@@ -20,19 +21,9 @@ const schema = z.object({
 
   hatchId: z.string().trim().max(60).optional(),
   hookSize: z.number().int().min(1).max(32).optional(),
-  species: z
-    .enum([
-      "BROOK_TROUT",
-      "BROWN_TROUT",
-      "RAINBOW_TROUT",
-      "LANDLOCKED_SALMON",
-      "ATLANTIC_SALMON",
-      "SMALLMOUTH_BASS",
-      "LARGEMOUTH_BASS",
-      "NORTHERN_PIKE",
-      "WALLEYE",
-    ])
-    .optional(),
+  // From the shared vocabulary, so a species added to the schema is accepted
+  // here without anyone remembering to update a second copy of the list.
+  species: z.enum(SPECIES).optional(),
   intensity: z.enum(["NONE", "SPARSE", "STEADY", "HEAVY"]).optional(),
 
   waterLevel: z.enum(["LOW", "NORMAL", "HIGH"]).optional(),

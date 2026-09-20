@@ -516,6 +516,11 @@ enum FishSpecies {
   LARGEMOUTH_BASS
   NORTHERN_PIKE
   WALLEYE
+  // Two patterns in the catalogue (Backstabber, Carp Crayfish) are built for
+  // carp, and two of the waters name it in their own description — but it was
+  // missing here, so those flies had no species at all and the fish they exist
+  // for had no landing page.
+  CARP
 }
 
 enum FishingSeason {

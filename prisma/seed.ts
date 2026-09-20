@@ -712,12 +712,31 @@ async function main() {
   }
   console.log(`Seeded ${waters.length} waters.`);
 
-  // The array above is the source of truth for the catalog — drop any product
-  // left over from a previous seed run (old placeholders, discontinued
-  // patterns, materials/tools/kits) that's no longer listed here.
-  await prisma.product.deleteMany({
+  // Anything in the database that this file doesn't list. That used to be
+  // deleted outright, on the theory that this array is the catalog's source of
+  // truth. It stopped being true the moment a pattern was added straight to the
+  // database — and 14 of them had been, so the documented `npm run db:seed`
+  // would have silently destroyed a third of the live catalog, its variants and
+  // its material links. A seed script must not be able to do that by accident,
+  // so removal is now opt-in and always names what it would take.
+  const strays = await prisma.product.findMany({
     where: { slug: { notIn: products.map((p) => p.slug) } },
+    select: { slug: true },
   });
+  if (strays.length > 0) {
+    if (process.env.SEED_DELETE_STRAYS === "1") {
+      await prisma.product.deleteMany({
+        where: { slug: { in: strays.map((p) => p.slug) } },
+      });
+      console.log(`Deleted ${strays.length} product(s) not listed here.`);
+    } else {
+      console.log(
+        `\nLeaving ${strays.length} product(s) in place that this file doesn't list:\n` +
+          strays.map((p) => `  ${p.slug}`).join("\n") +
+          `\nAdd them to this file, or re-run with SEED_DELETE_STRAYS=1 to remove them.\n`
+      );
+    }
+  }
 
   for (const p of products) {
     const { variants, waters, ...productData } = p;
@@ -726,23 +745,35 @@ async function main() {
     const waterLink = waters
       ? { waters: { set: waters.map((slug) => ({ slug })) } }
       : {};
-    await prisma.product.upsert({
+    const saved = await prisma.product.upsert({
       where: { slug: p.slug },
-      update: {
-        ...productData,
-        ...waterLink,
-        variants: {
-          deleteMany: {},
-          create: variants,
-        },
-      },
+      update: { ...productData, ...waterLink },
       create: {
         ...productData,
         ...(waters ? { waters: { connect: waters.map((slug) => ({ slug })) } } : {}),
-        variants: {
-          create: variants,
-        },
       },
+    });
+
+    // Variants are matched on their SKU rather than deleted and recreated.
+    // Recreating them reset every stock count to the seed's number and broke
+    // the `OrderItem.variantId` link on past orders — so re-running the seed to
+    // refresh a description would also have wiped the inventory. `stock` is
+    // therefore only ever set when the variant is first created; after that it
+    // belongs to whoever counts the flies, not to this file.
+    for (const v of variants) {
+      await prisma.productVariant.upsert({
+        where: { sku: v.sku },
+        update: {
+          nameFr: v.nameFr,
+          nameEn: v.nameEn,
+          priceCents: v.priceCents ?? null,
+          productId: saved.id,
+        },
+        create: { ...v, productId: saved.id },
+      });
+    }
+    await prisma.productVariant.deleteMany({
+      where: { productId: saved.id, sku: { notIn: variants.map((v) => v.sku) } },
     });
   }
   console.log(`Seeded ${products.length} products.`);

@@ -73,6 +73,9 @@ export default async function ShopPage({
     if (qLower.includes("dore") || qLower.includes("walleye")) {
       matchedSpecies.push("WALLEYE");
     }
+    if (qLower.includes("carpe") || qLower.includes("carp")) {
+      matchedSpecies.push("CARP");
+    }
   }
   const uniqueMatchedSpecies = Array.from(new Set(matchedSpecies));
 

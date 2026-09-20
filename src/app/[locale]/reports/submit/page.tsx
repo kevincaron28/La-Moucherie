@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { HatchReportForm } from "@/components/HatchReportForm";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/localize";
+import { SPECIES } from "@/lib/angling";
 import type { Locale } from "@/i18n/routing";
 
 // Waters and patterns come from the database, so this can't be frozen at build.
@@ -72,17 +73,11 @@ const FORM_KEYS = [
   "groupTERRESTRIAL",
 ] as const;
 
-const SPECIES_KEYS = [
-  "BROOK_TROUT",
-  "BROWN_TROUT",
-  "RAINBOW_TROUT",
-  "LANDLOCKED_SALMON",
-  "ATLANTIC_SALMON",
-  "SMALLMOUTH_BASS",
-  "LARGEMOUTH_BASS",
-  "NORTHERN_PIKE",
-  "WALLEYE",
-] as const;
+// Read from the shared vocabulary rather than repeating it: this list, the
+// form's own options and the API's validator were three hand-kept copies of
+// the same nine species, so adding one to the schema left the other two
+// silently disagreeing with it.
+const SPECIES_KEYS = SPECIES;
 
 export default async function SubmitReportPage({
   params,

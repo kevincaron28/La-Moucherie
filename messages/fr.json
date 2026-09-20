@@ -504,7 +504,8 @@
       "SMALLMOUTH_BASS": "Achigan à petite bouche",
       "LARGEMOUTH_BASS": "Achigan à grande bouche",
       "NORTHERN_PIKE": "Grand brochet",
-      "WALLEYE": "Doré jaune"
+      "WALLEYE": "Doré jaune",
+      "CARP": "Carpe"
     },
     "seasons": {
       "SPRING": "Printemps",
@@ -535,7 +536,8 @@
       "SMALLMOUTH_BASS": "l'achigan à petite bouche",
       "LARGEMOUTH_BASS": "l'achigan à grande bouche",
       "NORTHERN_PIKE": "le grand brochet",
-      "WALLEYE": "le doré jaune"
+      "WALLEYE": "le doré jaune",
+      "CARP": "la carpe"
     },
     "speciesFamilies": {
       "SALMONID": "Truite & saumon",

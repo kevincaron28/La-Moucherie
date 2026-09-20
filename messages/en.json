@@ -504,7 +504,8 @@
       "SMALLMOUTH_BASS": "Smallmouth bass",
       "LARGEMOUTH_BASS": "Largemouth bass",
       "NORTHERN_PIKE": "Northern pike",
-      "WALLEYE": "Walleye"
+      "WALLEYE": "Walleye",
+      "CARP": "Carp"
     },
     "seasons": {
       "SPRING": "Spring",
@@ -535,7 +536,8 @@
       "SMALLMOUTH_BASS": "smallmouth bass",
       "LARGEMOUTH_BASS": "largemouth bass",
       "NORTHERN_PIKE": "northern pike",
-      "WALLEYE": "walleye"
+      "WALLEYE": "walleye",
+      "CARP": "carp"
     },
     "speciesFamilies": {
       "SALMONID": "Trout & salmon",

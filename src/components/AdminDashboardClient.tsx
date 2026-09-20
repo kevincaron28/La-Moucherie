@@ -150,6 +150,7 @@ const PLANNED_SPECIES_OPTIONS = [
   { value: "LARGEMOUTH_BASS", fr: "Achigan à grande bouche", en: "Largemouth Bass" },
   { value: "NORTHERN_PIKE", fr: "Grand brochet", en: "Northern Pike" },
   { value: "WALLEYE", fr: "Doré jaune", en: "Walleye" },
+  { value: "CARP", fr: "Carpe", en: "Carp" },
 ];
 
 const emptyPlannedForm = {

@@ -1,5 +1,11 @@
 {
   "framework": "nextjs",
+  "git": {
+    "deploymentEnabled": {
+      "*": false,
+      "main": true
+    }
+  },
   "crons": [
     {
       "path": "/api/cron/abandoned",

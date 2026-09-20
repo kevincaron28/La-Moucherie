@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { HATCHES, HATCH_GROUPS, sizeLabel } from "@/lib/hatches";
+import { SPECIES } from "@/lib/angling";
 import { celsiusToFahrenheit, fahrenheitToCelsius } from "@/lib/temperature";
 import type { Locale } from "@/i18n/routing";
 
@@ -376,17 +377,7 @@ export function HatchReportForm({ locale, waters, products, user, t }: Props) {
           name="species"
           value={species}
           onChange={setSpecies}
-          options={[
-            { value: "BROOK_TROUT", label: t.speciesBROOK_TROUT },
-            { value: "BROWN_TROUT", label: t.speciesBROWN_TROUT },
-            { value: "RAINBOW_TROUT", label: t.speciesRAINBOW_TROUT },
-            { value: "LANDLOCKED_SALMON", label: t.speciesLANDLOCKED_SALMON },
-            { value: "ATLANTIC_SALMON", label: t.speciesATLANTIC_SALMON },
-            { value: "SMALLMOUTH_BASS", label: t.speciesSMALLMOUTH_BASS },
-            { value: "LARGEMOUTH_BASS", label: t.speciesLARGEMOUTH_BASS },
-            { value: "NORTHERN_PIKE", label: t.speciesNORTHERN_PIKE },
-            { value: "WALLEYE", label: t.speciesWALLEYE },
-          ]}
+          options={SPECIES.map((s) => ({ value: s, label: t[`species${s}`] }))}
         />
         <div>
           <label htmlFor="product" className={LABEL}>

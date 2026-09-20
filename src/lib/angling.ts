@@ -14,6 +14,7 @@ export const SPECIES = [
   "LARGEMOUTH_BASS",
   "NORTHERN_PIKE",
   "WALLEYE",
+  "CARP",
 ] as const;
 export type Species = (typeof SPECIES)[number];
 
@@ -44,6 +45,7 @@ export const SPECIES_SLUGS: Record<Species, string> = {
   LARGEMOUTH_BASS: "achigan-a-grande-bouche",
   NORTHERN_PIKE: "grand-brochet",
   WALLEYE: "dore-jaune",
+  CARP: "carpe",
 };
 
 // Grouping for display only (mobile nav, /shop/finder) — cold-water
@@ -62,6 +64,7 @@ export const SPECIES_FAMILY: Record<Species, SpeciesFamily> = {
   LARGEMOUTH_BASS: "WARMWATER",
   NORTHERN_PIKE: "WARMWATER",
   WALLEYE: "WARMWATER",
+  CARP: "WARMWATER",
 };
 
 export function speciesFromSlug(slug: string): Species | null {

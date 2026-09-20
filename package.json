@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma migrate deploy && tsx prisma/deploy-seed.ts && tsx prisma/prelaunch-reset.ts && next build --webpack",
+    "build": "prisma migrate deploy && tsx prisma/deploy-seed.ts && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
