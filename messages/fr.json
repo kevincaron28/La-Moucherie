@@ -483,7 +483,8 @@
     "ambassadors": "Ambassadeurs",
     "faq": "FAQ",
     "submitReport": "Envoyer un rapport",
-    "submitCatch": "Soumettre une prise"
+    "submitCatch": "Soumettre une prise",
+    "privacy": "Confidentialité"
   },
   "Shipping": {
     "title": "Livraison et retours",
@@ -697,5 +698,38 @@
     "label": "Site en construction.",
     "body": "On ouvre le 1er mars, avec tous les patrons de retour en stock. D'ici là tout affiche « en rupture » — la boutique n'est pas morte, elle n'est simplement pas encore ouverte. Entre-temps :",
     "cta": "consultez le calendrier d'éclosions →"
+  },
+  "Consent": {
+    "title": "Témoins et publicité",
+    "body": "Nous affichons des publicités Google pour aider à financer ce site. Acceptez pour permettre les publicités personnalisées et les témoins associés, ou refusez pour ne voir que des publicités non personnalisées. Dans les deux cas, Google peut tout de même déposer des témoins pour la mesure et la prévention de la fraude.",
+    "learnMore": "En savoir plus",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "manage": "Témoins et publicité",
+    "current": "Choix actuel : {choice}.",
+    "accepted": "accepté",
+    "declined": "refusé"
+  },
+  "Privacy": {
+    "title": "Confidentialité, publicité et témoins",
+    "intro": "La Moucherie respecte votre vie privée conformément à la Loi sur la protection des renseignements personnels dans le secteur privé du Québec (Loi 25). Cette page explique ce que nous recueillons et comment fonctionne la publicité sur le site.",
+    "officerTitle": "Personne responsable de la protection des renseignements personnels",
+    "officerBody": "Kevin Caron est responsable de la protection des renseignements personnels à La Moucherie. Pour poser une question, consulter ou corriger vos renseignements, ou retirer un consentement, écrivez-nous par le {link}.",
+    "contactLink": "formulaire de contact",
+    "adsTitle": "Publicité et témoins (cookies)",
+    "adsBody1": "Certaines pages de contenu et de navigation (accueil, catalogue et listes des plans d'eau, guide des éclosions) affichent des publicités diffusées par Google AdSense. Aucune publicité n'apparaît sur les pages du panier, du paiement, des commandes, du compte, de la connexion ni de l'administration, et le script publicitaire de Google n'y est pas chargé.",
+    "adsBody2": "Rien de Google n'est chargé avant que vous fassiez un choix dans la bannière affichée à votre première visite.",
+    "adsAcceptTitle": "Si vous acceptez",
+    "adsAcceptBody": "Google peut utiliser des témoins et des identifiants semblables pour vous montrer des publicités personnalisées selon votre navigation, mesurer les publicités et prévenir la fraude.",
+    "adsDeclineTitle": "Si vous refusez",
+    "adsDeclineBody": "Nous demandons à Google de n'afficher que des publicités non personnalisées. Celles-ci n'utilisent pas votre navigation passée pour choisir les annonces, mais Google peut tout de même déposer des témoins ou des identifiants semblables pour la mesure publicitaire et la prévention de la fraude.",
+    "choiceTitle": "Votre choix",
+    "choiceBody": "Votre choix est conservé sur votre appareil (dans le stockage local de votre navigateur, clé « lm-ad-consent ») pour ne pas vous le redemander. Vous pouvez le modifier à tout moment avec le lien « Témoins et publicité » au bas de la page; la page se recharge alors pour appliquer le nouveau choix. Vous pouvez aussi effacer les données de votre navigateur. Refuser est aussi simple qu'accepter et n'affecte pas votre utilisation de la boutique.",
+    "googleTitle": "En savoir plus sur Google",
+    "googleBody": "Google agit de façon indépendante pour ses témoins publicitaires. Consultez la façon dont Google utilise les données des sites qui utilisent ses services et gérez vos paramètres publicitaires aux liens ci-dessous.",
+    "googleLink1": "Comment Google utilise les données",
+    "googleLink2": "Paramètres publicitaires de Google",
+    "otherTitle": "Autres données",
+    "otherBody": "Les commandes, les comptes et l'infolettre sont traités séparément de la publicité; le panier et la connexion n'utilisent que les témoins nécessaires à leur fonctionnement."
   }
 }

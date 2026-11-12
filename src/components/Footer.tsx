@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { SPECIES, SPECIES_SLUGS } from "@/lib/angling";
 import { NewsletterSignup } from "./NewsletterSignup";
+import { AdConsentLink } from "./AdConsent";
 
 const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL;
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
@@ -170,6 +171,14 @@ export function Footer() {
                 <Link href="/account" className="hover:text-cream">
                   {t("account")}
                 </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="hover:text-cream">
+                  {t("privacy")}
+                </Link>
+              </li>
+              <li>
+                <AdConsentLink className="hover:text-cream" />
               </li>
             </ul>
           </div>

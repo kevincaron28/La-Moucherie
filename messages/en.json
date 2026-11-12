@@ -483,7 +483,8 @@
     "ambassadors": "Ambassadors",
     "faq": "FAQ",
     "submitReport": "File a hatch report",
-    "submitCatch": "Submit a catch"
+    "submitCatch": "Submit a catch",
+    "privacy": "Privacy"
   },
   "Shipping": {
     "title": "Shipping & returns",
@@ -697,5 +698,38 @@
     "label": "Site under construction.",
     "body": "We open March 1st with every pattern back in stock. Everything reads \"out of stock\" until then — the shop isn't gone, it just hasn't opened yet. In the meantime:",
     "cta": "read the hatch chart →"
+  },
+  "Consent": {
+    "title": "Cookies and advertising",
+    "body": "We show Google ads to help fund this site. Accept to allow personalised ads and the cookies that go with them, or decline to see non-personalised ads only. Either way, Google may still set cookies for measurement and fraud prevention.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "decline": "Decline",
+    "manage": "Cookies & ads",
+    "current": "Current choice: {choice}.",
+    "accepted": "accepted",
+    "declined": "declined"
+  },
+  "Privacy": {
+    "title": "Privacy, advertising and cookies",
+    "intro": "La Moucherie respects your privacy under Québec's Act respecting the protection of personal information in the private sector (Law 25). This page explains what we collect and how advertising works on the site.",
+    "officerTitle": "Person responsible for privacy",
+    "officerBody": "Kevin Caron is responsible for the protection of personal information at La Moucherie. To ask a question, see or correct your information, or withdraw a consent, write to us through the {link}.",
+    "contactLink": "contact form",
+    "adsTitle": "Advertising and cookies",
+    "adsBody1": "Some content and browsing pages (home page, catalogue and waters listings, hatch guide) show ads served by Google AdSense. Ads never appear on the cart, checkout, payment, order, account, sign-in or admin pages, and the Google ad script is not loaded there.",
+    "adsBody2": "Nothing from Google is loaded until you make a choice in the banner shown on your first visit.",
+    "adsAcceptTitle": "If you accept",
+    "adsAcceptBody": "Google may use cookies and similar identifiers to show you personalised ads based on your browsing, and to measure ads and prevent fraud.",
+    "adsDeclineTitle": "If you decline",
+    "adsDeclineBody": "Google is asked to show non-personalised ads only. Non-personalised ads do not use your past browsing to choose ads, but Google may still set cookies or similar identifiers for ad measurement and fraud prevention.",
+    "choiceTitle": "Your choice",
+    "choiceBody": "Your choice is stored on your device (in your browser's local storage, key \"lm-ad-consent\") so we do not ask again. You can change it at any time with the “Cookies & ads” link in the footer; the page then reloads so the new choice applies. You can also clear your browser data. Declining is as easy as accepting and does not affect your use of the shop.",
+    "googleTitle": "More about Google",
+    "googleBody": "Google acts independently for ad cookies. See how Google uses data from sites that use its services, and manage your ad settings, at the links below.",
+    "googleLink1": "How Google uses data",
+    "googleLink2": "Google ad settings",
+    "otherTitle": "Other data",
+    "otherBody": "Orders, accounts and the newsletter are handled separately from advertising; the cart and sign-in use only the cookies they need to work."
   }
 }
