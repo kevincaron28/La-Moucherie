@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { AdConsent } from "@/components/AdConsent";
 import { ConstructionBanner } from "@/components/ConstructionBanner";
 import "../globals.css";
 
@@ -97,6 +98,7 @@ export default async function LocaleLayout({
               <Footer />
             </CartProvider>
           </SessionProvider>
+          <AdConsent />
         </NextIntlClientProvider>
         <Analytics />
       </body>

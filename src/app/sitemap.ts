@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/wholesale",
     "/ambassadors",
     "/shipping",
+    "/privacy",
   ];
   const staticEntries: MetadataRoute.Sitemap = [];
 
