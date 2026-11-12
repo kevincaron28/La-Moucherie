@@ -98,7 +98,9 @@ export function AdConsent() {
     document.head.appendChild(s);
   }, [choice, allowed]);
 
-  if (!hydrated || (choice && !reopened)) return null;
+  // Pre-choice banner only where ads can load, so it never covers cart/checkout/
+  // product pages; the footer link reopens it anywhere.
+  if (!hydrated || !(reopened || (!choice && allowed))) return null;
 
   function decide(c: AdChoice) {
     setReopened(false);
