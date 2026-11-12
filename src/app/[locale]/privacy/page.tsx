@@ -21,6 +21,9 @@ export default async function PrivacyPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Privacy");
+  // Split around the link rather than t.rich(): a callback handed to rich text
+  // that returns a client component breaks prerendering.
+  const [before, after] = t("officerBody", { link: "@@LINK@@" }).split("@@LINK@@");
   const h2 = "mt-10 font-display text-xl font-semibold text-forest";
   const link = "font-medium text-rust underline underline-offset-2 hover:text-rust-dark";
 
@@ -31,13 +34,11 @@ export default async function PrivacyPage({
 
       <h2 className={h2}>{t("officerTitle")}</h2>
       <p className="mt-4 text-ink/75">
-        {t.rich("officerBody", {
-          link: () => (
-            <Link href="/contact" className={link}>
-              {t("contactLink")}
-            </Link>
-          ),
-        })}
+        {before}
+        <Link href="/contact" className={link}>
+          {t("contactLink")}
+        </Link>
+        {after}
       </p>
 
       <h2 className={h2}>{t("adsTitle")}</h2>
