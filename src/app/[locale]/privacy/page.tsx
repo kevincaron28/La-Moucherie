@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { ADS_SECTION_ID } from "@/lib/ads";
 
 export async function generateMetadata({
   params,
@@ -41,7 +42,7 @@ export default async function PrivacyPage({
         {after}
       </p>
 
-      <h2 className={h2}>{t("adsTitle")}</h2>
+      <h2 id={ADS_SECTION_ID} className={`${h2} scroll-mt-24`}>{t("adsTitle")}</h2>
       <p className="mt-4 text-ink/75">{t("adsBody1")}</p>
       <p className="mt-4 text-ink/75">{t("adsBody2")}</p>
       <h3 className="mt-6 font-semibold text-forest">{t("adsAcceptTitle")}</h3>

@@ -10,6 +10,7 @@ import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AdConsent } from "@/components/AdConsent";
+import { ADSENSE_CLIENT } from "@/lib/ads";
 import { ConstructionBanner } from "@/components/ConstructionBanner";
 import "../globals.css";
 
@@ -66,6 +67,11 @@ export async function generateMetadata({
       title: t("title"),
       description: t("description"),
       images: ["/brand/logo-512.png"],
+    },
+    // AdSense site verification. Only a <meta> tag: the ad script itself loads
+    // after consent, and only on ad routes (src/components/AdConsent.tsx).
+    other: {
+      "google-adsense-account": ADSENSE_CLIENT,
     },
   };
 }
