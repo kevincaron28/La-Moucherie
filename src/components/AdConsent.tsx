@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
   ADSENSE_SRC,
+  ADS_SECTION_ID,
   CONSENT_CHANGE_EVENT,
   CONSENT_KEY,
   CONSENT_OPEN_EVENT,
@@ -118,7 +119,7 @@ export function AdConsent() {
           <p className="font-display font-semibold text-forest">{t("title")}</p>
           <p className="mt-1">
             {t("body")}{" "}
-            <Link href="/privacy" className="font-medium text-rust underline underline-offset-2">
+            <Link href={`/privacy#${ADS_SECTION_ID}`} className="font-medium text-rust underline underline-offset-2">
               {t("learnMore")}
             </Link>
           </p>

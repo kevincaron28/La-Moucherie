@@ -5,6 +5,9 @@ export const CONSENT_KEY = "lm-ad-consent";
 export const CONSENT_CHANGE_EVENT = "lm-consent-change";
 export const CONSENT_OPEN_EVENT = "lm-consent-open";
 
+/** Anchor of the advertising section on /privacy (the banner's "Learn more"). */
+export const ADS_SECTION_ID = "advertising-and-cookies";
+
 export type AdChoice = "granted" | "denied";
 
 /**
